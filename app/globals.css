@@ -1,0 +1,349 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-purple: #7C3AED;
+  --brand-violet: #4F46E5;
+  --brand-blue: #2563EB;
+  --brand-dark: #0A0A14;
+  --brand-slate: #0F0F23;
+  --brand-lavender: #A5B4FC;
+  --brand-whatsapp: #25D366;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #4F46E5 50%, #2563EB 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  /* Lenis handles smooth scroll — native scroll-behavior:smooth conflicts with it */
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: var(--brand-dark);
+  color: #ffffff;
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--brand-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brand-purple);
+  border-radius: 3px;
+}
+
+/* Custom Cursor */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--brand-purple);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.15s ease, height 0.15s ease, background 0.15s ease;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(124, 58, 237, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  /* Faster ring follow — feels more tightly connected */
+  transition: width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              height 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease;
+}
+
+/* Glass Card */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient Border */
+.gradient-border {
+  position: relative;
+  border-radius: 16px;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: var(--gradient-brand);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+}
+
+/* Section base */
+.section-padding {
+  padding: 6rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: 8rem 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .section-padding {
+    padding: 10rem 4rem;
+  }
+}
+
+/* ============================================
+   BUTTON & INTERACTIVE ELEMENT ANIMATIONS
+   ============================================ */
+
+/* Base for all CTA / gradient buttons */
+.btn-magnetic {
+  position: relative;
+  overflow: hidden;
+  /* Spring-like scale with overshoot */
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              filter 0.3s ease;
+}
+
+.btn-magnetic:hover {
+  transform: scale(1.07) translateY(-2px);
+  filter: brightness(1.12);
+}
+
+.btn-magnetic:active {
+  transform: scale(0.97) translateY(0px);
+  transition-duration: 0.12s;
+}
+
+/* Shimmer sweep on hover — works on any element with overflow:hidden */
+.btn-magnetic::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+}
+.btn-magnetic:hover::after {
+  left: 125%;
+}
+
+/* Glow effects — stronger on hover */
+.glow-purple {
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3),
+              0 0 60px rgba(124, 58, 237, 0.12);
+  transition: box-shadow 0.35s ease;
+}
+.glow-purple:hover {
+  box-shadow: 0 0 35px rgba(124, 58, 237, 0.6),
+              0 0 80px rgba(124, 58, 237, 0.25),
+              0 8px 24px rgba(124, 58, 237, 0.3);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3),
+              0 0 60px rgba(37, 99, 235, 0.12);
+  transition: box-shadow 0.35s ease;
+}
+.glow-blue:hover {
+  box-shadow: 0 0 35px rgba(37, 99, 235, 0.6),
+              0 0 80px rgba(37, 99, 235, 0.25);
+}
+
+/* Glass card interactive lift */
+.glass-card-hover {
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1),
+              border-color 0.25s ease,
+              box-shadow 0.3s ease;
+}
+.glass-card-hover:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(124, 58, 237, 0.35) !important;
+  box-shadow: 0 20px 60px rgba(124, 58, 237, 0.15),
+              0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Mesh gradient backgrounds */
+.mesh-gradient {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.25), transparent),
+              radial-gradient(ellipse 60% 40% at 80% 80%, rgba(37, 99, 235, 0.15), transparent),
+              var(--brand-dark);
+}
+
+/* Number ticker */
+@keyframes ticker-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Nav link hover — animated gradient underline that grows from center */
+.nav-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1.5px;
+  background: var(--gradient-brand);
+  border-radius: 2px;
+  transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nav-link:hover {
+  color: #ffffff;
+}
+.nav-link:hover::after { width: 105%; }
+
+/* WhatsApp pulsing ring */
+@keyframes whatsapp-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  70% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.whatsapp-ring {
+  animation: whatsapp-pulse 2s ease-out infinite;
+}
+
+/* Service card flip */
+.service-card-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.service-card:hover .service-card-inner {
+  transform: rotateY(180deg);
+}
+.service-card-front,
+.service-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.service-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Marquee */
+.marquee-container {
+  overflow: hidden;
+  display: flex;
+}
+.marquee-track {
+  display: flex;
+  gap: 3rem;
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+/* Line reveal animation */
+@keyframes line-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0% 0 0); }
+}
+
+/* Tab underline */
+[data-state='active'] .tab-indicator {
+  width: 100%;
+}
+
+/* Form input styles */
+.form-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-input:focus {
+  border-color: var(--brand-purple);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+.form-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.form-input.error {
+  border-color: #ef4444;
+}
+
+/* Accordion */
+[data-state='open'] .accordion-icon {
+  transform: rotate(180deg);
+}
+.accordion-icon {
+  transition: transform 0.3s;
+}
+
+/* Hero canvas */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}

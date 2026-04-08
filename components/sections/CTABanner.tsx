@@ -1,0 +1,133 @@
+'use client';
+import { useState } from 'react';
+import Link from 'next/link';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email'),
+  phone: z.string().min(10, 'Please enter a valid phone number'),
+});
+
+type FormData = z.infer<typeof schema>;
+
+export default function CTABanner() {
+  const [submitted, setSubmitted] = useState(false);
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+
+  const onSubmit = async (data: FormData) => {
+    // TODO: connect to backend / email service
+    await new Promise((r) => setTimeout(r, 1000));
+    console.log('CTA form submission:', data);
+    setSubmitted(true);
+  };
+
+  return (
+    <section className="section-padding relative overflow-hidden" id="cta">
+      {/* Background */}
+      <div className="absolute inset-0"
+        style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(37,99,235,0.10) 100%)' }} />
+      <div className="absolute inset-0 border-y border-purple-500/10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-purple-500/20 to-transparent" />
+
+      <div className="max-w-5xl mx-auto relative z-10 text-center">
+        <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
+          Let&apos;s Talk
+        </span>
+
+        <h2 className="font-grotesk font-bold text-white mb-4"
+          style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}>
+          Ready to{' '}
+          <span className="gradient-text">Scale Your Business?</span>
+        </h2>
+
+        <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">
+          Let&apos;s discuss how our proven strategies can help you achieve measurable growth.
+          Get your free strategy consultation today.
+        </p>
+
+        {/* Checklist */}
+        <div className="flex flex-wrap justify-center gap-6 mb-10">
+          {['Free 30-min strategy call', 'Custom growth roadmap', 'No commitment required'].map((item) => (
+            <div key={item} className="flex items-center gap-2 text-white/70 text-sm">
+              <CheckCircle2 size={16} className="text-purple-400 flex-shrink-0" />
+              {item}
+            </div>
+          ))}
+        </div>
+
+        {submitted ? (
+          <div className="glass-card rounded-2xl p-8 border border-green-500/20 flex flex-col items-center gap-3 max-w-md mx-auto">
+            <div className="w-14 h-14 rounded-full flex items-center justify-center"
+              style={{ background: 'rgba(34,197,94,0.15)' }}>
+              <CheckCircle2 size={28} className="text-green-400" />
+            </div>
+            <h3 className="text-white font-semibold text-xl">Got it! We&apos;ll be in touch soon 🚀</h3>
+            <p className="text-white/50 text-sm">Check your inbox — we usually reply within 24 hours.</p>
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="glass-card rounded-2xl p-6 border border-white/8 max-w-2xl mx-auto"
+            id="cta-form"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+              <div>
+                <input
+                  {...register('name')}
+                  placeholder="Your Name"
+                  className={`form-input ${errors.name ? 'error' : ''}`}
+                  id="cta-name"
+                />
+                {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>}
+              </div>
+              <div>
+                <input
+                  {...register('email')}
+                  type="email"
+                  placeholder="Email Address"
+                  className={`form-input ${errors.email ? 'error' : ''}`}
+                  id="cta-email"
+                />
+                {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
+              </div>
+              <div>
+                <input
+                  {...register('phone')}
+                  placeholder="Phone Number"
+                  className={`form-input ${errors.phone ? 'error' : ''}`}
+                  id="cta-phone"
+                />
+                {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              id="cta-submit"
+              className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed"
+              style={{ background: 'var(--gradient-brand)' }}
+            >
+              {isSubmitting ? 'Sending...' : 'Get Free Strategy Call'}
+              {!isSubmitting && <ArrowRight size={18} />}
+            </button>
+          </form>
+        )}
+
+        {/* Or contact directly */}
+        <div className="mt-6 flex items-center justify-center gap-3 text-white/30 text-sm">
+          <span>Or reach us directly at</span>
+          <a href="mailto:maverickdigitals18@gmail.com"
+            className="text-purple-400 hover:text-purple-300 transition-colors">
+            maverickdigitals18@gmail.com
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
