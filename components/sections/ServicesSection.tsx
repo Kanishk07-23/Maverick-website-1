@@ -69,8 +69,9 @@ function ServiceCard({ service }: { service: typeof services[0] }) {
   const [flipped, setFlipped] = useState(false);
 
   return (
-    <div
-      className="service-card h-72 cursor-pointer"
+    <Link
+      href={`/services/${service.id}`}
+      className="service-card h-72 cursor-pointer block"
       id={`service-card-${service.id}`}
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
@@ -88,7 +89,7 @@ function ServiceCard({ service }: { service: typeof services[0] }) {
           <h3 className="text-white font-grotesk font-bold text-xl mb-2">{service.title}</h3>
           <p className="text-white/50 text-sm leading-relaxed mb-4">{service.tagline}</p>
           <div className="mt-auto flex items-center gap-1.5 text-purple-400 text-sm font-medium">
-            <span>Hover to explore</span>
+            <span>Learn more</span>
             <ArrowRight size={14} />
           </div>
         </div>
@@ -113,7 +114,7 @@ function ServiceCard({ service }: { service: typeof services[0] }) {
           </ul>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -128,8 +129,8 @@ export default function ServicesSection() {
           </span>
           <h2 className="font-grotesk font-bold text-white mb-4"
             style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-            End-to-End{' '}
-            <span className="gradient-text">Digital Solutions</span>
+            Growth-Focused{' '}
+            <span className="gradient-text">Digital Services</span>
           </h2>
           <p className="text-white/50 max-w-xl mx-auto text-lg">
             Designed to scale your business profitably and sustainably — hover any card to explore.

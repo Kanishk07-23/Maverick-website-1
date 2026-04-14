@@ -8,9 +8,9 @@ import ClientsSection from '@/components/sections/ClientsSection';
 import CTABanner from '@/components/sections/CTABanner';
 
 export const metadata: Metadata = {
-  title: 'Maverick Digitals | Turn Attention Into Revenue',
+  title: 'Digital Marketing Agency in Mumbai | Maverick Digitals',
   description:
-    'Mumbai-based full-stack digital marketing agency. 15M+ organic views, 200%+ average ROI, 40+ brands scaled across India, UAE, USA, UK & Australia.',
+    'Maverick Digitals is a leading digital marketing agency in Mumbai, India. We specialize in performance marketing, SEO, social media, and web development. Get a free consultation.',
 };
 
 export default function HomePage() {
@@ -23,6 +23,25 @@ export default function HomePage() {
       <TestimonialsSection />
       <ClientsSection />
       <CTABanner />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: 'Maverick Digitals Homepage',
+            description: 'Leading digital marketing agency in Mumbai specializing in performance marketing, SEO, and web development.',
+            url: 'https://www.maverickdigitals.co.in/',
+            speakable: {
+              '@type': 'SpeakableSpecification',
+              xpath: [
+                "//*[@id='home']//h1",
+                "//*[@id='home']//p"
+              ]
+            }
+          })
+        }}
+      />
     </>
   );
 }

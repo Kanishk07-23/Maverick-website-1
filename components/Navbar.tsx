@@ -8,7 +8,18 @@ import { clsx } from 'clsx';
 const links = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Services', href: '/services' },
+  {
+    label: 'Services',
+    href: '/services',
+    subLinks: [
+      { label: 'Personal Branding', href: '/services/personal-branding' },
+      { label: 'Social Media', href: '/services/social-media' },
+      { label: 'Web Development', href: '/services/web-dev' },
+      { label: 'SEO & SEM', href: '/services/seo-sem' },
+      { label: 'Performance Marketing', href: '/services/performance-marketing' },
+      { label: 'Branding & Strategy', href: '/services/branding-strategy' },
+    ],
+  },
   { label: 'Team', href: '/team' },
   { label: 'Contact', href: '/contact' },
   { label: 'Blog', href: '/blog' },
@@ -53,14 +64,37 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-8">
           {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="nav-link text-white/70 hover:text-white text-sm font-medium transition-colors duration-200 font-inter"
-              id={`nav-${l.label.toLowerCase()}`}
-            >
-              {l.label}
-            </Link>
+            l.subLinks ? (
+              <div key={l.href} className="relative group">
+                <Link
+                  href={l.href}
+                  className="nav-link text-white/70 hover:text-white text-sm font-medium transition-colors duration-200 font-inter py-2"
+                  id={`nav-${l.label.toLowerCase()}`}
+                >
+                  {l.label}
+                </Link>
+                <div className="absolute top-full left-0 mt-2 w-48 glass-card border border-white/10 rounded-xl p-2 opacity-0 -translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300">
+                  {l.subLinks.map((sub) => (
+                    <Link
+                      key={sub.href}
+                      href={sub.href}
+                      className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm transition-colors"
+                    >
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="nav-link text-white/70 hover:text-white text-sm font-medium transition-colors duration-200 font-inter"
+                id={`nav-${l.label.toLowerCase()}`}
+              >
+                {l.label}
+              </Link>
+            )
           ))}
         </nav>
 
@@ -93,16 +127,31 @@ export default function Navbar() {
           open ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'
         )}
       >
-        <nav className="flex flex-col px-6 py-6 gap-4">
+        <nav className="flex flex-col px-6 py-6 gap-4 h-[80vh] overflow-y-auto">
           {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="text-white/70 hover:text-white text-base font-medium transition-colors"
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </Link>
+            <div key={l.href}>
+              <Link
+                href={l.href}
+                className="text-white/70 hover:text-white text-base font-medium transition-colors block"
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </Link>
+              {l.subLinks && (
+                <div className="flex flex-col gap-3 mt-3 pl-4 border-l border-white/10">
+                  {l.subLinks.map((sub) => (
+                    <Link
+                      key={sub.href}
+                      href={sub.href}
+                      className="text-white/50 hover:text-white text-sm transition-colors"
+                      onClick={() => setOpen(false)}
+                    >
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
           <Link
             href="/contact"

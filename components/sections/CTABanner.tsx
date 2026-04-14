@@ -42,13 +42,12 @@ export default function CTABanner() {
 
         <h2 className="font-grotesk font-bold text-white mb-4"
           style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}>
-          Ready to{' '}
-          <span className="gradient-text">Scale Your Business?</span>
+          Ready to Grow Your{' '}
+          <span className="gradient-text">Brand?</span>
         </h2>
 
         <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">
-          Let&apos;s discuss how our proven strategies can help you achieve measurable growth.
-          Get your free strategy consultation today.
+          Get a free digital marketing strategy consultation with our Mumbai-based team. We&apos;ll discuss how our SEO, performance marketing, and branding services can scale your business.
         </p>
 
         {/* Checklist */}

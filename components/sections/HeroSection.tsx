@@ -40,6 +40,7 @@ export default function HeroSection() {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden mesh-gradient"
       id="home"
+      aria-label="Digital Marketing Agency Hero"
     >
       {/* WebGL Background */}
       <HeroCanvas />
@@ -58,9 +59,9 @@ export default function HeroSection() {
           </div>
 
           <h1 data-hero-animate className="font-grotesk font-bold text-white leading-[1.05] mb-6 flex flex-col md:block"
-            style={{ fontSize: 'clamp(3rem, 8vw, 7rem)' }}>
-            Turn Attention<br className="hidden md:block" />
-            Into{' '}
+            style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)' }}>
+            Digital Marketing<br className="hidden md:block" />
+            Agency in{' '}
             <span className="inline-grid [grid-template-areas:'stack'] relative" style={{ minWidth: '220px' }}>
               {words.map((word, i) => {
                 const isActive = i === wordIdx;
@@ -83,8 +84,7 @@ export default function HeroSection() {
 
           {/* Sub */}
           <p data-hero-animate className="text-white/60 text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
-            We help ambitious brands scale through high-conversion strategy, storytelling, and execution.
-            Blending creativity, psychology, and data to drive measurable business outcomes.
+            We are a premier digital marketing company in India, helping ambitious brands scale through SEO, performance marketing, social media, and web development. Blending creativity and data to drive measurable ROI.
           </p>
 
           {/* CTAs */}
@@ -123,10 +123,10 @@ export default function HeroSection() {
           {/* Stats Row */}
           <div data-hero-animate className="flex flex-wrap gap-8 mt-14 pt-10 border-t border-white/8">
             {[
-              { num: '40+', label: 'Brands Scaled' },
-              { num: '15M+', label: 'Organic Views' },
-              { num: '200%+', label: 'Average ROI' },
-              { num: '5+', label: 'Countries' },
+              { num: '40+', label: 'Brands Scaled Globally' },
+              { num: '15M+', label: 'Organic Search Views' },
+              { num: '200%+', label: 'Average Marketing ROI' },
+              { num: '5+', label: 'Countries Served' },
             ].map((s) => (
               <div key={s.label} className="flex flex-col">
                 <span className="font-grotesk font-bold text-3xl md:text-4xl gradient-text">{s.num}</span>

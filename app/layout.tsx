@@ -31,19 +31,20 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.maverickdigitals.co.in'),
   title: {
-    default: 'Maverick Digitals | Turn Attention Into Revenue',
+    default: 'Digital Marketing Agency in Mumbai | Maverick Digitals',
     template: '%s | Maverick Digitals',
   },
   description:
-    'Maverick Digitals is a Mumbai-based full-stack digital marketing agency helping ambitious brands scale through high-conversion strategy, storytelling, and execution. 15M+ organic views. 200%+ average ROI.',
+    'Maverick Digitals is a premier digital marketing agency in Mumbai, India. We help ambitious brands scale through SEO, performance marketing, social media, and web development. 200%+ average ROI.',
   keywords: [
     'digital marketing agency Mumbai',
-    'performance marketing',
-    'SEO agency India',
-    'social media management',
-    'personal branding',
-    'web development agency',
-    'brand strategy',
+    'digital marketing company India',
+    'performance marketing agency',
+    'SEO agency Mumbai',
+    'social media management Mumbai',
+    'personal branding agency',
+    'web development company Mumbai',
+    'brand strategy consultant',
     'Maverick Digitals',
   ],
   openGraph: {
@@ -90,25 +91,58 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: 'Maverick Digitals',
-              url: 'https://www.maverickdigitals.co.in',
-              logo: 'https://www.maverickdigitals.co.in/assets/logo.png',
-              contactPoint: {
-                '@type': 'ContactPoint',
-                email: 'maverickdigitals18@gmail.com',
-                contactType: 'customer service',
+            __html: JSON.stringify([
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Organization',
+                name: 'Maverick Digitals',
+                url: 'https://www.maverickdigitals.co.in',
+                logo: 'https://www.maverickdigitals.co.in/assets/logo.png',
+                contactPoint: {
+                  '@type': 'ContactPoint',
+                  email: 'maverickdigitals18@gmail.com',
+                  contactType: 'customer service',
+                },
+                sameAs: [
+                  'https://www.linkedin.com/company/maverick-digitals',
+                  'https://www.instagram.com/maverickdigitals'
+                ]
               },
-              address: {
-                '@type': 'PostalAddress',
-                addressLocality: 'Mumbai',
-                addressRegion: 'Maharashtra',
-                addressCountry: 'IN',
-              },
-              sameAs: [],
-            }),
+              {
+                '@context': 'https://schema.org',
+                '@type': 'LocalBusiness',
+                name: 'Maverick Digitals',
+                image: 'https://www.maverickdigitals.co.in/assets/logo.png',
+                '@id': 'https://www.maverickdigitals.co.in',
+                url: 'https://www.maverickdigitals.co.in',
+                telephone: '+919876543210',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: 'Mumbai',
+                  addressLocality: 'Mumbai',
+                  addressRegion: 'MH',
+                  postalCode: '400001',
+                  addressCountry: 'IN',
+                },
+                geo: {
+                  '@type': 'GeoCoordinates',
+                  latitude: 19.0760,
+                  longitude: 72.8777
+                },
+                openingHoursSpecification: {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: [
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday'
+                  ],
+                  opens: '10:00',
+                  closes: '19:00'
+                }
+              }
+            ]),
           }}
         />
       </body>

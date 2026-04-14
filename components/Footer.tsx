@@ -4,12 +4,12 @@ import Image from 'next/image';
 import { Mail, MapPin, ExternalLink } from 'lucide-react';
 
 const services = [
-  'Personal Branding',
-  'Social Media Management',
-  'Website & App Development',
-  'SEO & SEM',
-  'Performance Marketing',
-  'Branding & Strategy',
+  { label: 'Personal Branding', href: '/services/personal-branding' },
+  { label: 'Social Media Management', href: '/services/social-media' },
+  { label: 'Website & App Development', href: '/services/web-dev' },
+  { label: 'SEO & SEM', href: '/services/seo-sem' },
+  { label: 'Performance Marketing', href: '/services/performance-marketing' },
+  { label: 'Branding & Strategy', href: '/services/branding-strategy' },
 ];
 
 const quickLinks = [
@@ -70,13 +70,13 @@ export default function Footer() {
             <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Our Services</h4>
             <ul className="flex flex-col gap-3">
               {services.map((s) => (
-                <li key={s}>
+                <li key={s.href}>
                   <Link
-                    href="/services"
+                    href={s.href}
                     className="text-white/50 hover:text-white/80 text-sm transition-colors flex items-center gap-2 group"
                   >
                     <span className="w-1 h-1 rounded-full bg-purple-500 group-hover:bg-purple-400 transition-colors" />
-                    {s}
+                    {s.label}
                   </Link>
                 </li>
               ))}

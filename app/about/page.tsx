@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { ArrowRight, Globe, Target, Users, Zap } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'About Us',
+  title: 'About Maverick Digitals | Digital Marketing Team Mumbai',
   description:
-    'Learn about Maverick Digitals — a Mumbai-based digital marketing agency co-founded by Muskan Rathod and Dhaval Shah, blending creativity, psychology, and data.',
+    'Learn about Maverick Digitals — a Mumbai-based performance marketing and SEO agency co-founded by Muskan Rathod and Dhaval Shah. We focus on measurable SEO & ads ROI.',
 };
 
 const values = [
@@ -66,12 +66,12 @@ export default function AboutPage() {
             </span>
             <h1 className="font-grotesk font-bold text-white mb-6"
               style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
-              Who We{' '}
-              <span className="gradient-text">Are</span>
+              About Maverick{' '}
+              <span className="gradient-text">Digitals</span>
             </h1>
             <p className="text-white/60 text-xl leading-relaxed mb-8">
-              Maverick Digitals is a Mumbai-based full-stack digital marketing agency helping ambitious brands scale through
-              high-conversion strategy, storytelling, and execution. We blend creativity, psychology, and data to drive
+              Maverick Digitals is a Mumbai-based performance-driven digital marketing agency helping ambitious brands scale through
+              high-conversion SEO, social media strategy, and web development. We blend creativity, psychology, and data to drive
               measurable business outcomes — not just vanity metrics.
             </p>
             <Link
@@ -221,6 +221,35 @@ export default function AboutPage() {
           </Link>
         </div>
       </section>
+
+      {/* Schema.org */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Muskan Rathod',
+              jobTitle: 'Co-Founder',
+              worksFor: {
+                '@type': 'Organization',
+                name: 'Maverick Digitals'
+              }
+            },
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Dhaval Shah',
+              jobTitle: 'Co-Founder',
+              worksFor: {
+                '@type': 'Organization',
+                name: 'Maverick Digitals'
+              }
+            }
+          ]),
+        }}
+      />
     </div>
   );
 }

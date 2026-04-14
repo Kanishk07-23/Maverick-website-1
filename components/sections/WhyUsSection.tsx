@@ -52,13 +52,11 @@ export default function WhyUsSection() {
             </span>
             <h2 className="font-grotesk font-bold text-white mb-6"
               style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-              Lean Team.{' '}
-              <span className="gradient-text">Outsized Results.</span>
+              Why Choose{' '}
+              <span className="gradient-text">Maverick Digitals?</span>
             </h2>
             <p className="text-white/60 text-lg leading-relaxed mb-8">
-              We&apos;re not a bloated agency with account managers who&apos;ve never run a campaign.
-              Maverick Digitals is a founder-led, high-output team where every person is a specialist
-              with skin in the game.
+              We&apos;re not a standard marketing agency. Maverick Digitals is a founder-led, high-output team based in Mumbai. We blend creative strategy with data-driven performance marketing to help brands scale. Our focus is always on ROI, not vanity metrics.
             </p>
 
             {/* Mini proof points */}

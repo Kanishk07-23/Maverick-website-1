@@ -1,4 +1,4 @@
-'use client';
+import type { Metadata } from 'next';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -75,11 +75,11 @@ export default function ContactPage() {
             </span>
             <h1 className="font-grotesk font-bold text-white mb-6"
               style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
-              Let&apos;s Build Your{' '}
-              <span className="gradient-text">Growth Story</span>
+              Contact Our Digital{' '}
+              <span className="gradient-text">Marketing Agency</span>
             </h1>
             <p className="text-white/60 text-xl leading-relaxed">
-              Ready to turn attention into revenue? Book your free strategy consultation and discover
+              Ready to turn attention into revenue? Book your free digital marketing strategy consultation with our Mumbai team and discover
               exactly how Maverick Digitals can help your business scale.
             </p>
           </div>
@@ -296,15 +296,23 @@ export default function ContactPage() {
 
         {/* FAQ Schema */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: faqs.map(f => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
-            })),
-          }),
+          __html: JSON.stringify([
+            {
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: faqs.map(f => ({
+                '@type': 'Question',
+                name: f.q,
+                acceptedAnswer: { '@type': 'Answer', text: f.a },
+              })),
+            },
+            {
+              '@context': 'https://schema.org',
+              '@type': 'ContactPage',
+              name: 'Contact Maverick Digitals',
+              description: 'Contact our digital marketing agency in Mumbai'
+            }
+          ]),
         }} />
       </section>
     </div>

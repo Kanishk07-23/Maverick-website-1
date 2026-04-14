@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Our Services',
+  title: 'Digital Marketing Services | Maverick Digitals',
   description:
-    'Maverick Digitals offers personal branding, social media management, web development, SEO/SEM, performance marketing and branding strategy for ambitious brands.',
+    'Full-stack digital marketing agency in Mumbai. We offer personal branding, social media, web development, SEO/SEM, and performance marketing to scale your business.',
 };
 
 const services = [
@@ -161,13 +161,15 @@ export default function ServicesPage() {
                   <h2 className="font-grotesk font-bold text-white text-3xl mb-2">{s.title}</h2>
                   <p className="text-purple-400 text-sm font-medium mb-4">{s.tagline}</p>
                   <p className="text-white/60 leading-relaxed mb-6">{s.desc}</p>
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
-                    style={{ background: 'var(--gradient-brand)' }}
-                  >
-                    Get Started <ArrowRight size={16} />
-                  </Link>
+                  <div className="flex items-center gap-4">
+                    <Link
+                      href={`/services/${s.id}`}
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
+                      style={{ background: 'var(--gradient-brand)' }}
+                    >
+                      View Service <ArrowRight size={16} />
+                    </Link>
+                  </div>
                 </div>
 
                 {/* Feature card */}
@@ -249,17 +251,38 @@ export default function ServicesPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'ItemList',
-            name: 'Maverick Digitals Services',
-            itemListElement: services.map((s, i) => ({
-              '@type': 'ListItem',
-              position: i + 1,
-              name: s.title,
-              description: s.desc,
-            })),
-          }),
+          __html: JSON.stringify([
+            {
+              '@context': 'https://schema.org',
+              '@type': 'ItemList',
+              name: 'Maverick Digitals Services',
+              itemListElement: services.map((s, i) => ({
+                '@type': 'ListItem',
+                position: i + 1,
+                name: s.title,
+                description: s.desc,
+                url: `https://www.maverickdigitals.co.in/services/${s.id}`
+              })),
+            },
+            {
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  name: 'Home',
+                  item: 'https://www.maverickdigitals.co.in/'
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: 'Services',
+                  item: 'https://www.maverickdigitals.co.in/services'
+                }
+              ]
+            }
+          ]),
         }}
       />
     </div>

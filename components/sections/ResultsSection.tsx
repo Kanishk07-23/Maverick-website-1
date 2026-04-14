@@ -7,31 +7,31 @@ const stats = [
     num: 40,
     suffix: '+',
     label: 'Brands Scaled',
-    desc: 'Across India, UAE, USA, UK & Australia',
+    desc: 'Across India, UAE, USA, & UK',
     icon: '🚀',
   },
   {
     id: 'views',
     num: 15,
     suffix: 'M+',
-    label: 'Organic Views Generated',
-    desc: 'Through content, SEO & viral strategy',
+    label: 'Organic Views',
+    desc: 'Through SEO & social media management',
     icon: '👁️',
   },
   {
     id: 'roi',
     num: 200,
     suffix: '%+',
-    label: 'Average ROI Delivered',
-    desc: 'Performance-first, data-driven campaigns',
+    label: 'Average ROI',
+    desc: 'From performance marketing campaigns',
     icon: '📈',
   },
   {
     id: 'years',
     num: 5,
     suffix: '+',
-    label: 'Years of Experience',
-    desc: 'Founders with skin in the game',
+    label: 'Years Experience',
+    desc: 'As a digital marketing company',
     icon: '⚡',
   },
 ];
@@ -102,8 +102,8 @@ export default function ResultsSection() {
           </span>
           <h2 className="font-grotesk font-bold text-white mb-4"
             style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-            Numbers That{' '}
-            <span className="gradient-text">Speak Louder</span>
+            Proven Digital{' '}
+            <span className="gradient-text">Marketing Results</span>
           </h2>
           <p className="text-white/50 max-w-xl mx-auto text-lg">
             Real results delivered for growth-focused businesses across industries and borders.
