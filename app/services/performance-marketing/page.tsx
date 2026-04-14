@@ -62,7 +62,7 @@ export default function PerformanceMarketingPage() {
                   As an elite <strong>performance marketing agency in India</strong>, our philosophy is simple: ROI first, always. We specialize in building sophisticated full-funnel strategies—using top-of-funnel video creatives to capture cheap attention, and highly personalized retargeting to squeeze maximum conversions from your traffic.
                 </p>
                 <p className="leading-relaxed">
-                  We don't settle for "industry average" click-through rates. We dive heavily into Conversion Rate Optimization (CRO), ensuring that the traffic we buy doesn't bounce, but actually converts on your landing pages.
+                  We don&apos;t settle for &quot;industry average&quot; click-through rates. We dive heavily into Conversion Rate Optimization (CRO), ensuring that the traffic we buy doesn&apos;t bounce, but actually converts on your landing pages.
                 </p>
               </article>
             </div>

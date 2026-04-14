@@ -40,7 +40,7 @@ export default function WebDevPage() {
               Premium <span className="gradient-text">Website Development</span> Company in Mumbai
             </h1>
             <p className="text-white/60 text-xl leading-relaxed mb-8">
-              Your website is your 24/7 salesperson. We engineer high-performance, conversion-optimized digital products that don't just look good—they generate measurable revenue.
+              Your website is your 24/7 salesperson. We engineer high-performance, conversion-optimized digital products that don&apos;t just look good—they generate measurable revenue.
             </p>
             <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105" style={{ background: 'var(--gradient-brand)' }}>
               Start Your Web Project <ArrowRight size={18} />
@@ -62,7 +62,7 @@ export default function WebDevPage() {
                   As a top-tier <strong>web development agency in Mumbai</strong>, we build bespoke digital experiences. We eschew bloated themes in favor of modern Javascript frameworks (React, Next.js) and headless CMS architectures (Sanity, WordPress Headless, Shopify Plus).
                 </p>
                 <p className="leading-relaxed">
-                  Whether you need a dynamic corporate portal or a scalable e-commerce infrastructure, our engineering team ensures your platform satisfies both user expectations and Google's stringent Core Web Vitals.
+                  Whether you need a dynamic corporate portal or a scalable e-commerce infrastructure, our engineering team ensures your platform satisfies both user expectations and Google&apos;s stringent Core Web Vitals.
                 </p>
               </article>
             </div>

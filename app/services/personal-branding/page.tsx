@@ -56,7 +56,7 @@ export default function PersonalBrandingPage() {
               <h2 className="font-grotesk font-bold text-white text-3xl mb-6">What is Personal Branding?</h2>
               <article className="prose prose-invert max-w-none text-white/60">
                 <p className="text-lg leading-relaxed mb-6">
-                  In today's digital-first economy, people do business with people they trust. <strong>Personal branding</strong> is the strategic process of shaping your public narrative to establish thought leadership, communicate your unique value proposition, and build lasting credibility.
+                  In today&apos;s digital-first economy, people do business with people they trust. <strong>Personal branding</strong> is the strategic process of shaping your public narrative to establish thought leadership, communicate your unique value proposition, and build lasting credibility.
                 </p>
                 <p className="leading-relaxed mb-6">
                   For CEOs, founders, and industry leaders in India and globally, a powerful personal brand is no longer optional—it is a critical business asset. While corporate marketing teams push product features, an effective personal branding strategy leverages your authentic experience to build emotional connections with your target audience.

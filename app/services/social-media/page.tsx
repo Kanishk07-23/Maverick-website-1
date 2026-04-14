@@ -56,13 +56,13 @@ export default function SocialMediaPage() {
               <h2 className="font-grotesk font-bold text-white text-3xl mb-6">Why Partner With a Social Media Marketing Agency?</h2>
               <article className="prose prose-invert max-w-none text-white/60">
                 <p className="text-lg leading-relaxed mb-6">
-                  In today's crowded digital landscape, simply having a social media profile is not enough. You need consistent, strategic, and high-quality storytelling that captures attention and drives action. 
+                  In today&apos;s crowded digital landscape, simply having a social media profile is not enough. You need consistent, strategic, and high-quality storytelling that captures attention and drives action. 
                 </p>
                 <p className="leading-relaxed mb-6">
-                  <strong>Social Media Management</strong> encompasses everything from audience research and content calendar creation to graphic design, copywriting, and active community engagement. It is the engine that drives your brand's digital presence and top-of-funnel awareness.
+                  <strong>Social Media Management</strong> encompasses everything from audience research and content calendar creation to graphic design, copywriting, and active community engagement. It is the engine that drives your brand&apos;s digital presence and top-of-funnel awareness.
                 </p>
                 <p className="leading-relaxed">
-                  As a leading <strong>social media marketing agency in Mumbai</strong>, Maverick Digitals takes a holistic approach. We don't just post for the sake of posting; we align your social media output directly with your overarching business objectives, ensuring every post has a purpose.
+                  As a leading <strong>social media marketing agency in Mumbai</strong>, Maverick Digitals takes a holistic approach. We don&apos;t just post for the sake of posting; we align your social media output directly with your overarching business objectives, ensuring every post has a purpose.
                 </p>
               </article>
             </div>

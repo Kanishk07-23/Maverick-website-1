@@ -56,7 +56,7 @@ export default function BrandingStrategyPage() {
               <h2 className="font-grotesk font-bold text-white text-3xl mb-6">Building Brands That Command Premium Pricing</h2>
               <article className="prose prose-invert max-w-none text-white/60">
                 <p className="text-lg leading-relaxed mb-6">
-                  In a commoditized market, the brand with the clearest positioning wins. Branding is not just about looking pretty; it's a strategic psychological exercise in controlling how your audience perceives your value. Strong brands don't compete on price; they compete on trust.
+                  In a commoditized market, the brand with the clearest positioning wins. Branding is not just about looking pretty; it&apos;s a strategic psychological exercise in controlling how your audience perceives your value. Strong brands don&apos;t compete on price; they compete on trust.
                 </p>
                 <p className="leading-relaxed mb-6">
                   As an elite <strong>branding agency in Mumbai</strong>, Maverick Digitals takes a deeply analytical approach to creativity. We conduct rigorous market research and competitor analysis to find white space in your industry. We then craft a cohesive visual and verbal identity that distinctly occupies that space.
