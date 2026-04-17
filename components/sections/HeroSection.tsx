@@ -1,147 +1,102 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import MagneticButton from '@/components/MagneticButton';
 
 const HeroCanvas = dynamic(() => import('@/components/three/HeroCanvas'), { ssr: false });
 
-const words = ['Strategy.', 'Data.', 'Results.'];
-
 export default function HeroSection() {
-  const [wordIdx, setWordIdx] = useState(0);
-  const [visible, setVisible] = useState(true);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start']
+  });
 
-  // Smooth word cycling
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIdx((i) => (i + 1) % words.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  // GSAP entrance animation
-  useEffect(() => {
-    import('gsap').then(({ gsap }) => {
-      import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.fromTo(
-          '[data-hero-animate]',
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
-        );
-      });
-    });
-  }, []);
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!sectionRef.current) return;
+    const { clientX, clientY } = e;
+    setMousePosition({ x: clientX, y: clientY });
+  };
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden mesh-gradient"
+      onMouseMove={handleMouseMove}
+      className="relative h-screen w-full flex items-center justify-center overflow-hidden mesh-gradient pb-20"
       id="home"
-      aria-label="Digital Marketing Agency Hero"
     >
-      {/* WebGL Background */}
       <HeroCanvas />
 
-      {/* Radial vignette */}
-      <div className="absolute inset-0 z-[1]"
-        style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, var(--background) 100%)' }} />
+      {/* Radical Typography Masking Layer (A 'Billion Dollar' UX Trick) */}
+      <motion.div 
+        className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center bg-[var(--background)]"
+        style={{
+          WebkitMaskImage: `radial-gradient(circle 350px at ${mousePosition.x}px ${mousePosition.y}px, black 0%, transparent 100%)`,
+          maskImage: `radial-gradient(circle 350px at ${mousePosition.x}px ${mousePosition.y}px, black 0%, transparent 100%)`,
+        }}
+      >
+        <h1 className="font-outfit font-black text-center mix-blend-difference"
+            style={{ fontSize: 'clamp(5rem, 12vw, 12rem)', lineHeight: 0.85, letterSpacing: '-0.04em', color: 'var(--brand-purple)' }}>
+          WE SCALE<br />
+          <span className="text-white">BRANDS.</span>
+        </h1>
+      </motion.div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20">
-        <div className="max-w-4xl">
-          {/* Badge */}
-          <div data-hero-animate className="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2 mb-8 border border-border/40 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-[var(--brand-purple)] animate-pulse" />
-            <span className="text-sm text-foreground/80 font-medium tracking-wide">Mumbai-Based Digital Marketing Agency</span>
+      <motion.div style={{ y, opacity }} className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-32 flex flex-col items-center text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+        >
+          <div className="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2.5 mb-10 border border-border/40 shadow-sm backdrop-blur-2xl">
+            <span className="w-2.5 h-2.5 rounded-full bg-[var(--brand-purple)] animate-pulse" />
+            <span className="text-sm font-semibold tracking-widest uppercase">Mumbai-Based Growth Partners</span>
           </div>
 
-          <h1 data-hero-animate className="font-outfit font-bold text-foreground leading-[1.05] mb-6 flex flex-col md:block"
-            style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', letterSpacing: '-0.02em' }}>
-            Digital Marketing<br className="hidden md:block" />
-            Agency in{' '}
-            <span className="inline-grid [grid-template-areas:'stack'] relative" style={{ minWidth: '220px' }}>
-              {words.map((word, i) => {
-                const isActive = i === wordIdx;
-                return (
-                  <span
-                    key={word}
-                    className="gradient-text [grid-area:stack] transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] origin-left"
-                    style={{
-                      opacity: isActive ? 1 : 0,
-                      transform: isActive ? 'translateY(0) scale(1)' : 'translateY(15px) scale(0.95)',
-                      pointerEvents: isActive ? 'auto' : 'none',
-                    }}
-                  >
-                    {word}
-                  </span>
-                );
-              })}
-            </span>
+          <h1 className="font-outfit font-bold text-foreground leading-[1.05] mb-8"
+              style={{ fontSize: 'clamp(3rem, 7vw, 7rem)', letterSpacing: '-0.03em' }}>
+            Attention Into <br />
+            <span className="gradient-text">Revenue.</span>
           </h1>
 
-          {/* Sub */}
-          <p data-hero-animate className="text-muted-foreground text-lg md:text-xl leading-relaxed max-w-2xl mb-10 font-medium">
-            We are a premier digital marketing company in India, helping ambitious brands scale through SEO, performance marketing, social media, and web development. Blending creativity and data to drive measurable ROI.
+          <p className="text-muted-foreground text-lg md:text-2xl leading-relaxed max-w-3xl mx-auto mb-12 font-medium">
+            We are a high-end digital marketing company helping bold founders scale through elite SEO, performance marketing, and branding.
           </p>
 
-          {/* CTAs */}
-          <div data-hero-animate className="flex flex-wrap gap-4">
-            <Link
-              href="/contact"
-              id="hero-cta-primary"
-              className="group flex items-center gap-2.5 px-8 py-4 rounded-full font-semibold text-white text-base shadow-[var(--premium-shadow)] btn-magnetic bg-[var(--brand-purple)]"
-              style={{ background: 'var(--gradient-brand)' }}
-            >
-              Start Your Growth Journey
-              <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-300" />
-            </Link>
-            <Link
-              href="/services"
-              id="hero-cta-secondary"
-              className="group relative flex items-center gap-2.5 px-8 py-4 rounded-full font-semibold text-foreground/80 text-base glass-card border border-border overflow-hidden btn-magnetic"
-              style={{ transition: 'color 0.25s ease' }}
-            >
-              {/* Hover fill effect */}
-              <span
-                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(37,99,235,0.10) 100%)',
-                  transition: 'opacity 0.3s ease',
-                }}
-              />
-              <span className="relative group-hover:text-foreground transition-colors duration-250">View Our Services</span>
-              <ArrowRight
-                size={16}
-                className="relative opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300"
-              />
-            </Link>
-          </div>
+          <div className="flex flex-wrap justify-center gap-6">
+            <MagneticButton href="/contact">
+              <span className="flex items-center gap-3 px-10 py-5 rounded-full font-semibold text-white text-lg shadow-[var(--premium-shadow)]"
+                    style={{ background: 'var(--gradient-brand)' }}>
+                Start Your Journey
+                <ArrowRight size={20} />
+              </span>
+            </MagneticButton>
 
-          {/* Stats Row */}
-          <div data-hero-animate className="flex flex-wrap gap-8 mt-14 pt-10 border-t border-border/60">
-            {[
-              { num: '40+', label: 'Brands Scaled Globally' },
-              { num: '15M+', label: 'Organic Search Views' },
-              { num: '200%+', label: 'Average Marketing ROI' },
-              { num: '5+', label: 'Countries Served' },
-            ].map((s) => (
-              <div key={s.label} className="flex flex-col">
-                <span className="font-outfit font-bold text-3xl md:text-4xl text-foreground">{s.num}</span>
-                <span className="text-muted-foreground text-sm mt-0.5 font-medium">{s.label}</span>
-              </div>
-            ))}
+            <MagneticButton href="/services">
+              <span className="flex items-center gap-3 px-10 py-5 rounded-full font-semibold text-foreground text-lg glass-card border border-border hover:bg-muted transition-colors">
+                View Protocol
+                <ArrowRight size={20} />
+              </span>
+            </MagneticButton>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-50">
-        <span className="text-muted-foreground text-xs tracking-widest uppercase">Scroll</span>
-        <ChevronDown size={16} className="text-muted-foreground animate-bounce" />
-      </div>
+      <motion.div 
+        initial={{ opacity: 0 }} animate={{ opacity: 0.5 }} transition={{ delay: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-3"
+      >
+        <span className="text-foreground text-xs tracking-[0.3em] font-medium uppercase">Discover</span>
+        <div className="w-[1px] h-12 bg-gradient-to-b from-foreground to-transparent" />
+      </motion.div>
     </section>
   );
 }

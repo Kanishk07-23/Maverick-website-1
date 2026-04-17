@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Reveal from '@/components/Reveal';
+import MagneticButton from '@/components/MagneticButton';
 
 const schema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -106,16 +107,12 @@ export default function CTABanner() {
                 {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
               </div>
             </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              id="cta-submit"
-              className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed"
-              style={{ background: 'var(--gradient-brand)' }}
-            >
-              {isSubmitting ? 'Sending...' : 'Get Free Strategy Call'}
-              {!isSubmitting && <ArrowRight size={18} />}
-            </button>
+            <MagneticButton as="button" type="submit" disabled={isSubmitting} className="w-full">
+              <span id="cta-submit" className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-white transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed group-hover:brightness-110" style={{ background: 'var(--gradient-brand)' }}>
+                {isSubmitting ? 'Sending...' : 'Get Free Strategy Call'}
+                {!isSubmitting && <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />}
+              </span>
+            </MagneticButton>
           </form>
         )}
 

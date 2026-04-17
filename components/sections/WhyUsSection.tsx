@@ -1,5 +1,6 @@
 'use client';
-import Reveal from '@/components/Reveal';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 const differentiators = [
   {
@@ -7,96 +8,83 @@ const differentiators = [
     icon: '📊',
     title: 'Performance-Driven',
     desc: 'We focus on measurable outcomes, not vanity metrics. Every strategy is designed to deliver real business results.',
-    stat: '200%+',
-    statLabel: 'avg ROI',
+    stat: '200%+', color: 'from-[var(--brand-purple)] to-blue-500'
   },
   {
     id: 'data',
     icon: '🧠',
     title: 'Data-Informed Creativity',
     desc: 'We blend creative storytelling with data insights to create campaigns that resonate and convert simultaneously.',
-    stat: '15M+',
-    statLabel: 'organic views',
+    stat: '15M+', color: 'from-blue-500 to-indigo-500'
   },
   {
     id: 'founder',
     icon: '🤝',
     title: 'Founder-Led Approach',
     desc: 'Our founders are directly involved in every project, ensuring quality and accountability at every step.',
-    stat: '100%',
-    statLabel: 'founder involvement',
+    stat: '100%', color: 'from-violet-500 to-purple-500'
   },
   {
     id: 'e2e',
     icon: '⚡',
     title: 'End-to-End Capability',
     desc: 'From strategy to execution, we handle everything in-house with our lean, high-output team.',
-    stat: '40+',
-    statLabel: 'brands served',
+    stat: '40+', color: 'from-[var(--brand-purple)] to-pink-500'
   },
 ];
 
 export default function WhyUsSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
   return (
-    <section className="section-padding relative overflow-hidden section-alt" id="why-us">
-      {/* Decorative */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left copy */}
-          <Reveal direction="left">
-            <div>
-              <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-6">
-                Why Maverick
-              </span>
-              <h2 className="font-outfit font-bold text-foreground mb-6"
-                style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-                Why Choose{' '}
-                <span className="gradient-text">Maverick Digitals?</span>
-              </h2>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                We&apos;re not a standard marketing agency. Maverick Digitals is a founder-led, high-output team based in Mumbai. We blend creative strategy with data-driven performance marketing to help brands scale. Our focus is always on ROI, not vanity metrics.
-              </p>
-
-              {/* Mini proof points */}
-              <div className="flex flex-col gap-4">
-                {[
-                  'Direct access to founders on every project',
-                  'No long-term lock-in contracts',
-                  'Weekly performance reports with real data',
-                  'Strategies built for your specific industry',
-                ].map((point) => (
-                  <div key={point} className="flex items-start gap-3 text-muted-foreground text-sm">
-                    <span className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                      style={{ background: 'rgba(124,58,237,0.2)' }}>
-                      <span className="text-[var(--brand-purple)] text-xs">✓</span>
-                    </span>
-                    {point}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Right grid */}
-          <div className="grid grid-cols-2 gap-4">
-            {differentiators.map((d, index) => (
-              <Reveal key={d.id} direction="up" delay={0.1 * index}>
-                <div
-                  id={`why-${d.id}`}
-                  className="glass-card rounded-2xl p-6 border border-border hover:border-purple-500/30 transition-all duration-300 hover:scale-[1.03] group h-full"
-                >
-                  <div className="text-3xl mb-4">{d.icon}</div>
-                  <div className="font-outfit font-bold gradient-text text-2xl mb-0.5">{d.stat}</div>
-                  <div className="text-muted-foreground text-xs mb-3">{d.statLabel}</div>
-                  <h3 className="text-foreground font-semibold text-base mb-2">{d.title}</h3>
-                  <p className="text-muted-foreground text-xs leading-relaxed">{d.desc}</p>
-                </div>
-              </Reveal>
-            ))}
+    <section className="relative pb-32 pt-20 bg-[var(--background)]" id="why-us" ref={containerRef}>
+      <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col lg:flex-row gap-20">
+        
+        {/* Left fixed tracking text */}
+        <div className="lg:w-1/3 relative">
+          <div className="sticky top-40">
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-6">
+              Why Maverick
+            </span>
+            <h2 className="font-outfit font-bold text-foreground mb-6" style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
+              Why We Are <br/>
+              <span className="gradient-text">Different.</span>
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+              We&apos;re not a standard agency. We are a high-output growth team based in Mumbai. No vanity metrics, just pure bottom-line impact.
+            </p>
           </div>
+        </div>
+
+        {/* Right stacking cards */}
+        <div className="lg:w-2/3 flex flex-col gap-8 relative mt-10 lg:mt-0">
+          {differentiators.map((d, i) => {
+            // Calculate a slight top margin for each card so they stack visibly
+            const stickyTop = `calc(8rem + ${i * 40}px)`;
+            
+            return (
+              <div 
+                key={d.id} 
+                className="sticky shadow-2xl glass-card rounded-3xl p-10 border border-border/50 flex flex-col md:flex-row gap-8 items-center origin-top transition-all duration-500"
+                style={{ top: stickyTop, zIndex: i }}
+              >
+                {/* Big Stat Background / Side */}
+                <div className={`flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-gradient-to-br ${d.color} flex flex-col items-center justify-center text-white shadow-lg relative overflow-hidden`}>
+                  <div className="text-5xl md:text-6xl mb-2">{d.icon}</div>
+                  <div className="text-3xl font-black font-outfit">{d.stat}</div>
+                  <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
+                </div>
+                
+                {/* Content */}
+                <div>
+                  <h3 className="text-2xl font-bold font-outfit text-foreground mb-4">{d.title}</h3>
+                  <p className="text-muted-foreground text-lg font-medium leading-relaxed">
+                    {d.desc}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

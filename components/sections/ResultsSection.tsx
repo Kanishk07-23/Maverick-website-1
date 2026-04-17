@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Reveal from '@/components/Reveal';
+import MagneticButton from '@/components/MagneticButton';
 const stats = [
   {
     id: 'brands',
@@ -154,10 +155,12 @@ export default function ResultsSection() {
               </div>
             </div>
             <div className="hidden md:block">
-              <a href="/contact" className="px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
-                style={{ background: 'var(--gradient-brand)' }}>
-                Get Your Free Audit →
-              </a>
+              <MagneticButton href="/contact">
+                <span className="px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all shadow-md group-hover:scale-105"
+                  style={{ background: 'var(--gradient-brand)' }}>
+                  Get Your Free Audit →
+                </span>
+              </MagneticButton>
             </div>
           </div>
         </Reveal>

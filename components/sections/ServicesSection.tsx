@@ -1,165 +1,122 @@
 'use client';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, Sparkles, TrendingUp, Presentation, Search, LineChart, Cpu } from 'lucide-react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { useState } from 'react';
-import Reveal from '@/components/Reveal';
+import MagneticButton from '@/components/MagneticButton';
 
 const services = [
   {
-    id: 'personal-branding',
-    icon: '✨',
-    title: 'Personal Branding',
-    tagline: 'Build authority. Command attention.',
-    desc: 'Strategy, ghostwriting, content systems for founders & creators who want to become the most trusted voice in their industry.',
-    features: [
-      'Brand Strategy Development',
-      'Content Creation & Ghostwriting',
-      'Thought Leadership Positioning',
-      'Social Media Presence',
-    ],
-    color: '#7C3AED',
+    id: 'perf',title: 'Performance Marketing',icon: <TrendingUp size={32} />,
+    desc: 'Data-driven ad campaigns on Meta & Google designed purely for massive ROI. We do not care about clicks, we care about actual revenue.',
+    href: '/services/performance-marketing', color: 'from-blue-500 to-indigo-500'
   },
   {
-    id: 'social-media',
-    icon: '📱',
-    title: 'Social Media Management',
-    tagline: 'Done-for-you growth across platforms.',
-    desc: 'Content planning, creation, community management and analytics — we handle it all, end to end, while you focus on running your business.',
-    features: ['Content Planning & Creation', 'Community Management', 'Growth Strategy', 'Analytics & Reporting'],
-    color: '#6D28D9',
+    id: 'seo', title: 'SEO & SEM', icon: <Search size={32} />,
+    desc: 'Dominate search engines. We reconstruct your digital architecture so high-intent customers find you exactly when they are ready to buy.',
+    href: '/services/seo-sem', color: 'from-purple-500 to-violet-500'
   },
   {
-    id: 'web-dev',
-    icon: '💻',
-    title: 'Website & App Development',
-    tagline: 'High-performance digital products.',
-    desc: 'Custom websites, e-commerce platforms and mobile apps engineered for speed, conversion and scale.',
-    features: ['Custom Web Development', 'E-commerce Solutions', 'Mobile App Development', 'Performance Optimization'],
-    color: '#4F46E5',
+    id: 'social', title: 'Social Media Dynamics', icon: <Sparkles size={32} />,
+    desc: 'We transform boring brand pages into magnetic community hubs. 15M+ organic views generated for our clients so far.',
+    href: '/services/social-media', color: 'from-fuchsia-500 to-pink-500'
   },
   {
-    id: 'seo-sem',
-    icon: '🔍',
-    title: 'SEO & SEM',
-    tagline: 'Dominate search results.',
-    desc: 'Keyword strategy, technical SEO, Google Ads and local SEO that turns search intent into qualified leads and consistent revenue.',
-    features: ['Technical SEO Audit', 'Keyword Research & Strategy', 'Google Ads Management', 'Local SEO Optimization'],
-    color: '#2563EB',
+    id: 'brand', title: 'Elite Branding', icon: <Presentation size={32} />,
+    desc: 'Your brand is not just a logo. We craft distinct visual and narrative identities that command higher prices in the marketplace.',
+    href: '/services/branding-strategy', color: 'from-emerald-500 to-teal-500'
   },
   {
-    id: 'performance-marketing',
-    icon: '🎯',
-    title: 'Performance Marketing',
-    tagline: 'ROI-first campaigns, always.',
-    desc: 'Meta & Google advertising with funnel-driven execution designed to maximise ROAS and deliver predictable, scalable revenue.',
-    features: ['Meta Ads Management', 'Google Ads Campaigns', 'Conversion Optimization', 'ROI Tracking & Analysis'],
-    color: '#1D4ED8',
+    id: 'web', title: 'High-Conversion Web Dev', icon: <Cpu size={32} />,
+    desc: 'Beautiful websites are useless if they don’t convert. We build lightning-fast web experiences engineered specifically to sell.',
+    href: '/services/web-dev', color: 'from-amber-500 to-orange-500'
   },
   {
-    id: 'branding-strategy',
-    icon: '🎨',
-    title: 'Branding & Strategy',
-    tagline: 'Positioning that wins markets.',
-    desc: 'Brand identity, messaging frameworks, go-to-market launches and positioning strategies that make your brand impossible to ignore.',
-    features: ['Brand Identity Design', 'Messaging Framework', 'Go-to-Market Strategy', 'Brand Guidelines'],
-    color: '#7C3AED',
-  },
+    id: 'personal', title: 'Founder Branding', icon: <LineChart size={32} />,
+    desc: 'People buy from people. We scale your personal brand on LinkedIn and Twitter to open high-level B2B opportunities.',
+    href: '/services/personal-branding', color: 'from-rose-500 to-red-500'
+  }
 ];
 
-function ServiceCard({ service }: { service: typeof services[0] }) {
-  const [flipped, setFlipped] = useState(false);
-
-  return (
-    <Link
-      href={`/services/${service.id}`}
-      className="service-card h-72 cursor-pointer block"
-      id={`service-card-${service.id}`}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
-      style={{ perspective: '1000px' }}
-    >
-      <div className={`service-card-inner w-full h-full rounded-2xl ${flipped ? '[transform:rotateY(180deg)]' : ''}`}>
-        {/* Front */}
-        <div className="service-card-front glass-card rounded-2xl p-6 flex flex-col border border-border hover:border-purple-500/30 transition-colors">
-          <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5"
-            style={{ background: `${service.color}22` }}
-          >
-            {service.icon}
-          </div>
-          <h3 className="text-foreground font-outfit font-bold text-xl mb-2">{service.title}</h3>
-          <p className="text-muted-foreground text-sm leading-relaxed mb-4">{service.tagline}</p>
-          <div className="mt-auto flex items-center gap-1.5 text-[var(--brand-purple)] text-sm font-medium">
-            <span>Learn more</span>
-            <ArrowRight size={14} />
-          </div>
-        </div>
-
-        {/* Back */}
-        <div
-          className="service-card-back rounded-2xl p-6 flex flex-col border"
-          style={{
-            background: `linear-gradient(135deg, ${service.color}20, ${service.color}0A)`,
-            borderColor: `${service.color}40`,
-          }}
-        >
-          <h3 className="text-foreground font-outfit font-bold text-lg mb-3">{service.title}</h3>
-          <p className="text-muted-foreground text-sm leading-relaxed mb-4">{service.desc}</p>
-          <ul className="flex flex-col gap-1.5 mt-auto">
-            {service.features.slice(0, 3).map((f) => (
-              <li key={f} className="flex items-center gap-2 text-muted-foreground text-xs">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ background: service.color }} />
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
 export default function ServicesSection() {
+  const targetRef = useRef<HTMLDivElement>(null);
+  
+  // Track scroll progress of this massive container
+  const { scrollYProgress } = useScroll({ target: targetRef });
+
+  // Map the vertical scroll progress into a horizontal translation.
+  // Move elements across the viewport. -90% so the last card becomes fully visible.
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
+
   return (
-    <section className="section-padding" id="services">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <Reveal>
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-4">
-              What We Do
+    <section ref={targetRef} className="relative h-[400vh] bg-[var(--background)]" id="services">
+      {/* Sticky container that stays on screen while scrolling vertically */}
+      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+        
+        {/* Background Ambient Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] rounded-full blur-[120px] opacity-20 pointer-events-none"
+             style={{ background: 'radial-gradient(circle, var(--brand-purple) 0%, transparent 70%)' }} />
+
+        {/* Header - Fixed to left side */}
+        <div className="w-full px-6 md:px-20 mb-12 relative z-10 flex flex-col md:flex-row justify-between items-end gap-6">
+          <div>
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-4">
+              Our Protocol
             </span>
-            <h2 className="font-outfit font-bold text-foreground mb-4"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-              Growth-Focused{' '}
-              <span className="gradient-text">Digital Services</span>
+            <h2 className="font-outfit font-bold text-foreground leading-none"
+              style={{ fontSize: 'clamp(3rem, 6vw, 6rem)' }}>
+              We Engineer<br/>
+              <span className="gradient-text">Growth.</span>
             </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-              Designed to scale your business profitably and sustainably — hover any card to explore.
-            </p>
           </div>
-        </Reveal>
+          <p className="text-muted-foreground text-lg md:text-xl max-w-sm font-medium">
+            Scroll horizontally to explore the precise mechanisms we use to scale brands.
+          </p>
+        </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {services.map((s, idx) => (
-            <Reveal key={s.id} delay={0.1 * idx}>
-              <ServiceCard service={s} />
-            </Reveal>
+        {/* Horizontal Scrolling Track */}
+        <motion.div style={{ x }} className="flex gap-8 px-6 md:px-20 relative z-20 pb-10">
+          {services.map((service) => (
+            <div key={service.id} 
+                 className="relative w-[85vw] md:w-[450px] h-[500px] flex-shrink-0 glass-card rounded-[2.5rem] border border-border/50 p-10 flex flex-col justify-between group overflow-hidden transition-all duration-500 hover:border-purple-500/30 hover:shadow-[var(--card-shadow-hover)]">
+              
+              {/* Card Background Gradient effect on hover */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500`} />
+              
+              {/* Top half */}
+              <div className="relative z-10">
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 bg-gradient-to-br ${service.color} text-white shadow-lg`}>
+                  {service.icon}
+                </div>
+                <h3 className="text-3xl font-bold font-outfit text-foreground mb-4">{service.title}</h3>
+                <p className="text-muted-foreground text-lg leading-relaxed font-medium">
+                  {service.desc}
+                </p>
+              </div>
+
+              {/* Bottom CTAs */}
+              <div className="relative z-10 pt-8 border-t border-border/50 mt-auto flex items-center justify-between">
+                <MagneticButton href={service.href}>
+                  <div className="flex items-center gap-3 text-foreground font-semibold group-hover:text-[var(--brand-purple)] transition-colors">
+                    Explore Protocol <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </MagneticButton>
+              </div>
+            </div>
           ))}
-        </div>
 
-        {/* CTA */}
-        <div className="text-center">
-          <Link
-            href="/services"
-            id="services-view-all"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-foreground glass-card border border-purple-500/30 hover:border-purple-500/60 transition-all duration-300 hover:scale-105"
-          >
-            Explore All Services
-            <ArrowRight size={18} />
-          </Link>
-        </div>
+          {/* Final CTA Card inside the track */}
+          <div className="relative w-[85vw] md:w-[450px] h-[500px] flex-shrink-0 rounded-[2.5rem] bg-[var(--foreground)] p-10 flex flex-col justify-center items-center text-center">
+             <h3 className="text-4xl font-bold font-outfit text-background mb-4">Don&apos;t see what you need?</h3>
+             <p className="text-muted/60 text-lg mb-10">We build custom strategic protocols for unique brands.</p>
+             <MagneticButton href="/contact">
+               <span className="flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-white text-lg bg-[var(--brand-purple)]" style={{ background: 'var(--gradient-brand)' }}>
+                  Let&apos;s Build
+                  <ArrowRight size={20} />
+               </span>
+             </MagneticButton>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
