@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-
+import Reveal from '@/components/Reveal';
 const stats = [
   {
     id: 'brands',
@@ -96,65 +96,71 @@ export default function ResultsSection() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 shadow-sm mb-4">
-            Proven Impact
-          </span>
-          <h2 className="font-outfit font-bold text-foreground mb-4"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.02em' }}>
-            Proven Digital{' '}
-            <span className="gradient-text">Marketing Results</span>
-          </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto text-lg font-medium">
-            Real results delivered for growth-focused businesses across industries and borders.
-          </p>
-        </div>
+        <Reveal direction="up">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 shadow-sm mb-4">
+              Proven Impact
+            </span>
+            <h2 className="font-outfit font-bold text-foreground mb-4"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.02em' }}>
+              Proven Digital{' '}
+              <span className="gradient-text">Marketing Results</span>
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto text-lg font-medium">
+              Real results delivered for growth-focused businesses across industries and borders.
+            </p>
+          </div>
+        </Reveal>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((s) => (
-            <CounterCard key={s.id} {...s} />
+          {stats.map((s, idx) => (
+            <Reveal key={s.id} direction="up" delay={0.1 * idx}>
+              <CounterCard {...s} />
+            </Reveal>
           ))}
         </div>
 
         {/* Trust bar */}
-        <div className="mt-12 glass-card rounded-2xl p-6 border border-border flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
-              <span className="text-foreground text-lg">🌍</span>
+        <Reveal direction="up" delay={0.4}>
+          <div className="mt-12 glass-card rounded-2xl p-6 border border-border flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
+                <span className="text-white text-lg">🌍</span>
+              </div>
+              <div>
+                <div className="text-foreground font-semibold text-sm">Global Reach</div>
+                <div className="text-muted-foreground text-xs">India · UAE · USA · UK · Australia</div>
+              </div>
             </div>
-            <div>
-              <div className="text-foreground font-semibold text-sm">Global Reach</div>
-              <div className="text-muted-foreground text-xs">India · UAE · USA · UK · Australia</div>
+            <div className="w-px h-12 bg-border hidden md:block" />
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
+                <span className="text-white text-lg">🏆</span>
+              </div>
+              <div>
+                <div className="text-foreground font-semibold text-sm">Founder-Led</div>
+                <div className="text-muted-foreground text-xs">Direct involvement in every project</div>
+              </div>
+            </div>
+            <div className="w-px h-12 bg-border hidden md:block" />
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
+                <span className="text-white text-lg">📊</span>
+              </div>
+              <div>
+                <div className="text-foreground font-semibold text-sm">Data-Informed</div>
+                <div className="text-muted-foreground text-xs">Creativity backed by analytics</div>
+              </div>
+            </div>
+            <div className="hidden md:block">
+              <a href="/contact" className="px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
+                style={{ background: 'var(--gradient-brand)' }}>
+                Get Your Free Audit →
+              </a>
             </div>
           </div>
-          <div className="w-px h-12 bg-border hidden md:block" />
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
-              <span className="text-foreground text-lg">🏆</span>
-            </div>
-            <div>
-              <div className="text-foreground font-semibold text-sm">Founder-Led</div>
-              <div className="text-muted-foreground text-xs">Direct involvement in every project</div>
-            </div>
-          </div>
-          <div className="w-px h-12 bg-border hidden md:block" />
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
-              <span className="text-foreground text-lg">📊</span>
-            </div>
-            <div>
-              <div className="text-foreground font-semibold text-sm">Data-Informed</div>
-              <div className="text-muted-foreground text-xs">Creativity backed by analytics</div>
-            </div>
-          </div>
-          <div className="hidden md:block">
-            <a href="/contact" className="px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
-              style={{ background: 'var(--gradient-brand)' }}>
-              Get Your Free Audit →
-            </a>
-          </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Outfit, Plus_Jakarta_Sans, Space_Mono } from 'next/font/google';
+import { Sora, DM_Sans, Space_Mono } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -7,21 +7,22 @@ import WhatsAppWidget from '@/components/WhatsAppWidget';
 import CustomCursor from '@/components/CustomCursor';
 import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import ThemeProvider from '@/components/ThemeProvider';
+import ScrollProgress from '@/components/ScrollProgress';
+import BackToTop from '@/components/BackToTop';
 
-const outfit = Outfit({
+const sora = Sora({
   subsets: ['latin'],
   variable: '--font-outfit',
   display: 'swap',
   weight: ['300', '400', '500', '600', '700', '800'],
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-jakarta',
   display: 'swap',
   weight: ['300', '400', '500', '600', '700', '800'],
 });
-
 
 const spaceMono = Space_Mono({
   subsets: ['latin'],
@@ -81,15 +82,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${outfit.variable} ${jakarta.variable} ${spaceMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${sora.variable} ${dmSans.variable} ${spaceMono.variable}`}>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ScrollProgress />
           <CustomCursor />
           <SmoothScrollProvider>
             <Navbar />
             <main>{children}</main>
             <Footer />
             <WhatsAppWidget />
+            <BackToTop />
           </SmoothScrollProvider>
         </ThemeProvider>
         <script

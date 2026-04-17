@@ -5,6 +5,7 @@
    -------------------------------------------------------*/
 'use client';
 import { Plus } from 'lucide-react';
+import Reveal from '@/components/Reveal';
 
 // =============================================
 // ADMIN: ADD CLIENT LOGOS HERE
@@ -39,19 +40,21 @@ export default function ClientsSection() {
     <section className="py-20 relative border-y border-border" id="clients">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-12">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-4">
-            Trusted By
-          </span>
-          <h2 className="font-outfit font-bold text-foreground mb-3"
-            style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)' }}>
-            Brands We&apos;ve Helped{' '}
-            <span className="gradient-text">Scale</span>
-          </h2>
-          <p className="text-muted-foreground text-sm">
-            40+ companies across India, UAE, USA, UK & Australia
-          </p>
-        </div>
+        <Reveal direction="up">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-4">
+              Trusted By
+            </span>
+            <h2 className="font-outfit font-bold text-foreground mb-3"
+              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)' }}>
+              Brands We&apos;ve Helped{' '}
+              <span className="gradient-text">Scale</span>
+            </h2>
+            <p className="text-muted-foreground text-sm">
+              40+ companies across India, UAE, USA, UK & Australia
+            </p>
+          </div>
+        </Reveal>
 
         {CLIENTS.length === 0 ? (
           <EMPTY_STATE />

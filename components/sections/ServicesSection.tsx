@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { useState } from 'react';
+import Reveal from '@/components/Reveal';
 
 const services = [
   {
@@ -123,24 +124,28 @@ export default function ServicesSection() {
     <section className="section-padding" id="services">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-4">
-            What We Do
-          </span>
-          <h2 className="font-outfit font-bold text-foreground mb-4"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-            Growth-Focused{' '}
-            <span className="gradient-text">Digital Services</span>
-          </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-            Designed to scale your business profitably and sustainably — hover any card to explore.
-          </p>
-        </div>
+        <Reveal>
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-4">
+              What We Do
+            </span>
+            <h2 className="font-outfit font-bold text-foreground mb-4"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
+              Growth-Focused{' '}
+              <span className="gradient-text">Digital Services</span>
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto text-lg">
+              Designed to scale your business profitably and sustainably — hover any card to explore.
+            </p>
+          </div>
+        </Reveal>
 
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {services.map((s) => (
-            <ServiceCard key={s.id} service={s} />
+          {services.map((s, idx) => (
+            <Reveal key={s.id} delay={0.1 * idx}>
+              <ServiceCard service={s} />
+            </Reveal>
           ))}
         </div>
 

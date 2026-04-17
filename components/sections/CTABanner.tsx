@@ -5,6 +5,7 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Reveal from '@/components/Reveal';
 
 const schema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -35,7 +36,7 @@ export default function CTABanner() {
       <div className="absolute inset-0 border-y border-purple-500/10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-purple-500/20 to-transparent" />
 
-      <div className="max-w-5xl mx-auto relative z-10 text-center">
+      <Reveal direction="up" className="max-w-5xl mx-auto relative z-10 text-center">
         <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 shadow-sm mb-6">
           Let&apos;s Talk
         </span>
@@ -126,7 +127,7 @@ export default function CTABanner() {
             maverickdigitals18@gmail.com
           </a>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

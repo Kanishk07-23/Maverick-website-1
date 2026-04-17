@@ -7,6 +7,7 @@
 'use client';
 import { useState } from 'react';
 import { Star, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import Reveal from '@/components/Reveal';
 
 // =============================================
 // ADMIN: ADD TESTIMONIALS HERE
@@ -62,6 +63,7 @@ export default function TestimonialsSection() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
+        <Reveal>
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-4">
             Client Love
@@ -75,11 +77,12 @@ export default function TestimonialsSection() {
             Real words from real businesses we&apos;ve helped scale.
           </p>
         </div>
+        </Reveal>
 
         {TESTIMONIALS.length === 0 ? (
           <EMPTY_STATE />
         ) : (
-          <div className="relative">
+          <Reveal delay={0.2} className="relative mt-12">
             {/* Cards */}
             <div className="overflow-hidden rounded-3xl">
               <div
@@ -136,7 +139,7 @@ export default function TestimonialsSection() {
                 </button>
               </div>
             )}
-          </div>
+          </Reveal>
         )}
       </div>
     </section>
