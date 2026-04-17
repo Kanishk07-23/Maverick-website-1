@@ -47,19 +47,19 @@ export default function HeroSection() {
 
       {/* Radial vignette */}
       <div className="absolute inset-0 z-[1]"
-        style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, rgba(10,10,20,0.85) 100%)' }} />
+        style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, var(--background) 100%)' }} />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20">
         <div className="max-w-4xl">
           {/* Badge */}
-          <div data-hero-animate className="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2 mb-8 border border-purple-500/20">
-            <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-            <span className="text-sm text-white/70 font-medium">Mumbai-Based Digital Marketing Agency</span>
+          <div data-hero-animate className="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2 mb-8 border border-border/40 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-[var(--brand-purple)] animate-pulse" />
+            <span className="text-sm text-foreground/80 font-medium tracking-wide">Mumbai-Based Digital Marketing Agency</span>
           </div>
 
-          <h1 data-hero-animate className="font-grotesk font-bold text-white leading-[1.05] mb-6 flex flex-col md:block"
-            style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)' }}>
+          <h1 data-hero-animate className="font-outfit font-bold text-foreground leading-[1.05] mb-6 flex flex-col md:block"
+            style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', letterSpacing: '-0.02em' }}>
             Digital Marketing<br className="hidden md:block" />
             Agency in{' '}
             <span className="inline-grid [grid-template-areas:'stack'] relative" style={{ minWidth: '220px' }}>
@@ -83,7 +83,7 @@ export default function HeroSection() {
           </h1>
 
           {/* Sub */}
-          <p data-hero-animate className="text-white/60 text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
+          <p data-hero-animate className="text-muted-foreground text-lg md:text-xl leading-relaxed max-w-2xl mb-10 font-medium">
             We are a premier digital marketing company in India, helping ambitious brands scale through SEO, performance marketing, social media, and web development. Blending creativity and data to drive measurable ROI.
           </p>
 
@@ -92,7 +92,7 @@ export default function HeroSection() {
             <Link
               href="/contact"
               id="hero-cta-primary"
-              className="group flex items-center gap-2.5 px-8 py-4 rounded-full font-semibold text-white text-base glow-purple btn-magnetic"
+              className="group flex items-center gap-2.5 px-8 py-4 rounded-full font-semibold text-white text-base shadow-[var(--premium-shadow)] btn-magnetic bg-[var(--brand-purple)]"
               style={{ background: 'var(--gradient-brand)' }}
             >
               Start Your Growth Journey
@@ -101,7 +101,7 @@ export default function HeroSection() {
             <Link
               href="/services"
               id="hero-cta-secondary"
-              className="group relative flex items-center gap-2.5 px-8 py-4 rounded-full font-semibold text-white/80 text-base glass-card border border-white/10 overflow-hidden btn-magnetic"
+              className="group relative flex items-center gap-2.5 px-8 py-4 rounded-full font-semibold text-foreground/80 text-base glass-card border border-border overflow-hidden btn-magnetic"
               style={{ transition: 'color 0.25s ease' }}
             >
               {/* Hover fill effect */}
@@ -112,7 +112,7 @@ export default function HeroSection() {
                   transition: 'opacity 0.3s ease',
                 }}
               />
-              <span className="relative group-hover:text-white transition-colors duration-250">View Our Services</span>
+              <span className="relative group-hover:text-foreground transition-colors duration-250">View Our Services</span>
               <ArrowRight
                 size={16}
                 className="relative opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300"
@@ -121,7 +121,7 @@ export default function HeroSection() {
           </div>
 
           {/* Stats Row */}
-          <div data-hero-animate className="flex flex-wrap gap-8 mt-14 pt-10 border-t border-white/8">
+          <div data-hero-animate className="flex flex-wrap gap-8 mt-14 pt-10 border-t border-border/60">
             {[
               { num: '40+', label: 'Brands Scaled Globally' },
               { num: '15M+', label: 'Organic Search Views' },
@@ -129,8 +129,8 @@ export default function HeroSection() {
               { num: '5+', label: 'Countries Served' },
             ].map((s) => (
               <div key={s.label} className="flex flex-col">
-                <span className="font-grotesk font-bold text-3xl md:text-4xl gradient-text">{s.num}</span>
-                <span className="text-white/50 text-sm mt-0.5">{s.label}</span>
+                <span className="font-outfit font-bold text-3xl md:text-4xl text-foreground">{s.num}</span>
+                <span className="text-muted-foreground text-sm mt-0.5 font-medium">{s.label}</span>
               </div>
             ))}
           </div>
@@ -139,8 +139,8 @@ export default function HeroSection() {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-50">
-        <span className="text-white/50 text-xs tracking-widest uppercase">Scroll</span>
-        <ChevronDown size={16} className="text-white/50 animate-bounce" />
+        <span className="text-muted-foreground text-xs tracking-widest uppercase">Scroll</span>
+        <ChevronDown size={16} className="text-muted-foreground animate-bounce" />
       </div>
     </section>
   );

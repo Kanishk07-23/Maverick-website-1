@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { clsx } from 'clsx';
+import ThemeToggle from './ThemeToggle';
 
 const links = [
   { label: 'Home', href: '/' },
@@ -40,7 +41,7 @@ export default function Navbar() {
       className={clsx(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
         scrolled
-          ? 'glass-card border-b border-white/5 py-3'
+          ? 'glass-card border-b border-border py-3'
           : 'bg-transparent py-5'
       )}
     >
@@ -52,11 +53,11 @@ export default function Navbar() {
               src="/assets/logo.png"
               alt="Maverick Digitals Logo"
               fill
-              className="object-contain filter invert brightness-200"
+              className="object-contain transition-all duration-300 dark:invert dark:brightness-200"
               priority
             />
           </div>
-          <span className="font-grotesk font-bold text-white text-sm tracking-widest uppercase hidden sm:block">
+          <span className="font-outfit font-bold text-foreground text-sm tracking-widest uppercase hidden sm:block">
             Maverick Digitals
           </span>
         </Link>
@@ -68,17 +69,17 @@ export default function Navbar() {
               <div key={l.href} className="relative group">
                 <Link
                   href={l.href}
-                  className="nav-link text-white/70 hover:text-white text-sm font-medium transition-colors duration-200 font-inter py-2"
+                  className="nav-link text-muted-foreground hover:text-foreground text-sm font-medium transition-colors duration-200 font-jakarta py-2"
                   id={`nav-${l.label.toLowerCase()}`}
                 >
                   {l.label}
                 </Link>
-                <div className="absolute top-full left-0 mt-2 w-48 glass-card border border-white/10 rounded-xl p-2 opacity-0 -translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300">
+                <div className="absolute top-full left-0 mt-2 w-48 glass-card border border-border rounded-xl p-2 opacity-0 -translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300">
                   {l.subLinks.map((sub) => (
                     <Link
                       key={sub.href}
                       href={sub.href}
-                      className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm transition-colors"
+                      className="block px-4 py-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg text-sm transition-colors"
                     >
                       {sub.label}
                     </Link>
@@ -89,7 +90,7 @@ export default function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="nav-link text-white/70 hover:text-white text-sm font-medium transition-colors duration-200 font-inter"
+                className="nav-link text-muted-foreground hover:text-foreground text-sm font-medium transition-colors duration-200 font-jakarta"
                 id={`nav-${l.label.toLowerCase()}`}
               >
                 {l.label}
@@ -98,32 +99,38 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* CTA */}
-        <Link
-          href="/contact"
-          id="nav-cta"
-          className="group hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white btn-magnetic glow-purple"
-          style={{ background: 'var(--gradient-brand)' }}
-        >
-          Get Started
-          <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-250" />
-        </Link>
+        {/* CTA & ThemeToggle */}
+        <div className="hidden lg:flex items-center gap-4">
+          <ThemeToggle />
+          <Link
+            href="/contact"
+            id="nav-cta"
+            className="group flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white btn-magnetic shadow-[var(--premium-shadow)]"
+            style={{ background: 'var(--gradient-brand)' }}
+          >
+            Get Started
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-250" />
+          </Link>
+        </div>
 
         {/* Mobile Hamburger */}
-        <button
-          className="lg:hidden p-2 text-white/80"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-          id="nav-menu-toggle"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="lg:hidden flex items-center gap-3">
+          <ThemeToggle />
+          <button
+            className="p-2 text-foreground/80 focus:outline-none"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+            id="nav-menu-toggle"
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       <div
         className={clsx(
-          'lg:hidden absolute top-full left-0 right-0 glass-card border-t border-white/5 transition-all duration-300',
+          'lg:hidden absolute top-full left-0 right-0 glass-card border-t border-border transition-all duration-300',
           open ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'
         )}
       >
@@ -132,18 +139,18 @@ export default function Navbar() {
             <div key={l.href}>
               <Link
                 href={l.href}
-                className="text-white/70 hover:text-white text-base font-medium transition-colors block"
+                className="text-muted-foreground hover:text-foreground text-base font-medium transition-colors block"
                 onClick={() => setOpen(false)}
               >
                 {l.label}
               </Link>
               {l.subLinks && (
-                <div className="flex flex-col gap-3 mt-3 pl-4 border-l border-white/10">
+                <div className="flex flex-col gap-3 mt-3 pl-4 border-l border-border">
                   {l.subLinks.map((sub) => (
                     <Link
                       key={sub.href}
                       href={sub.href}
-                      className="text-white/50 hover:text-white text-sm transition-colors"
+                      className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                       onClick={() => setOpen(false)}
                     >
                       {sub.label}

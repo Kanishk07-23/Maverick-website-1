@@ -126,12 +126,12 @@ export default function ServicesPage() {
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
               What We Do
             </span>
-            <h1 className="font-grotesk font-bold text-white mb-6"
+            <h1 className="font-outfit font-bold text-foreground mb-6"
               style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
               End-to-End{' '}
               <span className="gradient-text">Digital Solutions</span>
             </h1>
-            <p className="text-white/60 text-xl leading-relaxed">
+            <p className="text-muted-foreground text-xl leading-relaxed">
               Six specialized service pillars designed to work individually or as a fully integrated growth system.
               Every service is delivered with a founder-led, performance-first mindset.
             </p>
@@ -152,19 +152,19 @@ export default function ServicesPage() {
                 {/* Copy */}
                 <div className={idx % 2 === 1 ? 'lg:col-start-2' : ''}>
                   {s.badge && (
-                    <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold text-white mb-4"
+                    <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold text-foreground mb-4"
                       style={{ background: 'var(--gradient-brand)' }}>
                       {s.badge}
                     </span>
                   )}
                   <div className="text-4xl mb-4">{s.icon}</div>
-                  <h2 className="font-grotesk font-bold text-white text-3xl mb-2">{s.title}</h2>
+                  <h2 className="font-outfit font-bold text-foreground text-3xl mb-2">{s.title}</h2>
                   <p className="text-purple-400 text-sm font-medium mb-4">{s.tagline}</p>
-                  <p className="text-white/60 leading-relaxed mb-6">{s.desc}</p>
+                  <p className="text-muted-foreground leading-relaxed mb-6">{s.desc}</p>
                   <div className="flex items-center gap-4">
                     <Link
                       href={`/services/${s.id}`}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-foreground transition-all hover:scale-105"
                       style={{ background: 'var(--gradient-brand)' }}
                     >
                       View Service <ArrowRight size={16} />
@@ -178,12 +178,12 @@ export default function ServicesPage() {
                     className="glass-card rounded-2xl p-8 border"
                     style={{ borderColor: `${s.color}30` }}
                   >
-                    <h3 className="text-white font-semibold text-lg mb-5">What&apos;s Included</h3>
+                    <h3 className="text-foreground font-semibold text-lg mb-5">What&apos;s Included</h3>
                     <div className="flex flex-col gap-3">
                       {s.features.map((f) => (
                         <div key={f} className="flex items-start gap-3">
                           <CheckCircle2 size={16} className="flex-shrink-0 mt-0.5" style={{ color: s.color }} />
-                          <span className="text-white/70 text-sm">{f}</span>
+                          <span className="text-muted-foreground text-sm">{f}</span>
                         </div>
                       ))}
                     </div>
@@ -202,7 +202,7 @@ export default function ServicesPage() {
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-4">
               How We Work
             </span>
-            <h2 className="font-grotesk font-bold text-white mb-4"
+            <h2 className="font-outfit font-bold text-foreground mb-4"
               style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
               Our 5-Step{' '}
               <span className="gradient-text">Growth Process</span>
@@ -212,15 +212,15 @@ export default function ServicesPage() {
             {/* Connecting line */}
             <div className="absolute top-10 left-[10%] right-[10%] h-px bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 opacity-20 hidden md:block" />
             {process.map((p) => (
-              <div key={p.step} className="flex-1 glass-card rounded-2xl p-6 border border-white/8 text-center relative">
+              <div key={p.step} className="flex-1 glass-card rounded-2xl p-6 border border-border text-center relative">
                 <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 font-grotesk font-bold text-lg text-white"
+                  className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 font-outfit font-bold text-lg text-foreground"
                   style={{ background: 'var(--gradient-brand)' }}
                 >
                   {p.step}
                 </div>
-                <h3 className="text-white font-grotesk font-bold text-lg mb-2">{p.title}</h3>
-                <p className="text-white/50 text-sm">{p.desc}</p>
+                <h3 className="text-foreground font-outfit font-bold text-lg mb-2">{p.title}</h3>
+                <p className="text-muted-foreground text-sm">{p.desc}</p>
               </div>
             ))}
           </div>
@@ -230,16 +230,16 @@ export default function ServicesPage() {
       {/* CTA */}
       <section className="py-24 text-center">
         <div className="max-w-2xl mx-auto px-6">
-          <h2 className="font-grotesk font-bold text-white text-4xl mb-4">
+          <h2 className="font-outfit font-bold text-foreground text-4xl mb-4">
             Ready to Discuss Your{' '}
             <span className="gradient-text">Project?</span>
           </h2>
-          <p className="text-white/60 mb-8">
+          <p className="text-muted-foreground mb-8">
             Book a free 30-minute strategy consultation with our founders.
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white hover:scale-105 transition-all glow-purple"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-foreground hover:scale-105 transition-all shadow-[var(--premium-shadow)]"
             style={{ background: 'var(--gradient-brand)' }}
           >
             Book Free Consultation <ArrowRight size={18} />

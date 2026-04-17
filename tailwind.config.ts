@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,24 +10,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        muted: 'var(--muted)',
+        'muted-foreground': 'var(--muted-foreground)',
+        border: 'var(--border)',
+        card: 'var(--card)',
         brand: {
-          purple: '#7C3AED',
-          violet: '#4F46E5',
-          blue: '#2563EB',
-          dark: '#0A0A14',
-          slate: '#0F0F23',
-          lavender: '#A5B4FC',
+          purple: 'var(--brand-purple)',
+          violet: 'var(--brand-violet)',
+          blue: 'var(--brand-blue)',
+          dark: 'var(--background)',  // mapped to background so dark mode maps well
+          slate: 'var(--muted)',
+          lavender: 'var(--brand-lavender)',
           whatsapp: '#25D366',
         },
       },
       fontFamily: {
-        grotesk: ['var(--font-grotesk)', 'sans-serif'],
-        inter: ['var(--font-inter)', 'sans-serif'],
+        grotesk: ['var(--font-outfit)', 'sans-serif'],
+        inter: ['var(--font-jakarta)', 'sans-serif'],
+        outfit: ['var(--font-outfit)', 'sans-serif'],
+        jakarta: ['var(--font-jakarta)', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
       },
       backgroundImage: {
-        'grad-brand': 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 50%, #2563EB 100%)',
-        'grad-dark': 'linear-gradient(180deg, #0A0A14 0%, #0F0F23 100%)',
+        'grad-brand': 'linear-gradient(135deg, var(--brand-purple) 0%, var(--brand-violet) 50%, var(--brand-blue) 100%)',
+        'grad-dark': 'linear-gradient(180deg, var(--background) 0%, var(--muted) 100%)',
       },
       animation: {
         'spin-slow': 'spin 20s linear infinite',

@@ -54,14 +54,14 @@ function FounderCard({ founder }: { founder: typeof founders[0] }) {
         transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
         transition: 'transform 0.1s ease',
       }}
-      className="glass-card rounded-3xl p-8 border border-white/8 hover:border-purple-500/20 cursor-default"
+      className="glass-card rounded-3xl p-8 border border-border hover:border-purple-500/20 cursor-default"
       id={`founder-${founder.id}`}
     >
       {/* Photo */}
       <div className="relative w-24 h-24 rounded-2xl overflow-hidden mb-6 border-2"
         style={{ borderColor: `${founder.color}40` }}>
         <div
-          className="w-full h-full flex items-center justify-center text-4xl font-grotesk font-bold text-white"
+          className="w-full h-full flex items-center justify-center text-4xl font-outfit font-bold text-foreground"
           style={{ background: `linear-gradient(135deg, ${founder.color}40, ${founder.color}20)` }}
         >
           {founder.name[0]}
@@ -75,13 +75,13 @@ function FounderCard({ founder }: { founder: typeof founders[0] }) {
           {founder.role}
         </span>
       </div>
-      <h3 className="font-grotesk font-bold text-white text-2xl mt-3 mb-3">{founder.name}</h3>
-      <p className="text-white/60 text-sm leading-relaxed mb-5">{founder.bio}</p>
+      <h3 className="font-outfit font-bold text-foreground text-2xl mt-3 mb-3">{founder.name}</h3>
+      <p className="text-muted-foreground text-sm leading-relaxed mb-5">{founder.bio}</p>
 
       {/* Specialties */}
       <div className="flex flex-wrap gap-2 mb-6">
         {founder.specialties.map((s) => (
-          <span key={s} className="text-xs px-2.5 py-1 rounded-full text-white/60 glass-card border border-white/8">
+          <span key={s} className="text-xs px-2.5 py-1 rounded-full text-muted-foreground glass-card border border-border">
             {s}
           </span>
         ))}
@@ -90,11 +90,11 @@ function FounderCard({ founder }: { founder: typeof founders[0] }) {
       {/* Links */}
       <div className="flex gap-3">
         <a href={`mailto:${founder.email}`} id={`founder-${founder.id}-email`}
-          className="flex items-center gap-2 text-sm text-white/50 hover:text-white/80 transition-colors">
+          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-muted-foreground0 transition-colors">
           <Mail size={15} /> Email
         </a>
         <a href={founder.linkedin} id={`founder-${founder.id}-linkedin`}
-          className="flex items-center gap-2 text-sm text-white/50 hover:text-white/80 transition-colors">
+          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-muted-foreground0 transition-colors">
           <Linkedin size={15} /> LinkedIn
         </a>
       </div>
@@ -112,12 +112,12 @@ export default function TeamPage() {
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
               The Team
             </span>
-            <h1 className="font-grotesk font-bold text-white mb-6"
+            <h1 className="font-outfit font-bold text-foreground mb-6"
               style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
               Visionary Leaders,{' '}
               <span className="gradient-text">Real Results</span>
             </h1>
-            <p className="text-white/60 text-xl leading-relaxed">
+            <p className="text-muted-foreground text-xl leading-relaxed">
               The people behind Maverick Digitals. A lean, high-output team combining strategic expertise with technical
               innovation — and always directly involved in your success.
             </p>
@@ -129,12 +129,12 @@ export default function TeamPage() {
       <section className="section-padding">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="font-grotesk font-bold text-white mb-4"
+            <h2 className="font-outfit font-bold text-foreground mb-4"
               style={{ fontSize: 'clamp(1.8rem, 3vw, 3rem)' }}>
               Meet the{' '}
               <span className="gradient-text">Founders</span>
             </h2>
-            <p className="text-white/50 max-w-lg mx-auto">
+            <p className="text-muted-foreground max-w-lg mx-auto">
               At Maverick Digitals, the founders are directly involved in every project. No account managers.
               No middlemen. Just experts with skin in the game.
             </p>
@@ -151,21 +151,21 @@ export default function TeamPage() {
       <section className="section-padding" style={{ background: 'rgba(15,15,35,0.5)' }}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-grotesk font-bold text-white text-3xl mb-4">
+            <h2 className="font-outfit font-bold text-foreground text-3xl mb-4">
               The Maverick{' '}
               <span className="gradient-text">Promise</span>
             </h2>
-            <p className="text-white/50 max-w-lg mx-auto">
+            <p className="text-muted-foreground max-w-lg mx-auto">
               These aren&apos;t just values on a slide — they&apos;re the operating principles that define how we work every day.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((v) => (
               <div key={v.title}
-                className="glass-card rounded-2xl p-6 border border-white/8 hover:border-purple-500/30 transition-all hover:scale-[1.03] text-center">
+                className="glass-card rounded-2xl p-6 border border-border hover:border-purple-500/30 transition-all hover:scale-[1.03] text-center">
                 <div className="text-4xl mb-4">{v.icon}</div>
-                <h3 className="text-white font-grotesk font-bold text-lg mb-2">{v.title}</h3>
-                <p className="text-white/50 text-sm">{v.desc}</p>
+                <h3 className="text-foreground font-outfit font-bold text-lg mb-2">{v.title}</h3>
+                <p className="text-muted-foreground text-sm">{v.desc}</p>
               </div>
             ))}
           </div>
@@ -175,15 +175,15 @@ export default function TeamPage() {
       {/* CTA */}
       <section className="py-24 text-center">
         <div className="max-w-2xl mx-auto px-6">
-          <h2 className="font-grotesk font-bold text-white text-4xl mb-4">
+          <h2 className="font-outfit font-bold text-foreground text-4xl mb-4">
             Work With{' '}
             <span className="gradient-text">Our Founders</span>
           </h2>
-          <p className="text-white/60 mb-8">
+          <p className="text-muted-foreground mb-8">
             Get direct access to Muskan and Dhaval on your very first call.
           </p>
           <Link href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white hover:scale-105 transition-all glow-purple"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-foreground hover:scale-105 transition-all shadow-[var(--premium-shadow)]"
             style={{ background: 'var(--gradient-brand)' }}>
             Book a Strategy Call <ArrowRight size={18} />
           </Link>

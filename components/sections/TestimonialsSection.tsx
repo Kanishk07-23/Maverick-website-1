@@ -34,14 +34,14 @@ const TESTIMONIALS: Array<{
 // =============================================
 
 const EMPTY_STATE = () => (
-  <div className="flex flex-col items-center justify-center py-24 px-6 glass-card rounded-3xl border border-white/5">
+  <div className="flex flex-col items-center justify-center py-24 px-6 glass-card rounded-3xl border border-border">
     <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
       style={{ background: 'rgba(124,58,237,0.15)' }}>
-      <Plus size={28} className="text-purple-400" />
+      <Plus size={28} className="text-[var(--brand-purple)]" />
     </div>
-    <h3 className="text-white font-grotesk font-bold text-xl mb-2">Client Testimonials</h3>
-    <p className="text-white/40 text-sm text-center max-w-xs">
-      Testimonials from happy clients will appear here. Add entries to the <code className="text-purple-400">TESTIMONIALS</code> array in <code className="text-purple-400">TestimonialsSection.tsx</code>.
+    <h3 className="text-foreground font-outfit font-bold text-xl mb-2">Client Testimonials</h3>
+    <p className="text-muted-foreground text-sm text-center max-w-xs">
+      Testimonials from happy clients will appear here. Add entries to the <code className="text-[var(--brand-purple)]">TESTIMONIALS</code> array in <code className="text-[var(--brand-purple)]">TestimonialsSection.tsx</code>.
     </p>
   </div>
 );
@@ -63,15 +63,15 @@ export default function TestimonialsSection() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-4">
             Client Love
           </span>
-          <h2 className="font-grotesk font-bold text-white mb-4"
+          <h2 className="font-outfit font-bold text-foreground mb-4"
             style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
             What Our{' '}
             <span className="gradient-text">Clients Say</span>
           </h2>
-          <p className="text-white/50 max-w-xl mx-auto">
+          <p className="text-muted-foreground max-w-xl mx-auto">
             Real words from real businesses we&apos;ve helped scale.
           </p>
         </div>
@@ -89,7 +89,7 @@ export default function TestimonialsSection() {
                 {TESTIMONIALS.map((t) => (
                   <div
                     key={t.id}
-                    className="min-w-full glass-card rounded-3xl p-10 md:p-14 border border-white/8"
+                    className="min-w-full glass-card rounded-3xl p-10 md:p-14 border border-border"
                   >
                     {/* Stars */}
                     <div className="flex gap-1 mb-6">
@@ -97,7 +97,7 @@ export default function TestimonialsSection() {
                         <Star key={i} size={18} fill="#7C3AED" className="text-purple-500" />
                       ))}
                     </div>
-                    <blockquote className="text-white/80 text-xl md:text-2xl leading-relaxed font-light mb-8">
+                    <blockquote className="text-muted-foreground0 text-xl md:text-2xl leading-relaxed font-light mb-8">
                       &ldquo;{t.quote}&rdquo;
                     </blockquote>
                     <div className="flex items-center gap-4">
@@ -109,8 +109,8 @@ export default function TestimonialsSection() {
                         />
                       )}
                       <div>
-                        <div className="text-white font-semibold">{t.name}</div>
-                        <div className="text-white/40 text-sm">{t.role} · {t.company}</div>
+                        <div className="text-foreground font-semibold">{t.name}</div>
+                        <div className="text-muted-foreground text-sm">{t.role} · {t.company}</div>
                       </div>
                     </div>
                   </div>
@@ -121,18 +121,18 @@ export default function TestimonialsSection() {
             {/* Controls */}
             {TESTIMONIALS.length > 1 && (
               <div className="flex items-center justify-center gap-4 mt-8">
-                <button onClick={prev} className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:border-purple-500/50 border border-white/10 transition-colors" id="testimonial-prev">
-                  <ChevronLeft size={18} className="text-white/70" />
+                <button onClick={prev} className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:border-purple-500/50 border border-border transition-colors" id="testimonial-prev">
+                  <ChevronLeft size={18} className="text-muted-foreground" />
                 </button>
                 {TESTIMONIALS.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setCurrent(i)}
-                    className={`w-2 h-2 rounded-full transition-all ${i === current ? 'bg-purple-500 w-6' : 'bg-white/20'}`}
+                    className={`w-2 h-2 rounded-full transition-all ${i === current ? 'bg-purple-500 w-6' : 'bg-muted'}`}
                   />
                 ))}
-                <button onClick={next} className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:border-purple-500/50 border border-white/10 transition-colors" id="testimonial-next">
-                  <ChevronRight size={18} className="text-white/70" />
+                <button onClick={next} className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:border-purple-500/50 border border-border transition-colors" id="testimonial-next">
+                  <ChevronRight size={18} className="text-muted-foreground" />
                 </button>
               </div>
             )}

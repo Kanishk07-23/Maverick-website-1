@@ -36,25 +36,25 @@ export default function CTABanner() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-purple-500/20 to-transparent" />
 
       <div className="max-w-5xl mx-auto relative z-10 text-center">
-        <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
+        <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 shadow-sm mb-6">
           Let&apos;s Talk
         </span>
 
-        <h2 className="font-grotesk font-bold text-white mb-4"
+        <h2 className="font-outfit font-bold text-foreground mb-4"
           style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}>
           Ready to Grow Your{' '}
           <span className="gradient-text">Brand?</span>
         </h2>
 
-        <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">
+        <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-10 font-medium">
           Get a free digital marketing strategy consultation with our Mumbai-based team. We&apos;ll discuss how our SEO, performance marketing, and branding services can scale your business.
         </p>
 
         {/* Checklist */}
         <div className="flex flex-wrap justify-center gap-6 mb-10">
           {['Free 30-min strategy call', 'Custom growth roadmap', 'No commitment required'].map((item) => (
-            <div key={item} className="flex items-center gap-2 text-white/70 text-sm">
-              <CheckCircle2 size={16} className="text-purple-400 flex-shrink-0" />
+            <div key={item} className="flex items-center gap-2 text-muted-foreground font-medium text-sm">
+              <CheckCircle2 size={16} className="text-[var(--brand-purple)] flex-shrink-0" />
               {item}
             </div>
           ))}
@@ -66,13 +66,13 @@ export default function CTABanner() {
               style={{ background: 'rgba(34,197,94,0.15)' }}>
               <CheckCircle2 size={28} className="text-green-400" />
             </div>
-            <h3 className="text-white font-semibold text-xl">Got it! We&apos;ll be in touch soon 🚀</h3>
-            <p className="text-white/50 text-sm">Check your inbox — we usually reply within 24 hours.</p>
+            <h3 className="text-foreground font-semibold text-xl">Got it! We&apos;ll be in touch soon 🚀</h3>
+            <p className="text-muted-foreground text-sm">Check your inbox — we usually reply within 24 hours.</p>
           </div>
         ) : (
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="glass-card rounded-2xl p-6 border border-white/8 max-w-2xl mx-auto"
+            className="glass-card rounded-2xl p-6 border border-border/60 shadow-sm max-w-2xl mx-auto"
             id="cta-form"
           >
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
@@ -119,10 +119,10 @@ export default function CTABanner() {
         )}
 
         {/* Or contact directly */}
-        <div className="mt-6 flex items-center justify-center gap-3 text-white/30 text-sm">
+        <div className="mt-6 flex items-center justify-center gap-3 text-muted-foreground text-sm">
           <span>Or reach us directly at</span>
           <a href="mailto:maverickdigitals18@gmail.com"
-            className="text-purple-400 hover:text-purple-300 transition-colors">
+            className="text-[var(--brand-purple)] hover:opacity-80 font-medium transition-opacity">
             maverickdigitals18@gmail.com
           </a>
         </div>

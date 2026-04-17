@@ -70,17 +70,17 @@ function CounterCard({ num, suffix, label, desc, icon, id }: typeof stats[0]) {
   return (
     <div
       ref={ref}
-      className="group gradient-border glass-card rounded-2xl p-8 hover:bg-white/5 transition-all duration-500 hover:scale-105 hover:-translate-y-1"
+      className="group gradient-border glass-card rounded-2xl p-8 hover:bg-muted transition-all duration-500 hover:scale-105 hover:-translate-y-1"
       id={`stat-${id}`}
     >
       <div className="text-3xl mb-4">{icon}</div>
-      <div className="font-grotesk font-bold text-white mb-2"
+      <div className="font-outfit font-bold text-foreground mb-2"
         style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
         {count}
         <span className="gradient-text">{suffix}</span>
       </div>
-      <div className="text-white font-semibold text-lg mb-1">{label}</div>
-      <div className="text-white/40 text-sm">{desc}</div>
+      <div className="text-foreground font-semibold text-lg mb-1">{label}</div>
+      <div className="text-muted-foreground text-sm">{desc}</div>
     </div>
   );
 }
@@ -97,15 +97,15 @@ export default function ResultsSection() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 shadow-sm mb-4">
             Proven Impact
           </span>
-          <h2 className="font-grotesk font-bold text-white mb-4"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
+          <h2 className="font-outfit font-bold text-foreground mb-4"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.02em' }}>
             Proven Digital{' '}
             <span className="gradient-text">Marketing Results</span>
           </h2>
-          <p className="text-white/50 max-w-xl mx-auto text-lg">
+          <p className="text-muted-foreground max-w-xl mx-auto text-lg font-medium">
             Real results delivered for growth-focused businesses across industries and borders.
           </p>
         </div>
@@ -118,34 +118,34 @@ export default function ResultsSection() {
         </div>
 
         {/* Trust bar */}
-        <div className="mt-12 glass-card rounded-2xl p-6 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="mt-12 glass-card rounded-2xl p-6 border border-border flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
-              <span className="text-white text-lg">🌍</span>
+              <span className="text-foreground text-lg">🌍</span>
             </div>
             <div>
-              <div className="text-white font-semibold text-sm">Global Reach</div>
-              <div className="text-white/40 text-xs">India · UAE · USA · UK · Australia</div>
+              <div className="text-foreground font-semibold text-sm">Global Reach</div>
+              <div className="text-muted-foreground text-xs">India · UAE · USA · UK · Australia</div>
             </div>
           </div>
-          <div className="w-px h-12 bg-white/10 hidden md:block" />
+          <div className="w-px h-12 bg-border hidden md:block" />
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
-              <span className="text-white text-lg">🏆</span>
+              <span className="text-foreground text-lg">🏆</span>
             </div>
             <div>
-              <div className="text-white font-semibold text-sm">Founder-Led</div>
-              <div className="text-white/40 text-xs">Direct involvement in every project</div>
+              <div className="text-foreground font-semibold text-sm">Founder-Led</div>
+              <div className="text-muted-foreground text-xs">Direct involvement in every project</div>
             </div>
           </div>
-          <div className="w-px h-12 bg-white/10 hidden md:block" />
+          <div className="w-px h-12 bg-border hidden md:block" />
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
-              <span className="text-white text-lg">📊</span>
+              <span className="text-foreground text-lg">📊</span>
             </div>
             <div>
-              <div className="text-white font-semibold text-sm">Data-Informed</div>
-              <div className="text-white/40 text-xs">Creativity backed by analytics</div>
+              <div className="text-foreground font-semibold text-sm">Data-Informed</div>
+              <div className="text-muted-foreground text-xs">Creativity backed by analytics</div>
             </div>
           </div>
           <div className="hidden md:block">

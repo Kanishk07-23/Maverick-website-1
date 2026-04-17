@@ -74,12 +74,12 @@ export default function ContactClient() {
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
               Get In Touch
             </span>
-            <h1 className="font-grotesk font-bold text-white mb-6"
+            <h1 className="font-outfit font-bold text-foreground mb-6"
               style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
               Contact Our Digital{' '}
               <span className="gradient-text">Marketing Agency</span>
             </h1>
-            <p className="text-white/60 text-xl leading-relaxed">
+            <p className="text-muted-foreground text-xl leading-relaxed">
               Ready to turn attention into revenue? Book your free digital marketing strategy consultation with our Mumbai team and discover
               exactly how Maverick Digitals can help your business scale.
             </p>
@@ -93,7 +93,7 @@ export default function ContactClient() {
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <h2 className="font-grotesk font-bold text-white text-2xl mb-6">Send Us a Message</h2>
+              <h2 className="font-outfit font-bold text-foreground text-2xl mb-6">Send Us a Message</h2>
 
               {submitted ? (
                 <div className="glass-card rounded-3xl p-12 border border-green-500/20 flex flex-col items-center gap-4 text-center">
@@ -101,12 +101,12 @@ export default function ContactClient() {
                     style={{ background: 'rgba(34,197,94,0.15)' }}>
                     <CheckCircle2 size={32} className="text-green-400" />
                   </div>
-                  <h3 className="text-white font-grotesk font-bold text-2xl">Message Received! 🚀</h3>
-                  <p className="text-white/60 max-w-sm">
+                  <h3 className="text-foreground font-outfit font-bold text-2xl">Message Received! 🚀</h3>
+                  <p className="text-muted-foreground max-w-sm">
                     Thank you for reaching out. We&apos;ll review your details and get back to you within 24 hours.
                   </p>
                   <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3 rounded-full text-white text-sm font-semibold mt-2"
+                    className="flex items-center gap-2 px-6 py-3 rounded-full text-foreground text-sm font-semibold mt-2"
                     style={{ background: '#25D366' }}>
                     <MessageCircle size={16} />
                     Or chat on WhatsApp now
@@ -116,13 +116,13 @@ export default function ContactClient() {
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" id="contact-form">
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="text-white/60 text-sm mb-1.5 block" htmlFor="contact-fullname">Full Name *</label>
+                      <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-fullname">Full Name *</label>
                       <input {...register('fullName')} id="contact-fullname" placeholder="John Doe"
                         className={`form-input ${errors.fullName ? 'error' : ''}`} />
                       {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName.message}</p>}
                     </div>
                     <div>
-                      <label className="text-white/60 text-sm mb-1.5 block" htmlFor="contact-email">Email Address *</label>
+                      <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-email">Email Address *</label>
                       <input {...register('email')} type="email" id="contact-email" placeholder="john@company.com"
                         className={`form-input ${errors.email ? 'error' : ''}`} />
                       {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
@@ -131,20 +131,20 @@ export default function ContactClient() {
 
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="text-white/60 text-sm mb-1.5 block" htmlFor="contact-phone">Phone Number *</label>
+                      <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-phone">Phone Number *</label>
                       <input {...register('phone')} id="contact-phone" placeholder="+91 98765 43210"
                         className={`form-input ${errors.phone ? 'error' : ''}`} />
                       {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
                     </div>
                     <div>
-                      <label className="text-white/60 text-sm mb-1.5 block" htmlFor="contact-company">Company Name</label>
+                      <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-company">Company Name</label>
                       <input {...register('company')} id="contact-company" placeholder="Your Company"
                         className="form-input" />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-white/60 text-sm mb-1.5 block" htmlFor="contact-service">Service Interested In *</label>
+                    <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-service">Service Interested In *</label>
                     <select {...register('service')} id="contact-service"
                       className={`form-input ${errors.service ? 'error' : ''}`}>
                       <option value="" style={{ background: '#0F0F23' }}>Select a service...</option>
@@ -156,7 +156,7 @@ export default function ContactClient() {
                   </div>
 
                   <div>
-                    <label className="text-white/60 text-sm mb-1.5 block" htmlFor="contact-message">Tell Us About Your Project *</label>
+                    <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-message">Tell Us About Your Project *</label>
                     <textarea {...register('message')} id="contact-message" rows={5}
                       placeholder="What are your goals? What's your current biggest marketing challenge? Any budget range in mind?"
                       className={`form-input resize-none ${errors.message ? 'error' : ''}`} />
@@ -164,7 +164,7 @@ export default function ContactClient() {
                   </div>
 
                   <button type="submit" disabled={isSubmitting} id="contact-submit"
-                    className="flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-white transition-all hover:scale-[1.02] disabled:opacity-60"
+                    className="flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-foreground transition-all hover:scale-[1.02] disabled:opacity-60"
                     style={{ background: 'var(--gradient-brand)' }}>
                     {isSubmitting ? 'Sending Your Message...' : 'Send Message & Book Strategy Call'}
                     {!isSubmitting && <ArrowRight size={18} />}
@@ -176,8 +176,8 @@ export default function ContactClient() {
             {/* Sidebar */}
             <div className="flex flex-col gap-5">
               {/* Contact Info */}
-              <div className="glass-card rounded-2xl p-6 border border-white/8">
-                <h3 className="text-white font-grotesk font-bold text-lg mb-5">Contact Info</h3>
+              <div className="glass-card rounded-2xl p-6 border border-border">
+                <h3 className="text-foreground font-outfit font-bold text-lg mb-5">Contact Info</h3>
                 <div className="flex flex-col gap-4">
                   <a href="mailto:maverickdigitals18@gmail.com" id="contact-email-link"
                     className="flex items-start gap-3 group">
@@ -186,8 +186,8 @@ export default function ContactClient() {
                       <Mail size={16} className="text-purple-400" />
                     </div>
                     <div>
-                      <div className="text-white/40 text-xs mb-0.5">Email</div>
-                      <div className="text-white text-sm group-hover:text-purple-300 transition-colors">
+                      <div className="text-muted-foreground text-xs mb-0.5">Email</div>
+                      <div className="text-foreground text-sm group-hover:text-purple-300 transition-colors">
                         maverickdigitals18@gmail.com
                       </div>
                     </div>
@@ -198,8 +198,8 @@ export default function ContactClient() {
                       <MapPin size={16} className="text-purple-400" />
                     </div>
                     <div>
-                      <div className="text-white/40 text-xs mb-0.5">Location</div>
-                      <div className="text-white text-sm">Mumbai, Maharashtra, India</div>
+                      <div className="text-muted-foreground text-xs mb-0.5">Location</div>
+                      <div className="text-foreground text-sm">Mumbai, Maharashtra, India</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -208,8 +208,8 @@ export default function ContactClient() {
                       <Clock size={16} className="text-purple-400" />
                     </div>
                     <div>
-                      <div className="text-white/40 text-xs mb-0.5">Response Time</div>
-                      <div className="text-white text-sm">Within 24 hours</div>
+                      <div className="text-muted-foreground text-xs mb-0.5">Response Time</div>
+                      <div className="text-foreground text-sm">Within 24 hours</div>
                     </div>
                   </div>
                 </div>
@@ -228,15 +228,15 @@ export default function ContactClient() {
                   <MessageCircle size={22} className="text-green-400" />
                 </div>
                 <div>
-                  <div className="text-white font-semibold text-sm">Chat on WhatsApp</div>
-                  <div className="text-white/40 text-xs">Usually responds in minutes</div>
+                  <div className="text-foreground font-semibold text-sm">Chat on WhatsApp</div>
+                  <div className="text-muted-foreground text-xs">Usually responds in minutes</div>
                 </div>
-                <ArrowRight size={16} className="text-white/30 ml-auto" />
+                <ArrowRight size={16} className="text-muted-foreground ml-auto" />
               </a>
 
               {/* Why Us Quick */}
-              <div className="glass-card rounded-2xl p-6 border border-white/8">
-                <h4 className="text-white font-semibold text-sm mb-4">Why Choose Maverick Digitals?</h4>
+              <div className="glass-card rounded-2xl p-6 border border-border">
+                <h4 className="text-foreground font-semibold text-sm mb-4">Why Choose Maverick Digitals?</h4>
                 <div className="flex flex-col gap-3">
                   {[
                     '15M+ organic views delivered',
@@ -244,7 +244,7 @@ export default function ContactClient() {
                     '40+ brands successfully scaled',
                     'Founder-led, direct involvement',
                   ].map((point) => (
-                    <div key={point} className="flex items-center gap-2 text-white/60 text-xs">
+                    <div key={point} className="flex items-center gap-2 text-muted-foreground text-xs">
                       <CheckCircle2 size={13} className="text-purple-400 flex-shrink-0" />
                       {point}
                     </div>
@@ -263,7 +263,7 @@ export default function ContactClient() {
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-4">
               FAQ
             </span>
-            <h2 className="font-grotesk font-bold text-white text-3xl mb-4">
+            <h2 className="font-outfit font-bold text-foreground text-3xl mb-4">
               Common{' '}
               <span className="gradient-text">Questions</span>
             </h2>
@@ -273,20 +273,20 @@ export default function ContactClient() {
             {faqs.map((faq, i) => (
               <div
                 key={i}
-                className="glass-card rounded-2xl border border-white/8 overflow-hidden"
+                className="glass-card rounded-2xl border border-border overflow-hidden"
               >
                 <button
                   id={`faq-${i}`}
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full text-left px-6 py-5 flex items-start justify-between gap-4"
                 >
-                  <span className="text-white font-medium text-sm leading-relaxed">{faq.q}</span>
+                  <span className="text-foreground font-medium text-sm leading-relaxed">{faq.q}</span>
                   <span className={`text-purple-400 flex-shrink-0 mt-0.5 transition-transform duration-300 ${openFaq === i ? 'rotate-45' : ''}`}>
                     +
                   </span>
                 </button>
                 {openFaq === i && (
-                  <div className="px-6 pb-5 text-white/60 text-sm leading-relaxed border-t border-white/5 pt-4">
+                  <div className="px-6 pb-5 text-muted-foreground text-sm leading-relaxed border-t border-border pt-4">
                     {faq.a}
                   </div>
                 )}

@@ -36,13 +36,13 @@ export default function SocialMediaPage() {
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[#6D28D9] glass-card border border-[#6D28D9]/20 mb-6">
               Social Media Strategy
             </span>
-            <h1 className="font-grotesk font-bold text-white mb-6" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}>
+            <h1 className="font-outfit font-bold text-foreground mb-6" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}>
               Top <span className="gradient-text">Social Media Management</span> Agency in Mumbai
             </h1>
-            <p className="text-white/60 text-xl leading-relaxed mb-8">
+            <p className="text-muted-foreground text-xl leading-relaxed mb-8">
               Stop guessing what to post. We build and execute data-driven social media strategies that turn passive scrollers into active, loyal customers. Done-for-you growth across all major platforms.
             </p>
-            <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105" style={{ background: 'var(--gradient-brand)' }}>
+            <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-foreground transition-all duration-300 hover:scale-105" style={{ background: 'var(--gradient-brand)' }}>
               Discuss Your Growth Plan <ArrowRight size={18} />
             </Link>
           </div>
@@ -53,8 +53,8 @@ export default function SocialMediaPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div>
-              <h2 className="font-grotesk font-bold text-white text-3xl mb-6">Why Partner With a Social Media Marketing Agency?</h2>
-              <article className="prose prose-invert max-w-none text-white/60">
+              <h2 className="font-outfit font-bold text-foreground text-3xl mb-6">Why Partner With a Social Media Marketing Agency?</h2>
+              <article className="prose prose-invert max-w-none text-muted-foreground">
                 <p className="text-lg leading-relaxed mb-6">
                   In today&apos;s crowded digital landscape, simply having a social media profile is not enough. You need consistent, strategic, and high-quality storytelling that captures attention and drives action. 
                 </p>
@@ -66,8 +66,8 @@ export default function SocialMediaPage() {
                 </p>
               </article>
             </div>
-            <div className="glass-card rounded-3xl p-8 border border-white/8">
-              <h3 className="text-xl font-bold text-white mb-6">Our SMM Deliverables</h3>
+            <div className="glass-card rounded-3xl p-8 border border-border">
+              <h3 className="text-xl font-bold text-foreground mb-6">Our SMM Deliverables</h3>
               <ul className="flex flex-col gap-4">
                 {[
                   'Comprehensive Social Strategy & Audit',
@@ -79,7 +79,7 @@ export default function SocialMediaPage() {
                 ].map(item => (
                   <li key={item} className="flex items-start gap-3">
                     <CheckCircle2 size={20} className="text-[#6D28D9] flex-shrink-0 mt-0.5" />
-                    <span className="text-white/80">{item}</span>
+                    <span className="text-muted-foreground0">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -88,21 +88,21 @@ export default function SocialMediaPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-[#0F0F23]/50" id="faq">
+      <section className="section-padding bg-muted/50" id="faq">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-grotesk font-bold text-white text-3xl mb-4">
+            <h2 className="font-outfit font-bold text-foreground text-3xl mb-4">
               Frequently Asked <span className="gradient-text">Questions</span>
             </h2>
           </div>
           <div className="flex flex-col gap-4">
             {faqs.map((faq, i) => (
-              <details key={i} className="glass-card rounded-2xl border border-white/8 group overflow-hidden">
-                <summary className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 cursor-pointer font-medium text-white select-none">
+              <details key={i} className="glass-card rounded-2xl border border-border group overflow-hidden">
+                <summary className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 cursor-pointer font-medium text-foreground select-none">
                   {faq.q}
                   <span className="text-purple-400 group-open:rotate-45 transition-transform duration-300 text-2xl leading-none">+</span>
                 </summary>
-                <div className="px-6 pb-5 text-white/60 text-sm leading-relaxed border-t border-white/5 pt-4">
+                <div className="px-6 pb-5 text-muted-foreground text-sm leading-relaxed border-t border-border pt-4">
                   {faq.a}
                 </div>
               </details>

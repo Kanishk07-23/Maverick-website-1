@@ -1,25 +1,27 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, Inter, Space_Mono } from 'next/font/google';
+import { Outfit, Plus_Jakarta_Sans, Space_Mono } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import WhatsAppWidget from '@/components/WhatsAppWidget';
 import CustomCursor from '@/components/CustomCursor';
 import SmoothScrollProvider from '@/components/SmoothScrollProvider';
+import ThemeProvider from '@/components/ThemeProvider';
 
-const spaceGrotesk = Space_Grotesk({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-grotesk',
-  display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-outfit',
   display: 'swap',
   weight: ['300', '400', '500', '600', '700', '800'],
 });
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-jakarta',
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700', '800'],
+});
+
 
 const spaceMono = Space_Mono({
   subsets: ['latin'],
@@ -79,15 +81,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${inter.variable} ${spaceMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${outfit.variable} ${jakarta.variable} ${spaceMono.variable}`}>
       <body>
-        <CustomCursor />
-        <SmoothScrollProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <WhatsAppWidget />
-        </SmoothScrollProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <CustomCursor />
+          <SmoothScrollProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+            <WhatsAppWidget />
+          </SmoothScrollProvider>
+        </ThemeProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

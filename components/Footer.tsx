@@ -24,7 +24,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-white/5 bg-[#07070F]">
+    <footer className="relative border-t border-border bg-background">
       {/* Top glow line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
 
@@ -41,24 +41,24 @@ export default function Footer() {
                   className="object-contain filter invert brightness-200"
                 />
               </div>
-              <span className="font-grotesk font-bold text-white text-sm tracking-widest uppercase">
+              <span className="font-outfit font-bold text-foreground text-sm tracking-widest uppercase">
                 Maverick Digitals
               </span>
             </Link>
-            <p className="text-white/50 text-sm leading-relaxed mb-6">
+            <p className="text-muted-foreground text-sm leading-relaxed mb-6">
               A Mumbai-based full-stack digital marketing agency helping ambitious brands scale through high-conversion
               strategy, storytelling, and execution.
             </p>
             <div className="flex flex-col gap-3">
               <a
                 href="mailto:maverickdigitals18@gmail.com"
-                className="flex items-center gap-2 text-white/50 hover:text-white/80 text-sm transition-colors"
+                className="flex items-center gap-2 text-muted-foreground hover:text-muted-foreground0 text-sm transition-colors"
                 id="footer-email"
               >
                 <Mail size={14} />
                 maverickdigitals18@gmail.com
               </a>
-              <span className="flex items-center gap-2 text-white/50 text-sm">
+              <span className="flex items-center gap-2 text-muted-foreground text-sm">
                 <MapPin size={14} />
                 Mumbai, Maharashtra, India
               </span>
@@ -67,13 +67,13 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Our Services</h4>
+            <h4 className="text-foreground font-semibold text-sm uppercase tracking-wider mb-5">Our Services</h4>
             <ul className="flex flex-col gap-3">
               {services.map((s) => (
                 <li key={s.href}>
                   <Link
                     href={s.href}
-                    className="text-white/50 hover:text-white/80 text-sm transition-colors flex items-center gap-2 group"
+                    className="text-muted-foreground hover:text-muted-foreground0 text-sm transition-colors flex items-center gap-2 group"
                   >
                     <span className="w-1 h-1 rounded-full bg-purple-500 group-hover:bg-purple-400 transition-colors" />
                     {s.label}
@@ -85,13 +85,13 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Quick Links</h4>
+            <h4 className="text-foreground font-semibold text-sm uppercase tracking-wider mb-5">Quick Links</h4>
             <ul className="flex flex-col gap-3">
               {quickLinks.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="text-white/50 hover:text-white/80 text-sm transition-colors flex items-center gap-2 group"
+                    className="text-muted-foreground hover:text-muted-foreground0 text-sm transition-colors flex items-center gap-2 group"
                     id={`footer-${l.label.toLowerCase().replace(' ', '-')}`}
                   >
                     <span className="w-1 h-1 rounded-full bg-purple-500 group-hover:bg-purple-400 transition-colors" />
@@ -104,14 +104,14 @@ export default function Footer() {
 
           {/* CTA */}
           <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Start Growing</h4>
-            <p className="text-white/50 text-sm leading-relaxed mb-5">
+            <h4 className="text-foreground font-semibold text-sm uppercase tracking-wider mb-5">Start Growing</h4>
+            <p className="text-muted-foreground text-sm leading-relaxed mb-5">
               Ready to turn attention into revenue? Let&apos;s build something remarkable together.
             </p>
             <Link
               href="/contact"
               id="footer-cta"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold text-white transition-all duration-300 hover:scale-105 glow-purple"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold text-white transition-all duration-300 hover:scale-105 shadow-[var(--premium-shadow)]"
               style={{ background: 'var(--gradient-brand)' }}
             >
               Book Free Strategy Call
@@ -121,11 +121,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/30 text-xs">
+        <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-muted-foreground text-xs">
             © {year} Maverick Digitals. All rights reserved.
           </p>
-          <p className="text-white/20 text-xs">
+          <p className="text-muted-foreground text-xs">
             Active in India &bull; UAE &bull; USA &bull; UK &bull; Australia
           </p>
         </div>

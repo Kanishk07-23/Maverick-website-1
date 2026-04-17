@@ -9,7 +9,7 @@ export default function WhatsAppWidget() {
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
       {/* Tooltip */}
       {hovered && (
-        <div className="glass-card rounded-xl px-4 py-2.5 text-sm text-white/90 font-medium whitespace-nowrap shadow-xl animate-fade-in">
+        <div className="glass-card rounded-xl px-4 py-2.5 text-sm text-foreground/90 font-medium whitespace-nowrap shadow-xl animate-fade-in">
           Chat with us on WhatsApp 💬
         </div>
       )}

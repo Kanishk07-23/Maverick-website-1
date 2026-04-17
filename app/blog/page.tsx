@@ -52,12 +52,12 @@ export default function BlogPage() {
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
               Insights
             </span>
-            <h1 className="font-grotesk font-bold text-white mb-6"
+            <h1 className="font-outfit font-bold text-foreground mb-6"
               style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
               Marketing That{' '}
               <span className="gradient-text">Moves Brands</span>
             </h1>
-            <p className="text-white/60 text-xl leading-relaxed">
+            <p className="text-muted-foreground text-xl leading-relaxed">
               Deep-dive articles, strategies, and actionable insights from the Maverick Digitals team.
               Built for founders and marketers serious about scaling.
             </p>
@@ -66,12 +66,12 @@ export default function BlogPage() {
       </section>
 
       {/* Categories */}
-      <section className="py-8 border-b border-white/5">
+      <section className="py-8 border-b border-border">
         <div className="max-w-7xl mx-auto px-6 flex flex-wrap gap-3">
           {categories.map((cat) => (
             <button
               key={cat}
-              className="px-4 py-1.5 rounded-full text-sm text-white/60 glass-card border border-white/8 hover:border-purple-500/40 hover:text-white transition-all"
+              className="px-4 py-1.5 rounded-full text-sm text-muted-foreground glass-card border border-border hover:border-purple-500/40 hover:text-foreground transition-all"
               id={`blog-cat-${cat.toLowerCase().replace(/\s/g, '-')}`}
             >
               {cat}
@@ -90,8 +90,8 @@ export default function BlogPage() {
                 style={{ background: 'rgba(124,58,237,0.12)' }}>
                 <span className="text-3xl">✍️</span>
               </div>
-              <h2 className="font-grotesk font-bold text-white text-2xl mb-3">Coming Soon</h2>
-              <p className="text-white/40 max-w-sm mx-auto text-sm">
+              <h2 className="font-outfit font-bold text-foreground text-2xl mb-3">Coming Soon</h2>
+              <p className="text-muted-foreground max-w-sm mx-auto text-sm">
                 Our team is working on insightful articles about digital marketing, growth strategy, and brand building.
                 Check back soon — or subscribe to be first in line.
               </p>
@@ -104,7 +104,7 @@ export default function BlogPage() {
                     className="form-input w-64"
                   />
                   <button type="submit" id="blog-notify-submit"
-                    className="px-5 py-3 rounded-xl text-sm font-semibold text-white flex-shrink-0"
+                    className="px-5 py-3 rounded-xl text-sm font-semibold text-foreground flex-shrink-0"
                     style={{ background: 'var(--gradient-brand)' }}>
                     Notify Me
                   </button>
@@ -115,7 +115,7 @@ export default function BlogPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {POSTS.map((post) => (
                 <Link key={post.id} href={`/blog/${post.slug}`} id={`blog-post-${post.id}`}>
-                  <article className="glass-card rounded-2xl overflow-hidden border border-white/8 hover:border-purple-500/30 transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col">
+                  <article className="glass-card rounded-2xl overflow-hidden border border-border hover:border-purple-500/30 transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col">
                     {/* Cover */}
                     <div className="h-48 relative overflow-hidden"
                       style={{ background: 'var(--gradient-brand)', opacity: 0.7 }}>
@@ -131,18 +131,18 @@ export default function BlogPage() {
                         <span className="text-xs px-2.5 py-1 rounded-full text-purple-400 border border-purple-500/20 glass-card">
                           {post.category}
                         </span>
-                        <span className="flex items-center gap-1 text-white/30 text-xs">
+                        <span className="flex items-center gap-1 text-muted-foreground text-xs">
                           <Clock size={11} /> {post.readTime}
                         </span>
                       </div>
 
-                      <h2 className="text-white font-grotesk font-bold text-lg mb-2 group-hover:text-purple-200 transition-colors">
+                      <h2 className="text-foreground font-outfit font-bold text-lg mb-2 group-hover:text-purple-200 transition-colors">
                         {post.title}
                       </h2>
-                      <p className="text-white/50 text-sm leading-relaxed flex-1">{post.excerpt}</p>
+                      <p className="text-muted-foreground text-sm leading-relaxed flex-1">{post.excerpt}</p>
 
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
-                        <span className="text-white/30 text-xs">{formatDate(post.date)}</span>
+                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
+                        <span className="text-muted-foreground text-xs">{formatDate(post.date)}</span>
                         <span className="flex items-center gap-1 text-purple-400 text-xs font-medium">
                           Read more <ArrowRight size={12} />
                         </span>
@@ -160,17 +160,17 @@ export default function BlogPage() {
       {POSTS.length > 0 && (
         <section className="py-20 text-center">
           <div className="max-w-xl mx-auto px-6">
-            <h2 className="font-grotesk font-bold text-white text-3xl mb-4">
+            <h2 className="font-outfit font-bold text-foreground text-3xl mb-4">
               Get Insights <span className="gradient-text">In Your Inbox</span>
             </h2>
-            <p className="text-white/50 mb-6 text-sm">
+            <p className="text-muted-foreground mb-6 text-sm">
               No spam. Just practical marketing strategies, once a week.
             </p>
             <form className="flex gap-3" id="blog-subscribe-form">
               <input type="email" placeholder="your@email.com" id="blog-subscribe-email"
                 className="form-input flex-1" />
               <button type="submit" id="blog-subscribe-submit"
-                className="px-6 py-3 rounded-xl font-semibold text-white flex-shrink-0"
+                className="px-6 py-3 rounded-xl font-semibold text-foreground flex-shrink-0"
                 style={{ background: 'var(--gradient-brand)' }}>
                 Subscribe
               </button>

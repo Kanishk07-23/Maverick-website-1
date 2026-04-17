@@ -1,14 +1,15 @@
 'use client';
-import { useRef, useMemo, useEffect } from 'react';
+import { useRef, useMemo, useEffect, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useTheme } from 'next-themes';
 
-function ParticleField() {
+function ParticleField({ isDark }: { isDark: boolean }) {
   const meshRef = useRef<THREE.Points>(null);
   const { mouse, viewport } = useThree();
 
   const [positions, colors] = useMemo(() => {
-    const count = 6000;
+    const count = 4000; // slightly reduced count for more elegance
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
 
@@ -22,20 +23,28 @@ function ParticleField() {
       pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       pos[i * 3 + 2] = r * Math.cos(phi) - 4;
 
-      // Purple to blue gradient colors
       const t = Math.random();
-      col[i * 3]     = 0.49 + t * (0.15 - 0.49); // R: purple to blue
-      col[i * 3 + 1] = 0.23 + t * (0.37 - 0.23); // G
-      col[i * 3 + 2] = 0.93 + t * (0.93 - 0.93); // B
+      if (isDark) {
+        // Dark mode: Purple to Blue gradient
+        col[i * 3]     = 0.49 + t * (0.15 - 0.49); // R
+        col[i * 3 + 1] = 0.23 + t * (0.37 - 0.23); // G
+        col[i * 3 + 2] = 0.93 + t * (0.93 - 0.93); // B 
+      } else {
+        // Light mode: Dark slate/blue with occasional accent
+        col[i * 3]     = 0.1 + t * 0.2; // R
+        col[i * 3 + 1] = 0.1 + t * 0.2; // G
+        col[i * 3 + 2] = 0.2 + t * 0.3; // B
+      }
     }
     return [pos, col];
-  }, []);
+  }, [isDark]);
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
     const t = clock.elapsedTime;
-    meshRef.current.rotation.y = t * 0.04 + mouse.x * 0.15;
-    meshRef.current.rotation.x = t * 0.02 + mouse.y * 0.08;
+    // Slower rotation for premium cinematic feel
+    meshRef.current.rotation.y = t * 0.02 + mouse.x * 0.1;
+    meshRef.current.rotation.x = t * 0.01 + mouse.y * 0.05;
   });
 
   return (
@@ -54,7 +63,7 @@ function ParticleField() {
         size={0.035}
         vertexColors
         transparent
-        opacity={0.75}
+        opacity={isDark ? 0.75 : 0.4}
         sizeAttenuation
         depthWrite={false}
       />
@@ -62,18 +71,18 @@ function ParticleField() {
   );
 }
 
-function GridLines() {
+function GridLines({ isDark }: { isDark: boolean }) {
   const lineRef = useRef<THREE.LineSegments>(null);
 
   const geometry = useMemo(() => {
     const geo = new THREE.BufferGeometry();
     const vertices: number[] = [];
-    const step = 1.5;
-    const range = 10;
+    const step = 2.0;
+    const range = 12;
 
     for (let i = -range; i <= range; i += step) {
-      vertices.push(-range, -3, i, range, -3, i);
-      vertices.push(i, -3, -range, i, -3, range);
+      vertices.push(-range, -4, i, range, -4, i);
+      vertices.push(i, -4, -range, i, -4, range);
     }
     geo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
     return geo;
@@ -82,18 +91,32 @@ function GridLines() {
   useFrame(({ clock }) => {
     if (lineRef.current) {
       const mat = lineRef.current.material as THREE.LineBasicMaterial;
-      mat.opacity = 0.08 + Math.sin(clock.elapsedTime * 0.5) * 0.03;
+      const baseOpacity = isDark ? 0.08 : 0.04;
+      mat.opacity = baseOpacity + Math.sin(clock.elapsedTime * 0.5) * (isDark ? 0.03 : 0.01);
     }
   });
 
   return (
     <lineSegments ref={lineRef} geometry={geometry}>
-      <lineBasicMaterial color="#7C3AED" transparent opacity={0.08} />
+      <lineBasicMaterial color={isDark ? "#7C3AED" : "#0f172a"} transparent opacity={isDark ? 0.08 : 0.04} />
     </lineSegments>
   );
 }
 
 export default function HeroCanvas() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Before mount, default to a safe visual or just what seems like dark fallback.
+  // Actually, we can just use a transparent fallback until mounted.
+  if (!mounted) return null;
+
+  const isDark = resolvedTheme === 'dark';
+
   return (
     <Canvas
       id="hero-canvas"
@@ -101,9 +124,9 @@ export default function HeroCanvas() {
       style={{ position: 'absolute', inset: 0 }}
       dpr={[1, 1.5]}
     >
-      <ambientLight intensity={0.5} />
-      <ParticleField />
-      <GridLines />
+      <ambientLight intensity={isDark ? 0.5 : 0.8} />
+      <ParticleField isDark={isDark} />
+      <GridLines isDark={isDark} />
     </Canvas>
   );
 }

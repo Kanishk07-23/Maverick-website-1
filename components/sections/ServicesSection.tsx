@@ -79,16 +79,16 @@ function ServiceCard({ service }: { service: typeof services[0] }) {
     >
       <div className={`service-card-inner w-full h-full rounded-2xl ${flipped ? '[transform:rotateY(180deg)]' : ''}`}>
         {/* Front */}
-        <div className="service-card-front glass-card rounded-2xl p-6 flex flex-col border border-white/8 hover:border-purple-500/30 transition-colors">
+        <div className="service-card-front glass-card rounded-2xl p-6 flex flex-col border border-border hover:border-purple-500/30 transition-colors">
           <div
             className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5"
             style={{ background: `${service.color}22` }}
           >
             {service.icon}
           </div>
-          <h3 className="text-white font-grotesk font-bold text-xl mb-2">{service.title}</h3>
-          <p className="text-white/50 text-sm leading-relaxed mb-4">{service.tagline}</p>
-          <div className="mt-auto flex items-center gap-1.5 text-purple-400 text-sm font-medium">
+          <h3 className="text-foreground font-outfit font-bold text-xl mb-2">{service.title}</h3>
+          <p className="text-muted-foreground text-sm leading-relaxed mb-4">{service.tagline}</p>
+          <div className="mt-auto flex items-center gap-1.5 text-[var(--brand-purple)] text-sm font-medium">
             <span>Learn more</span>
             <ArrowRight size={14} />
           </div>
@@ -102,11 +102,11 @@ function ServiceCard({ service }: { service: typeof services[0] }) {
             borderColor: `${service.color}40`,
           }}
         >
-          <h3 className="text-white font-grotesk font-bold text-lg mb-3">{service.title}</h3>
-          <p className="text-white/60 text-sm leading-relaxed mb-4">{service.desc}</p>
+          <h3 className="text-foreground font-outfit font-bold text-lg mb-3">{service.title}</h3>
+          <p className="text-muted-foreground text-sm leading-relaxed mb-4">{service.desc}</p>
           <ul className="flex flex-col gap-1.5 mt-auto">
             {service.features.slice(0, 3).map((f) => (
-              <li key={f} className="flex items-center gap-2 text-white/70 text-xs">
+              <li key={f} className="flex items-center gap-2 text-muted-foreground text-xs">
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: service.color }} />
                 {f}
               </li>
@@ -124,15 +124,15 @@ export default function ServicesSection() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-4">
             What We Do
           </span>
-          <h2 className="font-grotesk font-bold text-white mb-4"
+          <h2 className="font-outfit font-bold text-foreground mb-4"
             style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
             Growth-Focused{' '}
             <span className="gradient-text">Digital Services</span>
           </h2>
-          <p className="text-white/50 max-w-xl mx-auto text-lg">
+          <p className="text-muted-foreground max-w-xl mx-auto text-lg">
             Designed to scale your business profitably and sustainably — hover any card to explore.
           </p>
         </div>
@@ -149,7 +149,7 @@ export default function ServicesSection() {
           <Link
             href="/services"
             id="services-view-all"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white glass-card border border-purple-500/30 hover:border-purple-500/60 transition-all duration-300 hover:scale-105"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-foreground glass-card border border-purple-500/30 hover:border-purple-500/60 transition-all duration-300 hover:scale-105"
           >
             Explore All Services
             <ArrowRight size={18} />

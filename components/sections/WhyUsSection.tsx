@@ -47,15 +47,15 @@ export default function WhyUsSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left copy */}
           <div>
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-6">
               Why Maverick
             </span>
-            <h2 className="font-grotesk font-bold text-white mb-6"
+            <h2 className="font-outfit font-bold text-foreground mb-6"
               style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
               Why Choose{' '}
               <span className="gradient-text">Maverick Digitals?</span>
             </h2>
-            <p className="text-white/60 text-lg leading-relaxed mb-8">
+            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
               We&apos;re not a standard marketing agency. Maverick Digitals is a founder-led, high-output team based in Mumbai. We blend creative strategy with data-driven performance marketing to help brands scale. Our focus is always on ROI, not vanity metrics.
             </p>
 
@@ -67,10 +67,10 @@ export default function WhyUsSection() {
                 'Weekly performance reports with real data',
                 'Strategies built for your specific industry',
               ].map((point) => (
-                <div key={point} className="flex items-start gap-3 text-white/70 text-sm">
+                <div key={point} className="flex items-start gap-3 text-muted-foreground text-sm">
                   <span className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
                     style={{ background: 'rgba(124,58,237,0.2)' }}>
-                    <span className="text-purple-400 text-xs">✓</span>
+                    <span className="text-[var(--brand-purple)] text-xs">✓</span>
                   </span>
                   {point}
                 </div>
@@ -84,13 +84,13 @@ export default function WhyUsSection() {
               <div
                 key={d.id}
                 id={`why-${d.id}`}
-                className="glass-card rounded-2xl p-6 border border-white/8 hover:border-purple-500/30 transition-all duration-300 hover:scale-[1.03] group"
+                className="glass-card rounded-2xl p-6 border border-border hover:border-purple-500/30 transition-all duration-300 hover:scale-[1.03] group"
               >
                 <div className="text-3xl mb-4">{d.icon}</div>
-                <div className="font-grotesk font-bold gradient-text text-2xl mb-0.5">{d.stat}</div>
-                <div className="text-white/40 text-xs mb-3">{d.statLabel}</div>
-                <h3 className="text-white font-semibold text-base mb-2">{d.title}</h3>
-                <p className="text-white/50 text-xs leading-relaxed">{d.desc}</p>
+                <div className="font-outfit font-bold gradient-text text-2xl mb-0.5">{d.stat}</div>
+                <div className="text-muted-foreground text-xs mb-3">{d.statLabel}</div>
+                <h3 className="text-foreground font-semibold text-base mb-2">{d.title}</h3>
+                <p className="text-muted-foreground text-xs leading-relaxed">{d.desc}</p>
               </div>
             ))}
           </div>
