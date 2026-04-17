@@ -68,7 +68,7 @@ export default function CTABanner() {
               style={{ background: 'rgba(34,197,94,0.15)' }}>
               <CheckCircle2 size={28} className="text-green-400" />
             </div>
-            <h3 className="text-foreground font-semibold text-xl">Got it! We&apos;ll be in touch soon 🚀</h3>
+            <h3 className="text-foreground font-semibold text-xl">Got it! We&apos;ll be in touch soon</h3>
             <p className="text-muted-foreground text-sm">Check your inbox — we usually reply within 24 hours.</p>
           </div>
         ) : (

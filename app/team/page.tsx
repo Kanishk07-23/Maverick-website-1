@@ -1,7 +1,7 @@
 'use client';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Linkedin, Mail } from 'lucide-react';
+import { ArrowRight, Linkedin, Mail, Target, Brain, Users, Zap } from 'lucide-react';
 import { useState } from 'react';
 
 const founders = [
@@ -30,10 +30,10 @@ const founders = [
 ];
 
 const values = [
-  { icon: '🎯', title: 'Performance-Driven', desc: 'Measurable results over vanity metrics, always.' },
-  { icon: '🧠', title: 'Data-Informed', desc: 'Every decision backed by analytics and insights.' },
-  { icon: '🤝', title: 'Founder-Led', desc: 'Senior attention on every single project.' },
-  { icon: '⚡', title: 'End-to-End', desc: 'One team. Complete capability.' },
+  { icon: <Target size={32} />, title: 'Performance-Driven', desc: 'Measurable results over vanity metrics, always.' },
+  { icon: <Brain size={32} />, title: 'Data-Informed', desc: 'Every decision backed by analytics and insights.' },
+  { icon: <Users size={32} />, title: 'Founder-Led', desc: 'Senior attention on every single project.' },
+  { icon: <Zap size={32} />, title: 'End-to-End', desc: 'One team. Complete capability.' },
 ];
 
 function FounderCard({ founder }: { founder: typeof founders[0] }) {
@@ -163,7 +163,7 @@ export default function TeamPage() {
             {values.map((v) => (
               <div key={v.title}
                 className="glass-card rounded-2xl p-6 border border-border hover:border-purple-500/30 transition-all hover:scale-[1.03] text-center">
-                <div className="text-4xl mb-4">{v.icon}</div>
+                <div className="text-purple-400 flex justify-center mb-4">{v.icon}</div>
                 <h3 className="text-foreground font-outfit font-bold text-lg mb-2">{v.title}</h3>
                 <p className="text-muted-foreground text-sm">{v.desc}</p>
               </div>

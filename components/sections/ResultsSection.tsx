@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Reveal from '@/components/Reveal';
 import MagneticButton from '@/components/MagneticButton';
+import { Rocket, Eye, TrendingUp, Zap, Globe, Award, BarChart3 } from 'lucide-react';
+
 const stats = [
   {
     id: 'brands',
@@ -9,7 +11,7 @@ const stats = [
     suffix: '+',
     label: 'Brands Scaled',
     desc: 'Across India, UAE, USA, & UK',
-    icon: '🚀',
+    icon: <Rocket size={24} className="text-[var(--brand-purple)]" />,
   },
   {
     id: 'views',
@@ -17,7 +19,7 @@ const stats = [
     suffix: 'M+',
     label: 'Organic Views',
     desc: 'Through SEO & social media management',
-    icon: '👁️',
+    icon: <Eye size={24} className="text-[var(--brand-purple)]" />,
   },
   {
     id: 'roi',
@@ -25,7 +27,7 @@ const stats = [
     suffix: '%+',
     label: 'Average ROI',
     desc: 'From performance marketing campaigns',
-    icon: '📈',
+    icon: <TrendingUp size={24} className="text-[var(--brand-purple)]" />,
   },
   {
     id: 'years',
@@ -33,11 +35,11 @@ const stats = [
     suffix: '+',
     label: 'Years Experience',
     desc: 'As a digital marketing company',
-    icon: '⚡',
+    icon: <Zap size={24} className="text-[var(--brand-purple)]" />,
   },
 ];
 
-function CounterCard({ num, suffix, label, desc, icon, id }: typeof stats[0]) {
+function CounterCard({ num, suffix, label, desc, icon, id }: { num: number, suffix: string, label: string, desc: string, icon: React.ReactNode, id: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const animated = useRef(false);
@@ -127,7 +129,7 @@ export default function ResultsSection() {
           <div className="mt-12 glass-card rounded-2xl p-6 border border-border flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
-                <span className="text-white text-lg">🌍</span>
+                <Globe size={20} className="text-white" />
               </div>
               <div>
                 <div className="text-foreground font-semibold text-sm">Global Reach</div>
@@ -137,7 +139,7 @@ export default function ResultsSection() {
             <div className="w-px h-12 bg-border hidden md:block" />
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
-                <span className="text-white text-lg">🏆</span>
+                <Award size={20} className="text-white" />
               </div>
               <div>
                 <div className="text-foreground font-semibold text-sm">Founder-Led</div>
@@ -147,7 +149,7 @@ export default function ResultsSection() {
             <div className="w-px h-12 bg-border hidden md:block" />
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--gradient-brand)' }}>
-                <span className="text-white text-lg">📊</span>
+                <BarChart3 size={20} className="text-white" />
               </div>
               <div>
                 <div className="text-foreground font-semibold text-sm">Data-Informed</div>

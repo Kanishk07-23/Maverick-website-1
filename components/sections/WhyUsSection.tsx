@@ -1,32 +1,33 @@
 'use client';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import { BarChart3, Brain, Users, Zap } from 'lucide-react';
 
 const differentiators = [
   {
     id: 'performance',
-    icon: '📊',
+    icon: <BarChart3 className="text-white" />,
     title: 'Performance-Driven',
     desc: 'We focus on measurable outcomes, not vanity metrics. Every strategy is designed to deliver real business results.',
     stat: '200%+', color: 'from-[var(--brand-purple)] to-blue-500'
   },
   {
     id: 'data',
-    icon: '🧠',
+    icon: <Brain className="text-white" />,
     title: 'Data-Informed Creativity',
     desc: 'We blend creative storytelling with data insights to create campaigns that resonate and convert simultaneously.',
     stat: '15M+', color: 'from-blue-500 to-indigo-500'
   },
   {
     id: 'founder',
-    icon: '🤝',
+    icon: <Users className="text-white" />,
     title: 'Founder-Led Approach',
     desc: 'Our founders are directly involved in every project, ensuring quality and accountability at every step.',
     stat: '100%', color: 'from-violet-500 to-purple-500'
   },
   {
     id: 'e2e',
-    icon: '⚡',
+    icon: <Zap className="text-white" />,
     title: 'End-to-End Capability',
     desc: 'From strategy to execution, we handle everything in-house with our lean, high-output team.',
     stat: '40+', color: 'from-[var(--brand-purple)] to-pink-500'
@@ -70,7 +71,7 @@ export default function WhyUsSection() {
               >
                 {/* Big Stat Background / Side */}
                 <div className={`flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-gradient-to-br ${d.color} flex flex-col items-center justify-center text-white shadow-lg relative overflow-hidden`}>
-                  <div className="text-5xl md:text-6xl mb-2">{d.icon}</div>
+                  <div className="mb-2 scale-[2.5] md:scale-[3.5]">{d.icon}</div>
                   <div className="text-3xl font-black font-outfit">{d.stat}</div>
                   <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
                 </div>

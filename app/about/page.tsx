@@ -32,22 +32,22 @@ const values = [
 ];
 
 const industries = [
-  { label: 'E-Commerce', icon: '🛍️' },
-  { label: 'SaaS & Tech', icon: '💻' },
-  { label: 'Real Estate', icon: '🏢' },
-  { label: 'Healthcare', icon: '🏥' },
-  { label: 'Finance', icon: '📈' },
-  { label: 'Education', icon: '🎓' },
-  { label: 'F&B', icon: '🍽️' },
-  { label: 'Fashion', icon: '👗' },
+  { label: 'E-Commerce' },
+  { label: 'SaaS & Tech' },
+  { label: 'Real Estate' },
+  { label: 'Healthcare' },
+  { label: 'Finance' },
+  { label: 'Education' },
+  { label: 'F&B' },
+  { label: 'Fashion' },
 ];
 
 const markets = [
-  { country: 'India', flag: '🇮🇳', desc: 'Primary market & HQ' },
-  { country: 'UAE', flag: '🇦🇪', desc: 'Middle East presence' },
-  { country: 'USA', flag: '🇺🇸', desc: 'North America clients' },
-  { country: 'UK', flag: '🇬🇧', desc: 'European reach' },
-  { country: 'Australia', flag: '🇦🇺', desc: 'APAC expansion' },
+  { country: 'India', desc: 'Primary market & HQ' },
+  { country: 'UAE', desc: 'Middle East presence' },
+  { country: 'USA', desc: 'North America clients' },
+  { country: 'UK', desc: 'European reach' },
+  { country: 'Australia', desc: 'APAC expansion' },
 ];
 
 export default function AboutPage() {
@@ -164,7 +164,6 @@ export default function AboutPage() {
                 key={ind.label}
                 className="glass-card rounded-2xl p-5 text-center border border-border hover:border-purple-500/30 transition-all duration-200 hover:scale-[1.04]"
               >
-                <div className="text-3xl mb-2">{ind.icon}</div>
                 <div className="text-muted-foreground text-sm font-medium">{ind.label}</div>
               </div>
             ))}
@@ -191,7 +190,6 @@ export default function AboutPage() {
                 key={m.country}
                 className="glass-card rounded-2xl px-6 py-4 border border-border flex items-center gap-3 hover:border-purple-500/30 transition-all duration-200"
               >
-                <span className="text-3xl">{m.flag}</span>
                 <div>
                   <div className="text-foreground font-semibold text-sm">{m.country}</div>
                   <div className="text-muted-foreground text-xs">{m.desc}</div>

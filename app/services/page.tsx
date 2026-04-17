@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Sparkles, Smartphone, Monitor, Search, Target, Palette } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Digital Marketing Services | Maverick Digitals',
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const services = [
   {
     id: 'personal-branding',
-    icon: '✨',
+    icon: <Sparkles size={40} className="text-purple-400" />,
     title: 'Personal Branding',
     tagline: 'Strategy, ghostwriting, content systems for founders & creators',
     desc: "Build an undeniable online presence that attracts opportunities, builds trust, and converts followers into customers. We position you as the most trusted authority in your industry.",
@@ -28,7 +28,7 @@ const services = [
   },
   {
     id: 'social-media',
-    icon: '📱',
+    icon: <Smartphone size={40} className="text-purple-400" />,
     title: 'Social Media Management',
     tagline: 'Done-for-you content, growth, and analytics across platforms',
     desc: 'Stop spending hours on social media with little to show for it. We create, publish and optimize content across all major platforms so you can focus on running your business.',
@@ -44,7 +44,7 @@ const services = [
   },
   {
     id: 'web-dev',
-    icon: '💻',
+    icon: <Monitor size={40} className="text-purple-400" />,
     title: 'Website & App Development',
     tagline: 'High-performance sites, e-commerce, and custom web apps',
     desc: "Your website is your 24/7 salesperson. We build fast, beautiful, conversion-optimized digital products that don't just look good — they generate revenue.",
@@ -60,7 +60,7 @@ const services = [
   },
   {
     id: 'seo-sem',
-    icon: '🔍',
+    icon: <Search size={40} className="text-purple-400" />,
     title: 'SEO & SEM',
     tagline: 'Keyword strategy, optimization, Google Ads, and inbound lead engines',
     desc: 'Get found when your customers are searching. Our technical SEO and search advertising strategies drive qualified traffic that converts into real revenue.',
@@ -76,7 +76,7 @@ const services = [
   },
   {
     id: 'performance-marketing',
-    icon: '🎯',
+    icon: <Target size={40} className="text-purple-400" />,
     title: 'Performance Marketing',
     tagline: 'ROI-first Meta & Google campaigns with funnel-driven execution',
     desc: 'Stop guessing and start knowing your ROAS. We build data-driven paid advertising campaigns with clear targeting, compelling creatives, and relentless optimization.',
@@ -92,7 +92,7 @@ const services = [
   },
   {
     id: 'branding-strategy',
-    icon: '🎨',
+    icon: <Palette size={40} className="text-purple-400" />,
     title: 'Branding & Strategy',
     tagline: 'Identity, messaging, GTM launches, and positioning frameworks',
     desc: 'Your brand is more than a logo. We build complete brand identities — from visual design and messaging to go-to-market strategy — that create lasting impressions.',
@@ -157,7 +157,7 @@ export default function ServicesPage() {
                       {s.badge}
                     </span>
                   )}
-                  <div className="text-4xl mb-4">{s.icon}</div>
+                  <div className="mb-4">{s.icon}</div>
                   <h2 className="font-outfit font-bold text-foreground text-3xl mb-2">{s.title}</h2>
                   <p className="text-purple-400 text-sm font-medium mb-4">{s.tagline}</p>
                   <p className="text-muted-foreground leading-relaxed mb-6">{s.desc}</p>

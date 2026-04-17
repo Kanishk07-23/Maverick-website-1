@@ -88,7 +88,7 @@ export default function BlogPage() {
             <div className="text-center py-20">
               <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
                 style={{ background: 'rgba(124,58,237,0.12)' }}>
-                <span className="text-3xl">✍️</span>
+                <span className="text-3xl font-outfit font-bold text-purple-400">...</span>
               </div>
               <h2 className="font-outfit font-bold text-foreground text-2xl mb-3">Coming Soon</h2>
               <p className="text-muted-foreground max-w-sm mx-auto text-sm">

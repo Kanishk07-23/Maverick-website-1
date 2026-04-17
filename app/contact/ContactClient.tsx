@@ -101,7 +101,7 @@ export default function ContactClient() {
                     style={{ background: 'rgba(34,197,94,0.15)' }}>
                     <CheckCircle2 size={32} className="text-green-400" />
                   </div>
-                  <h3 className="text-foreground font-outfit font-bold text-2xl">Message Received! 🚀</h3>
+                  <h3 className="text-foreground font-outfit font-bold text-2xl">Message Received!</h3>
                   <p className="text-muted-foreground max-w-sm">
                     Thank you for reaching out. We&apos;ll review your details and get back to you within 24 hours.
                   </p>
