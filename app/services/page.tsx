@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, Sparkles, Smartphone, Monitor, Search, Target, Palette } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ProcessSection from '@/components/sections/ProcessSection';
+import ServicesList from '@/components/sections/ServicesList';
 
 export const metadata: Metadata = {
   title: 'Digital Marketing Services | Maverick Digitals',
@@ -12,7 +13,6 @@ export const metadata: Metadata = {
 const services = [
   {
     id: 'personal-branding',
-    icon: <Sparkles size={40} className="text-purple-400" />,
     title: 'Personal Branding',
     tagline: 'Strategy, ghostwriting, content systems for founders & creators',
     desc: "Build an undeniable online presence that attracts opportunities, builds trust, and converts followers into customers. We position you as the most trusted authority in your industry.",
@@ -29,7 +29,6 @@ const services = [
   },
   {
     id: 'social-media',
-    icon: <Smartphone size={40} className="text-purple-400" />,
     title: 'Social Media Management',
     tagline: 'Done-for-you content, growth, and analytics across platforms',
     desc: 'Stop spending hours on social media with little to show for it. We create, publish and optimize content across all major platforms so you can focus on running your business.',
@@ -45,10 +44,9 @@ const services = [
   },
   {
     id: 'web-dev',
-    icon: <Monitor size={40} className="text-purple-400" />,
     title: 'Website & App Development',
     tagline: 'High-performance sites, e-commerce, and custom web apps',
-    desc: "Your website is your 24/7 salesperson. We build fast, beautiful, conversion-optimized digital products that don't just look good — they generate revenue.",
+    desc: "Your website is your 24/7 salesperson. We build fast, beautiful, conversion-optimized digital products that don&apos;t just look good — they generate revenue.",
     features: [
       'Custom Web Design & Development',
       'E-commerce Store (Shopify / Custom)',
@@ -61,7 +59,6 @@ const services = [
   },
   {
     id: 'seo-sem',
-    icon: <Search size={40} className="text-purple-400" />,
     title: 'SEO & SEM',
     tagline: 'Keyword strategy, optimization, Google Ads, and inbound lead engines',
     desc: 'Get found when your customers are searching. Our technical SEO and search advertising strategies drive qualified traffic that converts into real revenue.',
@@ -77,7 +74,6 @@ const services = [
   },
   {
     id: 'performance-marketing',
-    icon: <Target size={40} className="text-purple-400" />,
     title: 'Performance Marketing',
     tagline: 'ROI-first Meta & Google campaigns with funnel-driven execution',
     desc: 'Stop guessing and start knowing your ROAS. We build data-driven paid advertising campaigns with clear targeting, compelling creatives, and relentless optimization.',
@@ -93,7 +89,6 @@ const services = [
   },
   {
     id: 'branding-strategy',
-    icon: <Palette size={40} className="text-purple-400" />,
     title: 'Branding & Strategy',
     tagline: 'Identity, messaging, GTM launches, and positioning frameworks',
     desc: 'Your brand is more than a logo. We build complete brand identities — from visual design and messaging to go-to-market strategy — that create lasting impressions.',
@@ -109,9 +104,6 @@ const services = [
   },
 ];
 
-
-
-
 export default function ServicesPage() {
   return (
     <div className="pt-20">
@@ -119,11 +111,11 @@ export default function ServicesPage() {
       <section className="section-padding mesh-gradient relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-6">
               What We Do
             </span>
-            <h1 className="font-outfit font-bold text-foreground mb-6"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
+            <h1 className="font-outfit font-black text-foreground mb-6"
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', letterSpacing: '-0.03em' }}>
               End-to-End{' '}
               <span className="gradient-text">Digital Solutions</span>
             </h1>
@@ -135,59 +127,10 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Services */}
+      {/* Services — interactive accordion list */}
       <section className="section-padding">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col gap-16">
-            {services.map((s, idx) => (
-              <div
-                key={s.id}
-                id={`service-${s.id}`}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${idx % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}
-              >
-                {/* Copy */}
-                <div className={idx % 2 === 1 ? 'lg:col-start-2' : ''}>
-                  {s.badge && (
-                    <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold text-foreground mb-4"
-                      style={{ background: 'var(--gradient-brand)' }}>
-                      {s.badge}
-                    </span>
-                  )}
-                  <div className="mb-4">{s.icon}</div>
-                  <h2 className="font-outfit font-bold text-foreground text-3xl mb-2">{s.title}</h2>
-                  <p className="text-purple-400 text-sm font-medium mb-4">{s.tagline}</p>
-                  <p className="text-muted-foreground leading-relaxed mb-6">{s.desc}</p>
-                  <div className="flex items-center gap-4">
-                    <Link
-                      href={`/services/${s.id}`}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-foreground transition-all hover:scale-105"
-                      style={{ background: 'var(--gradient-brand)' }}
-                    >
-                      View Service <ArrowRight size={16} />
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Feature card */}
-                <div className={idx % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}>
-                  <div
-                    className="glass-card rounded-2xl p-8 border"
-                    style={{ borderColor: `${s.color}30` }}
-                  >
-                    <h3 className="text-foreground font-semibold text-lg mb-5">What&apos;s Included</h3>
-                    <div className="flex flex-col gap-3">
-                      {s.features.map((f) => (
-                        <div key={f} className="flex items-start gap-3">
-                          <CheckCircle2 size={16} className="flex-shrink-0 mt-0.5" style={{ color: s.color }} />
-                          <span className="text-muted-foreground text-sm">{f}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ServicesList services={services} />
         </div>
       </section>
 
@@ -205,7 +148,7 @@ export default function ServicesPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-foreground hover:scale-105 transition-all shadow-[var(--premium-shadow)]"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white hover:scale-105 transition-all"
             style={{ background: 'var(--gradient-brand)' }}
           >
             Book Free Consultation <ArrowRight size={18} />
