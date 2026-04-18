@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, Sparkles, Smartphone, Monitor, Search, Target, Palette } from 'lucide-react';
+import ProcessSection from '@/components/sections/ProcessSection';
 
 export const metadata: Metadata = {
   title: 'Digital Marketing Services | Maverick Digitals',
@@ -108,13 +109,8 @@ const services = [
   },
 ];
 
-const process = [
-  { step: '01', title: 'Discover', desc: 'Deep-dive into your brand, goals, market, and competition.' },
-  { step: '02', title: 'Strategize', desc: 'Build a tailored growth roadmap with clear KPIs and milestones.' },
-  { step: '03', title: 'Create', desc: 'Produce high-quality assets, content and campaigns.' },
-  { step: '04', title: 'Execute', desc: 'Launch with precision across channels — on time, every time.' },
-  { step: '05', title: 'Scale', desc: 'Analyze, optimize and double down on what\'s working.' },
-];
+
+
 
 export default function ServicesPage() {
   return (
@@ -195,37 +191,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Process */}
-      <section className="section-padding" style={{ background: 'rgba(15,15,35,0.6)' }}>
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-4">
-              How We Work
-            </span>
-            <h2 className="font-outfit font-bold text-foreground mb-4"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-              Our 5-Step{' '}
-              <span className="gradient-text">Growth Process</span>
-            </h2>
-          </div>
-          <div className="flex flex-col md:flex-row gap-4 relative">
-            {/* Connecting line */}
-            <div className="absolute top-10 left-[10%] right-[10%] h-px bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 opacity-20 hidden md:block" />
-            {process.map((p) => (
-              <div key={p.step} className="flex-1 glass-card rounded-2xl p-6 border border-border text-center relative">
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 font-outfit font-bold text-lg text-foreground"
-                  style={{ background: 'var(--gradient-brand)' }}
-                >
-                  {p.step}
-                </div>
-                <h3 className="text-foreground font-outfit font-bold text-lg mb-2">{p.title}</h3>
-                <p className="text-muted-foreground text-sm">{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ProcessSection />
 
       {/* CTA */}
       <section className="py-24 text-center">

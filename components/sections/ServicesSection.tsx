@@ -1,122 +1,280 @@
 'use client';
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Sparkles, TrendingUp, Presentation, Search, LineChart, Cpu } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { ArrowRight, TrendingUp, Search, Sparkles, Presentation, Cpu, LineChart } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
-import Reveal from '@/components/Reveal';
 
 const services = [
   {
-    id: 'perf',title: 'Performance Marketing',icon: <TrendingUp size={32} />,
+    id: 'perf', title: 'Performance Marketing', icon: TrendingUp,
     desc: 'Data-driven ad campaigns on Meta & Google designed purely for massive ROI. We do not care about clicks, we care about actual revenue.',
-    href: '/services/performance-marketing', color: 'from-blue-500 to-indigo-500'
+    href: '/services/performance-marketing',
+    gradient: 'from-violet-600 via-purple-600 to-blue-600',
+    glowColor: 'rgba(139, 92, 246, 0.35)',
+    size: 'large', // spans 2 cols on desktop
+    tag: 'Most Impactful',
   },
   {
-    id: 'seo', title: 'SEO & SEM', icon: <Search size={32} />,
+    id: 'seo', title: 'SEO & SEM', icon: Search,
     desc: 'Dominate search engines. We reconstruct your digital architecture so high-intent customers find you exactly when they are ready to buy.',
-    href: '/services/seo-sem', color: 'from-purple-500 to-violet-500'
+    href: '/services/seo-sem',
+    gradient: 'from-blue-600 via-cyan-500 to-indigo-600',
+    glowColor: 'rgba(59, 130, 246, 0.35)',
+    size: 'normal',
+    tag: null,
   },
   {
-    id: 'social', title: 'Social Media Dynamics', icon: <Sparkles size={32} />,
-    desc: 'We transform boring brand pages into magnetic community hubs. 15M+ organic views generated for our clients so far.',
-    href: '/services/social-media', color: 'from-fuchsia-500 to-pink-500'
+    id: 'social', title: 'Social Media', icon: Sparkles,
+    desc: 'Transform your brand pages into magnetic community hubs. 15M+ organic views generated for our clients.',
+    href: '/services/social-media',
+    gradient: 'from-fuchsia-600 via-pink-500 to-rose-500',
+    glowColor: 'rgba(217, 70, 239, 0.35)',
+    size: 'normal',
+    tag: null,
   },
   {
-    id: 'brand', title: 'Elite Branding', icon: <Presentation size={32} />,
-    desc: 'Your brand is not just a logo. We craft distinct visual and narrative identities that command higher prices in the marketplace.',
-    href: '/services/branding-strategy', color: 'from-emerald-500 to-teal-500'
+    id: 'brand', title: 'Elite Branding', icon: Presentation,
+    desc: 'We craft distinct visual and narrative identities that command higher prices in the marketplace.',
+    href: '/services/branding-strategy',
+    gradient: 'from-emerald-500 via-teal-500 to-cyan-500',
+    glowColor: 'rgba(16, 185, 129, 0.35)',
+    size: 'normal',
+    tag: null,
   },
   {
-    id: 'web', title: 'High-Conversion Web Dev', icon: <Cpu size={32} />,
-    desc: 'Beautiful websites are useless if they don’t convert. We build lightning-fast web experiences engineered specifically to sell.',
-    href: '/services/web-dev', color: 'from-amber-500 to-orange-500'
+    id: 'web', title: 'High-Conversion Web Dev', icon: Cpu,
+    desc: 'Lightning-fast web experiences engineered specifically to sell.',
+    href: '/services/web-dev',
+    gradient: 'from-amber-500 via-orange-500 to-red-500',
+    glowColor: 'rgba(245, 158, 11, 0.35)',
+    size: 'large',
+    tag: null,
   },
   {
-    id: 'personal', title: 'Founder Branding', icon: <LineChart size={32} />,
-    desc: 'People buy from people. We scale your personal brand on LinkedIn and Twitter to open high-level B2B opportunities.',
-    href: '/services/personal-branding', color: 'from-rose-500 to-red-500'
-  }
+    id: 'personal', title: 'Founder Branding', icon: LineChart,
+    desc: 'Scale your personal brand on LinkedIn and Twitter to open high-level B2B opportunities.',
+    href: '/services/personal-branding',
+    gradient: 'from-rose-600 via-pink-500 to-fuchsia-600',
+    glowColor: 'rgba(244, 63, 94, 0.35)',
+    size: 'normal',
+    tag: null,
+  },
 ];
 
-export default function ServicesSection() {
+function BorderBeam({ color }: { color: string }) {
   return (
-    <section className="relative py-32 bg-[var(--background)]" id="services">
-      
-      {/* Background Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] rounded-full blur-[120px] opacity-10 pointer-events-none"
-           style={{ background: 'radial-gradient(circle, var(--brand-purple) 0%, transparent 70%)' }} />
+    <div className="absolute inset-0 rounded-[2rem] overflow-hidden pointer-events-none">
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          background: `conic-gradient(from 0deg, transparent 0deg, ${color} 60deg, transparent 120deg)`,
+          opacity: 0,
+        }}
+        whileHover={{ opacity: 1 }}
+        animate={{
+          rotate: [0, 360],
+        }}
+        transition={{
+          rotate: { duration: 3, repeat: Infinity, ease: 'linear' },
+        }}
+      />
+      <div
+        className="absolute inset-[1px] rounded-[calc(2rem-1px)]"
+        style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(16px)' }}
+      />
+    </div>
+  );
+}
+
+function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const Icon = service.icon;
+
+  const isLarge = service.size === 'large';
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className={`group relative ${isLarge ? 'md:col-span-2' : ''}`}
+    >
+      {/* Outer glow on hover */}
+      <motion.div
+        className="absolute -inset-px rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+        style={{ background: service.glowColor }}
+      />
+
+      {/* Card */}
+      <div
+        className="relative h-full rounded-[2rem] border p-8 flex flex-col justify-between overflow-hidden cursor-pointer"
+        style={{
+          background: 'var(--glass-bg)',
+          borderColor: 'var(--glass-border)',
+          backdropFilter: 'blur(20px) saturate(1.8)',
+          boxShadow: 'var(--glass-shadow)',
+          minHeight: isLarge ? '240px' : '300px',
+        }}
+      >
+        {/* Animated border */}
+        <BorderBeam color={service.glowColor} />
+
+        {/* Background gradient on hover */}
+        <motion.div
+          className={`absolute inset-0 bg-gradient-to-br ${service.gradient} rounded-[2rem]`}
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 0.04 }}
+          transition={{ duration: 0.4 }}
+        />
+
+        {/* Top row */}
+        <div className="relative z-10">
+          <div className="flex items-start justify-between mb-6">
+            {/* Icon container with animated glow */}
+            <div className="relative">
+              <motion.div
+                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.gradient} blur-md`}
+                initial={{ opacity: 0.4, scale: 0.8 }}
+                whileHover={{ opacity: 0.8, scale: 1.2 }}
+                transition={{ duration: 0.3 }}
+              />
+              <div className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center shadow-lg`}>
+                <Icon size={26} className="text-white" strokeWidth={1.5} />
+              </div>
+            </div>
+
+            {service.tag && (
+              <span className="text-xs font-semibold px-3 py-1 rounded-full text-white"
+                style={{ background: 'var(--gradient-brand)' }}>
+                {service.tag}
+              </span>
+            )}
+          </div>
+
+          <h3 className={`font-outfit font-bold text-foreground mb-3 ${isLarge ? 'text-3xl' : 'text-2xl'}`}>
+            {service.title}
+          </h3>
+          <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+            {service.desc}
+          </p>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="relative z-10 mt-6 pt-6 border-t border-border/40">
+          <MagneticButton href={service.href}>
+            <motion.div
+              className="flex items-center gap-2 text-sm font-semibold text-muted-foreground group-hover:text-foreground transition-colors duration-300"
+              whileHover={{ x: 2 }}
+            >
+              Explore Protocol
+              <motion.div
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <ArrowRight size={16} />
+              </motion.div>
+            </motion.div>
+          </MagneticButton>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function ServicesSection() {
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true });
+
+  return (
+    <section className="relative py-32 bg-[var(--background)] overflow-hidden" id="services">
+
+      {/* Ambient mesh glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/3 w-[600px] h-[600px] rounded-full blur-[140px] opacity-[0.07]"
+          style={{ background: 'radial-gradient(circle, var(--brand-purple) 0%, transparent 70%)' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-[120px] opacity-[0.05]"
+          style={{ background: 'radial-gradient(circle, var(--brand-blue) 0%, transparent 70%)' }} />
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
+
         {/* Header */}
-        <Reveal direction="up">
-          <div className="mb-20">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-4">
-              Our Protocol
-            </span>
-            <h2 className="font-outfit font-bold text-foreground leading-none mb-6"
-              style={{ fontSize: 'clamp(3rem, 6vw, 6rem)' }}>
-              We Engineer<br/>
-              <span className="gradient-text">Growth.</span>
-            </h2>
-            <p className="text-muted-foreground text-lg md:text-xl max-w-xl font-medium">
-              The precise execution frameworks we use to violently scale our partners&apos; revenue and market share.
-            </p>
-          </div>
-        </Reveal>
+        <motion.div
+          ref={headerRef}
+          initial={{ opacity: 0, y: 30 }}
+          animate={headerInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="mb-20"
+        >
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={headerInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-6"
+          >
+            Our Protocol
+          </motion.span>
 
-        {/* Vertical Stacking Cards Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {services.map((service, index) => {
-            // Create a slight staggered parallax effect dynamically based on odd/even index
-            const isEven = index % 2 === 0;
-            return (
-              <Reveal key={service.id} direction="up" delay={0.1 * index}>
-                <div className={`relative w-full glass-card rounded-[2.5rem] border border-border/50 p-10 flex flex-col justify-between group overflow-hidden transition-all duration-500 hover:border-purple-500/30 hover:shadow-[var(--card-shadow-hover)] h-[400px] ${!isEven && 'md:mt-24'}`}>
-                  
-                  {/* Card Background Gradient effect on hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500`} />
-                  
-                  {/* Top half */}
-                  <div className="relative z-10">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 bg-gradient-to-br ${service.color} text-white shadow-lg`}>
-                      {service.icon}
-                    </div>
-                    <h3 className="text-3xl font-bold font-outfit text-foreground mb-4">{service.title}</h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed font-medium">
-                      {service.desc}
-                    </p>
-                  </div>
+          <h2 className="font-outfit font-black text-foreground leading-none mb-6"
+            style={{ fontSize: 'clamp(3rem, 6vw, 5.5rem)', letterSpacing: '-0.03em' }}>
+            We Engineer<br />
+            <span className="gradient-text">Growth.</span>
+          </h2>
+          <p className="text-muted-foreground text-lg md:text-xl max-w-xl font-medium leading-relaxed">
+            The precise execution frameworks we use to violently scale our partners&apos; revenue and market share.
+          </p>
+        </motion.div>
 
-                  {/* Bottom CTAs */}
-                  <div className="relative z-10 pt-8 border-t border-border/50 mt-auto flex items-center justify-between">
-                    <MagneticButton href={service.href}>
-                      <div className="flex items-center gap-3 text-foreground font-semibold group-hover:text-[var(--brand-purple)] transition-colors">
-                        Explore Protocol <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </MagneticButton>
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {services.map((service, index) => (
+            <ServiceCard key={service.id} service={service} index={index} />
+          ))}
         </div>
 
         {/* Final CTA Strip */}
-        <Reveal direction="up" delay={0.4}>
-          <div className="mt-20 w-full rounded-[2.5rem] bg-[var(--foreground)] p-12 flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-8">
-             <div>
-               <h3 className="text-3xl lg:text-4xl font-bold font-outfit text-background mb-3">Don&apos;t see what you need?</h3>
-               <p className="text-muted/60 text-lg">We build custom strategic protocols for unique brands.</p>
-             </div>
-             <MagneticButton href="/contact">
-               <span className="flex items-center justify-center gap-3 px-8 py-4 rounded-full font-semibold text-white text-lg bg-[var(--brand-purple)]" style={{ background: 'var(--gradient-brand)' }}>
-                  Let&apos;s Build
-                  <ArrowRight size={20} />
-               </span>
-             </MagneticButton>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="mt-16"
+        >
+          <div className="relative rounded-[2rem] overflow-hidden p-[1px]"
+            style={{ background: 'var(--gradient-brand)' }}>
+            <div className="rounded-[calc(2rem-1px)] p-10 md:p-14 flex flex-col md:flex-row justify-between items-center gap-8"
+              style={{ background: 'var(--background)' }}>
+              {/* Subtle inner glow */}
+              <div className="absolute inset-0 opacity-5 rounded-[calc(2rem-1px)]"
+                style={{ background: 'var(--gradient-brand)' }} />
+
+              <div className="relative z-10">
+                <h3 className="text-2xl lg:text-4xl font-bold font-outfit text-foreground mb-2">
+                  Don&apos;t see what you need?
+                </h3>
+                <p className="text-muted-foreground text-lg">
+                  We build custom strategic protocols for unique brands.
+                </p>
+              </div>
+
+              <MagneticButton href="/contact">
+                <motion.span
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="relative z-10 flex items-center justify-center gap-3 px-8 py-4 rounded-full font-semibold text-white text-base whitespace-nowrap overflow-hidden"
+                  style={{ background: 'var(--gradient-brand)' }}
+                >
+                  <span className="relative z-10 flex items-center gap-3">
+                    Let&apos;s Build
+                    <ArrowRight size={18} />
+                  </span>
+                </motion.span>
+              </MagneticButton>
+            </div>
           </div>
-        </Reveal>
+        </motion.div>
 
       </div>
     </section>
