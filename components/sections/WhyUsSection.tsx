@@ -1,93 +1,130 @@
 'use client';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { BarChart3, Brain, Users, Zap } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
 
 const differentiators = [
   {
     id: 'performance',
-    icon: <BarChart3 className="text-white" />,
     title: 'Performance-Driven',
     desc: 'We focus on measurable outcomes, not vanity metrics. Every strategy is designed to deliver real business results.',
-    stat: '200%+', color: 'from-[var(--brand-purple)] to-blue-500'
+    stat: '200%+',
+    statLabel: 'Average ROI',
   },
   {
     id: 'data',
-    icon: <Brain className="text-white" />,
     title: 'Data-Informed Creativity',
     desc: 'We blend creative storytelling with data insights to create campaigns that resonate and convert simultaneously.',
-    stat: '15M+', color: 'from-blue-500 to-indigo-500'
+    stat: '15M+',
+    statLabel: 'Organic Views',
   },
   {
     id: 'founder',
-    icon: <Users className="text-white" />,
     title: 'Founder-Led Approach',
     desc: 'Our founders are directly involved in every project, ensuring quality and accountability at every step.',
-    stat: '100%', color: 'from-violet-500 to-purple-500'
+    stat: '100%',
+    statLabel: 'Accountability',
   },
   {
     id: 'e2e',
-    icon: <Zap className="text-white" />,
     title: 'End-to-End Capability',
     desc: 'From strategy to execution, we handle everything in-house with our lean, high-output team.',
-    stat: '40+', color: 'from-[var(--brand-purple)] to-pink-500'
+    stat: '40+',
+    statLabel: 'Brands Scaled',
   },
 ];
 
 export default function WhyUsSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true });
+
   return (
-    <section className="relative pb-32 pt-20 bg-[var(--background)]" id="why-us" ref={containerRef}>
-      <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col lg:flex-row gap-20">
-        
-        {/* Left fixed tracking text */}
-        <div className="lg:w-1/3 relative">
-          <div className="sticky top-40">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-6">
-              Why Maverick
-            </span>
-            <h2 className="font-outfit font-bold text-foreground mb-6" style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-              Why We Are <br/>
-              <span className="gradient-text">Different.</span>
-            </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              We&apos;re not a standard agency. We are a high-output growth team based in Mumbai. No vanity metrics, just pure bottom-line impact.
-            </p>
+    <section className="relative py-28 md:py-36 bg-[var(--background)]" id="why-us">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+
+        {/* Two column layout: sticky text left, cards right */}
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+
+          {/* Left — Sticky heading */}
+          <div className="lg:w-5/12">
+            <div className="lg:sticky lg:top-32">
+              <motion.div
+                ref={headerRef}
+                initial={{ opacity: 0, y: 30 }}
+                animate={headerInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-6">
+                  Why Maverick
+                </span>
+                <h2
+                  className="font-outfit font-black text-foreground mb-6"
+                  style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', lineHeight: 1.1 }}
+                >
+                  Why We Are<br />
+                  <span className="gradient-text">Different.</span>
+                </h2>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  We&apos;re not a standard agency. We are a high-output growth team based in Mumbai. No vanity metrics, just pure bottom-line impact.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Right — Clean cards, no icons */}
+          <div className="lg:w-7/12 flex flex-col gap-6">
+            {differentiators.map((d, i) => {
+              return <DiffCard key={d.id} diff={d} index={i} />;
+            })}
           </div>
         </div>
 
-        {/* Right stacking cards */}
-        <div className="lg:w-2/3 flex flex-col gap-8 relative mt-10 lg:mt-0">
-          {differentiators.map((d, i) => {
-            // Calculate a slight top margin for each card so they stack visibly
-            const stickyTop = `calc(8rem + ${i * 40}px)`;
-            
-            return (
-              <div 
-                key={d.id} 
-                className="sticky shadow-2xl glass-card rounded-3xl p-10 border border-border/50 flex flex-col md:flex-row gap-8 items-center origin-top transition-all duration-500"
-                style={{ top: stickyTop, zIndex: i }}
-              >
-                {/* Big Stat Background / Side */}
-                <div className={`flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-gradient-to-br ${d.color} flex flex-col items-center justify-center text-white shadow-lg relative overflow-hidden`}>
-                  <div className="mb-2 scale-[2.5] md:scale-[3.5]">{d.icon}</div>
-                  <div className="text-3xl font-black font-outfit">{d.stat}</div>
-                  <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
-                </div>
-                
-                {/* Content */}
-                <div>
-                  <h3 className="text-2xl font-bold font-outfit text-foreground mb-4">{d.title}</h3>
-                  <p className="text-muted-foreground text-lg font-medium leading-relaxed">
-                    {d.desc}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </section>
+  );
+}
+
+function DiffCard({ diff, index }: { diff: typeof differentiators[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="group relative rounded-3xl p-8 md:p-10 border transition-all duration-300 hover:border-[var(--brand-purple)]/30"
+      style={{
+        background: 'var(--glass-bg)',
+        borderColor: 'var(--glass-border)',
+        backdropFilter: 'blur(16px) saturate(1.8)',
+        boxShadow: 'var(--glass-shadow)',
+      }}
+    >
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+        {/* Text content */}
+        <div className="flex-1 min-w-0">
+          <h3 className="font-outfit font-bold text-foreground text-xl md:text-2xl mb-3" style={{ letterSpacing: '-0.01em' }}>
+            {diff.title}
+          </h3>
+          <p className="text-muted-foreground text-base leading-relaxed">
+            {diff.desc}
+          </p>
+        </div>
+
+        {/* Stat — clean typography only, no icons */}
+        <div className="flex-shrink-0 md:text-right">
+          <div
+            className="font-outfit font-black gradient-text leading-none"
+            style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', letterSpacing: '-0.04em' }}
+          >
+            {diff.stat}
+          </div>
+          <div className="text-muted-foreground text-xs font-medium uppercase tracking-wider mt-1">
+            {diff.statLabel}
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }

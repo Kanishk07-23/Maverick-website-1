@@ -1,165 +1,188 @@
 'use client';
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
-import Image from 'next/image';
-import MagneticButton from '@/components/MagneticButton';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import MagneticButton from '@/components/MagneticButton';
+import Link from 'next/link';
 
-const content = [
+const services = [
   {
-    id: 'performance',
+    id: 'perf',
     title: 'Performance Marketing',
-    description:
-      'Data-driven ad campaigns on Meta & Google designed purely for massive ROI. We build scalable models that directly impact your bottom line. Impressions and clicks are vanity metrics; we care about revenue.',
-    image: '/assets/service_performance.png',
+    desc: 'Data-driven ad campaigns on Meta & Google designed purely for massive ROI. We do not care about clicks, we care about actual revenue.',
+    href: '/services/performance-marketing',
+    accent: '#8b5cf6',
   },
   {
-    id: 'web',
-    title: 'High-Conversion Web Architecture',
-    description:
-      'Beautiful websites are useless if they don\'t convert. Using the latest WebGL and React frameworks, we engineer lightning-fast digital experiences that act as your most ruthless, 24/7 salesperson.',
-    image: '/assets/service_web.png',
+    id: 'seo',
+    title: 'SEO & SEM',
+    desc: 'Dominate search engines. We reconstruct your digital architecture so high-intent customers find you exactly when they are ready to buy.',
+    href: '/services/seo-sem',
+    accent: '#3b82f6',
+  },
+  {
+    id: 'social',
+    title: 'Social Media Dynamics',
+    desc: 'We transform boring brand pages into magnetic community hubs. 15M+ organic views generated for our clients so far.',
+    href: '/services/social-media',
+    accent: '#d946ef',
   },
   {
     id: 'brand',
-    title: 'Elite Brand Strategy',
-    description:
-      'Your brand is the premium you can charge over your competitors. We craft distinct visual and narrative identities, transforming commodities into luxury entities that command higher prices in the marketplace.',
-    image: '/assets/service_brand.png',
+    title: 'Elite Branding',
+    desc: 'Your brand is not just a logo. We craft distinct visual and narrative identities that command higher prices in the marketplace.',
+    href: '/services/branding-strategy',
+    accent: '#10b981',
+  },
+  {
+    id: 'web',
+    title: 'High-Conversion Web Dev',
+    desc: 'Beautiful websites are useless if they don\'t convert. We build lightning-fast web experiences engineered specifically to sell.',
+    href: '/services/web-dev',
+    accent: '#f59e0b',
+  },
+  {
+    id: 'personal',
+    title: 'Founder Branding',
+    desc: 'People buy from people. We scale your personal brand on LinkedIn and Twitter to open high-level B2B opportunities.',
+    href: '/services/personal-branding',
+    accent: '#f43f5e',
   },
 ];
 
-export default function ServicesSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activeCard, setActiveCard] = useState(0);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const cardsLength = content.length;
-
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    const cardsBreakpoints = content.map((_, index) => index / cardsLength);
-    const closestBreakpointIndex = cardsBreakpoints.reduce(
-      (acc, breakpoint, index) => {
-        const distance = Math.abs(latest - breakpoint);
-        if (distance < Math.abs(latest - cardsBreakpoints[acc])) {
-          return index;
-        }
-        return acc;
-      },
-      0
-    );
-    setActiveCard(closestBreakpointIndex);
-  });
+function ServiceRow({ service, index }: { service: typeof services[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <section className="bg-[var(--background)] py-0 relative w-full" id="services">
-      {/* Container providing the scroll height. Since there are 3 items, making it 300vh allows enough scrolling space. */}
-      <div className="relative h-[300vh]" ref={containerRef}>
-        
-        {/* Sticky Container */}
-        <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
-          
-          <div className="max-w-7xl mx-auto w-full px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 h-full py-20 lg:py-0 items-center">
-            
-            {/* Left Content Column */}
-            <div className="relative flex flex-col justify-center h-full">
-              <div>
-                <motion.span
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-6"
-                >
-                  Core Operations
-                </motion.span>
-                <motion.h2 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="font-outfit font-black text-foreground leading-none mb-10 lg:mb-20"
-                  style={{ fontSize: 'clamp(3rem, 6vw, 5.5rem)', letterSpacing: '-0.03em' }}
-                >
-                  We Engineer<br />
-                  <span className="gradient-text">Growth.</span>
-                </motion.h2>
-              </div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      <Link href={service.href} className="block group">
+        <div
+          className="relative py-10 md:py-12 border-b transition-colors duration-300"
+          style={{ borderColor: 'var(--border)' }}
+        >
+          {/* Full-width hover fill */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -mx-6"
+            style={{
+              background: `linear-gradient(90deg, ${service.accent}08 0%, ${service.accent}04 50%, transparent 100%)`,
+            }}
+          />
 
-              {content.map((item, index) => (
-                <div key={item.title} className="relative mt-20 lg:mt-32 pb-32">
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{
-                      opacity: activeCard === index ? 1 : 0.3,
-                      scale: activeCard === index ? 1 : 0.95,
-                      filter: activeCard === index ? 'blur(0px)' : 'blur(2px)'
-                    }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <h3 className="text-3xl lg:text-4xl font-bold font-outfit text-foreground mb-4">
-                      {item.title}
-                    </h3>
-                    <p className="text-muted-foreground text-lg lg:text-xl leading-relaxed max-w-md">
-                      {item.description}
-                    </p>
-                    
-                    <div className="mt-8">
-                       <MagneticButton href={`/services`}>
-                        <div className="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-[var(--brand-purple)] transition-colors duration-300">
-                          Explore Protocol <ArrowRight size={16} />
-                        </div>
-                      </MagneticButton>
-                    </div>
-                  </motion.div>
+          <div className="relative z-10 flex items-center justify-between gap-6">
+            {/* Left: number + title */}
+            <div className="flex items-baseline gap-6 md:gap-10 flex-1 min-w-0">
+              <span
+                className="text-sm font-mono font-medium flex-shrink-0 w-8"
+                style={{ color: service.accent }}
+              >
+                {String(index + 1).padStart(2, '0')}
+              </span>
+
+              <div className="flex-1 min-w-0">
+                <h3 className="font-outfit font-bold text-foreground text-2xl md:text-4xl lg:text-5xl leading-tight group-hover:translate-x-2 transition-transform duration-300"
+                  style={{ letterSpacing: '-0.02em' }}
+                >
+                  {service.title}
+                </h3>
+
+                {/* Description — visible on hover (desktop) or always on mobile */}
+                <div className="mt-3 md:mt-0 md:max-h-0 md:group-hover:max-h-24 md:overflow-hidden md:transition-all md:duration-500 md:ease-out">
+                  <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl md:pt-4">
+                    {service.desc}
+                  </p>
                 </div>
-              ))}
+              </div>
             </div>
 
-            {/* Right Visual Column */}
-            <div className="hidden lg:block relative h-[60vh] w-full rounded-[2rem] overflow-hidden glass-card border border-border/40" style={{ boxShadow: 'var(--glass-shadow)' }}>
-              {content.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  className="absolute inset-0 w-full h-full"
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{
-                    opacity: activeCard === index ? 1 : 0,
-                    scale: activeCard === index ? 1 : 1.1,
-                  }}
-                  transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-                >
-                   <Image 
-                     src={item.image} 
-                     alt={item.title} 
-                     fill 
-                     className="object-cover"
-                     priority={index === 0}
-                   />
-                   {/* Gradient Overlay for blending */}
-                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] to-transparent opacity-40 mix-blend-overlay"></div>
-                </motion.div>
-              ))}
+            {/* Right: arrow */}
+            <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-[-8px] group-hover:translate-x-0">
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: `${service.accent}15`, color: service.accent }}
+              >
+                <ArrowRight size={20} />
+              </div>
             </div>
-
           </div>
+
+          {/* Accent line on hover */}
+          <motion.div
+            className="absolute bottom-0 left-0 h-[2px] origin-left"
+            style={{ backgroundColor: service.accent, scaleX: 0 }}
+            whileHover={{ scaleX: 1 }}
+            transition={{ duration: 0.4 }}
+          />
         </div>
-      </div>
-      
-      {/* Mobile Visual Cards (Visible only on small screens below the text) */}
-      <div className="lg:hidden px-6 pb-32 space-y-10">
-         {content.map((item, index) => (
-             <div key={item.id} className="relative h-[400px] w-full rounded-[2rem] overflow-hidden glass-card border border-border/40 shadow-lg">
-                <Image 
-                     src={item.image} 
-                     alt={item.title} 
-                     fill 
-                     className="object-cover"
-                   />
-             </div>
-         ))}
+      </Link>
+    </motion.div>
+  );
+}
+
+export default function ServicesSection() {
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true });
+
+  return (
+    <section className="relative py-28 md:py-36 bg-[var(--background)]" id="services">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+
+        {/* Header */}
+        <motion.div
+          ref={headerRef}
+          initial={{ opacity: 0, y: 30 }}
+          animate={headerInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="mb-16 md:mb-24"
+        >
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-6">
+            Our Protocol
+          </span>
+          <h2
+            className="font-outfit font-black text-foreground leading-none mb-6"
+            style={{ fontSize: 'clamp(3rem, 6vw, 5.5rem)', letterSpacing: '-0.03em' }}
+          >
+            We Engineer<br />
+            <span className="gradient-text">Growth.</span>
+          </h2>
+          <p className="text-muted-foreground text-lg md:text-xl max-w-xl font-medium leading-relaxed">
+            The precise execution frameworks we use to violently scale our partners&apos; revenue and market share.
+          </p>
+        </motion.div>
+
+        {/* Service List — clean expandable rows */}
+        <div>
+          {services.map((service, index) => (
+            <ServiceRow key={service.id} service={service} index={index} />
+          ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-20 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between"
+        >
+          <p className="text-muted-foreground text-lg max-w-md">
+            Don&apos;t see what you need? We build custom strategic protocols for unique brands.
+          </p>
+          <MagneticButton href="/contact">
+            <span
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-white text-base"
+              style={{ background: 'var(--gradient-brand)' }}
+            >
+              Let&apos;s Build <ArrowRight size={18} />
+            </span>
+          </MagneticButton>
+        </motion.div>
+
       </div>
     </section>
   );
