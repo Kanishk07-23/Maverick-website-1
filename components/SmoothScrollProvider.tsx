@@ -8,18 +8,14 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
     let rafId: number;
 
     import('@studio-freight/lenis').then(({ default: Lenis }) => {
+      const isMobile = window.innerWidth < 768;
+      
       lenis = new Lenis({
-        // Smooth out each tick — 0.7s feels like native scroll but silky
-        duration: 0.9,
-        // Gentle ease-out cubic: starts at full speed, gracefully decelerates
-        // No explosive launch like the previous exponential
+        duration: isMobile ? 0.6 : 0.9,
         easing: (t: number) => 1 - Math.pow(1 - t, 3),
-        smoothWheel: true,
-        // Reduce how many pixels each scroll tick travels (default is 1.0)
-        wheelMultiplier: 0.85,
-        // Smooth touch on mobile but don't over-extend
-        touchMultiplier: 1.5,
-        // Prevent rubber-banding at top/bottom
+        smoothWheel: !isMobile,
+        wheelMultiplier: isMobile ? 1.0 : 0.85,
+        touchMultiplier: isMobile ? 1.0 : 1.5,
         infinite: false,
       });
 

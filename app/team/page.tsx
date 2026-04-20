@@ -40,6 +40,9 @@ function FounderCard({ founder }: { founder: typeof founders[0] }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Disable tilt on touch devices to save processing power and avoid jitter
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientY - rect.top) / rect.height - 0.5) * 10;
     const y = -((e.clientX - rect.left) / rect.width - 0.5) * 10;
@@ -54,7 +57,7 @@ function FounderCard({ founder }: { founder: typeof founders[0] }) {
         transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
         transition: 'transform 0.1s ease',
       }}
-      className="glass-card rounded-3xl p-8 border border-border hover:border-purple-500/20 cursor-default"
+      className="glass-card rounded-3xl p-6 sm:p-8 border border-border hover:border-purple-500/20 cursor-default"
       id={`founder-${founder.id}`}
     >
       {/* Photo */}

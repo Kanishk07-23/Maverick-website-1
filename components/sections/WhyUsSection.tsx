@@ -93,7 +93,7 @@ function DiffCard({ diff, index }: { diff: typeof differentiators[0]; index: num
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="group relative rounded-3xl p-8 md:p-10 border transition-all duration-300 hover:border-[var(--brand-purple)]/30"
+      className="group relative rounded-3xl p-6 sm:p-8 md:p-10 border transition-all duration-300 hover:border-[var(--brand-purple)]/30"
       style={{
         background: 'var(--glass-bg)',
         borderColor: 'var(--glass-border)',

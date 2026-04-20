@@ -92,7 +92,7 @@ export default function TestimonialsSection() {
                 {TESTIMONIALS.map((t) => (
                   <div
                     key={t.id}
-                    className="min-w-full glass-card rounded-3xl p-10 md:p-14 border border-border"
+                    className="min-w-full glass-card rounded-3xl p-6 sm:p-10 md:p-14 border border-border"
                   >
                     {/* Stars */}
                     <div className="flex gap-1 mb-6">

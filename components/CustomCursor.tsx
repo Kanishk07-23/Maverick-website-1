@@ -6,6 +6,9 @@ export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Disable on touch devices to save CPU
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
@@ -57,6 +60,11 @@ export default function CustomCursor() {
       cancelAnimationFrame(raf);
     };
   }, []);
+
+  // Don't render anything if it's a touch device
+  if (typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+    return null;
+  }
 
   return (
     <>

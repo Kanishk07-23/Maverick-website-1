@@ -12,7 +12,7 @@ const stats = [
     suffix: '+',
     label: 'Brands Scaled',
     desc: 'Across India, UAE, USA, & UK',
-    position: 'top-10 left-4 md:top-20 md:left-10',
+    position: 'md:top-10 md:left-4 lg:top-20 lg:left-10',
     delay: 0.1,
   },
   {
@@ -21,7 +21,7 @@ const stats = [
     suffix: 'M+',
     label: 'Organic Views',
     desc: 'Through SEO & social media',
-    position: 'bottom-10 left-4 md:bottom-20 md:left-20',
+    position: 'md:bottom-10 md:left-4 lg:bottom-20 lg:left-20',
     delay: 0.3,
   },
   {
@@ -30,7 +30,7 @@ const stats = [
     suffix: '%+',
     label: 'Average ROI',
     desc: 'From performance campaigns',
-    position: 'top-32 right-4 md:top-20 md:right-10',
+    position: 'md:top-32 md:right-4 lg:top-20 lg:right-10',
     delay: 0.5,
   },
   {
@@ -39,7 +39,7 @@ const stats = [
     suffix: '+',
     label: 'Years Experience',
     desc: 'As a digital marketing firm',
-    position: 'bottom-32 right-4 md:bottom-20 md:right-20',
+    position: 'md:bottom-32 md:right-4 lg:bottom-20 lg:right-20',
     delay: 0.7,
   },
 ];
@@ -71,24 +71,39 @@ function AnimatedNumber({ target, suffix }: { target: number; suffix: string }) 
   );
 }
 
-export default function ResultsSection() {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const headerInView = useInView(headerRef, { once: true });
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 768);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
 
   return (
-    <section className="relative w-full h-[120vh] min-h-[800px] overflow-hidden bg-[var(--background)] flex items-center justify-center" id="results">
+    <section className="relative w-full h-auto md:h-[120vh] md:min-h-[800px] overflow-hidden bg-[var(--background)] flex items-center justify-center pt-32 pb-24 md:py-0" id="results">
       
-      {/* 3D Canvas Background */}
-      <div className="absolute inset-0 z-0 opacity-80 mix-blend-screen pointer-events-none">
-         <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-            <GlobeComponent />
-         </Canvas>
-      </div>
+      {/* 3D Canvas Background - Only on Desktop */}
+      {isDesktop && (
+        <div className="absolute inset-0 z-0 opacity-80 mix-blend-screen pointer-events-none">
+           <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+              <GlobeComponent />
+           </Canvas>
+        </div>
+      )}
+
+      {/* Mobile-optimized high-perf background visual */}
+      {!isDesktop && (
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[60%] opacity-20 blur-[120px]" 
+                style={{ background: 'radial-gradient(circle, var(--brand-purple) 0%, var(--brand-blue) 50%, transparent 100%)' }} />
+        </div>
+      )}
 
       {/* Radial Gradient overlay for depth */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--background)_100%)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10 w-full h-full pt-32 pb-20 px-6 flex flex-col justify-between">
+      <div className="max-w-7xl mx-auto relative z-10 w-full h-full px-6 flex flex-col md:justify-center">
 
         {/* Central Header */}
         <motion.div
@@ -96,7 +111,7 @@ export default function ResultsSection() {
           initial={{ opacity: 0, y: 30, scale: 0.9 }}
           animate={headerInView ? { opacity: 1, y: 0, scale: 1 } : {}}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-center absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+          className="text-center md:absolute md:inset-0 flex flex-col items-center md:justify-center z-20 mb-12 md:mb-0 pointer-events-none"
         >
           <div className="bg-[var(--background)]/80 backdrop-blur-3xl px-8 py-6 rounded-[3rem] border border-border/20 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(109,40,217,0.15)] inline-flex flex-col items-center">
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-foreground bg-[var(--brand-purple)] mb-4">
@@ -109,8 +124,8 @@ export default function ResultsSection() {
           </div>
         </motion.div>
 
-        {/* Floating Stat Nodes */}
-        <div className="relative w-full h-full max-w-6xl mx-auto inset-0 font-outfit">
+        {/* Floating Stat Nodes (Responsive Grid on Mobile) */}
+        <div className="relative w-full md:h-full max-w-6xl mx-auto font-outfit grid grid-cols-1 sm:grid-cols-2 gap-6 md:block z-10">
            {stats.map((stat, i) => (
              <motion.div
                key={stat.id}
@@ -118,7 +133,7 @@ export default function ResultsSection() {
                whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                viewport={{ once: true, margin: '-50px' }}
                transition={{ duration: 0.8, delay: stat.delay, ease: [0.34, 1.56, 0.64, 1] }}
-               className={`absolute ${stat.position} glass-card border border-border/30 rounded-3xl p-6 md:p-8 backdrop-blur-2xl shadow-xl w-64 md:w-72`}
+               className={`md:absolute ${stat.position} glass-card border border-border/30 rounded-3xl p-6 md:p-8 backdrop-blur-2xl shadow-xl w-full md:w-64 lg:w-72`}
              >
                 <div className="font-black text-foreground leading-none mb-2" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
                   <AnimatedNumber target={stat.num} suffix={stat.suffix} />
