@@ -71,6 +71,9 @@ function AnimatedNumber({ target, suffix }: { target: number; suffix: string }) 
   );
 }
 
+export default function ResultsSection() {
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true });
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
