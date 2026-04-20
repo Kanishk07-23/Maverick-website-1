@@ -1,9 +1,12 @@
-'use client';
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useTheme } from 'next-themes';
 import { Mesh, Color } from 'three';
 
 export default function GlobeComponent() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+  
   const meshRef = useRef<Mesh>(null);
   const wireframeRef = useRef<Mesh>(null);
 
@@ -20,23 +23,25 @@ export default function GlobeComponent() {
 
   return (
     <group>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} intensity={2} color="#8b5cf6" />
-      <directionalLight position={[-10, -10, -5]} intensity={1} color="#3b82f6" />
-      <pointLight position={[0, 0, 0]} intensity={0.5} color="#d946ef" />
+      <ambientLight intensity={isDark ? 0.5 : 1.2} />
+      <directionalLight position={[10, 10, 5]} intensity={isDark ? 2 : 2.5} color={isDark ? "#8b5cf6" : "#ffffff"} />
+      <directionalLight position={[-10, -10, -5]} intensity={1} color={isDark ? "#3b82f6" : "#cbd5e1"} />
+      <pointLight position={[0, 0, 0]} intensity={isDark ? 0.5 : 1} color={isDark ? "#d946ef" : "#ffffff"} />
 
       {/* Core solid sphere with glass material */}
       <mesh ref={meshRef}>
         <sphereGeometry args={[2.8, 64, 64]} />
         <meshPhysicalMaterial 
-          color="#1a1033"
-          metalness={0.9}
-          roughness={0.15}
+          color={isDark ? "#000000" : "#ffffff"}
+          metalness={isDark ? 0.9 : 0.2}
+          roughness={isDark ? 0.1 : 0.05}
+          transmission={isDark ? 0 : 1}
+          thickness={isDark ? 0 : 2}
           envMapIntensity={1}
           clearcoat={1}
           clearcoatRoughness={0.1}
           transparent={true}
-          opacity={0.7}
+          opacity={isDark ? 0.8 : 0.4}
         />
       </mesh>
 
@@ -44,22 +49,22 @@ export default function GlobeComponent() {
       <mesh ref={wireframeRef} scale={[1.02, 1.02, 1.02]}>
         <sphereGeometry args={[2.8, 32, 32]} />
         <meshBasicMaterial 
-          color="#8b5cf6"
+          color={isDark ? "#8b5cf6" : "#6d28d9"}
           wireframe={true}
           transparent={true}
-          opacity={0.25}
+          opacity={isDark ? 0.15 : 0.35}
         />
       </mesh>
       
       {/* Particles around the globe simulating data nodes */}
       {Array.from({ length: 15 }).map((_, i) => (
-        <DataNode key={i} index={i} />
+        <DataNode key={i} index={i} isDark={isDark} />
       ))}
     </group>
   );
 }
 
-function DataNode({ index }: { index: number }) {
+function DataNode({ index, isDark }: { index: number, isDark: boolean }) {
   const ref = useRef<Mesh>(null);
   
   // Random position on sphere surface
@@ -91,8 +96,8 @@ function DataNode({ index }: { index: number }) {
   return (
     <mesh ref={ref} position={position as [number, number, number]}>
       <sphereGeometry args={[0.04, 16, 16]} />
-      <meshBasicMaterial color="#3b82f6" />
-      <pointLight distance={1} intensity={2} color="#3b82f6" />
+      <meshBasicMaterial color={isDark ? "#3b82f6" : "#6d28d9"} />
+      <pointLight distance={1} intensity={isDark ? 2 : 3} color={isDark ? "#3b82f6" : "#6d28d9"} />
     </mesh>
   );
 }
