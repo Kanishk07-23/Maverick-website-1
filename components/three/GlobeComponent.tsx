@@ -39,7 +39,7 @@ export default function GlobeComponent() {
           clearcoat={1}
           clearcoatRoughness={0.05}
           transparent={true}
-          opacity={isDark ? 0.8 : 0.3}
+          opacity={isDark ? 0.8 : 0.05}
         />
       </mesh>
 
