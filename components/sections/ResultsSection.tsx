@@ -116,7 +116,7 @@ export default function ResultsSection() {
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center md:absolute md:inset-0 flex flex-col items-center md:justify-center z-20 mb-12 md:mb-0 pointer-events-none"
         >
-          <div className="bg-[var(--background)]/80 backdrop-blur-3xl px-8 py-6 rounded-[3rem] border border-border/20 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(109,40,217,0.15)] inline-flex flex-col items-center">
+          <div className="bg-[var(--background)]/80 backdrop-blur-xl px-8 py-6 rounded-[3rem] border border-border/20 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(109,40,217,0.15)] inline-flex flex-col items-center">
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-foreground bg-[var(--brand-purple)] mb-4">
               Proven Impact
             </span>
@@ -136,7 +136,7 @@ export default function ResultsSection() {
                whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                viewport={{ once: true, margin: '-50px' }}
                transition={{ duration: 0.8, delay: stat.delay, ease: [0.34, 1.56, 0.64, 1] }}
-               className={`md:absolute ${stat.position} glass-card border border-border/30 rounded-3xl p-6 md:p-8 backdrop-blur-2xl shadow-xl w-full md:w-64 lg:w-72`}
+               className={`md:absolute ${stat.position} glass-card border border-border/30 rounded-3xl p-6 md:p-8 backdrop-blur-xl shadow-xl w-full md:w-64 lg:w-72`}
              >
                 <div className="font-black text-foreground leading-none mb-2" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
                   <AnimatedNumber target={stat.num} suffix={stat.suffix} />

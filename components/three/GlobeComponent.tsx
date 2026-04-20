@@ -33,15 +33,13 @@ export default function GlobeComponent() {
         <sphereGeometry args={[2.8, 64, 64]} />
         <meshPhysicalMaterial 
           color={isDark ? "#000000" : "#ffffff"}
-          metalness={isDark ? 0.9 : 0.2}
-          roughness={isDark ? 0.1 : 0.05}
-          transmission={isDark ? 0 : 1}
-          thickness={isDark ? 0 : 2}
+          metalness={isDark ? 0.9 : 0.6}
+          roughness={isDark ? 0.1 : 0.02}
           envMapIntensity={1}
           clearcoat={1}
-          clearcoatRoughness={0.1}
+          clearcoatRoughness={0.05}
           transparent={true}
-          opacity={isDark ? 0.8 : 0.4}
+          opacity={isDark ? 0.8 : 0.3}
         />
       </mesh>
 

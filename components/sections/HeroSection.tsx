@@ -96,7 +96,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: 'easeOut' }}
         >
-          <div className="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2.5 mb-10 border border-border/40 shadow-sm backdrop-blur-2xl">
+          <div className="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2.5 mb-10 border border-border/40 shadow-sm">
             <span className="w-2.5 h-2.5 rounded-full bg-[var(--brand-purple)] animate-pulse" />
             <span className="text-sm font-semibold tracking-widest uppercase">Mumbai-Based Growth Partners</span>
           </div>
