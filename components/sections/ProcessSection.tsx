@@ -139,7 +139,7 @@ function ProcessStep({ step, index, isEven }: { step: typeof steps[0], index: nu
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-20%' }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="glass-card p-8 rounded-3xl border border-border/40 hover:border-purple-500/30 transition-colors backdrop-blur-xl group relative overflow-hidden"
+            className="glass-card p-8 rounded-3xl border border-border/40 hover:border-purple-500/30 transition-colors group relative overflow-hidden"
           >
              {/* Suble geometric gradient in background of card */}
              <div className="absolute -inset-20 bg-gradient-to-br from-transparent via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 rotate-12" />
