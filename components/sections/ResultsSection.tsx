@@ -88,7 +88,7 @@ export default function ResultsSection() {
       
       {/* 3D Canvas Background - Only on Desktop */}
       {isDesktop && (
-        <div className="absolute inset-0 z-0 opacity-80 mix-blend-screen pointer-events-none">
+        <div className="absolute inset-0 z-0 opacity-60 dark:opacity-80 pointer-events-none">
            <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
               <GlobeComponent />
            </Canvas>

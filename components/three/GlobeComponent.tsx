@@ -29,14 +29,14 @@ export default function GlobeComponent() {
       <mesh ref={meshRef}>
         <sphereGeometry args={[2.8, 64, 64]} />
         <meshPhysicalMaterial 
-          color="#000000"
+          color="#1a1033"
           metalness={0.9}
-          roughness={0.1}
+          roughness={0.15}
           envMapIntensity={1}
           clearcoat={1}
           clearcoatRoughness={0.1}
           transparent={true}
-          opacity={0.8}
+          opacity={0.7}
         />
       </mesh>
 
@@ -47,7 +47,7 @@ export default function GlobeComponent() {
           color="#8b5cf6"
           wireframe={true}
           transparent={true}
-          opacity={0.15}
+          opacity={0.25}
         />
       </mesh>
       
