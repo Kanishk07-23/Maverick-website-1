@@ -27,17 +27,27 @@ export default function HeroSection() {
   const mouseY = useSpring(0, springConfig);
 
   useEffect(() => {
+    let rafPending = false;
+    let latestX = 0;
+    let latestY = 0;
+
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
-      // Normalize mouse between -1 and 1
-      const x = (e.clientX / innerWidth) * 2 - 1;
-      const y = (e.clientY / innerHeight) * 2 - 1;
-      
-      mouseX.set(x);
-      mouseY.set(y);
+      latestX = (e.clientX / innerWidth) * 2 - 1;
+      latestY = (e.clientY / innerHeight) * 2 - 1;
+
+      // Throttle spring updates to rAF — avoids synchronous style recalc mid-paint
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(() => {
+          mouseX.set(latestX);
+          mouseY.set(latestY);
+          rafPending = false;
+        });
+      }
     };
-    
-    window.addEventListener('mousemove', handleMouseMove);
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 

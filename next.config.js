@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['www.maverickdigitals.co.in'],
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
   },
   transpilePackages: ['three'],
 };

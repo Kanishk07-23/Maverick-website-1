@@ -4,17 +4,20 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useTheme } from 'next-themes';
 
+// Throttle counter for expensive per-frame ops
+let frameCount = 0;
+
 function ParticleField({ isDark }: { isDark: boolean }) {
   const meshRef = useRef<THREE.Points>(null);
-  const { mouse, viewport } = useThree();
+  const { mouse } = useThree();
 
   const [positions, colors] = useMemo(() => {
-    const count = 4000; // slightly reduced count for more elegance
+    // Reduced from 4000 → 2500 (~37% fewer vertices, imperceptible visually)
+    const count = 2500;
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
 
     for (let i = 0; i < count; i++) {
-      // Spread particles in a sphere-like volume
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
       const r = 3 + Math.random() * 8;
@@ -25,15 +28,13 @@ function ParticleField({ isDark }: { isDark: boolean }) {
 
       const t = Math.random();
       if (isDark) {
-        // Dark mode: Purple to Blue gradient
-        col[i * 3]     = 0.49 + t * (0.15 - 0.49); // R
-        col[i * 3 + 1] = 0.23 + t * (0.37 - 0.23); // G
-        col[i * 3 + 2] = 0.93 + t * (0.93 - 0.93); // B 
+        col[i * 3]     = 0.49 + t * (0.15 - 0.49);
+        col[i * 3 + 1] = 0.23 + t * (0.37 - 0.23);
+        col[i * 3 + 2] = 0.93;
       } else {
-        // Light mode: Dark slate/blue with occasional accent
-        col[i * 3]     = 0.1 + t * 0.2; // R
-        col[i * 3 + 1] = 0.1 + t * 0.2; // G
-        col[i * 3 + 2] = 0.2 + t * 0.3; // B
+        col[i * 3]     = 0.1 + t * 0.2;
+        col[i * 3 + 1] = 0.1 + t * 0.2;
+        col[i * 3 + 2] = 0.2 + t * 0.3;
       }
     }
     return [pos, col];
@@ -42,7 +43,6 @@ function ParticleField({ isDark }: { isDark: boolean }) {
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
     const t = clock.elapsedTime;
-    // Slower rotation for premium cinematic feel
     meshRef.current.rotation.y = t * 0.02 + mouse.x * 0.1;
     meshRef.current.rotation.x = t * 0.01 + mouse.y * 0.05;
   });
@@ -89,10 +89,14 @@ function GridLines({ isDark }: { isDark: boolean }) {
   }, []);
 
   useFrame(({ clock }) => {
+    // Only update opacity every 4th frame — value changes are imperceptibly slow
+    frameCount++;
+    if (frameCount % 4 !== 0) return;
     if (lineRef.current) {
       const mat = lineRef.current.material as THREE.LineBasicMaterial;
       const baseOpacity = isDark ? 0.08 : 0.04;
       mat.opacity = baseOpacity + Math.sin(clock.elapsedTime * 0.5) * (isDark ? 0.03 : 0.01);
+      mat.needsUpdate = false; // prevent unnecessary re-upload
     }
   });
 
@@ -106,13 +110,11 @@ function GridLines({ isDark }: { isDark: boolean }) {
 export default function HeroCanvas() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Before mount, default to a safe visual or just what seems like dark fallback.
-  // Actually, we can just use a transparent fallback until mounted.
   if (!mounted) return null;
 
   const isDark = resolvedTheme === 'dark';
@@ -122,7 +124,8 @@ export default function HeroCanvas() {
       id="hero-canvas"
       camera={{ position: [0, 0, 6], fov: 75 }}
       style={{ position: 'absolute', inset: 0 }}
-      dpr={[1, 1.5]}
+      // Cap at 1× DPR — 1.5× doubles the pixel fill rate on Retina for no perceptible quality gain on particles
+      dpr={1}
     >
       <ambientLight intensity={isDark ? 0.5 : 0.8} />
       <ParticleField isDark={isDark} />
