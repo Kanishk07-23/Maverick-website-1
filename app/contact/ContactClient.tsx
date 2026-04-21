@@ -4,15 +4,16 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Mail, MapPin, MessageCircle, Clock, CheckCircle2, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, MapPin, MessageCircle, Clock, CheckCircle2, ArrowRight, ChevronRight, Sparkles } from 'lucide-react';
 
 const schema = z.object({
-  fullName: z.string().min(2, 'Please enter your full name'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(10, 'Please enter a valid phone number'),
+  fullName: z.string().min(2, 'Full name required'),
+  email: z.string().email('Valid email required'),
+  phone: z.string().min(10, 'Valid phone required'),
   company: z.string().optional(),
-  service: z.string().min(1, 'Please select a service'),
-  message: z.string().min(20, 'Please tell us a bit more (min 20 characters)'),
+  service: z.string().min(1, 'Please select a protocol'),
+  message: z.string().min(20, 'Tell us more (min 20 chars)'),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -24,298 +25,204 @@ const services = [
   'SEO & SEM',
   'Performance Marketing',
   'Branding & Strategy',
-  'Multiple Services',
   'Not Sure Yet',
+];
+
+const roadmap = [
+  { id: '01', title: 'Intake', desc: 'Protocol audit & data diving.' },
+  { id: '02', title: 'Strategy', desc: 'Bespoke growth roadmap architecture.' },
+  { id: '03', title: 'Execution', desc: 'Surgical deployment & scaling.' },
 ];
 
 const faqs = [
   {
-    q: 'How does Maverick Digitals approach a new client?',
-    a: 'We begin with a free 30-minute strategy consultation to understand your business, goals, and current marketing situation. From there, we build a tailored roadmap — no templates, no generic packages.',
+    q: 'How do we begin?',
+    a: 'We start with a high-bandwidth strategy call to audit your current trajectory and identify leverage points.',
   },
   {
-    q: 'What industries does Maverick Digitals specialize in?',
-    a: 'We serve growth-focused businesses across e-commerce, SaaS, real estate, healthcare, finance, education, F&B, and fashion. Our frameworks adapt to your specific industry dynamics and audience behaviour.',
+    q: 'What about ROI?',
+    a: 'We only track business outcomes. Impressions are vanity; revenue is sanity.',
   },
   {
-    q: 'How long before I see results from digital marketing?',
-    a: 'Performance marketing (Meta/Google Ads) typically shows measurable results within 2–4 weeks. SEO takes 3–6 months for significant ranking improvements. Social media and personal branding build momentum over 60–90 days.',
-  },
-  {
-    q: 'Do you offer monthly retainer contracts or project-based work?',
-    a: 'We offer both. Most clients prefer monthly retainers for ongoing services like social media management and performance marketing. For web development or brand projects, we work on a fixed-scope project basis.',
-  },
-  {
-    q: 'How is Maverick Digitals different from other agencies?',
-    a: 'The founder-led model is our biggest differentiator. Muskan and Dhaval are directly involved in every account — you\'ll never be handed off to a junior team. We also measure success only by business outcomes, never vanity metrics.',
+    q: 'Direct access?',
+    a: 'Always. You communicate directly with the founders, not an intern or account manager.',
   },
 ];
 
 export default function ContactClient() {
   const [submitted, setSubmitted] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
   const onSubmit = async (data: FormData) => {
-    await new Promise((r) => setTimeout(r, 1200));
-    console.log('Contact form:', data);
+    await new Promise((r) => setTimeout(r, 1500));
+    console.log('Maverick Intake:', data);
     setSubmitted(true);
   };
 
   return (
-    <div className="pt-20">
-      {/* Hero */}
-      <section className="section-padding mesh-gradient">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
-              Get In Touch
-            </span>
-            <h1 className="font-outfit font-bold text-foreground mb-6"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
-              Contact Our Digital{' '}
-              <span className="gradient-text">Marketing Agency</span>
-            </h1>
-            <p className="text-muted-foreground text-xl leading-relaxed">
-              Ready to turn attention into revenue? Book your free digital marketing strategy consultation with our Mumbai team and discover
-              exactly how Maverick Digitals can help your business scale.
-            </p>
-          </div>
-        </div>
-      </section>
+    <div className="bg-[var(--background)] min-h-screen pt-32 pb-24 selection:bg-purple-500/30">
+      
+      {/* Noise Overlay */}
+      <div className="fixed inset-0 pointer-events-none z-[100] opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 
-      {/* Main Content */}
-      <section className="section-padding">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <h2 className="font-outfit font-bold text-foreground text-2xl mb-6">Send Us a Message</h2>
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-20">
+        
+        {/* Left Column: Asymmetrical Heading & Roadmap */}
+        <div className="lg:col-span-5">
+           <motion.div
+             initial={{ opacity: 0, x: -20 }}
+             animate={{ opacity: 1, x: 0 }}
+             transition={{ duration: 0.8 }}
+           >
+              <span className="font-mono text-xs tracking-[0.4em] text-purple-500 uppercase mb-8 block">
+                [ Intake Portal ]
+              </span>
+              <h1 className="font-outfit font-black text-foreground leading-[0.9] uppercase mb-12"
+                  style={{ fontSize: 'clamp(3rem, 6vw, 6rem)', letterSpacing: '-0.04em' }}>
+                Initiate<br />
+                <span className="gradient-text italic">Protocol.</span>
+              </h1>
 
-              {submitted ? (
-                <div className="glass-card rounded-3xl p-12 border border-green-500/20 flex flex-col items-center gap-4 text-center">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ background: 'rgba(34,197,94,0.15)' }}>
-                    <CheckCircle2 size={32} className="text-green-400" />
-                  </div>
-                  <h3 className="text-foreground font-outfit font-bold text-2xl">Message Received!</h3>
-                  <p className="text-muted-foreground max-w-sm">
-                    Thank you for reaching out. We&apos;ll review your details and get back to you within 24 hours.
-                  </p>
-                  <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3 rounded-full text-foreground text-sm font-semibold mt-2"
-                    style={{ background: '#25D366' }}>
-                    <MessageCircle size={16} />
-                    Or chat on WhatsApp now
-                  </a>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" id="contact-form">
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-fullname">Full Name *</label>
-                      <input {...register('fullName')} id="contact-fullname" placeholder="John Doe"
-                        className={`form-input ${errors.fullName ? 'error' : ''}`} />
-                      {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName.message}</p>}
-                    </div>
-                    <div>
-                      <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-email">Email Address *</label>
-                      <input {...register('email')} type="email" id="contact-email" placeholder="john@company.com"
-                        className={`form-input ${errors.email ? 'error' : ''}`} />
-                      {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-phone">Phone Number *</label>
-                      <input {...register('phone')} id="contact-phone" placeholder="+91 98765 43210"
-                        className={`form-input ${errors.phone ? 'error' : ''}`} />
-                      {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
-                    </div>
-                    <div>
-                      <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-company">Company Name</label>
-                      <input {...register('company')} id="contact-company" placeholder="Your Company"
-                        className="form-input" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-service">Service Interested In *</label>
-                    <select {...register('service')} id="contact-service"
-                      className={`form-input ${errors.service ? 'error' : ''}`}>
-                      <option value="" style={{ background: '#0F0F23' }}>Select a service...</option>
-                      {services.map((s) => (
-                        <option key={s} value={s} style={{ background: '#0F0F23' }}>{s}</option>
-                      ))}
-                    </select>
-                    {errors.service && <p className="text-red-400 text-xs mt-1">{errors.service.message}</p>}
-                  </div>
-
-                  <div>
-                    <label className="text-muted-foreground text-sm mb-1.5 block" htmlFor="contact-message">Tell Us About Your Project *</label>
-                    <textarea {...register('message')} id="contact-message" rows={5}
-                      placeholder="What are your goals? What's your current biggest marketing challenge? Any budget range in mind?"
-                      className={`form-input resize-none ${errors.message ? 'error' : ''}`} />
-                    {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message.message}</p>}
-                  </div>
-
-                  <button type="submit" disabled={isSubmitting} id="contact-submit"
-                    className="flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-foreground transition-all hover:scale-[1.02] disabled:opacity-60"
-                    style={{ background: 'var(--gradient-brand)' }}>
-                    {isSubmitting ? 'Sending Your Message...' : 'Send Message & Book Strategy Call'}
-                    {!isSubmitting && <ArrowRight size={18} />}
-                  </button>
-                </form>
-              )}
-            </div>
-
-            {/* Sidebar */}
-            <div className="flex flex-col gap-5">
-              {/* Contact Info */}
-              <div className="glass-card rounded-2xl p-6 border border-border">
-                <h3 className="text-foreground font-outfit font-bold text-lg mb-5">Contact Info</h3>
-                <div className="flex flex-col gap-4">
-                  <a href="mailto:maverickdigitals18@gmail.com" id="contact-email-link"
-                    className="flex items-start gap-3 group">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: 'rgba(124,58,237,0.15)' }}>
-                      <Mail size={16} className="text-purple-400" />
-                    </div>
-                    <div>
-                      <div className="text-muted-foreground text-xs mb-0.5">Email</div>
-                      <div className="text-foreground text-sm group-hover:text-purple-300 transition-colors">
-                        maverickdigitals18@gmail.com
+              {/* The "Roadmap to Scale" - Bespoke visual */}
+              <div className="space-y-12 relative">
+                 <div className="absolute left-4 top-4 bottom-4 w-[1px] bg-border z-0" />
+                 {roadmap.map((step, i) => (
+                   <motion.div 
+                    key={step.id}
+                    onMouseEnter={() => setHoveredStep(i)}
+                    onMouseLeave={() => setHoveredStep(null)}
+                    className="relative z-10 flex items-start gap-8 group"
+                   >
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-mono text-xs border transition-all duration-500 ${hoveredStep === i ? 'bg-purple-500 border-purple-500 text-white scale-125' : 'bg-[var(--background)] border-border text-muted-foreground'}`}>
+                        {step.id}
                       </div>
-                    </div>
-                  </a>
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: 'rgba(124,58,237,0.15)' }}>
-                      <MapPin size={16} className="text-purple-400" />
-                    </div>
-                    <div>
-                      <div className="text-muted-foreground text-xs mb-0.5">Location</div>
-                      <div className="text-foreground text-sm">Mumbai, Maharashtra, India</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: 'rgba(124,58,237,0.15)' }}>
-                      <Clock size={16} className="text-purple-400" />
-                    </div>
-                    <div>
-                      <div className="text-muted-foreground text-xs mb-0.5">Response Time</div>
-                      <div className="text-foreground text-sm">Within 24 hours</div>
-                    </div>
-                  </div>
-                </div>
+                      <div>
+                         <h3 className="font-outfit font-bold text-xl uppercase mb-1 group-hover:text-purple-500 transition-colors">{step.title}</h3>
+                         <p className="text-muted-foreground text-sm max-w-[200px]">{step.desc}</p>
+                      </div>
+                   </motion.div>
+                 ))}
               </div>
 
-              {/* WhatsApp */}
-              <a
-                href="https://wa.me/919876543210?text=Hi%20Maverick%20Digitals!%20I%20want%20to%20discuss%20a%20project."
-                target="_blank"
-                rel="noopener noreferrer"
-                id="contact-whatsapp"
-                className="glass-card rounded-2xl p-6 border border-green-500/20 flex items-center gap-4 hover:border-green-500/40 transition-all hover:scale-[1.02]"
-              >
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'rgba(37,211,102,0.15)' }}>
-                  <MessageCircle size={22} className="text-green-400" />
-                </div>
-                <div>
-                  <div className="text-foreground font-semibold text-sm">Chat on WhatsApp</div>
-                  <div className="text-muted-foreground text-xs">Usually responds in minutes</div>
-                </div>
-                <ArrowRight size={16} className="text-muted-foreground ml-auto" />
-              </a>
-
-              {/* Why Us Quick */}
-              <div className="glass-card rounded-2xl p-6 border border-border">
-                <h4 className="text-foreground font-semibold text-sm mb-4">Why Choose Maverick Digitals?</h4>
-                <div className="flex flex-col gap-3">
-                  {[
-                    '15M+ organic views delivered',
-                    '200%+ average ROI',
-                    '40+ brands successfully scaled',
-                    'Founder-led, direct involvement',
-                  ].map((point) => (
-                    <div key={point} className="flex items-center gap-2 text-muted-foreground text-xs">
-                      <CheckCircle2 size={13} className="text-purple-400 flex-shrink-0" />
-                      {point}
+              {/* Unique contact accents */}
+              <div className="mt-24 pt-12 border-t border-border">
+                 <div className="flex flex-col gap-6 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    <div className="flex items-center gap-4">
+                       <Mail size={12} className="text-purple-500" /> maverickdigitals18@gmail.com
                     </div>
-                  ))}
-                </div>
+                    <div className="flex items-center gap-4">
+                       <MapPin size={12} className="text-purple-500" /> Mumbai / Global
+                    </div>
+                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="section-padding" style={{ background: 'rgba(15,15,35,0.5)' }} id="faq">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-4">
-              FAQ
-            </span>
-            <h2 className="font-outfit font-bold text-foreground text-3xl mb-4">
-              Common{' '}
-              <span className="gradient-text">Questions</span>
-            </h2>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="glass-card rounded-2xl border border-border overflow-hidden"
-              >
-                <button
-                  id={`faq-${i}`}
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left px-6 py-5 flex items-start justify-between gap-4"
-                >
-                  <span className="text-foreground font-medium text-sm leading-relaxed">{faq.q}</span>
-                  <span className={`text-purple-400 flex-shrink-0 mt-0.5 transition-transform duration-300 ${openFaq === i ? 'rotate-45' : ''}`}>
-                    +
-                  </span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-5 text-muted-foreground text-sm leading-relaxed border-t border-border pt-4">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+           </motion.div>
         </div>
 
-        {/* FAQ Schema */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            {
-              '@context': 'https://schema.org',
-              '@type': 'FAQPage',
-              mainEntity: faqs.map(f => ({
-                '@type': 'Question',
-                name: f.q,
-                acceptedAnswer: { '@type': 'Answer', text: f.a },
-              })),
-            },
-            {
-              '@context': 'https://schema.org',
-              '@type': 'ContactPage',
-              name: 'Contact Maverick Digitals',
-              description: 'Contact our digital marketing agency in Mumbai'
-            }
-          ]),
-        }} />
-      </section>
+        {/* Right Column: The "Intake Portal" Form */}
+        <div className="lg:col-span-7">
+           <AnimatePresence mode="wait">
+             {submitted ? (
+               <motion.div 
+                 initial={{ opacity: 0, scale: 0.95 }}
+                 animate={{ opacity: 1, scale: 1 }}
+                 className="h-full flex flex-col items-center justify-center py-20 px-8 text-center bg-muted rounded-3xl border border-border"
+               >
+                  <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mb-8">
+                    <CheckCircle2 size={40} className="text-green-500" />
+                  </div>
+                  <h2 className="font-outfit font-black text-4xl uppercase mb-4">Transmission Received</h2>
+                  <p className="text-muted-foreground text-lg mb-8 max-w-sm">
+                    Strategic architects are auditing your request. Expect a response within 24 operational hours.
+                  </p>
+                  <button onClick={() => setSubmitted(false)} className="font-mono text-xs uppercase tracking-widest text-purple-500 hover:opacity-70 transition-opacity">
+                    Send another transmission
+                  </button>
+               </motion.div>
+             ) : (
+               <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-card border border-border rounded-[2.5rem] p-8 md:p-14 shadow-2xl relative overflow-hidden"
+               >
+                  <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+                     <Sparkles size={120} />
+                  </div>
+
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 relative z-10 text-foreground">
+                    <div className="grid md:grid-cols-2 gap-8">
+                       <div className="group relative">
+                          <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Identity</label>
+                          <input {...register('fullName')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="John Wick" />
+                          {errors.fullName && <span className="text-[10px] text-red-500 font-mono mt-1 block">{errors.fullName.message}</span>}
+                       </div>
+                       <div className="group relative">
+                          <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Transmission Node</label>
+                          <input {...register('email')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="john@continental.com" />
+                          {errors.email && <span className="text-[10px] text-red-500 font-mono mt-1 block">{errors.email.message}</span>}
+                       </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                       <div className="group relative">
+                          <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Tactical Direct</label>
+                          <input {...register('phone')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="+91 XXXX XXXX" />
+                          {errors.phone && <span className="text-[10px] text-red-500 font-mono mt-1 block">{errors.phone.message}</span>}
+                       </div>
+                       <div className="group relative">
+                          <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Organization</label>
+                          <input {...register('company')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="Continental Inc." />
+                       </div>
+                    </div>
+
+                    <div className="group relative">
+                       <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Protocol Selection</label>
+                       <select {...register('service')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium appearance-none cursor-pointer px-0 rounded-none h-auto text-foreground">
+                          <option value="" className="text-white bg-neutral-900">Select Protocol...</option>
+                          {services.map(s => <option key={s} value={s} className="text-white bg-neutral-900">{s}</option>)}
+                       </select>
+                    </div>
+
+                    <div className="group relative">
+                       <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Objective Description</label>
+                       <textarea {...register('message')} rows={4} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium resize-none placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="Tell us about the target goal..." />
+                       {errors.message && <span className="text-[10px] text-red-500 font-mono mt-1 block">{errors.message.message}</span>}
+                    </div>
+
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="w-full py-6 rounded-2xl bg-foreground text-background dark:bg-white dark:text-black font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:scale-[0.98] active:scale-95 transition-all disabled:opacity-50 mt-12"
+                    >
+                      {isSubmitting ? 'Transmitting...' : 'Establish Connection'}
+                      <ChevronRight size={20} className="text-purple-500" />
+                    </button>
+                  </form>
+               </motion.div>
+             )}
+           </AnimatePresence>
+
+           {/* Magazine-Style FAQ Sidebar/Bottom section */}
+           <div className="mt-20">
+              <div className="grid md:grid-cols-3 gap-8">
+                 {faqs.map(faq => (
+                   <div key={faq.q} className="group cursor-default">
+                      <h4 className="font-outfit font-bold text-foreground text-sm uppercase mb-3 flex items-center gap-2 group-hover:text-purple-500 transition-colors">
+                         <span className="w-1 h-3 bg-purple-500 block" /> {faq.q}
+                      </h4>
+                      <p className="text-muted-foreground text-xs leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        {faq.a}
+                      </p>
+                   </div>
+                 ))}
+              </div>
+           </div>
+        </div>
+
+      </div>
     </div>
   );
 }

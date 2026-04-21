@@ -1,209 +1,227 @@
 'use client';
-import type { Metadata } from 'next';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { Linkedin, Mail, ArrowRight, Zap, Target, Brain, Code, Terminal, Palette, PenTool } from 'lucide-react';
 import Link from 'next/link';
-import { ArrowRight, Linkedin, Mail, Target, Brain, Users, Zap } from 'lucide-react';
-import { useState } from 'react';
 
 const founders = [
   {
     id: 'muskan',
     name: 'Muskan Rathod',
-    role: 'Founder',
-    bio: 'Brand strategist & growth marketer, expert in storytelling, personal branding, and scaling businesses with digital-first positioning. Muskan brings the creative side — she understands consumer psychology deeply and translates it into campaigns that convert.',
-    specialties: ['Brand Strategy', 'Content Creation', 'Growth Marketing', 'Personal Branding', 'Storytelling'],
-    email: 'maverickdigitals18@gmail.com',
-    linkedin: '#',
-    color: '#7C3AED',
+    role: 'The Brand Architect',
+    bio: 'Deciphering consumer psychology through narrative. Muskan engineers brand identities that don\'t just look good—they stick in the subconscious.',
+    specialties: ['Strategy', 'Storytelling', 'Psychology', 'Branding'],
+    stats: [
+      { label: 'Creative Depth', value: 98, icon: <Palette size={14} /> },
+      { label: 'Growth Velocity', value: 92, icon: <Zap size={14} /> },
+      { label: 'Narrative ROI', value: 95, icon: <PenTool size={14} /> },
+    ],
+    avatar: 'M',
+    color: '#8b5cf6', // purple
     img: 'https://www.maverickdigitals.co.in/founder-muskan.jpg',
   },
   {
     id: 'dhaval',
     name: 'Dhaval Shah',
-    role: 'Co-Founder',
-    bio: 'Tech innovator with 5+ years in scalable web and app development, specializing in building conversion-optimized digital platforms. Dhaval architects the technical backbone that makes performance marketing campaigns truly scale.',
-    specialties: ['Web Development', 'App Development', 'Technical SEO', 'Performance Optimization', 'Conversion Rate Optimization'],
-    email: 'maverickdigitals18@gmail.com',
-    linkedin: '#',
-    color: '#2563EB',
+    role: 'The Tech Alchemist',
+    bio: 'Building the unbreakable systems that turn attention into conversion. Dhaval bridges the gap between high-level performance marketing and deep code.',
+    specialties: ['Performance', 'Systems', 'Node.js', 'Scaling'],
+    stats: [
+      { label: 'Technical SEO', value: 99, icon: <Terminal size={14} /> },
+      { label: 'System Logic', value: 96, icon: <Code size={14} /> },
+      { label: 'Data Mining', value: 94, icon: <Brain size={14} /> },
+    ],
+    avatar: 'D',
+    color: '#3b82f6', // blue
     img: 'https://www.maverickdigitals.co.in/founder-dhaval.jpg',
   },
 ];
 
-const values = [
-  { icon: <Target size={32} />, title: 'Performance-Driven', desc: 'Measurable results over vanity metrics, always.' },
-  { icon: <Brain size={32} />, title: 'Data-Informed', desc: 'Every decision backed by analytics and insights.' },
-  { icon: <Users size={32} />, title: 'Founder-Led', desc: 'Senior attention on every single project.' },
-  { icon: <Zap size={32} />, title: 'End-to-End', desc: 'One team. Complete capability.' },
-];
-
-function FounderCard({ founder }: { founder: typeof founders[0] }) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Disable tilt on touch devices to save processing power and avoid jitter
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientY - rect.top) / rect.height - 0.5) * 10;
-    const y = -((e.clientX - rect.left) / rect.width - 0.5) * 10;
-    setTilt({ x, y });
-  };
-
-  return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-      style={{
-        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-        transition: 'transform 0.1s ease',
-      }}
-      className="glass-card rounded-3xl p-6 sm:p-8 border border-border hover:border-purple-500/20 cursor-default"
-      id={`founder-${founder.id}`}
-    >
-      {/* Photo */}
-      <div className="relative w-24 h-24 rounded-2xl overflow-hidden mb-6 border-2"
-        style={{ borderColor: `${founder.color}40` }}>
-        <div
-          className="w-full h-full flex items-center justify-center text-4xl font-outfit font-bold text-foreground"
-          style={{ background: `linear-gradient(135deg, ${founder.color}40, ${founder.color}20)` }}
-        >
-          {founder.name[0]}
-        </div>
-      </div>
-
-      {/* Info */}
-      <div className="mb-1">
-        <span className="text-xs font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full"
-          style={{ color: founder.color, background: `${founder.color}15` }}>
-          {founder.role}
-        </span>
-      </div>
-      <h3 className="font-outfit font-bold text-foreground text-2xl mt-3 mb-3">{founder.name}</h3>
-      <p className="text-muted-foreground text-sm leading-relaxed mb-5">{founder.bio}</p>
-
-      {/* Specialties */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {founder.specialties.map((s) => (
-          <span key={s} className="text-xs px-2.5 py-1 rounded-full text-muted-foreground glass-card border border-border">
-            {s}
-          </span>
-        ))}
-      </div>
-
-      {/* Links */}
-      <div className="flex gap-3">
-        <a href={`mailto:${founder.email}`} id={`founder-${founder.id}-email`}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-muted-foreground0 transition-colors">
-          <Mail size={15} /> Email
-        </a>
-        <a href={founder.linkedin} id={`founder-${founder.id}-linkedin`}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-muted-foreground0 transition-colors">
-          <Linkedin size={15} /> LinkedIn
-        </a>
-      </div>
-    </div>
-  );
-}
-
 export default function TeamPage() {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
   return (
-    <div className="pt-20">
-      {/* Hero */}
-      <section className="section-padding mesh-gradient">
+    <div className="bg-[var(--background)] min-h-screen pt-20">
+      
+      {/* Noise Overlay */}
+      <div className="fixed inset-0 pointer-events-none z-[100] opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+
+      {/* Hero Header */}
+      <section className="px-6 py-24 md:py-32">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
-              The Team
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-4xl"
+          >
+            <span className="font-mono text-sm tracking-[0.4em] text-purple-500 uppercase mb-6 block">
+              [ Leadership Unit ]
             </span>
-            <h1 className="font-outfit font-bold text-foreground mb-6"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
-              Visionary Leaders,{' '}
-              <span className="gradient-text">Real Results</span>
+            <h1 className="font-outfit font-black text-foreground leading-[1] uppercase mb-8"
+                style={{ fontSize: 'clamp(3rem, 8vw, 7rem)', letterSpacing: '-0.04em' }}>
+              The Minds Behind<br />
+              <span className="gradient-text italic">The Machine.</span>
             </h1>
-            <p className="text-muted-foreground text-xl leading-relaxed">
-              The people behind Maverick Digitals. A lean, high-output team combining strategic expertise with technical
-              innovation — and always directly involved in your success.
+            <p className="text-muted-foreground text-xl max-w-2xl leading-relaxed">
+              We don&apos;t hire account managers. You work directly with the founders who have skin in the game and code in their blood.
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Founders */}
-      <section className="section-padding">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="font-outfit font-bold text-foreground mb-4"
-              style={{ fontSize: 'clamp(1.8rem, 3vw, 3rem)' }}>
-              Meet the{' '}
-              <span className="gradient-text">Founders</span>
-            </h2>
-            <p className="text-muted-foreground max-w-lg mx-auto">
-              At Maverick Digitals, the founders are directly involved in every project. No account managers.
-              No middlemen. Just experts with skin in the game.
-            </p>
-          </div>
-          <div className="grid lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {founders.map((f) => (
-              <FounderCard key={f.id} founder={f} />
-            ))}
-          </div>
-        </div>
+      {/* Founder Split-View: Bespoke Interactive Layout */}
+      <section className="h-auto md:h-[90vh] min-h-[700px] w-full flex flex-col md:flex-row border-y border-border overflow-hidden">
+        {founders.map((f, i) => (
+          <motion.div
+            key={f.id}
+            onMouseEnter={() => setHoveredId(f.id)}
+            onMouseLeave={() => setHoveredId(null)}
+            className="flex-1 relative group cursor-default overflow-hidden border-b md:border-b-0 md:border-r last:border-r-0 border-border transition-[flex] duration-700 ease-out"
+            style={{ 
+              flex: hoveredId === f.id ? 1.6 : hoveredId === null ? 1 : 0.6 
+            }}
+          >
+            {/* Background Image / Placeholder with subtle zoom */}
+            <div className="absolute inset-0 z-0">
+               <div className="absolute inset-0 bg-neutral-900/60 z-10 transition-opacity group-hover:opacity-40" />
+               <div  className="w-full h-full bg-muted flex items-center justify-center text-[20vw] font-black text-white/5 select-none">
+                 {f.avatar}
+               </div>
+               {/* Grayscale overlay that colors on hover */}
+               <img 
+                 src={f.img} 
+                 className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
+                 alt={f.name}
+               />
+            </div>
+
+            {/* Content Container */}
+            <div className="relative z-20 h-full p-8 md:p-16 flex flex-col justify-end overflow-hidden">
+                <motion.div 
+                   animate={{ y: hoveredId === f.id ? 0 : 20 }}
+                   className="relative flex flex-col h-full justify-end"
+                >
+                    {/* Header: Vertical Name on non-hovered Desktop */}
+                    <div className={`hidden md:block absolute top-0 left-0 transition-opacity duration-500 ${hoveredId === f.id ? 'opacity-0' : 'opacity-100'}`}>
+                       <span className="font-outfit font-black text-6xl text-white/30 uppercase vertical-text origin-top-left -rotate-90">
+                         {f.name.split(' ')[0]}
+                       </span>
+                    </div>
+
+                    <div className="max-w-xl">
+                        <span className="font-mono text-xs text-white/60 tracking-widest uppercase mb-4 block" style={{ color: f.color }}>
+                          {f.role}
+                        </span>
+                        <h2 className="font-outfit font-black text-5xl md:text-7xl text-white mb-6 uppercase leading-none">
+                          {f.name}
+                        </h2>
+                        
+                        {/* Expanded details visible on hover */}
+                        <AnimatePresence>
+                          { (hoveredId === f.id || hoveredId === null) && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="overflow-hidden"
+                            >
+                               <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-8 max-w-md">
+                                 {f.bio}
+                               </p>
+
+                               {/* Dynamic Stat Meters: Custom Bespoke Visuals */}
+                               <div className="space-y-6 mb-10">
+                                  {f.stats.map((s, si) => (
+                                    <div key={s.label}>
+                                       <div className="flex items-center justify-between text-white/60 text-xs uppercase tracking-tighter mb-2">
+                                         <span className="flex items-center gap-2">{s.icon} {s.label}</span>
+                                         <span>{s.value}%</span>
+                                       </div>
+                                       <div className="h-[2px] w-full bg-white/10 rounded-full overflow-hidden">
+                                          <motion.div 
+                                            initial={{ scaleX: 0 }}
+                                            whileInView={{ scaleX: s.value / 100 }}
+                                            transition={{ duration: 1, delay: 0.5 + si * 0.1 }}
+                                            className="h-full bg-white origin-left"
+                                          />
+                                       </div>
+                                    </div>
+                                  ))}
+                               </div>
+
+                               <div className="flex gap-6">
+                                  <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
+                                    <Linkedin size={18} />
+                                  </a>
+                                  <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
+                                    <Mail size={18} />
+                                  </a>
+                               </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                    </div>
+                </motion.div>
+            </div>
+          </motion.div>
+        ))}
       </section>
 
-      {/* Values */}
-      <section className="section-padding" style={{ background: 'rgba(15,15,35,0.5)' }}>
+      {/* Operating Principles: Oversized Typographic Stats */}
+      <section className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-outfit font-bold text-foreground text-3xl mb-4">
-              The Maverick{' '}
-              <span className="gradient-text">Promise</span>
-            </h2>
-            <p className="text-muted-foreground max-w-lg mx-auto">
-              These aren&apos;t just values on a slide — they&apos;re the operating principles that define how we work every day.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((v) => (
-              <div key={v.title}
-                className="glass-card rounded-2xl p-6 border border-border hover:border-purple-500/30 transition-all hover:scale-[1.03] text-center">
-                <div className="text-purple-400 flex justify-center mb-4">{v.icon}</div>
-                <h3 className="text-foreground font-outfit font-bold text-lg mb-2">{v.title}</h3>
-                <p className="text-muted-foreground text-sm">{v.desc}</p>
+           <div className="grid lg:grid-cols-2 gap-24 items-center">
+              <div>
+                 <h2 className="font-outfit font-black text-6xl md:text-8xl leading-none uppercase mb-8">
+                   No <br />
+                   <span className="gradient-text italic">Middlemen.</span>
+                 </h2>
+                 <p className="text-muted-foreground text-xl leading-relaxed">
+                   When you hire Maverick, you don&apos;t get a junior account executive. You get us. We bridge the gap between vision and execution with direct engineering and brand depth.
+                 </p>
               </div>
-            ))}
-          </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                 {[
+                   { label: 'Success Rate', val: '94%', sub: 'Retained Growth' },
+                   { label: 'Agency Bloat', val: '00%', sub: 'Pure Output' },
+                   { label: 'Direct ROI', val: '2.5x', sub: 'Average Multiplier' },
+                   { label: 'Founders', val: '02', sub: 'The Core Unit' },
+                 ].map((stat, i) => (
+                   <div key={stat.label} className="p-8 border border-border rounded-xl group hover:border-purple-500/40 transition-colors">
+                      <div className="font-outfit font-black text-5xl mb-2 gradient-text group-hover:scale-110 origin-left transition-transform">
+                        {stat.val}
+                      </div>
+                      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{stat.label}</div>
+                      <div className="text-xs text-muted-foreground font-medium">{stat.sub}</div>
+                   </div>
+                 ))}
+              </div>
+           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 text-center">
-        <div className="max-w-2xl mx-auto px-6">
-          <h2 className="font-outfit font-bold text-foreground text-4xl mb-4">
-            Work With{' '}
-            <span className="gradient-text">Our Founders</span>
-          </h2>
-          <p className="text-muted-foreground mb-8">
-            Get direct access to Muskan and Dhaval on your very first call.
-          </p>
-          <Link href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-foreground hover:scale-105 transition-all shadow-[var(--premium-shadow)]"
-            style={{ background: 'var(--gradient-brand)' }}>
-            Book a Strategy Call <ArrowRight size={18} />
-          </Link>
+      <section className="py-24 px-6 text-center bg-foreground text-background dark:bg-muted dark:text-foreground">
+        <div className="max-w-4xl mx-auto">
+           <h2 className="font-outfit font-black text-5xl md:text-7xl uppercase mb-8 leading-none">
+             Partner with <br />
+             <span className="gradient-text italic">Command.</span>
+           </h2>
+           <Link href="/contact" className="inline-flex items-center gap-4 group">
+             <span className="text-2xl font-mono uppercase tracking-[0.2em] group-hover:translate-x-3 transition-transform">Book Strategy Call</span>
+             <ArrowRight size={32} className="text-purple-500 group-hover:rotate-45 transition-transform" />
+           </Link>
         </div>
       </section>
 
-      {/* Schema.org */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify(founders.map(f => ({
-          '@context': 'https://schema.org',
-          '@type': 'Person',
-          name: f.name,
-          jobTitle: f.role,
-          worksFor: { '@type': 'Organization', name: 'Maverick Digitals' },
-          email: f.email,
-        }))),
-      }} />
+      <style jsx>{`
+        .vertical-text {
+          writing-mode: vertical-lr;
+          text-orientation: mixed;
+          white-space: nowrap;
+        }
+      `}</style>
     </div>
   );
 }
