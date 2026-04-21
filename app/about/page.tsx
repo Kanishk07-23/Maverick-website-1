@@ -127,24 +127,24 @@ export default function AboutPage() {
       </section>
 
       {/* Values: Asymmetrical High-Contrast Grid */}
-      <section className="py-32 px-6 bg-foreground text-background dark:bg-muted dark:text-foreground relative">
+      <section className="py-32 px-6 bg-muted relative">
         <div className="max-w-7xl mx-auto">
            <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
-              <h2 className="font-outfit font-bold text-5xl md:text-7xl leading-none m-0">
+              <h2 className="font-outfit font-bold text-5xl md:text-7xl leading-none m-0 text-foreground">
                 Core<br />
-                <span className="gradient-text text-purple-400">Directives.</span>
+                <span className="gradient-text text-purple-600 dark:text-purple-400">Directives.</span>
               </h2>
-              <p className="max-w-sm text-muted-foreground font-medium text-lg border-l border-zinc-700 pl-6">
+              <p className="max-w-sm text-muted-foreground font-medium text-lg border-l border-border pl-6">
                 Our operational principles. No templates. No safety nets. Just growth.
               </p>
            </div>
 
-           <div className="grid md:grid-cols-3 gap-1px bg-zinc-800 border border-zinc-800">
+           <div className="grid md:grid-cols-3 gap-1px bg-border border border-border">
              {values.map((v, i) => (
                <motion.div 
                 key={v.num}
-                whileHover={{ backgroundColor: 'rgba(139, 92, 246, 0.1)' }}
-                className="bg-foreground dark:bg-muted p-12 relative group overflow-hidden transition-colors"
+                whileHover={{ backgroundColor: 'rgba(139, 92, 246, 0.05)' }}
+                className="bg-card p-12 relative group overflow-hidden transition-colors"
                >
                  <span className="text-sm font-semibold tracking-widest text-purple-400 mb-8 block">[{v.num}]</span>
                  <h3 className="text-2xl font-bold font-outfit mb-4">{v.title}</h3>
@@ -205,7 +205,8 @@ export default function AboutPage() {
             </motion.h2>
             <Link 
               href="/contact" 
-              className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-foreground text-background dark:bg-white dark:text-black font-black uppercase tracking-widest text-lg hover:scale-105 transition-transform shadow-2xl"
+              className="inline-flex items-center gap-4 px-12 py-6 rounded-full text-white font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform shadow-2xl btn-magnetic"
+              style={{ background: 'var(--gradient-brand)' }}
             >
               Collaborate <ArrowRight size={20} />
             </Link>

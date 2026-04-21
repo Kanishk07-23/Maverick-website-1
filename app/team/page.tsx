@@ -69,97 +69,67 @@ export default function TeamPage() {
         </div>
       </section>
 
-      {/* Founder Split-View: Bespoke Interactive Layout */}
-      <section className="h-auto md:h-[90vh] min-h-[700px] w-full flex flex-col md:flex-row border-y border-border overflow-hidden">
+      {/* Founder Editorial Stack */}
+      <div className="flex flex-col w-full border-t border-border">
         {founders.map((f, i) => (
-          <motion.div
-            key={f.id}
-            onMouseEnter={() => setHoveredId(f.id)}
-            onMouseLeave={() => setHoveredId(null)}
-            className="flex-1 relative group cursor-default overflow-hidden border-b md:border-b-0 md:border-r last:border-r-0 border-border transition-[flex] duration-700 ease-out"
-            style={{ 
-              flex: hoveredId === f.id ? 1.6 : hoveredId === null ? 1 : 0.6 
-            }}
-          >
-            {/* Background Image / Placeholder with subtle zoom */}
-            <div className="absolute inset-0 z-0">
-               <div className="absolute inset-0 bg-neutral-900/60 z-10 transition-opacity group-hover:opacity-40" />
-               <div  className="w-full h-full bg-muted flex items-center justify-center text-[20vw] font-bold text-white/5 select-none">
-                 {f.avatar}
-               </div>
-               {/* Grayscale overlay that colors on hover */}
-               <img 
-                 src={f.img} 
-                 className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
-                 alt={f.name}
-               />
-            </div>
+          <section key={f.id} className="w-full py-24 md:py-32 px-6 border-b border-border last:border-b-0">
+             <div className={`max-w-7xl mx-auto flex flex-col md:flex-row gap-16 md:gap-24 items-center ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+                
+                {/* Image Section */}
+                <div className="w-full md:w-1/2">
+                   <div className="aspect-[3/4] relative rounded-3xl overflow-hidden shadow-2xl group">
+                     {/* Static portrait with subtle zoom on hover */}
+                     <img 
+                       src={f.img} 
+                       alt={f.name}
+                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                     />
+                   </div>
+                </div>
 
-            {/* Content Container */}
-            <div className="relative z-20 h-full p-8 md:p-16 flex flex-col justify-end overflow-hidden">
-                <motion.div 
-                   animate={{ y: hoveredId === f.id ? 0 : 20 }}
-                   className="relative flex flex-col h-full justify-end"
-                >
-                    {/* Header: Vertical Name on non-hovered Desktop */}
-                    <div className={`hidden md:block absolute top-0 left-0 transition-opacity duration-500 ${hoveredId === f.id ? 'opacity-0' : 'opacity-100'}`}>
-                       <span className="font-outfit font-bold text-6xl text-white/30 uppercase vertical-text origin-top-left -rotate-90">
-                         {f.name.split(' ')[0]}
-                       </span>
-                    </div>
+                {/* Content Section */}
+                <div className="w-full md:w-1/2 flex flex-col justify-center">
+                   <span className="font-semibold text-xs tracking-widest text-purple-500 uppercase mb-4 block" style={{ color: f.color }}>
+                      {f.role}
+                   </span>
+                   <h2 className="font-outfit font-bold text-5xl md:text-7xl text-foreground mb-8 leading-tight">
+                      {f.name}
+                   </h2>
+                   <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-12">
+                      {f.bio}
+                   </p>
 
-                    <div className="max-w-xl">
-                        <span className="font-semibold text-xs text-white/80 tracking-widest uppercase mb-4 block" style={{ color: f.color }}>
-                          {f.role}
-                        </span>
-                        <h2 className="font-outfit font-bold text-4xl md:text-6xl text-white mb-6 uppercase leading-none">
-                          {f.name}
-                        </h2>
-                        
-                        {/* Expanded details visible on hover */}
-                        <AnimatePresence>
-                          { (hoveredId === f.id || hoveredId === null) && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              className="overflow-hidden"
-                            >
-                               <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-8 max-w-md">
-                                 {f.bio}
-                               </p>
+                   {/* Qualifications List - Cleaned up for light/dark mode */}
+                   <div className="space-y-6 mb-12">
+                      {f.qualifications.map((q) => (
+                        <div key={q.label} className="bg-card border border-border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                           <div className="flex items-center gap-3 text-foreground font-semibold mb-2">
+                             <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center" style={{ color: f.color }}>
+                               {q.icon}
+                             </div>
+                             {q.label}
+                           </div>
+                           <div className="text-muted-foreground text-sm ml-11">
+                              {q.desc}
+                           </div>
+                        </div>
+                      ))}
+                   </div>
 
-                               {/* Qualifications List */}
-                               <div className="space-y-4 mb-10">
-                                  {f.qualifications.map((q) => (
-                                    <div key={q.label} className="bg-white/5 border border-white/10 rounded-lg p-3 backdrop-blur-sm">
-                                       <div className="flex items-center gap-2 text-white/90 font-semibold text-sm mb-1">
-                                         {q.icon} {q.label}
-                                       </div>
-                                       <div className="text-white/70 text-sm ml-6">
-                                          {q.desc}
-                                       </div>
-                                    </div>
-                                  ))}
-                               </div>
+                   <div className="flex gap-4">
+                      <a href="#" className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-colors">
+                        <Linkedin size={18} />
+                      </a>
+                      <a href="#" className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-colors">
+                        <Mail size={18} />
+                      </a>
+                   </div>
+                </div>
 
-                               <div className="flex gap-6">
-                                  <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
-                                    <Linkedin size={18} />
-                                  </a>
-                                  <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
-                                    <Mail size={18} />
-                                  </a>
-                               </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                    </div>
-                </motion.div>
-            </div>
-          </motion.div>
+             </div>
+          </section>
         ))}
-      </section>
+      </div>
 
       {/* Operating Principles: Oversized Typographic Stats */}
       <section className="py-32 px-6">
@@ -196,7 +166,7 @@ export default function TeamPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6 text-center bg-foreground text-background dark:bg-muted dark:text-foreground">
+      <section className="py-24 px-6 text-center bg-muted">
         <div className="max-w-4xl mx-auto">
            <h2 className="font-outfit font-bold text-4xl md:text-6xl mb-8 leading-none">
              Partner with <br />

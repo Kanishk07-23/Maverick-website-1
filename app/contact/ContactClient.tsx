@@ -181,8 +181,8 @@ export default function ContactClient() {
                     <div className="group relative">
                        <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Protocol Selection</label>
                        <select {...register('service')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium appearance-none cursor-pointer px-0 rounded-none h-auto text-foreground">
-                          <option value="" className="text-white bg-neutral-900">Select Protocol...</option>
-                          {services.map(s => <option key={s} value={s} className="text-white bg-neutral-900">{s}</option>)}
+                          <option value="" className="text-foreground bg-background">Select Protocol...</option>
+                          {services.map(s => <option key={s} value={s} className="text-foreground bg-background">{s}</option>)}
                        </select>
                     </div>
 
@@ -195,7 +195,8 @@ export default function ContactClient() {
                     <button 
                       type="submit" 
                       disabled={isSubmitting}
-                      className="w-full py-6 rounded-2xl bg-foreground text-background dark:bg-white dark:text-black font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:scale-[0.98] active:scale-95 transition-all disabled:opacity-50 mt-12"
+                      className="w-full py-6 rounded-2xl text-white font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:scale-[0.98] active:scale-95 transition-all disabled:opacity-50 mt-12 shadow-xl btn-magnetic"
+                      style={{ background: 'var(--gradient-brand)' }}
                     >
                       {isSubmitting ? 'Transmitting...' : 'Establish Connection'}
                       <ChevronRight size={20} className="text-purple-500" />
