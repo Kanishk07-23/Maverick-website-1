@@ -108,7 +108,7 @@ export default function AboutPage() {
                 <div className="aspect-[4/5] bg-muted rounded-2xl overflow-hidden shadow-2xl relative">
                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] via-transparent to-transparent z-10" />
                    <img 
-                    src="https://www.maverickdigitals.co.in/founder-muskan.jpg" 
+                    src="/images/founders/founder-muskan.jpg" 
                     alt="Maverick Origin" 
                     className="w-full h-full object-cover grayscale contrast-125"
                    />

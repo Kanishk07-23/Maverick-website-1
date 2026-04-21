@@ -18,7 +18,7 @@ const founders = [
     ],
     avatar: 'M',
     color: '#8b5cf6', // purple
-    img: 'https://www.maverickdigitals.co.in/founder-muskan.jpg',
+    img: '/images/founders/founder-muskan.jpg',
   },
   {
     id: 'dhaval',
@@ -33,7 +33,7 @@ const founders = [
     ],
     avatar: 'D',
     color: '#3b82f6', // blue
-    img: 'https://www.maverickdigitals.co.in/founder-dhaval.jpg',
+    img: '/images/founders/founder-dhaval.jpg',
   },
 ];
 
