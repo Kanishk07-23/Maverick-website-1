@@ -1,174 +1,343 @@
 'use client';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Linkedin, Mail, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Linkedin, Mail, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-const founders = [
-  {
-    id: 'muskan',
-    name: 'Muskan Rathod',
-    role: 'Brand Architecture',
-    color: '#8b5cf6', // purple
-    img: '/images/founders/founder-muskan.jpg',
-    philosophy: 'Deciphering consumer psychology through narrative. Engineering identities that stick in the subconscious.',
-    specs: [
-      ['Focus', 'Narrative Integrity'],
-      ['Output', 'Market Dominance'],
-      ['Logic', 'Human Psychology']
-    ]
-  },
-  {
-    id: 'dhaval',
-    name: 'Dhaval Shah',
-    role: 'Systems Engineering',
-    color: '#3b82f6', // blue
-    img: '/images/founders/founder-dhaval.jpg',
-    philosophy: 'Building unbreakable structures that convert attention into measurable velocity and scaling systems.',
-    specs: [
-      ['Focus', 'Technical Precision'],
-      ['Output', 'Growth Velocity'],
-      ['Logic', 'Algorithmic Scale']
-    ]
-  },
-];
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
 export default function TeamPage() {
-  const [hoveredLeader, setHoveredLeader] = useState<string | null>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: parallaxRef,
+    offset: ['start end', 'end start'],
+  });
+  const y1 = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [-30, 30]);
 
   return (
-    <div className="bg-[var(--background)] min-h-screen relative flex items-center justify-center overflow-hidden font-outfit selection:bg-foreground selection:text-background">
-      
-      {/* Texture Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.02] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-
-      {/* Dynamic Backgrounds */}
-      <AnimatePresence>
-        {hoveredLeader === 'muskan' && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute inset-0 pointer-events-none"
+    <div className="pt-20">
+      {/* ── HERO ── */}
+      <section className="section-padding mesh-gradient relative overflow-hidden" aria-label="Team Hero">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="max-w-3xl"
           >
-            <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] bg-purple-500/5 rounded-full blur-[120px]" />
-          </motion.div>
-        )}
-        {hoveredLeader === 'dhaval' && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute inset-0 pointer-events-none"
-          >
-            <div className="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vw] bg-blue-500/5 rounded-full blur-[120px]" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="w-full max-w-[90rem] mx-auto px-6 py-32 md:py-0 relative z-10">
-        
-        {/* Minimalist Manifesto Header */}
-        <div className="flex justify-between items-end mb-24 md:mb-32">
-          <div className="max-w-md">
-            <span className="text-[9px] uppercase tracking-[0.3em] font-medium text-muted-foreground mb-4 block">
-              [ Internal Structure ]
-            </span>
-            <p className="text-sm md:text-base text-foreground/80 leading-relaxed font-light">
-              Maverick is the convergence of psychological brand architecture and unbreakable technical systems. We eliminated the layers. You don&apos;t talk to account managers; you talk directly to the architects building your future.
-            </p>
-          </div>
-          <div className="hidden md:block text-right">
-            <span className="text-[9px] uppercase tracking-[0.3em] font-medium text-muted-foreground block">
-              Status
-            </span>
-            <span className="text-xs font-semibold uppercase tracking-widest text-foreground">
-              Direct Access
-            </span>
-          </div>
-        </div>
-
-        {/* The Blueprint Layout */}
-        <div className="grid md:grid-cols-2 border-t border-border/50 relative">
-          
-          {/* Vertical Separator */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-border/50 -translate-x-1/2" />
-
-          {founders.map((founder, index) => (
-            <div 
-              key={founder.id}
-              className={`relative py-16 md:py-24 group transition-all duration-700 ${index === 0 ? 'md:pr-24 border-b md:border-b-0 border-border/50' : 'md:pl-24'}`}
-              onMouseEnter={() => setHoveredLeader(founder.id)}
-              onMouseLeave={() => setHoveredLeader(null)}
+            <motion.span
+              variants={fadeUp}
+              custom={0}
+              className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-[var(--brand-purple)]/20 mb-6"
             >
-              {/* Image Reveal (The Whisper) */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-                <motion.div 
-                  className={`w-full h-full opacity-0 group-hover:opacity-10 transition-opacity duration-1000 ease-out flex items-center justify-center`}
-                >
-                  {/* We use a highly masked, subtle image */}
-                  <div className="w-[60%] md:w-[70%] aspect-square rounded-full blur-2xl relative">
-                    <img 
-                      src={founder.img} 
-                      alt="" 
-                      className="w-full h-full object-cover mix-blend-luminosity grayscale"
-                    />
-                  </div>
-                </motion.div>
-                
-                {/* Clean Image Mask on Hover */}
-                 <div className={`absolute top-1/2 -translate-y-1/2 ${index === 0 ? 'right-0 md:right-32 translate-x-1/2' : 'left-0 md:left-32 -translate-x-1/2'} w-32 md:w-64 aspect-[3/4] opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-[0.16,1,0.3,1] overflow-hidden  z-[1]`}>
-                    <img src={founder.img} alt={founder.name} className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100" />
-                 </div>
-              </div>
+              The Core Unit
+            </motion.span>
+            <motion.h1
+              variants={fadeUp}
+              custom={1}
+              className="font-outfit font-bold text-foreground mb-6"
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
+            >
+              Two Founders. <span className="gradient-text">Zero Layers.</span>
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              custom={2}
+              className="text-muted-foreground text-xl leading-relaxed"
+            >
+              No account managers, no junior executives. When you partner with
+              Maverick, you get the architects — the ones who built it, run it,
+              and stake their reputation on every project.
+            </motion.p>
+          </motion.div>
+        </div>
+      </section>
 
-              {/* Content Foreground */}
-              <div className="relative z-10 transition-transform duration-700 group-hover:-translate-y-2">
-                <div className="pb-8 mb-8 border-b border-border/20 flex items-center justify-between">
-                  <h2 className="text-4xl md:text-5xl font-light tracking-tight text-foreground transition-colors duration-500 group-hover:text-foreground">
-                    {founder.name}
-                  </h2>
-                  <ArrowUpRight size={24} className="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ color: founder.color }} />
+      {/* ── EDITORIAL SPREAD ── */}
+      <section ref={parallaxRef} className="section-padding relative overflow-hidden" aria-label="Founders">
+        <div className="max-w-7xl mx-auto">
+          {/* The Asymmetric Photo Grid — images are CONTAINED, never overlap text */}
+          <div className="grid md:grid-cols-12 gap-6 md:gap-8 mb-20 md:mb-28">
+            {/* Muskan — larger, offset up */}
+            <motion.div
+              style={{ y: y1 }}
+              className="md:col-span-7 relative"
+            >
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden relative group">
+                <img
+                  src="/images/founders/founder-muskan.jpg"
+                  alt="Muskan Rathod — Co-Founder, Maverick Digitals"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8">
+                  <span className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-semibold block mb-1">
+                    Co-Founder
+                  </span>
+                  <h3 className="text-white text-2xl md:text-3xl font-outfit font-bold">
+                    Muskan Rathod
+                  </h3>
                 </div>
-                
-                <h3 className="text-[10px] uppercase tracking-[0.4em] font-medium text-muted-foreground mb-8 block transition-colors duration-500" style={{ color: hoveredLeader === founder.id ? founder.color : ''}}>
-                  {founder.role}
-                </h3>
-                
-                <p className="text-sm md:text-base text-muted-foreground leading-relaxed font-light mb-12 max-w-sm">
-                  {founder.philosophy}
+              </div>
+            </motion.div>
+
+            {/* Dhaval — smaller, offset down for asymmetry */}
+            <motion.div
+              style={{ y: y2 }}
+              className="md:col-span-5 md:mt-24"
+            >
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden relative group">
+                <img
+                  src="/images/founders/founder-dhaval.jpg"
+                  alt="Dhaval Shah — Co-Founder, Maverick Digitals"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8">
+                  <span className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-semibold block mb-1">
+                    Co-Founder
+                  </span>
+                  <h3 className="text-white text-2xl md:text-3xl font-outfit font-bold">
+                    Dhaval Shah
+                  </h3>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* The Convergence Strip — a thin visual tie between them */}
+          <div className="section-divider mb-20 md:mb-28" />
+
+          {/* Bio Grid — clean, contained, no overlap */}
+          <div className="grid md:grid-cols-2 gap-12 md:gap-20">
+            {/* Muskan Bio */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-80px' }}
+            >
+              <motion.div variants={fadeUp} custom={0}>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-2 h-2 rounded-full bg-[var(--brand-purple)]" />
+                  <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-muted-foreground">
+                    The Brand Architect
+                  </span>
+                </div>
+                <h2 className="font-outfit font-bold text-foreground text-3xl md:text-4xl mb-6">
+                  Muskan Rathod
+                </h2>
+                <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+                  Deciphering consumer psychology through narrative. Muskan
+                  engineers brand identities that don&apos;t just look good — they
+                  stick in the subconscious. Her approach fuses behavioural
+                  insight with visual storytelling to build brands that compound
+                  in value over time.
                 </p>
+              </motion.div>
 
-                {/* Spec Sheet Style Info */}
-                <div className="space-y-4">
-                  {founder.specs.map(([label, value]) => (
-                    <div key={label} className="flex justify-between items-center text-xs border-b border-border/10 pb-2">
-                      <span className="uppercase tracking-widest text-muted-foreground/60">{label}</span>
-                      <span className="font-medium text-foreground">{value}</span>
+              <motion.div variants={fadeUp} custom={1} className="space-y-3 mb-8">
+                {[
+                  ['Discipline', 'Brand Psychology & Identity'],
+                  ['Approach', 'Narrative-Led Growth'],
+                  ['Output', 'Conversion-Optimised Storytelling'],
+                ].map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="flex justify-between items-baseline py-3 border-b border-border/50"
+                  >
+                    <span className="text-xs uppercase tracking-widest text-muted-foreground/70 font-medium">
+                      {label}
+                    </span>
+                    <span className="text-sm font-semibold text-foreground">
+                      {value}
+                    </span>
+                  </div>
+                ))}
+              </motion.div>
+
+              <motion.div variants={fadeUp} custom={2} className="flex gap-3">
+                <a
+                  href="#"
+                  aria-label="Muskan on LinkedIn"
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+                >
+                  <Linkedin size={16} />
+                </a>
+                <a
+                  href="#"
+                  aria-label="Email Muskan"
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+                >
+                  <Mail size={16} />
+                </a>
+              </motion.div>
+            </motion.div>
+
+            {/* Dhaval Bio */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-80px' }}
+            >
+              <motion.div variants={fadeUp} custom={0}>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-2 h-2 rounded-full bg-[var(--brand-blue)]" />
+                  <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-muted-foreground">
+                    The Systems Engineer
+                  </span>
+                </div>
+                <h2 className="font-outfit font-bold text-foreground text-3xl md:text-4xl mb-6">
+                  Dhaval Shah
+                </h2>
+                <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+                  Building the unbreakable systems that turn attention into
+                  conversion. Dhaval bridges the gap between high-level
+                  performance marketing and deep code, engineering pipelines that
+                  scale revenue while keeping acquisition costs sharp.
+                </p>
+              </motion.div>
+
+              <motion.div variants={fadeUp} custom={1} className="space-y-3 mb-8">
+                {[
+                  ['Discipline', 'Technical SEO & Architecture'],
+                  ['Approach', 'Data-Driven Precision'],
+                  ['Output', 'Scalable Growth Systems'],
+                ].map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="flex justify-between items-baseline py-3 border-b border-border/50"
+                  >
+                    <span className="text-xs uppercase tracking-widest text-muted-foreground/70 font-medium">
+                      {label}
+                    </span>
+                    <span className="text-sm font-semibold text-foreground">
+                      {value}
+                    </span>
+                  </div>
+                ))}
+              </motion.div>
+
+              <motion.div variants={fadeUp} custom={2} className="flex gap-3">
+                <a
+                  href="#"
+                  aria-label="Dhaval on LinkedIn"
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+                >
+                  <Linkedin size={16} />
+                </a>
+                <a
+                  href="#"
+                  aria-label="Email Dhaval"
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+                >
+                  <Mail size={16} />
+                </a>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SHARED PHILOSOPHY ── */}
+      <section className="section-padding section-alt" aria-label="Philosophy">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-5 gap-16 items-center"
+          >
+            <motion.div variants={fadeUp} custom={0} className="lg:col-span-3">
+              <h2
+                className="font-outfit font-bold text-foreground leading-tight mb-8"
+                style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
+              >
+                One unit. <span className="gradient-text">No middlemen.</span>
+              </h2>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                Brand without tech is noise. Tech without brand is invisible.
+                Maverick exists at the intersection — where psychological depth
+                meets algorithmic precision — to build growth machines that
+                actually compound.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                When you hire us, you get the people whose names are on the door.
+                Every strategy call, every creative review, every technical
+                decision — it goes through the founders who built this from
+                scratch and bet their careers on making it work for you.
+              </p>
+            </motion.div>
+
+            <motion.div variants={fadeUp} custom={1} className="lg:col-span-2">
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { val: '94%', label: 'Client Retention' },
+                  { val: '2.5×', label: 'Average ROI' },
+                  { val: '02', label: 'Decision Makers' },
+                  { val: '00', label: 'Account Managers' },
+                ].map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="card-elevated p-6 text-center"
+                  >
+                    <div className="font-outfit font-bold text-3xl gradient-text mb-1">
+                      {stat.val}
                     </div>
-                  ))}
-                </div>
-
-                <div className="mt-12 flex gap-4 opacity-50 group-hover:opacity-100 transition-opacity duration-500">
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    <Linkedin size={18} />
-                  </a>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    <Mail size={18} />
-                  </a>
-                </div>
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
-
+            </motion.div>
+          </motion.div>
         </div>
-        
-        {/* Bottom CTA */}
-        <div className="mt-24 md:mt-32 pt-8 border-t border-border/50 flex justify-between items-center text-xs uppercase tracking-widest font-medium">
-          <span className="text-muted-foreground">The Unit</span>
-          <Link href="/contact" className="hover:text-purple-500 transition-colors flex items-center gap-2 group">
-            Initiate Contact
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
+      </section>
 
-      </div>
+      {/* ── CTA ── */}
+      <section className="section-padding text-center" aria-label="Contact CTA">
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <motion.h2
+              variants={fadeUp}
+              custom={0}
+              className="font-outfit font-bold text-foreground mb-6"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
+            >
+              Ready to work with <span className="gradient-text">the originals?</span>
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              custom={1}
+              className="text-muted-foreground text-lg mb-10 leading-relaxed"
+            >
+              Skip the sales funnel. Book a direct strategy call with the
+              founders and find out what Maverick can do for your brand.
+            </motion.p>
+            <motion.div variants={fadeUp} custom={2}>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105 btn-magnetic"
+                style={{ background: 'var(--gradient-brand)' }}
+              >
+                Book a Strategy Call <ArrowRight size={18} />
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }
