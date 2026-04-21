@@ -11,10 +11,10 @@ const founders = [
     role: 'The Brand Architect',
     bio: 'Deciphering consumer psychology through narrative. Muskan engineers brand identities that don\'t just look good—they stick in the subconscious.',
     specialties: ['Strategy', 'Storytelling', 'Psychology', 'Branding'],
-    stats: [
-      { label: 'Creative Depth', value: 98, icon: <Palette size={14} /> },
-      { label: 'Growth Velocity', value: 92, icon: <Zap size={14} /> },
-      { label: 'Narrative ROI', value: 95, icon: <PenTool size={14} /> },
+    qualifications: [
+      { label: 'Creative Depth', desc: 'Brand psychology & identity', icon: <Palette size={14} /> },
+      { label: 'Growth Velocity', desc: 'Accelerating market share', icon: <Zap size={14} /> },
+      { label: 'Narrative ROI', desc: 'Storytelling that converts', icon: <PenTool size={14} /> },
     ],
     avatar: 'M',
     color: '#8b5cf6', // purple
@@ -26,10 +26,10 @@ const founders = [
     role: 'The Tech Alchemist',
     bio: 'Building the unbreakable systems that turn attention into conversion. Dhaval bridges the gap between high-level performance marketing and deep code.',
     specialties: ['Performance', 'Systems', 'Node.js', 'Scaling'],
-    stats: [
-      { label: 'Technical SEO', value: 99, icon: <Terminal size={14} /> },
-      { label: 'System Logic', value: 96, icon: <Code size={14} /> },
-      { label: 'Data Mining', value: 94, icon: <Brain size={14} /> },
+    qualifications: [
+      { label: 'Technical SEO', desc: 'Deep architectural optimization', icon: <Terminal size={14} /> },
+      { label: 'System Logic', desc: 'Unbreakable conversion systems', icon: <Code size={14} /> },
+      { label: 'Data Mining', desc: 'Advanced analytics & tracking', icon: <Brain size={14} /> },
     ],
     avatar: 'D',
     color: '#3b82f6', // blue
@@ -54,13 +54,13 @@ export default function TeamPage() {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-4xl"
           >
-            <span className="font-mono text-sm tracking-[0.4em] text-purple-500 uppercase mb-6 block">
+            <span className="font-semibold text-xs tracking-widest text-purple-500 uppercase mb-6 block">
               [ Leadership Unit ]
             </span>
-            <h1 className="font-outfit font-black text-foreground leading-[1] uppercase mb-8"
+            <h1 className="font-outfit font-bold text-foreground leading-[1] mb-8"
                 style={{ fontSize: 'clamp(3rem, 8vw, 7rem)', letterSpacing: '-0.04em' }}>
               The Minds Behind<br />
-              <span className="gradient-text italic">The Machine.</span>
+              <span className="gradient-text">The Machine.</span>
             </h1>
             <p className="text-muted-foreground text-xl max-w-2xl leading-relaxed">
               We don&apos;t hire account managers. You work directly with the founders who have skin in the game and code in their blood.
@@ -84,7 +84,7 @@ export default function TeamPage() {
             {/* Background Image / Placeholder with subtle zoom */}
             <div className="absolute inset-0 z-0">
                <div className="absolute inset-0 bg-neutral-900/60 z-10 transition-opacity group-hover:opacity-40" />
-               <div  className="w-full h-full bg-muted flex items-center justify-center text-[20vw] font-black text-white/5 select-none">
+               <div  className="w-full h-full bg-muted flex items-center justify-center text-[20vw] font-bold text-white/5 select-none">
                  {f.avatar}
                </div>
                {/* Grayscale overlay that colors on hover */}
@@ -103,16 +103,16 @@ export default function TeamPage() {
                 >
                     {/* Header: Vertical Name on non-hovered Desktop */}
                     <div className={`hidden md:block absolute top-0 left-0 transition-opacity duration-500 ${hoveredId === f.id ? 'opacity-0' : 'opacity-100'}`}>
-                       <span className="font-outfit font-black text-6xl text-white/30 uppercase vertical-text origin-top-left -rotate-90">
+                       <span className="font-outfit font-bold text-6xl text-white/30 uppercase vertical-text origin-top-left -rotate-90">
                          {f.name.split(' ')[0]}
                        </span>
                     </div>
 
                     <div className="max-w-xl">
-                        <span className="font-mono text-xs text-white/60 tracking-widest uppercase mb-4 block" style={{ color: f.color }}>
+                        <span className="font-semibold text-xs text-white/80 tracking-widest uppercase mb-4 block" style={{ color: f.color }}>
                           {f.role}
                         </span>
-                        <h2 className="font-outfit font-black text-5xl md:text-7xl text-white mb-6 uppercase leading-none">
+                        <h2 className="font-outfit font-bold text-4xl md:text-6xl text-white mb-6 uppercase leading-none">
                           {f.name}
                         </h2>
                         
@@ -129,21 +129,15 @@ export default function TeamPage() {
                                  {f.bio}
                                </p>
 
-                               {/* Dynamic Stat Meters: Custom Bespoke Visuals */}
-                               <div className="space-y-6 mb-10">
-                                  {f.stats.map((s, si) => (
-                                    <div key={s.label}>
-                                       <div className="flex items-center justify-between text-white/60 text-xs uppercase tracking-tighter mb-2">
-                                         <span className="flex items-center gap-2">{s.icon} {s.label}</span>
-                                         <span>{s.value}%</span>
+                               {/* Qualifications List */}
+                               <div className="space-y-4 mb-10">
+                                  {f.qualifications.map((q) => (
+                                    <div key={q.label} className="bg-white/5 border border-white/10 rounded-lg p-3 backdrop-blur-sm">
+                                       <div className="flex items-center gap-2 text-white/90 font-semibold text-sm mb-1">
+                                         {q.icon} {q.label}
                                        </div>
-                                       <div className="h-[2px] w-full bg-white/10 rounded-full overflow-hidden">
-                                          <motion.div 
-                                            initial={{ scaleX: 0 }}
-                                            whileInView={{ scaleX: s.value / 100 }}
-                                            transition={{ duration: 1, delay: 0.5 + si * 0.1 }}
-                                            className="h-full bg-white origin-left"
-                                          />
+                                       <div className="text-white/70 text-sm ml-6">
+                                          {q.desc}
                                        </div>
                                     </div>
                                   ))}
@@ -172,9 +166,9 @@ export default function TeamPage() {
         <div className="max-w-7xl mx-auto">
            <div className="grid lg:grid-cols-2 gap-24 items-center">
               <div>
-                 <h2 className="font-outfit font-black text-6xl md:text-8xl leading-none uppercase mb-8">
+                 <h2 className="font-outfit font-bold text-5xl md:text-7xl leading-none mb-8">
                    No <br />
-                   <span className="gradient-text italic">Middlemen.</span>
+                   <span className="gradient-text">Middlemen.</span>
                  </h2>
                  <p className="text-muted-foreground text-xl leading-relaxed">
                    When you hire Maverick, you don&apos;t get a junior account executive. You get us. We bridge the gap between vision and execution with direct engineering and brand depth.
@@ -189,10 +183,10 @@ export default function TeamPage() {
                    { label: 'Founders', val: '02', sub: 'The Core Unit' },
                  ].map((stat, i) => (
                    <div key={stat.label} className="p-8 border border-border rounded-xl group hover:border-purple-500/40 transition-colors">
-                      <div className="font-outfit font-black text-5xl mb-2 gradient-text group-hover:scale-110 origin-left transition-transform">
+                      <div className="font-outfit font-bold text-5xl mb-2 gradient-text transition-transform">
                         {stat.val}
                       </div>
-                      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{stat.label}</div>
+                      <div className="font-semibold text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{stat.label}</div>
                       <div className="text-xs text-muted-foreground font-medium">{stat.sub}</div>
                    </div>
                  ))}
@@ -204,12 +198,12 @@ export default function TeamPage() {
       {/* CTA */}
       <section className="py-24 px-6 text-center bg-foreground text-background dark:bg-muted dark:text-foreground">
         <div className="max-w-4xl mx-auto">
-           <h2 className="font-outfit font-black text-5xl md:text-7xl uppercase mb-8 leading-none">
+           <h2 className="font-outfit font-bold text-4xl md:text-6xl mb-8 leading-none">
              Partner with <br />
-             <span className="gradient-text italic">Command.</span>
+             <span className="gradient-text">Command.</span>
            </h2>
            <Link href="/contact" className="inline-flex items-center gap-4 group">
-             <span className="text-2xl font-mono uppercase tracking-[0.2em] group-hover:translate-x-3 transition-transform">Book Strategy Call</span>
+             <span className="text-xl font-bold uppercase tracking-widest group-hover:translate-x-3 transition-transform">Book Strategy Call</span>
              <ArrowRight size={32} className="text-purple-500 group-hover:rotate-45 transition-transform" />
            </Link>
         </div>

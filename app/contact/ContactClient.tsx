@@ -78,13 +78,13 @@ export default function ContactClient() {
              animate={{ opacity: 1, x: 0 }}
              transition={{ duration: 0.8 }}
            >
-              <span className="font-mono text-xs tracking-[0.4em] text-purple-500 uppercase mb-8 block">
+              <span className="font-semibold text-xs tracking-widest text-purple-500 uppercase mb-8 block">
                 [ Intake Portal ]
               </span>
-              <h1 className="font-outfit font-black text-foreground leading-[0.9] uppercase mb-12"
+              <h1 className="font-outfit font-bold text-foreground leading-[0.9] mb-12"
                   style={{ fontSize: 'clamp(3rem, 6vw, 6rem)', letterSpacing: '-0.04em' }}>
                 Initiate<br />
-                <span className="gradient-text italic">Protocol.</span>
+                <span className="gradient-text">Protocol.</span>
               </h1>
 
               {/* The "Roadmap to Scale" - Bespoke visual */}
@@ -97,7 +97,7 @@ export default function ContactClient() {
                     onMouseLeave={() => setHoveredStep(null)}
                     className="relative z-10 flex items-start gap-8 group"
                    >
-                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-mono text-xs border transition-all duration-500 ${hoveredStep === i ? 'bg-purple-500 border-purple-500 text-white scale-125' : 'bg-[var(--background)] border-border text-muted-foreground'}`}>
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-semibold text-xs border transition-all duration-500 ${hoveredStep === i ? 'bg-purple-500 border-purple-500 text-white scale-125' : 'bg-[var(--background)] border-border text-muted-foreground'}`}>
                         {step.id}
                       </div>
                       <div>
@@ -110,7 +110,7 @@ export default function ContactClient() {
 
               {/* Unique contact accents */}
               <div className="mt-24 pt-12 border-t border-border">
-                 <div className="flex flex-col gap-6 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                 <div className="flex flex-col gap-6 font-semibold text-xs uppercase tracking-widest text-muted-foreground">
                     <div className="flex items-center gap-4">
                        <Mail size={12} className="text-purple-500" /> maverickdigitals18@gmail.com
                     </div>
@@ -138,7 +138,7 @@ export default function ContactClient() {
                   <p className="text-muted-foreground text-lg mb-8 max-w-sm">
                     Strategic architects are auditing your request. Expect a response within 24 operational hours.
                   </p>
-                  <button onClick={() => setSubmitted(false)} className="font-mono text-xs uppercase tracking-widest text-purple-500 hover:opacity-70 transition-opacity">
+                  <button onClick={() => setSubmitted(false)} className="font-semibold text-xs uppercase tracking-widest text-purple-500 hover:opacity-70 transition-opacity">
                     Send another transmission
                   </button>
                </motion.div>
@@ -157,12 +157,12 @@ export default function ContactClient() {
                        <div className="group relative">
                           <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Identity</label>
                           <input {...register('fullName')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="John Wick" />
-                          {errors.fullName && <span className="text-[10px] text-red-500 font-mono mt-1 block">{errors.fullName.message}</span>}
+                          {errors.fullName && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.fullName.message}</span>}
                        </div>
                        <div className="group relative">
                           <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Transmission Node</label>
                           <input {...register('email')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="john@continental.com" />
-                          {errors.email && <span className="text-[10px] text-red-500 font-mono mt-1 block">{errors.email.message}</span>}
+                          {errors.email && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.email.message}</span>}
                        </div>
                     </div>
 
@@ -170,7 +170,7 @@ export default function ContactClient() {
                        <div className="group relative">
                           <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Tactical Direct</label>
                           <input {...register('phone')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="+91 XXXX XXXX" />
-                          {errors.phone && <span className="text-[10px] text-red-500 font-mono mt-1 block">{errors.phone.message}</span>}
+                          {errors.phone && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.phone.message}</span>}
                        </div>
                        <div className="group relative">
                           <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Organization</label>
@@ -189,13 +189,13 @@ export default function ContactClient() {
                     <div className="group relative">
                        <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Objective Description</label>
                        <textarea {...register('message')} rows={4} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium resize-none placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="Tell us about the target goal..." />
-                       {errors.message && <span className="text-[10px] text-red-500 font-mono mt-1 block">{errors.message.message}</span>}
+                       {errors.message && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.message.message}</span>}
                     </div>
 
                     <button 
                       type="submit" 
                       disabled={isSubmitting}
-                      className="w-full py-6 rounded-2xl bg-foreground text-background dark:bg-white dark:text-black font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:scale-[0.98] active:scale-95 transition-all disabled:opacity-50 mt-12"
+                      className="w-full py-6 rounded-2xl bg-foreground text-background dark:bg-white dark:text-black font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:scale-[0.98] active:scale-95 transition-all disabled:opacity-50 mt-12"
                     >
                       {isSubmitting ? 'Transmitting...' : 'Establish Connection'}
                       <ChevronRight size={20} className="text-purple-500" />

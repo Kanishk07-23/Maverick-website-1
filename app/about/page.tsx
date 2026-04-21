@@ -59,13 +59,13 @@ export default function AboutPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="text-[var(--brand-purple)] font-mono text-sm tracking-widest uppercase mb-6 block">
+              <span className="text-[var(--brand-purple)] font-semibold text-xs tracking-widest uppercase mb-6 block">
                 [ Protocol: Maverick ]
               </span>
-              <h1 className="font-outfit font-black text-foreground leading-[0.85] uppercase mb-8"
+              <h1 className="font-outfit font-bold text-foreground leading-[0.85] mb-8"
                   style={{ fontSize: 'clamp(3.5rem, 12vw, 12rem)', letterSpacing: '-0.05em' }}>
                 We Build<br />
-                <span className="gradient-text italic">Legends.</span>
+                <span className="gradient-text">Legends.</span>
               </h1>
             </motion.div>
           </div>
@@ -89,12 +89,12 @@ export default function AboutPage() {
         />
       </section>
 
-      {/* The Story: Overlapping Blocks */}
+    {/* The Story: Text-only block */}
       <section className="py-24 px-6 relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="relative">
             {/* Background Text watermark */}
-            <div className="absolute -top-12 -left-8 text-[12vw] font-black text-foreground opacity-[0.03] select-none pointer-events-none uppercase">
+            <div className="absolute -top-12 -left-8 text-[12vw] font-bold text-foreground opacity-[0.03] select-none pointer-events-none uppercase">
               Provenance
             </div>
 
@@ -105,31 +105,19 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 className="relative z-10"
               >
-                <div className="aspect-[4/5] bg-muted rounded-2xl overflow-hidden shadow-2xl relative">
-                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] via-transparent to-transparent z-10" />
-                   <img 
-                    src="/images/founders/founder-muskan.jpg" 
-                    alt="Maverick Origin" 
-                    className="w-full h-full object-cover grayscale contrast-125"
-                   />
-                   <div className="absolute bottom-8 left-8 z-20">
-                     <span className="text-white font-mono text-xs uppercase tracking-tighter bg-purple-600 px-3 py-1 mb-2 inline-block">Established 2019</span>
-                     <h3 className="text-white font-outfit font-bold text-3xl italic">The Creative Pulse.</h3>
-                   </div>
-                </div>
+                <h2 className="font-outfit font-bold text-foreground text-5xl mb-8 leading-none">
+                  The Maverick <br />
+                  <span className="gradient-text">Origin.</span>
+                </h2>
               </motion.div>
 
-              <div className="relative">
-                <h2 className="font-outfit font-black text-foreground text-5xl mb-8 leading-none uppercase">
-                  Born from <br />
-                  <span className="gradient-text italic">Inefficiency.</span>
-                </h2>
+              <div className="relative z-10">
                 <div className="space-y-6 text-muted-foreground text-lg leading-relaxed max-w-lg">
                   <p>
-                    Maverick Digitals wasn&apos;t built in a boardroom. It was built in the trenches of failing marketing funnels and generic agency reports that delivered &quot;impressions&quot; instead of income.
+                    Maverick Digitals was forged with a singular mission: to provide strategy and execution that translate directly to measurable ROI. We discard generic agency templates in favor of bespoke, aggressive growth models.
                   </p>
                   <p>
-                    Founded by <strong>Muskan Rathod</strong> and <strong>Dhaval Shah</strong>, we combined brand psychology with technical engineering to create a agency that operates like a software startup: lean, aggressive, and data-obsessed.
+                    Co-founded by <strong>Muskan Rathod</strong> and <strong>Dhaval Shah</strong>, the agency operates at the intersection of consumer psychology and technical systems. We combine brand storytelling with data architecture to build unbreakable revenue engines.
                   </p>
                 </div>
               </div>
@@ -142,7 +130,7 @@ export default function AboutPage() {
       <section className="py-32 px-6 bg-foreground text-background dark:bg-muted dark:text-foreground relative">
         <div className="max-w-7xl mx-auto">
            <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
-              <h2 className="font-outfit font-black text-6xl md:text-8xl leading-none uppercase m-0">
+              <h2 className="font-outfit font-bold text-5xl md:text-7xl leading-none m-0">
                 Core<br />
                 <span className="gradient-text text-purple-400">Directives.</span>
               </h2>
@@ -158,8 +146,8 @@ export default function AboutPage() {
                 whileHover={{ backgroundColor: 'rgba(139, 92, 246, 0.1)' }}
                 className="bg-foreground dark:bg-muted p-12 relative group overflow-hidden transition-colors"
                >
-                 <span className="text-sm font-mono text-purple-400 mb-8 block">[{v.num}]</span>
-                 <h3 className="text-3xl font-bold font-outfit mb-4 uppercase">{v.title}</h3>
+                 <span className="text-sm font-semibold tracking-widest text-purple-400 mb-8 block">[{v.num}]</span>
+                 <h3 className="text-2xl font-bold font-outfit mb-4">{v.title}</h3>
                  <p className="text-muted-foreground leading-relaxed">{v.desc}</p>
                  <div className="absolute bottom-0 right-0 p-8 opacity-10 transform translate-x-4 translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform">
                    {v.icon}
@@ -175,7 +163,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-16">
             <div className="h-[1px] flex-1 bg-border" />
-            <span className="font-mono text-xs uppercase tracking-[0.5em] text-muted-foreground whitespace-nowrap">Global Footprint</span>
+            <span className="font-semibold text-xs tracking-widest uppercase text-muted-foreground whitespace-nowrap">Global Footprint</span>
             <div className="h-[1px] flex-1 bg-border" />
           </div>
 
@@ -191,7 +179,7 @@ export default function AboutPage() {
               >
                 <div className="flex items-center gap-3 mb-4">
                   <MapPin size={16} className="text-purple-500 group-hover:scale-125 transition-transform" />
-                  <span className="font-mono text-lg font-bold">{m.country}</span>
+                  <span className="font-semibold text-lg">{m.country}</span>
                 </div>
                 <p className="text-muted-foreground text-sm uppercase tracking-wider">{m.desc}</p>
               </motion.div>
