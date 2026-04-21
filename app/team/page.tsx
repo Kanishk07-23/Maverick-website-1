@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Linkedin, Mail, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -72,10 +73,12 @@ export default function TeamPage() {
               className="md:col-span-7 relative"
             >
               <div className="aspect-[4/5] rounded-2xl overflow-hidden relative group">
-                <img
+                <Image
                   src="/images/founders/founder-muskan.jpg"
                   alt="Muskan Rathod — Co-Founder, Maverick Digitals"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
                 <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8">
@@ -95,10 +98,12 @@ export default function TeamPage() {
               className="md:col-span-5 md:mt-24"
             >
               <div className="aspect-[4/5] rounded-2xl overflow-hidden relative group">
-                <img
+                <Image
                   src="/images/founders/founder-dhaval.jpg"
                   alt="Dhaval Shah — Co-Founder, Maverick Digitals"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
                 <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8">
