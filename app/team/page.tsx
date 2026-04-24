@@ -111,7 +111,7 @@ export default function TeamPage() {
                     src={founder.image}
                     alt={founder.name}
                     fill
-                    className="object-cover transition-transform duration-[1.5s] group-hover:scale-105"
+                    className="object-cover object-top md:object-center transition-transform duration-[1.5s] group-hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     priority
                   />
