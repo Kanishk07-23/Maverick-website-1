@@ -1,20 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, MapPin, MessageCircle, Clock, CheckCircle2, ArrowRight, ChevronRight, Sparkles } from 'lucide-react';
+import { Mail, MapPin, CheckCircle2, ChevronRight, Sparkles, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { Turnstile } from '@marsidev/react-turnstile';
+import type { TurnstileInstance } from '@marsidev/react-turnstile';
 
 const schema = z.object({
-  fullName: z.string().min(2, 'Full name required'),
-  email: z.string().email('Valid email required'),
-  phone: z.string().min(10, 'Valid phone required'),
-  company: z.string().optional(),
+  fullName: z.string().min(2, 'Full name required').max(80),
+  email: z.string().email('Valid email required').max(254),
+  phone: z.string().min(7, 'Valid phone required').max(20),
+  company: z.string().max(100).optional(),
   service: z.string().min(1, 'Please select a protocol'),
-  message: z.string().min(20, 'Tell us more (min 20 chars)'),
+  message: z.string().min(20, 'Tell us more (min 20 chars)').max(2000),
+  // Honeypot — hidden from real users, must stay empty
+  website: z.string().optional(),
 });
+
+// Turnstile site key — this is the PUBLIC key (safe to expose client-side)
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '';
 
 type FormData = z.infer<typeof schema>;
 
@@ -51,16 +58,50 @@ const faqs = [
 
 export default function ContactClient() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+  // Turnstile state
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileExpired, setTurnstileExpired] = useState(false);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
   const onSubmit = async (data: FormData) => {
-    await new Promise((r) => setTimeout(r, 1500));
-    console.log('Maverick Intake:', data);
-    setSubmitted(true);
+    setSubmitError(null);
+
+    if (!turnstileToken || turnstileExpired) {
+      setSubmitError('Please wait for the security check to complete.');
+      turnstileRef.current?.reset();
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, turnstileToken }),
+      });
+
+      if (res.status === 429) {
+        const retryAfter = res.headers.get('Retry-After');
+        const mins = retryAfter ? Math.ceil(Number(retryAfter) / 60) : 15;
+        setSubmitError(`Too many submissions. Please wait ${mins} minute${mins !== 1 ? 's' : ''} before trying again.`);
+        return;
+      }
+
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        setSubmitError((json as { error?: string }).error ?? 'Something went wrong. Please email us directly.');
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setSubmitError('Network error. Please check your connection and try again.');
+    }
   };
 
   return (
@@ -153,15 +194,28 @@ export default function ContactClient() {
                   </div>
 
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 relative z-10 text-foreground">
+
+                    {/* ── Honeypot field — hidden from real users, traps bots ── */}
+                    <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', top: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                      <label htmlFor="website_hp">Leave this field empty</label>
+                      <input
+                        id="website_hp"
+                        type="text"
+                        autoComplete="off"
+                        tabIndex={-1}
+                        {...register('website')}
+                      />
+                    </div>
+
                     <div className="grid md:grid-cols-2 gap-8">
                        <div className="group relative">
                           <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Identity</label>
-                          <input {...register('fullName')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="John Wick" />
+                          <input {...register('fullName')} maxLength={80} autoComplete="name" className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="John Wick" />
                           {errors.fullName && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.fullName.message}</span>}
                        </div>
                        <div className="group relative">
                           <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Transmission Node</label>
-                          <input {...register('email')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="john@continental.com" />
+                          <input {...register('email')} maxLength={254} type="email" autoComplete="email" className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="john@continental.com" />
                           {errors.email && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.email.message}</span>}
                        </div>
                     </div>
@@ -169,12 +223,12 @@ export default function ContactClient() {
                     <div className="grid md:grid-cols-2 gap-8">
                        <div className="group relative">
                           <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Tactical Direct</label>
-                          <input {...register('phone')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="+91 XXXX XXXX" />
+                          <input {...register('phone')} maxLength={20} type="tel" autoComplete="tel" className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="+91 XXXX XXXX" />
                           {errors.phone && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.phone.message}</span>}
                        </div>
                        <div className="group relative">
                           <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Organization</label>
-                          <input {...register('company')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="Continental Inc." />
+                          <input {...register('company')} maxLength={100} autoComplete="organization" className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="Continental Inc." />
                        </div>
                     </div>
 
@@ -188,14 +242,58 @@ export default function ContactClient() {
 
                     <div className="group relative">
                        <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Objective Description</label>
-                       <textarea {...register('message')} rows={4} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium resize-none placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="Tell us about the target goal..." />
+                       <textarea {...register('message')} maxLength={2000} rows={4} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium resize-none placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="Tell us about the target goal..." />
                        {errors.message && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.message.message}</span>}
                     </div>
 
+                    {/* ── API-level error display ── */}
+                    {submitError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20"
+                      >
+                        <AlertTriangle size={16} className="text-red-500 mt-0.5 shrink-0" />
+                        <p className="text-red-500 text-xs font-semibold leading-relaxed">{submitError}</p>
+                      </motion.div>
+                    )}
+
+                    {/* ── Cloudflare Turnstile widget ── */}
+                    {TURNSTILE_SITE_KEY ? (
+                      <div className="flex flex-col gap-3">
+                        <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
+                          <ShieldCheck size={12} className="text-purple-500" />
+                          Security Verification
+                        </div>
+                        <Turnstile
+                          ref={turnstileRef}
+                          siteKey={TURNSTILE_SITE_KEY}
+                          onSuccess={(token) => {
+                            setTurnstileToken(token);
+                            setTurnstileExpired(false);
+                          }}
+                          onExpire={() => {
+                            setTurnstileToken(null);
+                            setTurnstileExpired(true);
+                          }}
+                          onError={() => {
+                            setTurnstileToken(null);
+                            setTurnstileExpired(true);
+                            setSubmitError('Security check failed. Please refresh the page.');
+                          }}
+                          options={{
+                            theme: 'auto',
+                            size: 'compact',
+                            language: 'en',
+                          }}
+                        />
+                      </div>
+                    ) : null}
+
                     <button 
                       type="submit" 
-                      disabled={isSubmitting}
-                      className="w-full py-6 rounded-2xl text-white font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:scale-[0.98] active:scale-95 transition-all disabled:opacity-50 mt-12 shadow-xl btn-magnetic"
+                      disabled={isSubmitting || (!!TURNSTILE_SITE_KEY && (!turnstileToken || turnstileExpired))}
+                      className="w-full py-6 rounded-2xl text-white font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:scale-[0.98] active:scale-95 transition-all disabled:opacity-50 mt-4 shadow-xl btn-magnetic"
                       style={{ background: 'var(--gradient-brand)' }}
                     >
                       {isSubmitting ? 'Transmitting...' : 'Establish Connection'}

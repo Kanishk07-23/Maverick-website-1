@@ -88,7 +88,8 @@ export default function TeamPage() {
       {/* ── INTERACTIVE DUAL FOUNDERS SPREAD ── */}
       <section className="pb-24 relative overflow-hidden" aria-label="Founders">
         <div className="max-w-[100rem] mx-auto px-4 md:px-6">
-          <div className="flex flex-col lg:flex-row h-auto lg:h-[85vh] min-h-[600px] gap-4 md:gap-6">
+          {/* On mobile: vertical stack with natural height. On desktop: horizontal spread at 85vh */}
+          <div className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:h-[85vh] lg:min-h-[600px]">
             {founders.map((founder, i) => {
               const isHovered = hoveredFounder === i;
               const isOtherHovered = hoveredFounder !== null && hoveredFounder !== i;
@@ -96,7 +97,7 @@ export default function TeamPage() {
               return (
                 <motion.div
                   key={founder.id}
-                  className="relative rounded-[2rem] overflow-hidden cursor-pointer group flex-1 h-[60vh] lg:h-full border border-border/50"
+                  className="relative rounded-[2rem] overflow-hidden cursor-pointer group flex-1 min-h-[60vw] sm:min-h-[400px] lg:min-h-0 lg:h-full border border-border/50"
                   animate={{
                     flex: hoveredFounder === null ? 1 : isHovered ? 1.6 : 0.8
                   }}

@@ -50,7 +50,7 @@ export default function AboutPage() {
       <div className="fixed inset-0 pointer-events-none z-[100] opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 
       {/* Hero: Asymmetrical Magazine Style */}
-      <section className="relative px-6 pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+      <section className="relative px-4 sm:px-6 pt-28 pb-16 sm:pt-32 md:pt-48 md:pb-32 overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
           
           <div className="lg:col-span-8 relative z-10">
@@ -62,8 +62,8 @@ export default function AboutPage() {
               <span className="text-[var(--brand-purple)] font-semibold text-xs tracking-widest uppercase mb-6 block">
                 [ Protocol: Maverick ]
               </span>
-              <h1 className="font-outfit font-bold text-foreground leading-[0.85] mb-8"
-                  style={{ fontSize: 'clamp(3.5rem, 12vw, 12rem)', letterSpacing: '-0.05em' }}>
+              <h1 className="font-outfit font-bold text-foreground leading-[0.85] mb-6 sm:mb-8 mobile-break"
+                  style={{ fontSize: 'clamp(3rem, 12vw, 12rem)', letterSpacing: '-0.05em' }}>
                 We Build<br />
                 <span className="gradient-text">Legends.</span>
               </h1>
@@ -75,7 +75,7 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-muted-foreground text-xl md:text-2xl leading-tight font-medium border-l-2 border-border pl-8 py-2">
+              className="text-muted-foreground text-lg md:text-2xl leading-tight font-medium border-l-2 border-border pl-4 sm:pl-8 py-2 mobile-break">
               Based in Mumbai, operating globally. We are an elite performance cell for brands that refuse to be ignored.
             </motion.p>
           </div>
@@ -94,7 +94,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto">
           <div className="relative">
             {/* Background Text watermark */}
-            <div className="absolute -top-12 -left-8 text-[12vw] font-bold text-foreground opacity-[0.03] select-none pointer-events-none uppercase">
+            <div className="absolute -top-12 -left-8 text-[20vw] md:text-[12vw] font-bold text-foreground opacity-[0.03] select-none pointer-events-none uppercase">
               Provenance
             </div>
 
@@ -105,7 +105,8 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 className="relative z-10"
               >
-                <h2 className="font-outfit font-bold text-foreground text-5xl mb-8 leading-none">
+              <h2 className="font-outfit font-bold text-foreground mb-8 leading-none mobile-break"
+                  style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
                   The Maverick <br />
                   <span className="gradient-text">Origin.</span>
                 </h2>
@@ -144,7 +145,7 @@ export default function AboutPage() {
                <motion.div 
                 key={v.num}
                 whileHover={{ backgroundColor: 'rgba(139, 92, 246, 0.05)' }}
-                className="bg-card p-12 relative group overflow-hidden transition-colors"
+                className="bg-card p-8 sm:p-12 relative group overflow-hidden transition-colors"
                >
                  <span className="text-sm font-semibold tracking-widest text-purple-400 mb-8 block">[{v.num}]</span>
                  <h3 className="text-2xl font-bold font-outfit mb-4">{v.title}</h3>
@@ -189,23 +190,24 @@ export default function AboutPage() {
       </section>
 
       {/* CTA: Floating Magazine Endnote */}
-      <section className="py-48 px-6 text-center relative">
+      <section className="py-20 sm:py-48 px-6 text-center relative">
          {/* Abstract background graphics */}
-         <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] pointer-events-none select-none overflow-hidden">
-            <span className="text-[40vw] font-black leading-none uppercase transform rotate-12">Maverick</span>
-         </div>
+          <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] pointer-events-none select-none overflow-hidden">
+             <span className="text-[30vw] sm:text-[40vw] font-black leading-none uppercase transform rotate-12">Maverick</span>
+          </div>
 
          <div className="max-w-3xl mx-auto relative z-10">
-            <motion.h2 
-              whileInView={{ scale: [0.95, 1.05, 1] }} 
-              className="font-outfit font-black text-6xl md:text-8xl leading-none uppercase mb-12 italic"
+            <motion.h2
+              whileInView={{ scale: [0.95, 1.05, 1] }}
+              className="font-outfit font-black leading-none uppercase mb-8 sm:mb-12 italic mobile-break"
+              style={{ fontSize: 'clamp(3rem, 8vw, 8rem)' }}
             >
               Start the<br />
               <span className="gradient-text">Uprising.</span>
             </motion.h2>
-            <Link 
-              href="/contact" 
-              className="inline-flex items-center gap-4 px-12 py-6 rounded-full text-white font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform shadow-2xl btn-magnetic"
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-3 sm:gap-4 px-8 sm:px-12 py-4 sm:py-6 rounded-full text-white font-bold uppercase tracking-widest text-base sm:text-lg hover:scale-105 transition-transform shadow-2xl btn-magnetic"
               style={{ background: 'var(--gradient-brand)' }}
             >
               Collaborate <ArrowRight size={20} />

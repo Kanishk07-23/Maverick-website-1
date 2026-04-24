@@ -16,9 +16,20 @@ export default function ThemeToggle() {
     return <div className="w-9 h-9" />;
   }
 
+  const handleToggle = () => {
+    // Add the transitioning class for a smooth switch,
+    // then remove it after the transition completes.
+    // This avoids the always-on transition that lagggs every page load.
+    document.documentElement.classList.add('theme-transitioning');
+    setTheme(theme === 'light' ? 'dark' : 'light');
+    setTimeout(() => {
+      document.documentElement.classList.remove('theme-transitioning');
+    }, 400);
+  };
+
   return (
     <button
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      onClick={handleToggle}
       className="relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent hover:bg-muted transition-colors border border-transparent hover:border-border text-foreground"
       aria-label="Toggle theme"
     >

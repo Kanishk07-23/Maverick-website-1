@@ -77,7 +77,10 @@ export default function ResultsSection() {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    const checkDesktop = () => setIsDesktop(window.innerWidth >= 768);
+    const checkDesktop = () => {
+      const w = window.innerWidth;
+      setIsDesktop(w >= 768);
+    };
     checkDesktop();
     window.addEventListener('resize', checkDesktop);
     return () => window.removeEventListener('resize', checkDesktop);
@@ -88,7 +91,7 @@ export default function ResultsSection() {
       
       {/* 3D Canvas Background - Only on Desktop */}
       {isDesktop && (
-        <div className="absolute inset-0 z-0 opacity-60 dark:opacity-80 pointer-events-none">
+        <div className="absolute inset-0 z-0 globe-canvas-light dark:globe-canvas-dark pointer-events-none" style={{ willChange: 'transform' }}>
            <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
               <GlobeComponent />
            </Canvas>

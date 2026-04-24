@@ -40,7 +40,7 @@ export default function Footer() {
                     src="/assets/logo.png"
                     alt="Maverick Digitals"
                     fill
-                    className="object-contain filter invert brightness-200"
+                    className="object-contain dark:invert dark:brightness-200"
                   />
                 </div>
                 <span className="font-outfit font-bold text-foreground text-sm tracking-widest uppercase">

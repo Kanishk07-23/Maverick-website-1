@@ -47,8 +47,8 @@ export default function ProcessSection() {
   return (
     <section className="bg-[var(--background)] py-32 relative overflow-hidden" id="process" ref={containerRef}>
 
-      {/* Ambient Lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] rounded-full blur-[140px] opacity-10 pointer-events-none"
+      {/* Ambient Lighting — stronger in light mode for parity with dark */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] rounded-full blur-[140px] process-ambient-glow pointer-events-none"
         style={{ background: 'radial-gradient(circle, var(--brand-purple) 0%, transparent 70%)' }} />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10 text-center mb-32">
@@ -129,7 +129,7 @@ function ProcessStep({
   const colorFilter = useTransform(sectionScrollYProgress, [rangeStart, (rangeStart + rangeEnd) / 2], ['grayscale(100%)', 'grayscale(0%)']);
 
   return (
-    <div className={`relative flex items-center justify-between flex-col md:flex-row w-full my-24 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`} ref={ref}>
+    <div className={`relative flex items-center justify-between flex-col md:flex-row w-full my-8 md:my-24 process-step-gap ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`} ref={ref}>
 
       {/* Spacer for alternating layout */}
       <div className="hidden md:block w-[45%]" />
@@ -151,7 +151,7 @@ function ProcessStep({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-20%' }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="glass-card p-8 rounded-3xl border border-border/40 hover:border-purple-500/30 transition-colors group relative overflow-hidden"
+          className="glass-card p-5 sm:p-8 rounded-3xl border border-border/40 hover:border-purple-500/30 transition-colors group relative overflow-hidden"
         >
           {/* Subtle geometric gradient on hover */}
           <div className="absolute -inset-20 bg-gradient-to-br from-transparent via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 rotate-12" />

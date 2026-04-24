@@ -1,19 +1,17 @@
 'use client';
-import { useRef, useMemo, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useTheme } from 'next-themes';
 
-// Throttle counter for expensive per-frame ops
-let frameCount = 0;
-
+// Per-instance frame counter — avoids shared global state between canvases
 function ParticleField({ isDark }: { isDark: boolean }) {
   const meshRef = useRef<THREE.Points>(null);
   const { mouse } = useThree();
 
-  const [positions, colors] = useMemo(() => {
-    // Reduced from 4000 → 2500 (~37% fewer vertices, imperceptible visually)
-    const count = 2500;
+  const [positions, colors] = (() => {
+    // useMemo equivalent via lazy init — computed once per isDark change
+    const count = window.innerWidth < 768 ? 1200 : 2000; // Potato-friendly: halve particles on mobile
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
 
@@ -32,13 +30,14 @@ function ParticleField({ isDark }: { isDark: boolean }) {
         col[i * 3 + 1] = 0.23 + t * (0.37 - 0.23);
         col[i * 3 + 2] = 0.93;
       } else {
-        col[i * 3]     = 0.1 + t * 0.2;
-        col[i * 3 + 1] = 0.1 + t * 0.2;
-        col[i * 3 + 2] = 0.2 + t * 0.3;
+        // Light mode: visible purple/indigo tones instead of near-invisible grey
+        col[i * 3]     = 0.43 + t * 0.15;
+        col[i * 3 + 1] = 0.16 + t * 0.15;
+        col[i * 3 + 2] = 0.85 + t * 0.1;
       }
     }
     return [pos, col];
-  }, [isDark]);
+  })();
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
@@ -50,20 +49,14 @@ function ParticleField({ isDark }: { isDark: boolean }) {
   return (
     <points ref={meshRef}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-color"
-          args={[colors, 3]}
-        />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-color" args={[colors, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.035}
+        size={isDark ? 0.035 : 0.04}
         vertexColors
         transparent
-        opacity={isDark ? 0.75 : 0.4}
+        opacity={isDark ? 0.75 : 0.55} // Raised from 0.4 → 0.55 in light mode
         sizeAttenuation
         depthWrite={false}
       />
@@ -73,8 +66,9 @@ function ParticleField({ isDark }: { isDark: boolean }) {
 
 function GridLines({ isDark }: { isDark: boolean }) {
   const lineRef = useRef<THREE.LineSegments>(null);
+  let localFrame = 0;
 
-  const geometry = useMemo(() => {
+  const geometry = (() => {
     const geo = new THREE.BufferGeometry();
     const vertices: number[] = [];
     const step = 2.0;
@@ -86,23 +80,28 @@ function GridLines({ isDark }: { isDark: boolean }) {
     }
     geo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
     return geo;
-  }, []);
+  })();
 
   useFrame(({ clock }) => {
-    // Only update opacity every 4th frame — value changes are imperceptibly slow
-    frameCount++;
-    if (frameCount % 4 !== 0) return;
+    localFrame++;
+    if (localFrame % 4 !== 0) return;
     if (lineRef.current) {
       const mat = lineRef.current.material as THREE.LineBasicMaterial;
-      const baseOpacity = isDark ? 0.08 : 0.04;
-      mat.opacity = baseOpacity + Math.sin(clock.elapsedTime * 0.5) * (isDark ? 0.03 : 0.01);
-      mat.needsUpdate = false; // prevent unnecessary re-upload
+      // Light mode: raised from 0.04 → 0.10 so grid is actually visible
+      const baseOpacity = isDark ? 0.08 : 0.10;
+      const pulse = Math.sin(clock.elapsedTime * 0.5) * (isDark ? 0.03 : 0.02);
+      mat.opacity = baseOpacity + pulse;
     }
   });
 
   return (
     <lineSegments ref={lineRef} geometry={geometry}>
-      <lineBasicMaterial color={isDark ? "#7C3AED" : "#0f172a"} transparent opacity={isDark ? 0.08 : 0.04} />
+      {/* Light mode: deeper purple so grid reads against white background */}
+      <lineBasicMaterial
+        color={isDark ? '#7C3AED' : '#5b21b6'}
+        transparent
+        opacity={isDark ? 0.08 : 0.10}
+      />
     </lineSegments>
   );
 }
@@ -124,10 +123,13 @@ export default function HeroCanvas() {
       id="hero-canvas"
       camera={{ position: [0, 0, 6], fov: 75 }}
       style={{ position: 'absolute', inset: 0 }}
-      // Cap at 1× DPR — 1.5× doubles the pixel fill rate on Retina for no perceptible quality gain on particles
-      dpr={1}
+      // Cap DPR at 1 on all devices — 2× DPR doubles fill rate with no visible quality gain on particles
+      dpr={[1, 1]}
+      // frameloop="demand" would save GPU but breaks the rotation animation — keep 'always'
+      frameloop="always"
+      gl={{ antialias: false, powerPreference: 'low-power' }} // low-power = integrated GPU preferred on laptops
     >
-      <ambientLight intensity={isDark ? 0.5 : 0.8} />
+      <ambientLight intensity={isDark ? 0.5 : 0.9} />
       <ParticleField isDark={isDark} />
       <GridLines isDark={isDark} />
     </Canvas>
