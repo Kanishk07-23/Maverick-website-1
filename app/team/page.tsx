@@ -124,7 +124,7 @@ export default function TeamPage() {
                   />
 
                   {/* Content Container */}
-                  <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end z-10">
+                  <div className="absolute inset-0 p-5 sm:p-8 md:p-10 flex flex-col justify-end z-10">
                     <motion.div
                       animate={{
                         y: isHovered ? 0 : 0,
@@ -133,20 +133,39 @@ export default function TeamPage() {
                       transition={{ duration: 0.5 }}
                       className="w-full"
                     >
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-2.5 h-2.5 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" style={{ backgroundColor: founder.color }} />
-                        <span className="text-xs md:text-sm uppercase tracking-[0.3em] font-bold text-white/90">
+                      <div className="flex items-center gap-3 mb-2 sm:mb-4">
+                        <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" style={{ backgroundColor: founder.color }} />
+                        <span className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.25em] sm:tracking-[0.3em] font-bold text-white/90">
                           {founder.role}
                         </span>
                       </div>
                       
-                      <h3 className="text-white text-4xl md:text-5xl lg:text-6xl font-outfit font-bold mb-6 tracking-tight">
+                      <h3 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-outfit font-bold mb-3 sm:mb-5 tracking-tight leading-tight">
                         {founder.name}
                       </h3>
 
-                      {/* Bio text - Visible fully on hover on desktop, or always on mobile if we want */}
+                      {/* Compact stats — always visible on mobile, full layout on desktop */}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mb-3 sm:mb-6 lg:hidden">
+                        {founder.stats.slice(1).map(stat => (
+                          <div key={stat.label} className="border-l-2 pl-2 sm:pl-3 py-0.5" style={{ borderColor: `${founder.color}80` }}>
+                            <div className="text-[8px] sm:text-[10px] uppercase tracking-widest text-white/60 mb-0.5 font-medium">{stat.label}</div>
+                            <div className="text-xs sm:text-sm font-semibold text-white/90 leading-snug">{stat.value}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="flex gap-2 sm:gap-3 mb-1 lg:hidden">
+                        <a href="#" aria-label={`${founder.name} on LinkedIn`} className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10">
+                          <Linkedin size={16} />
+                        </a>
+                        <a href="#" aria-label={`Email ${founder.name}`} className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10">
+                          <Mail size={16} />
+                        </a>
+                      </div>
+
+                      {/* Full bio + stats + links — desktop hover-reveal only */}
                       <motion.div
-                        className="overflow-hidden"
+                        className="overflow-hidden hidden lg:block"
                         initial={false}
                         animate={{ 
                           height: hoveredFounder === null ? 'auto' : isHovered ? 'auto' : '0px',
@@ -154,11 +173,11 @@ export default function TeamPage() {
                         }}
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                       >
-                        <p className="text-white/80 text-base md:text-lg leading-relaxed max-w-xl mb-8">
+                        <p className="text-white/80 text-base md:text-lg leading-relaxed max-w-xl mb-6">
                           {founder.bio}
                         </p>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                        <div className="grid grid-cols-3 gap-4 mb-6">
                           {founder.stats.map(stat => (
                             <div key={stat.label} className="border-l-2 pl-4 py-1" style={{ borderColor: `${founder.color}60` }}>
                               <div className="text-[10px] uppercase tracking-widest text-white/60 mb-1 font-medium">{stat.label}</div>
