@@ -122,7 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 image: 'https://www.maverickdigitals.co.in/assets/logo.png',
                 '@id': 'https://www.maverickdigitals.co.in',
                 url: 'https://www.maverickdigitals.co.in',
-                telephone: '+919876543210',
+                telephone: '+919619818332',
                 address: {
                   '@type': 'PostalAddress',
                   streetAddress: 'Mumbai',

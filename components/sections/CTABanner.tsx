@@ -1,34 +1,10 @@
 'use client';
-import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { ArrowRight, CheckCircle2, Phone } from 'lucide-react';
 import Reveal from '@/components/Reveal';
 import MagneticButton from '@/components/MagneticButton';
 
-const schema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email'),
-  phone: z.string().min(10, 'Please enter a valid phone number'),
-});
-
-type FormData = z.infer<typeof schema>;
-
 export default function CTABanner() {
-  const [submitted, setSubmitted] = useState(false);
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
-
-  const onSubmit = async (data: FormData) => {
-    // TODO: connect to backend / email service
-    await new Promise((r) => setTimeout(r, 1000));
-    console.log('CTA form submission:', data);
-    setSubmitted(true);
-  };
-
   return (
     <section className="section-padding relative overflow-hidden" id="cta">
       {/* Background */}
@@ -62,65 +38,27 @@ export default function CTABanner() {
           ))}
         </div>
 
-        {submitted ? (
-          <div className="glass-card rounded-2xl p-8 border border-green-500/20 flex flex-col items-center gap-3 max-w-md mx-auto">
-            <div className="w-14 h-14 rounded-full flex items-center justify-center"
-              style={{ background: 'rgba(34,197,94,0.15)' }}>
-              <CheckCircle2 size={28} className="text-green-400" />
-            </div>
-            <h3 className="text-foreground font-semibold text-xl">Got it! We&apos;ll be in touch soon</h3>
-            <p className="text-muted-foreground text-sm">Check your inbox — we usually reply within 24 hours.</p>
-          </div>
-        ) : (
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="glass-card rounded-2xl p-6 border border-border/60 shadow-sm max-w-2xl mx-auto"
-            id="cta-form"
+        {/* Primary CTA */}
+        <MagneticButton as="div" className="inline-block mb-6">
+          <Link
+            href="/contact"
+            id="cta-book-call"
+            className="inline-flex items-center gap-2 px-10 py-5 rounded-full font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(147,51,234,0.35)] text-lg"
+            style={{ background: 'var(--gradient-brand)' }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-              <div>
-                <input
-                  {...register('name')}
-                  placeholder="Your Name"
-                  className={`form-input ${errors.name ? 'error' : ''}`}
-                  id="cta-name"
-                />
-                {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>}
-              </div>
-              <div>
-                <input
-                  {...register('email')}
-                  type="email"
-                  placeholder="Email Address"
-                  className={`form-input ${errors.email ? 'error' : ''}`}
-                  id="cta-email"
-                />
-                {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
-              </div>
-              <div>
-                <input
-                  {...register('phone')}
-                  placeholder="Phone Number"
-                  className={`form-input ${errors.phone ? 'error' : ''}`}
-                  id="cta-phone"
-                />
-                {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
-              </div>
-            </div>
-            <MagneticButton as="button" type="submit" disabled={isSubmitting} className="w-full">
-              <span id="cta-submit" className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-white transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed group-hover:brightness-110" style={{ background: 'var(--gradient-brand)' }}>
-                {isSubmitting ? 'Sending...' : 'Get Free Strategy Call'}
-                {!isSubmitting && <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />}
-              </span>
-            </MagneticButton>
-          </form>
-        )}
+            Book a Free Strategy Call
+            <ArrowRight size={20} className="transform group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </MagneticButton>
 
-        {/* Or contact directly */}
-        <div className="mt-6 flex items-center justify-center gap-3 text-muted-foreground text-sm">
+        {/* Secondary action */}
+        <div className="flex items-center justify-center gap-3 text-muted-foreground text-sm">
           <span>Or reach us directly at</span>
-          <a href="mailto:maverickdigitals18@gmail.com"
-            className="text-[var(--brand-purple)] hover:opacity-80 font-medium transition-opacity">
+          <a
+            href="mailto:maverickdigitals18@gmail.com"
+            id="cta-email-link"
+            className="text-[var(--brand-purple)] hover:opacity-80 font-medium transition-opacity"
+          >
             maverickdigitals18@gmail.com
           </a>
         </div>

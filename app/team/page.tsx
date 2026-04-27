@@ -27,6 +27,8 @@ const founders = [
       { label: 'Output', value: 'Conversion Storytelling' },
     ],
     color: 'var(--brand-purple)',
+    linkedin: 'https://www.linkedin.com/in/muskanrathod/',
+    email: 'muskan.maverickdigitals@gmail.com',
   },
   {
     id: 'dhaval',
@@ -40,6 +42,8 @@ const founders = [
       { label: 'Output', value: 'Scalable Growth Systems' },
     ],
     color: 'var(--brand-blue)',
+    linkedin: null,
+    email: 'dhaval.maverickdigitals@gmail.com',
   }
 ];
 
@@ -155,10 +159,12 @@ export default function TeamPage() {
                       </div>
 
                       <div className="flex gap-2 sm:gap-3 mb-1 lg:hidden">
-                        <a href="#" aria-label={`${founder.name} on LinkedIn`} className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10">
-                          <Linkedin size={16} />
-                        </a>
-                        <a href="#" aria-label={`Email ${founder.name}`} className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10">
+                        {founder.linkedin && (
+                          <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${founder.name} on LinkedIn`} className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10">
+                            <Linkedin size={16} />
+                          </a>
+                        )}
+                        <a href={`mailto:${founder.email}`} aria-label={`Email ${founder.name}`} className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10">
                           <Mail size={16} />
                         </a>
                       </div>
@@ -187,10 +193,12 @@ export default function TeamPage() {
                         </div>
 
                         <div className="flex gap-4">
-                          <a href="#" aria-label={`${founder.name} on LinkedIn`} className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10 glass-card">
-                            <Linkedin size={20} />
-                          </a>
-                          <a href="#" aria-label={`Email ${founder.name}`} className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10 glass-card">
+                          {founder.linkedin && (
+                            <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${founder.name} on LinkedIn`} className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10 glass-card">
+                              <Linkedin size={20} />
+                            </a>
+                          )}
+                          <a href={`mailto:${founder.email}`} aria-label={`Email ${founder.name}`} className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white transition-all duration-300 hover:bg-white/10 glass-card">
                             <Mail size={20} />
                           </a>
                         </div>

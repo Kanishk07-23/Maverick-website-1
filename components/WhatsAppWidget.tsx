@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 export default function WhatsAppWidget() {
   const [hovered, setHovered] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
-  const waUrl = 'https://wa.me/919876543210?text=Hi%20Maverick%20Digitals!%20I%27m%20interested%20in%20your%20services.';
+  const waUrl = 'https://wa.me/919619818332?text=Hi%20Maverick%20Digitals!%20I%27m%20interested%20in%20your%20services.';
 
   useEffect(() => {
     setIsTouch(window.matchMedia('(pointer: coarse)').matches);
