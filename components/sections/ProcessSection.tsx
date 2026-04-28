@@ -45,7 +45,7 @@ export default function ProcessSection() {
   });
 
   return (
-    <section className="bg-[var(--background)] py-32 relative overflow-hidden" id="process" ref={containerRef}>
+    <section className="bg-transparent py-32 relative overflow-hidden" id="process" ref={containerRef}>
 
       {/* Ambient Lighting — stronger in light mode for parity with dark */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] rounded-full blur-[140px] process-ambient-glow pointer-events-none"

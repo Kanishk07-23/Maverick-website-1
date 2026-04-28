@@ -25,7 +25,14 @@ export default function Reveal({ children, direction = 'up', delay = 0, classNam
       { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
     );
     if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+    
+    // Safety fallback
+    const timeout = setTimeout(() => setIsVisible(true), 1000);
+    
+    return () => {
+      observer.disconnect();
+      clearTimeout(timeout);
+    };
   }, []);
 
   // Release the compositor layer ~700ms after animation completes

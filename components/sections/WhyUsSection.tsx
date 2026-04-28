@@ -38,7 +38,7 @@ export default function WhyUsSection() {
   const headerInView = useInView(headerRef, { once: true });
 
   return (
-    <section className="relative py-28 md:py-36 bg-[var(--background)]" id="why-us">
+    <section className="relative py-28 md:py-36 bg-transparent" id="why-us">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Two column layout: sticky text left, cards right */}

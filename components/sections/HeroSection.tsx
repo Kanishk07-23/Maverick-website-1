@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue, Variants } 
 import { ArrowRight } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
 
-const HeroCanvas = dynamic(() => import('@/components/three/HeroCanvas'), { ssr: false });
+// Removed HeroCanvas as we use Global3DBackground
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -23,7 +23,6 @@ export default function HeroSection() {
   });
 
   const textY = useTransform(scrollYProgress, [0, 1], ['0%', isTouch ? '20%' : '60%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   // Mouse spring — only active on pointer devices
   const springConfig = { damping: 25, stiffness: 150, mass: 0.5 };
@@ -90,7 +89,6 @@ export default function HeroSection() {
       id="home"
       style={{ perspective: isTouch ? 'none' : '1000px' }}
     >
-      <HeroCanvas />
 
       {/* Reactive Ambient Glow — reduced on mobile */}
       <motion.div
@@ -103,7 +101,7 @@ export default function HeroSection() {
       />
 
       <motion.div
-        style={{ y: textY, opacity, rotateX, rotateY }}
+        style={{ y: textY, rotateX, rotateY }}
         className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 flex flex-col items-center text-center"
       >
         <motion.div

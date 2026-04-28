@@ -6,15 +6,7 @@ import { Float, MeshDistortMaterial, Environment, Sphere, Icosahedron } from '@r
 import * as THREE from 'three';
 import { useTheme } from 'next-themes';
 
-function FloatingShapes() {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const isDark = mounted && resolvedTheme === 'dark';
+function FloatingShapes({ isDark }: { isDark: boolean }) {
 
   // Responsive positions and scales
   const [isMobile, setIsMobile] = useState(false);
@@ -57,8 +49,6 @@ function FloatingShapes() {
       );
     }
   });
-
-  if (!mounted) return null; // Avoid hydration mismatch
 
   // Define colors based on theme
   const accent1 = isDark ? '#8b5cf6' : '#6d28d9'; // Purple
@@ -119,6 +109,10 @@ function FloatingShapes() {
 }
 
 export default function Global3DBackground() {
+  const { resolvedTheme } = useTheme();
+
+  const isDark = resolvedTheme === 'dark';
+
   return (
     <div className="absolute inset-0 z-[-1] pointer-events-none" style={{ position: 'fixed' }}>
       <Canvas
@@ -130,7 +124,7 @@ export default function Global3DBackground() {
         <directionalLight position={[10, 10, 5]} intensity={2} />
         <directionalLight position={[-10, -10, -5]} intensity={0.5} />
         
-        <FloatingShapes />
+        <FloatingShapes isDark={isDark} />
         <Environment preset="city" />
       </Canvas>
     </div>

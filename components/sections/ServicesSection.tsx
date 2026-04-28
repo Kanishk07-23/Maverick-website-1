@@ -129,7 +129,7 @@ export default function ServicesSection() {
   const headerInView = useInView(headerRef, { once: true });
 
   return (
-    <section className="relative py-28 md:py-36 bg-[var(--background)]" id="services">
+    <section className="relative py-28 md:py-36 bg-transparent" id="services">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Header */}

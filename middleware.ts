@@ -112,6 +112,7 @@ export function middleware(request: NextRequest) {
   }
 
   // ── Block known scanner / exploit User-Agents ────────────────────────────
+  /*
   if (!ua || ua.trim() === '') {
     // Zero-UA is almost exclusively automated traffic.
     // Exception: allow Next.js internal prefetch requests (no UA).
@@ -120,6 +121,7 @@ export function middleware(request: NextRequest) {
       return forbidden();
     }
   }
+  */
 
   for (const pattern of BLOCKED_UA_PATTERNS) {
     if (pattern.test(ua)) {

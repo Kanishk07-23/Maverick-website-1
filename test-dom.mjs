@@ -1,0 +1,12 @@
+import puppeteer from 'puppeteer';
+const browser = await puppeteer.launch();
+const page = await browser.newPage();
+await page.goto('http://localhost:3002');
+await page.waitForTimeout(2000);
+const heroHtml = await page.$eval('#home', el => el.innerHTML);
+console.log(heroHtml.includes('We Scale') ? 'HERO TEXT FOUND' : 'HERO TEXT MISSING');
+const style = await page.$eval('#home > div.relative.z-10', el => el.getAttribute('style'));
+console.log('Hero div style:', style);
+const bounds = await page.$eval('#home', el => el.getBoundingClientRect());
+console.log('Hero bounds:', bounds);
+await browser.close();

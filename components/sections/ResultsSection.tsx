@@ -87,7 +87,7 @@ export default function ResultsSection() {
   }, []);
 
   return (
-    <section className="relative w-full h-auto md:h-[120vh] md:min-h-[800px] overflow-hidden bg-[var(--background)] flex items-center justify-center pt-32 pb-24 md:py-0" id="results">
+    <section className="relative w-full h-auto md:h-[120vh] md:min-h-[800px] overflow-hidden bg-transparent flex items-center justify-center pt-32 pb-24 md:py-0" id="results">
       
       {/* 3D Canvas Background - Only on Desktop */}
       {isDesktop && (
