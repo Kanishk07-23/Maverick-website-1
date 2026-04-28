@@ -9,6 +9,7 @@ import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import ThemeProvider from '@/components/ThemeProvider';
 import ScrollProgress from '@/components/ScrollProgress';
 import BackToTop from '@/components/BackToTop';
+import Global3DBackground from '@/components/three/Global3DBackground';
 
 const sora = Sora({
   subsets: ['latin'],
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning className={`${sora.variable} ${dmSans.variable} ${spaceMono.variable}`}>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <Global3DBackground />
           <ScrollProgress />
           <CustomCursor />
           <SmoothScrollProvider>

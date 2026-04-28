@@ -67,10 +67,11 @@
 
 html {
   scroll-behavior: auto;
+  background-color: var(--background);
 }
 
 body {
-  background-color: var(--background);
+  background-color: transparent;
   color: var(--foreground);
   font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
@@ -281,22 +282,19 @@ body::before {
    weight, different colours
    ============================================ */
 
-/* Hero mesh gradient — matching strength in both modes */
+/* Hero mesh gradient — translucent to show 3D */
 .mesh-gradient {
-  background: var(--background);
+  background: transparent;
 }
 .dark .mesh-gradient {
   background:
     radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59, 130, 246, 0.08), transparent),
-    var(--background);
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59, 130, 246, 0.08), transparent);
 }
 :root .mesh-gradient {
-  /* Raised from 0.06/0.04 → 0.12/0.07 for visual parity with dark mode */
   background:
     radial-gradient(ellipse 80% 50% at 50% -20%, rgba(109, 40, 217, 0.12), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(37, 99, 235, 0.07), transparent),
-    var(--background);
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(37, 99, 235, 0.07), transparent);
 }
 
 /* ============================================
