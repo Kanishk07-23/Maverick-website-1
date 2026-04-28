@@ -22,6 +22,7 @@ function WheelCard({
   rotation,
   radius,
   total,
+  activeIndex,
   onNavigate,
 }: {
   service: Service;
@@ -29,6 +30,7 @@ function WheelCard({
   rotation: any; // MotionValue
   radius: number;
   total: number;
+  activeIndex: number;
   onNavigate: (service: Service) => void;
 }) {
   const anglePerItem = 360 / total;
@@ -50,9 +52,14 @@ function WheelCard({
     return Math.abs(norm);
   });
 
+  // Hide cards that are wrapping around the circle (e.g., card 0 when active is 5)
+  // We only show cards that are within 2 indices of the active card.
+  const isWrapped = Math.abs(index - activeIndex) > 2;
+
   // Visual effects based on distance from center
   const scale = useTransform(distDeg, [0, 60, 120], [1, 0.75, 0.5]);
-  const opacity = useTransform(distDeg, [0, 45, 90], [1, 0.3, 0]);
+  const baseOpacity = useTransform(distDeg, [0, 45, 90], [1, 0.3, 0]);
+  const opacity = useTransform(baseOpacity, (val) => isWrapped ? 0 : val);
   const zIndex = useTransform(distDeg, (d) => 100 - Math.floor(d));
 
   const cardRef = useRef<HTMLDivElement>(null);
@@ -170,7 +177,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
     }
   }, []);
 
-  // We make the container 400vh to give plenty of scroll room
+  // We make the container 500vh to give a huge scroll room, preventing abrupt cutoffs
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -182,10 +189,10 @@ export default function ServicesList({ services }: { services: Service[] }) {
   
   // Map scroll progress directly to wheel rotation
   // Buffer [0, 0.1]: Keep 1st service anchored while user enters section
-  // Buffer [0.85, 1]: Keep last service anchored at the end
+  // Buffer [0.75, 1]: Keep last service perfectly anchored for a massive 125vh at the end
   const rotation = useTransform(
     scrollYProgress, 
-    [0, 0.1, 0.85, 1], 
+    [0, 0.1, 0.75, 1], 
     [0, 0, maxRotation, maxRotation]
   );
 
@@ -234,9 +241,9 @@ export default function ServicesList({ services }: { services: Service[] }) {
         )}
       </div>
 
-      <div ref={containerRef} className="relative h-[400vh] w-full">
+      <div ref={containerRef} className="relative h-[500vh] w-full">
       {/* Sticky viewport */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-background flex flex-col justify-center">
+      <div className="sticky top-0 h-screen w-[100vw] overflow-hidden bg-background flex flex-col justify-center left-1/2 -translate-x-1/2">
         
         {/* Wheel Center Anchor */}
         {/* Positioned off-screen to the left, so the right side of the wheel arcs through the screen */}
@@ -270,6 +277,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
               rotation={rotation}
               radius={radius}
               total={total}
+              activeIndex={activeIndex}
               onNavigate={handleNavigate}
             />
           ))}
