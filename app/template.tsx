@@ -2,14 +2,13 @@
 
 import { motion } from 'framer-motion';
 
-// Minimal, tasteful page transition — content fades in instantly.
-// The "wow" moment is handled by the card→page expansion on service pages.
+// Smooth, seamless page transition with a slight blur and upward slide
 export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <motion.main
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.35, ease: 'easeOut' }}
+      initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="min-h-screen"
     >
       {children}
