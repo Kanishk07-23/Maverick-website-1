@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -15,105 +15,83 @@ interface Service {
   badge?: string;
 }
 
-// ─── Wheel Card Component ───────────────────────────────────────────────────
+// ─── Single card component (proper React component so hooks are valid) ──────
 function WheelCard({
   service,
   index,
-  rotation,
-  radius,
   total,
-  activeIndex,
-  onNavigate,
+  activeFloat,
+  isActive,
+  radius,
+  windowW,
+  onSelect,
 }: {
   service: Service;
   index: number;
-  rotation: any; // MotionValue
-  radius: number;
   total: number;
-  activeIndex: number;
-  onNavigate: (service: Service) => void;
+  activeFloat: any;
+  isActive: boolean;
+  radius: number;
+  windowW: number;
+  onSelect: (s: Service) => void;
 }) {
-  const anglePerItem = 360 / total;
-  const baseAngle = index * anglePerItem;
+  const angleStep = 360 / total;
 
-  // Global angle of this card
-  const angleDeg = useTransform(rotation, (rot: number) => rot + baseAngle);
-  const angleRad = useTransform(angleDeg, (a) => a * (Math.PI / 180));
-
-  // Compute X and Y on the circle
-  const x = useTransform(angleRad, (a) => Math.cos(a) * radius);
-  const y = useTransform(angleRad, (a) => Math.sin(a) * radius);
-
-  // Distance from the 0-degree (center right) position
-  const distDeg = useTransform(angleDeg, (a) => {
-    let norm = a % 360;
-    if (norm > 180) norm -= 360;
-    if (norm < -180) norm += 360;
-    return Math.abs(norm);
+  const cardAngleDeg = useTransform(activeFloat, (a: number) => (index - a) * angleStep);
+  const cardAngleRad = useTransform(cardAngleDeg, (d: number) => d * (Math.PI / 180));
+  const x = useTransform(cardAngleRad, (r: number) => Math.cos(r) * radius);
+  const y = useTransform(cardAngleRad, (r: number) => Math.sin(r) * radius);
+  const absDeg = useTransform(cardAngleDeg, (d: number) => {
+    let n = ((d % 360) + 360) % 360;
+    if (n > 180) n = 360 - n;
+    return n;
   });
+  const scale = useTransform(absDeg, [0, 55, 110], [1, 0.72, 0.45]);
+  const opacity = useTransform(absDeg, [0, 50, 90], [1, 0.35, 0]);
+  const zIndex = useTransform(absDeg, (d: number) => Math.round(200 - d));
 
-  // Hide cards that are wrapping around the circle (e.g., card 0 when active is 5)
-  // We only show cards that are within 2 indices of the active card.
-  const isWrapped = Math.abs(index - activeIndex) > 2;
-
-  // Visual effects based on distance from center
-  const scale = useTransform(distDeg, [0, 60, 120], [1, 0.75, 0.5]);
-  const baseOpacity = useTransform(distDeg, [0, 45, 90], [1, 0.3, 0]);
-  const opacity = useTransform(baseOpacity, (val) => isWrapped ? 0 : val);
-  const zIndex = useTransform(distDeg, (d) => 100 - Math.floor(d));
-
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [isZooming, setIsZooming] = useState(false);
-
-  const handleClick = () => {
-    // Only allow clicking if the card is roughly in the center position
-    if (distDeg.get() > 15) return;
-    if (!cardRef.current) return;
-
-    // Save scroll position for returning
-    sessionStorage.setItem('maverick_services_scroll', window.scrollY.toString());
-
-    setIsZooming(true);
-    
-    // Slight delay allows the zoom animation to start before routing
-    setTimeout(() => {
-      onNavigate(service);
-    }, 400); // Increased delay to allow the full-screen transition to play
-  };
-
-  if (radius === 0) return null; // Wait for radius calculation
+  const cardWidth = windowW < 640 ? '80vw' : windowW < 1024 ? 420 : 560;
 
   return (
     <motion.div
-      style={{ position: 'absolute', left: 0, top: 0, x, y, zIndex }}
-      className="pointer-events-none"
+      style={{
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        translateX: x,
+        translateY: y,
+        scale,
+        opacity,
+        zIndex,
+      }}
     >
+      {/* Vertically center the card on the arc point */}
       <motion.div
-        animate={{ scale: isZooming ? 3 : 1, opacity: isZooming ? 0 : 1 }}
-        transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-        className="absolute top-1/2 left-0 -translate-y-1/2 pointer-events-auto origin-center"
+        style={{ y: '-50%' }}
+        onClick={() => isActive && onSelect(service)}
+        className="relative overflow-hidden rounded-[36px] border border-border/30 backdrop-blur-xl group"
+        whileHover={isActive ? { scale: 1.02 } : {}}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       >
-        <motion.div
-          style={{ scale, opacity }}
-          ref={cardRef}
-          onClick={handleClick}
-          className="w-[85vw] sm:w-[450px] md:w-[500px] lg:w-[600px] glass-card rounded-[40px] p-8 md:p-12 border border-border/30 transition-colors duration-500 cursor-pointer overflow-hidden group relative"
-          whileHover={distDeg.get() < 15 ? { scale: 1.02 } : {}}
+        <div
+          style={{
+            width: cardWidth,
+            background: 'var(--card)',
+            cursor: isActive ? 'pointer' : 'default',
+            boxShadow: isActive ? `0 0 60px ${service.color}30` : 'none',
+          }}
         >
-          {/* Default static background styling */}
-          <div className="absolute inset-0 bg-[var(--card)] z-0" />
-          
-          {/* Background Glow */}
+          {/* Color glow */}
           <div
-            className="absolute -top-32 -right-32 w-80 h-80 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity duration-700 z-0 pointer-events-none"
+            className="absolute -top-24 -right-24 w-64 h-64 rounded-full blur-[80px] opacity-20 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none"
             style={{ backgroundColor: service.color }}
           />
 
-          <div className="relative z-10 flex flex-col h-full min-h-[300px] lg:min-h-[400px]">
-            <div className="flex items-center gap-4 mb-8">
+          <div className="relative z-10 p-8 md:p-10 flex flex-col gap-5">
+            <div className="flex items-center gap-3">
               <span
-                className="text-sm font-mono font-bold px-4 py-2 rounded-full"
-                style={{ backgroundColor: `${service.color}15`, color: service.color }}
+                className="text-xs font-mono font-bold px-3 py-1.5 rounded-full"
+                style={{ background: `${service.color}15`, color: service.color }}
               >
                 0{index + 1}
               </span>
@@ -127,31 +105,35 @@ function WheelCard({
               )}
             </div>
 
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-outfit font-black mb-4 tracking-tight leading-tight">
+            <h2
+              className="font-outfit font-black text-foreground leading-tight"
+              style={{ fontSize: 'clamp(1.6rem, 3vw, 2.6rem)', letterSpacing: '-0.03em' }}
+            >
               {service.title}
             </h2>
-            <p className="text-lg lg:text-xl font-semibold mb-6" style={{ color: service.color }}>
+
+            <p className="text-base font-semibold" style={{ color: service.color }}>
               {service.tagline}
             </p>
 
-            <p className="text-muted-foreground text-base lg:text-lg leading-relaxed mb-8 flex-1 line-clamp-3">
+            <p className="text-muted-foreground text-sm md:text-base leading-relaxed line-clamp-3">
               {service.desc}
             </p>
 
             <div
-              className="flex items-center gap-3 font-bold text-sm lg:text-base transition-transform group-hover:translate-x-2"
+              className={`flex items-center gap-3 font-bold text-sm transition-all duration-300 ${isActive ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}
               style={{ color: service.color }}
             >
               <div
-                className="w-12 h-12 rounded-full flex items-center justify-center"
+                className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
                 style={{ background: `${service.color}15` }}
               >
-                <ArrowRight size={20} />
+                <ArrowRight size={18} />
               </div>
-              <span>Click to Enter Protocol</span>
+              <span>Enter Protocol</span>
             </div>
           </div>
-        </motion.div>
+        </div>
       </motion.div>
     </motion.div>
   );
@@ -161,15 +143,22 @@ function WheelCard({
 export default function ServicesList({ services }: { services: Service[] }) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // State for the seamless transition
-  const [transitioningService, setTransitioningService] = useState<Service | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionColor, setTransitionColor] = useState('');
+  const [windowW, setWindowW] = useState(0);
 
-  // Restore scroll position on mount
+  useEffect(() => {
+    setWindowW(window.innerWidth);
+    const onResize = () => setWindowW(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  // Restore scroll position on back-navigation
   useEffect(() => {
     const saved = sessionStorage.getItem('maverick_services_scroll');
     if (saved) {
-      // Small delay to ensure the DOM is ready
       setTimeout(() => {
         window.scrollTo({ top: parseInt(saved, 10), behavior: 'instant' });
       }, 50);
@@ -177,130 +166,138 @@ export default function ServicesList({ services }: { services: Service[] }) {
     }
   }, []);
 
-  // We make the container 500vh to give a huge scroll room, preventing abrupt cutoffs
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
   const total = services.length;
-  // Total rotation to scroll through all services (last service is at index = total - 1)
-  const maxRotation = -(total - 1) * (360 / total);
-  
-  // Map scroll progress directly to wheel rotation
-  // Buffer [0, 0.1]: Keep 1st service anchored while user enters section
-  // Buffer [0.75, 1]: Keep last service perfectly anchored for a massive 125vh at the end
-  const rotation = useTransform(
-    scrollYProgress, 
-    [0, 0.1, 0.75, 1], 
-    [0, 0, maxRotation, maxRotation]
-  );
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  // Map scroll → float index. Dead zones at start/end keep first/last anchored.
+  const activeFloat = useTransform(scrollYProgress, [0.05, 0.85], [0, total - 1]);
 
-  // Track active index for UI indicators
-  useMotionValueEvent(rotation, 'change', (latest) => {
-    const idx = Math.round(Math.abs(latest) / (360 / total));
-    if (idx !== activeIndex && idx < total) setActiveIndex(idx);
+  useMotionValueEvent(activeFloat, 'change', (v) => {
+    const idx = Math.round(Math.max(0, Math.min(total - 1, v)));
+    setActiveIndex(idx);
   });
 
-  // Responsive radius calculation
-  const [radius, setRadius] = useState(0);
-  useEffect(() => {
-    const updateRadius = () => {
-      const w = window.innerWidth;
-      if (w < 640) setRadius(w * 0.7); // Mobile: tighter wheel
-      else if (w < 1024) setRadius(w * 0.5); // Tablet
-      else setRadius(w * 0.38); // Desktop
-    };
-    updateRadius();
-    window.addEventListener('resize', updateRadius);
-    return () => window.removeEventListener('resize', updateRadius);
-  }, []);
+  const handleSelect = useCallback(
+    (service: Service) => {
+      sessionStorage.setItem('maverick_services_scroll', window.scrollY.toString());
+      setTransitionColor(service.color);
+      setIsTransitioning(true);
+      setTimeout(() => router.push(`/services/${service.id}`), 450);
+    },
+    [router]
+  );
 
-  const handleNavigate = (service: Service) => {
-    setTransitioningService(service);
-    setTimeout(() => {
-      router.push(`/services/${service.id}`);
-    }, 100);
-  };
+  // Radius: pivot at left edge, cards orbit to the right and show near centre
+  const radius = windowW > 0 ? (windowW < 768 ? windowW * 0.72 : windowW * 0.5) : 500;
 
   return (
     <>
-      {/* Seamless Transition Overlay */}
-      <div 
-        className={`fixed inset-0 z-[9999] pointer-events-none transition-opacity duration-500 ease-in-out ${transitioningService ? 'opacity-100' : 'opacity-0'}`}
+      {/* Seamless mesh-gradient transition overlay */}
+      <div
+        className={`fixed inset-0 z-[9999] pointer-events-none transition-opacity duration-500 ${
+          isTransitioning ? 'opacity-100' : 'opacity-0'
+        }`}
       >
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 mesh-gradient" />
-        {transitioningService && (
-          <div 
-            className="absolute inset-0 opacity-40 mix-blend-screen"
-            style={{ background: `radial-gradient(circle at center, ${transitioningService.color}, transparent 70%)` }}
-          />
-        )}
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            background: `radial-gradient(circle at 55% 50%, ${transitionColor}, transparent 70%)`,
+          }}
+        />
       </div>
 
-      <div ref={containerRef} className="relative h-[500vh] w-full">
-      {/* Sticky viewport */}
-      <div className="sticky top-0 h-screen w-[100vw] overflow-hidden bg-background flex flex-col justify-center left-1/2 -translate-x-1/2">
-        
-        {/* Wheel Center Anchor */}
-        {/* Positioned off-screen to the left, so the right side of the wheel arcs through the screen */}
-        <div className="absolute left-[-40vw] sm:left-[-20vw] md:left-[-10vw] lg:left-0 top-1/2 w-0 h-0 z-10">
-          
-          {/* Decorative Wheel SVG Arc */}
-          {radius > 0 && (
-            <svg
-              className="absolute left-0 top-1/2 -translate-y-1/2 overflow-visible pointer-events-none"
-              style={{ width: radius, height: radius * 2 }}
-            >
-              <circle
-                cx="0"
-                cy="0"
-                r={radius}
-                fill="none"
-                stroke="var(--border)"
-                strokeWidth="1.5"
-                strokeDasharray="6 12"
-                opacity="0.6"
+      {/* 500vh scroll container */}
+      <div ref={containerRef} style={{ height: '500vh', position: 'relative', width: '100%' }}>
+        {/* Sticky full-screen viewport */}
+        <div
+          style={{
+            position: 'sticky',
+            top: 0,
+            height: '100vh',
+            width: '100%',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Pivot anchor — left edge, vertically centred */}
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: '50%',
+              width: 0,
+              height: 0,
+            }}
+          >
+            {/* Decorative dashed arc */}
+            {windowW > 0 && (
+              <svg
+                style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}
+                width={1}
+                height={1}
+              >
+                <circle
+                  cx={0}
+                  cy={0}
+                  r={radius}
+                  fill="none"
+                  stroke="var(--border)"
+                  strokeWidth="1"
+                  strokeDasharray="4 14"
+                  opacity="0.4"
+                />
+              </svg>
+            )}
+
+            {/* Cards */}
+            {services.map((service, i) => (
+              <WheelCard
+                key={service.id}
+                service={service}
+                index={i}
+                total={total}
+                activeFloat={activeFloat}
+                isActive={i === activeIndex}
+                radius={radius}
+                windowW={windowW}
+                onSelect={handleSelect}
               />
-            </svg>
-          )}
+            ))}
+          </div>
 
-          {/* Service Cards */}
-          {services.map((service, i) => (
-            <WheelCard
-              key={service.id}
-              service={service}
-              index={i}
-              rotation={rotation}
-              radius={radius}
-              total={total}
-              activeIndex={activeIndex}
-              onNavigate={handleNavigate}
-            />
-          ))}
+          {/* Progress pill dots — bottom centre */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 40,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              gap: 8,
+              zIndex: 50,
+            }}
+          >
+            {services.map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  width: i === activeIndex ? 28 : 8,
+                  height: 8,
+                  borderRadius: 99,
+                  backgroundColor: i === activeIndex ? services[activeIndex].color : 'var(--border)',
+                  opacity: i === activeIndex ? 1 : 0.4,
+                  transition: 'all 0.35s ease',
+                }}
+              />
+            ))}
+          </div>
         </div>
-
-        {/* Progress Indicators (Dots) */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2">
-          {services.map((s, i) => (
-            <div
-              key={i}
-              className="rounded-full transition-all duration-300"
-              style={{
-                width: i === activeIndex ? 32 : 8,
-                height: 8,
-                backgroundColor: i === activeIndex ? services[activeIndex].color : 'var(--border)',
-                opacity: i === activeIndex ? 1 : 0.4,
-              }}
-            />
-          ))}
-        </div>
-        
       </div>
-    </div>
     </>
   );
 }
