@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import ServicePageReveal from '@/components/ServicePageReveal';
 
 export const metadata: Metadata = {
   title: 'Top Branding Agency Mumbai | Brand Strategy Consultants',
@@ -30,6 +31,7 @@ const faqs = [
 export default function BrandingStrategyPage() {
   return (
     <div className="pt-20">
+      <ServicePageReveal color="#7C3AED" />
       <section className="section-padding mesh-gradient relative overflow-hidden" aria-label="Branding Strategy Hero">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="max-w-3xl">

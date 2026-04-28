@@ -175,18 +175,54 @@ body {
 }
 
 /* ============================================
-   DOT PATTERN — purple-tinted in light mode
-   for visual parity with dark mode texture
+   AMBIENT BACKGROUND — slow-drifting orbs
+   Pure CSS, zero JS overhead, works perfectly
+   in both light and dark mode
    ============================================ */
-body::before {
+@keyframes orb-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(60px, -40px) scale(1.08); }
+  66%  { transform: translate(-30px, 50px) scale(0.95); }
+}
+@keyframes orb-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40%  { transform: translate(-70px, 30px) scale(1.05); }
+  75%  { transform: translate(40px, -60px) scale(0.92); }
+}
+
+body::before,
+body::after {
   content: '';
   position: fixed;
-  inset: 0;
-  background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
-  background-size: 24px 24px;
+  border-radius: 50%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
+  filter: blur(80px);
 }
+
+/* Orb 1 — top-right purple */
+body::before {
+  width: 600px;
+  height: 600px;
+  top: -10%;
+  right: -5%;
+  background: radial-gradient(circle, var(--brand-purple) 0%, transparent 70%);
+  opacity: 0.07;
+  animation: orb-drift-1 18s ease-in-out infinite;
+}
+.dark body::before { opacity: 0.12; }
+
+/* Orb 2 — bottom-left blue */
+body::after {
+  width: 500px;
+  height: 500px;
+  bottom: -10%;
+  left: -5%;
+  background: radial-gradient(circle, var(--brand-blue) 0%, transparent 70%);
+  opacity: 0.06;
+  animation: orb-drift-2 22s ease-in-out infinite;
+}
+.dark body::after { opacity: 0.10; }
 
 /* Section base */
 .section-padding {

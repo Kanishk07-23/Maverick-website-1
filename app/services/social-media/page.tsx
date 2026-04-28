@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import ServicePageReveal from '@/components/ServicePageReveal';
 
 export const metadata: Metadata = {
   title: 'Social Media Management Agency Mumbai | Maverick Digitals',
@@ -30,6 +31,7 @@ const faqs = [
 export default function SocialMediaPage() {
   return (
     <div className="pt-20">
+      <ServicePageReveal color="#6D28D9" />
       <section className="section-padding mesh-gradient relative overflow-hidden" aria-label="Social Media Service Hero">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="max-w-3xl">
