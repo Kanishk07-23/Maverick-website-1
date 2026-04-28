@@ -1,14 +1,10 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Check } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { saveCardTransition } from '@/lib/cardTransition';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Sphere, Torus, Octahedron, Cone, Icosahedron, Cylinder } from '@react-three/drei';
-import * as THREE from 'three';
-import { useTheme } from 'next-themes';
 
 interface Service {
   id: string;
@@ -20,124 +16,105 @@ interface Service {
   badge?: string;
 }
 
-// ─── 3D Shapes for Services ──────────────────────────────────────────────────
-function ServiceShape({ id, color, isDark }: { id: string; color: string; isDark: boolean }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame(({ clock }) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = clock.elapsedTime * 0.3;
-      meshRef.current.rotation.y = clock.elapsedTime * 0.4;
-    }
-  });
-
-  const materialProps = {
-    color: color,
-    emissive: color,
-    emissiveIntensity: isDark ? 0.3 : 0.6,
-    metalness: 0.8,
-    roughness: 0.2,
-    transparent: true,
-    opacity: isDark ? 0.8 : 0.9,
-    wireframe: true,
-  };
-
-  const getShape = () => {
-    switch (id) {
-      case 'branding-strategy':
-        return <Torus args={[1.2, 0.4, 16, 100]} />;
-      case 'performance-marketing':
-        return <Octahedron args={[1.5]} />;
-      case 'personal-branding':
-        return <Icosahedron args={[1.5, 0]} />;
-      case 'seo-sem':
-        return <Sphere args={[1.4, 16, 16]} />;
-      case 'social-media':
-        return <Cone args={[1.2, 2, 16]} />;
-      case 'web-dev':
-        return <Cylinder args={[1, 1, 2, 16]} />;
-      default:
-        return <Sphere args={[1.5, 16, 16]} />;
-    }
-  };
-
-  return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-      <mesh ref={meshRef}>
-        {getShape()}
-        <meshStandardMaterial {...materialProps} />
-      </mesh>
-    </Float>
-  );
-}
-
-// ─── Individual card ──────────────────────────────────────────────────────────
-function ServiceCard({
+// ─── Wheel Card Component ───────────────────────────────────────────────────
+function WheelCard({
   service,
   index,
+  rotation,
+  radius,
+  total,
   onNavigate,
 }: {
   service: Service;
   index: number;
-  onNavigate: (el: HTMLDivElement, service: Service) => void;
+  rotation: any; // MotionValue
+  radius: number;
+  total: number;
+  onNavigate: (service: Service) => void;
 }) {
+  const anglePerItem = 360 / total;
+  const baseAngle = index * anglePerItem;
+
+  // Global angle of this card
+  const angleDeg = useTransform(rotation, (rot: number) => rot + baseAngle);
+  const angleRad = useTransform(angleDeg, (a) => a * (Math.PI / 180));
+
+  // Compute X and Y on the circle
+  const x = useTransform(angleRad, (a) => Math.cos(a) * radius);
+  const y = useTransform(angleRad, (a) => Math.sin(a) * radius);
+
+  // Distance from the 0-degree (center right) position
+  const distDeg = useTransform(angleDeg, (a) => {
+    let norm = a % 360;
+    if (norm > 180) norm -= 360;
+    if (norm < -180) norm += 360;
+    return Math.abs(norm);
+  });
+
+  // Visual effects based on distance from center
+  const scale = useTransform(distDeg, [0, 60, 120], [1, 0.75, 0.5]);
+  const opacity = useTransform(distDeg, [0, 45, 90], [1, 0.3, 0]);
+  const zIndex = useTransform(distDeg, (d) => 100 - Math.floor(d));
+
   const cardRef = useRef<HTMLDivElement>(null);
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === 'dark';
+  const [isZooming, setIsZooming] = useState(false);
 
   const handleClick = () => {
+    // Only allow clicking if the card is roughly in the center position
+    if (distDeg.get() > 15) return;
     if (!cardRef.current) return;
-    onNavigate(cardRef.current, service);
+
+    // Save rect for the ServicePageReveal to expand from
+    const rect = cardRef.current.getBoundingClientRect();
+    saveCardTransition({
+      x: rect.left,
+      y: rect.top,
+      width: rect.width,
+      height: rect.height,
+      color: service.color,
+    });
+
+    setIsZooming(true);
+    
+    // Slight delay allows the zoom animation to start before routing
+    setTimeout(() => {
+      onNavigate(service);
+    }, 150);
   };
+
+  if (radius === 0) return null; // Wait for radius calculation
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.7, ease: [0.34, 1.1, 0.64, 1] }}
-      className="w-full mb-12 lg:mb-20 cursor-pointer group"
-      onClick={handleClick}
+      style={{ position: 'absolute', left: 0, top: 0, x, y, zIndex }}
+      className="pointer-events-none"
     >
-      <div
-        ref={cardRef}
-        className="relative overflow-hidden glass-card rounded-[40px] border border-border/40 hover:border-[var(--brand-purple)]/50 transition-colors duration-500"
-        style={{
-          minHeight: 480,
-          background: 'var(--card)',
-          boxShadow: `0 24px 64px rgba(0,0,0,0.1), 0 0 40px ${service.color}10`,
-        }}
+      <motion.div
+        animate={{ scale: isZooming ? 3 : 1, opacity: isZooming ? 0 : 1 }}
+        transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+        className="absolute top-1/2 left-0 -translate-y-1/2 pointer-events-auto origin-center"
       >
-        <div className="flex flex-col lg:flex-row h-full">
-          {/* 3D Visual Section */}
-          <div className="relative w-full lg:w-2/5 h-64 lg:h-auto border-b lg:border-b-0 lg:border-r border-border/40 overflow-hidden">
-             {/* Radial glow */}
-            <div
-              className="absolute inset-0 opacity-20 transition-opacity duration-500 group-hover:opacity-40"
-              style={{ background: `radial-gradient(circle at center, ${service.color}, transparent 70%)` }}
-            />
-            <Canvas
-              camera={{ position: [0, 0, 5], fov: 45 }}
-              dpr={[1, 2]}
-              gl={{ alpha: true, antialias: true }}
-            >
-              <ambientLight intensity={isDark ? 0.5 : 1} />
-              <directionalLight position={[5, 5, 5]} intensity={isDark ? 2 : 3} color="#ffffff" />
-              <ServiceShape id={service.id} color={service.color} isDark={isDark} />
-            </Canvas>
-          </div>
+        <motion.div
+          style={{ scale, opacity }}
+          ref={cardRef}
+          onClick={handleClick}
+          className="w-[85vw] sm:w-[450px] md:w-[500px] lg:w-[600px] glass-card rounded-[40px] p-8 md:p-12 border border-border/30 transition-colors duration-500 cursor-pointer overflow-hidden group relative"
+          whileHover={distDeg.get() < 15 ? { scale: 1.02 } : {}}
+        >
+          {/* Default static background styling */}
+          <div className="absolute inset-0 bg-[var(--card)] z-0" />
+          
+          {/* Background Glow */}
+          <div
+            className="absolute -top-32 -right-32 w-80 h-80 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity duration-700 z-0 pointer-events-none"
+            style={{ backgroundColor: service.color }}
+          />
 
-          {/* Content Section */}
-          <div className="relative z-10 p-8 lg:p-12 w-full lg:w-3/5 flex flex-col justify-center">
-            {/* Top accent */}
-            <div className="absolute top-0 left-0 bottom-0 w-1 hidden lg:block" style={{ background: service.color }} />
-            <div className="absolute top-0 left-0 right-0 h-1 lg:hidden" style={{ background: service.color }} />
-
-            {/* Badge row */}
-            <div className="flex items-center gap-3 mb-6">
+          <div className="relative z-10 flex flex-col h-full min-h-[300px] lg:min-h-[400px]">
+            <div className="flex items-center gap-4 mb-8">
               <span
-                className="text-sm font-mono font-bold px-4 py-1.5 rounded-full"
-                style={{ backgroundColor: `${service.color}18`, color: service.color }}
+                className="text-sm font-mono font-bold px-4 py-2 rounded-full"
+                style={{ backgroundColor: `${service.color}15`, color: service.color }}
               >
                 0{index + 1}
               </span>
@@ -151,85 +128,146 @@ function ServiceCard({
               )}
             </div>
 
-            {/* Title */}
-            <h2
-              className="font-outfit font-black text-foreground leading-tight mb-3 transition-colors duration-300"
-              style={{ fontSize: 'clamp(2rem, 3vw, 3rem)', letterSpacing: '-0.03em' }}
-            >
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-outfit font-black mb-4 tracking-tight leading-tight">
               {service.title}
             </h2>
-
-            {/* Tagline */}
-            <p className="text-lg font-semibold mb-6" style={{ color: service.color }}>
+            <p className="text-lg lg:text-xl font-semibold mb-6" style={{ color: service.color }}>
               {service.tagline}
             </p>
 
-            {/* Description */}
-            <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
+            <p className="text-muted-foreground text-base lg:text-lg leading-relaxed mb-8 flex-1 line-clamp-3">
               {service.desc}
             </p>
 
-            {/* Features */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-              {service.features.map((f, fi) => (
-                <div key={fi} className="flex items-start gap-3">
-                  <div
-                    className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                    style={{ backgroundColor: `${service.color}20` }}
-                  >
-                    <Check size={12} style={{ color: service.color }} strokeWidth={3} />
-                  </div>
-                  <span className="text-muted-foreground text-sm font-medium leading-tight">{f}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA */}
             <div
-              className="group/btn flex items-center gap-3 text-base font-bold mt-auto"
+              className="flex items-center gap-3 font-bold text-sm lg:text-base transition-transform group-hover:translate-x-2"
               style={{ color: service.color }}
             >
               <div
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-300 group-hover/btn:scale-110"
-                style={{ background: `${service.color}18` }}
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{ background: `${service.color}15` }}
               >
-                <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+                <ArrowRight size={20} />
               </div>
-              <span>Explore this service</span>
+              <span>Click to Enter Protocol</span>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </motion.div>
   );
 }
 
-// ─── Main List ────────────────────────────────────────────────────────────
+// ─── Main Wheel Layout ──────────────────────────────────────────────────────
 export default function ServicesList({ services }: { services: Service[] }) {
   const router = useRouter();
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleNavigate = (cardEl: HTMLDivElement, service: Service) => {
-    const rect = cardEl.getBoundingClientRect();
-    saveCardTransition({
-      x: rect.left,
-      y: rect.top,
-      width: rect.width,
-      height: rect.height,
-      color: service.color,
-    });
+  // We make the container 400vh to give plenty of scroll room
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  const total = services.length;
+  // Total rotation to scroll through all services (last service is at index = total - 1)
+  const maxRotation = -(total - 1) * (360 / total);
+  
+  // Map scroll progress directly to wheel rotation
+  const rotation = useTransform(scrollYProgress, [0, 1], [0, maxRotation]);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Track active index for UI indicators
+  useMotionValueEvent(rotation, 'change', (latest) => {
+    const idx = Math.round(Math.abs(latest) / (360 / total));
+    if (idx !== activeIndex && idx < total) setActiveIndex(idx);
+  });
+
+  // Responsive radius calculation
+  const [radius, setRadius] = useState(0);
+  useEffect(() => {
+    const updateRadius = () => {
+      const w = window.innerWidth;
+      if (w < 640) setRadius(w * 0.7); // Mobile: tighter wheel
+      else if (w < 1024) setRadius(w * 0.5); // Tablet
+      else setRadius(w * 0.38); // Desktop
+    };
+    updateRadius();
+    window.addEventListener('resize', updateRadius);
+    return () => window.removeEventListener('resize', updateRadius);
+  }, []);
+
+  const handleNavigate = (service: Service) => {
     router.push(`/services/${service.id}`);
   };
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto px-4 md:px-0">
-      {services.map((service, i) => (
-        <ServiceCard
-          key={service.id}
-          service={service}
-          index={i}
-          onNavigate={handleNavigate}
-        />
-      ))}
+    <div ref={containerRef} className="relative h-[400vh] w-full">
+      {/* Sticky viewport */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-background flex flex-col justify-center">
+        
+        {/* Instruction pill */}
+        <div className="absolute top-24 left-1/2 -translate-x-1/2 z-50">
+          <span className="text-xs text-muted-foreground px-5 py-2.5 glass-card rounded-full border border-border/40 font-medium tracking-wide shadow-sm">
+            ↓ Scroll to spin the wheel · Click center card to explore
+          </span>
+        </div>
+
+        {/* Wheel Center Anchor */}
+        {/* Positioned off-screen to the left, so the right side of the wheel arcs through the screen */}
+        <div className="absolute left-[-40vw] sm:left-[-20vw] md:left-[-10vw] lg:left-0 top-1/2 w-0 h-0 z-10">
+          
+          {/* Decorative Wheel SVG Arc */}
+          {radius > 0 && (
+            <svg
+              className="absolute left-0 top-1/2 -translate-y-1/2 overflow-visible pointer-events-none"
+              style={{ width: radius, height: radius * 2 }}
+            >
+              <circle
+                cx="0"
+                cy="0"
+                r={radius}
+                fill="none"
+                stroke="var(--border)"
+                strokeWidth="1.5"
+                strokeDasharray="6 12"
+                opacity="0.6"
+              />
+            </svg>
+          )}
+
+          {/* Service Cards */}
+          {services.map((service, i) => (
+            <WheelCard
+              key={service.id}
+              service={service}
+              index={i}
+              rotation={rotation}
+              radius={radius}
+              total={total}
+              onNavigate={handleNavigate}
+            />
+          ))}
+        </div>
+
+        {/* Progress Indicators (Dots) */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2">
+          {services.map((s, i) => (
+            <div
+              key={i}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width: i === activeIndex ? 32 : 8,
+                height: 8,
+                backgroundColor: i === activeIndex ? services[activeIndex].color : 'var(--border)',
+                opacity: i === activeIndex ? 1 : 0.4,
+              }}
+            />
+          ))}
+        </div>
+        
+      </div>
     </div>
   );
 }
