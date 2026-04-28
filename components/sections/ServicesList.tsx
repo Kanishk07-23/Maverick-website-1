@@ -63,12 +63,15 @@ function WheelCard({
     if (distDeg.get() > 15) return;
     if (!cardRef.current) return;
 
+    // Save scroll position for returning
+    sessionStorage.setItem('maverick_services_scroll', window.scrollY.toString());
+
     setIsZooming(true);
     
     // Slight delay allows the zoom animation to start before routing
     setTimeout(() => {
       onNavigate(service);
-    }, 150);
+    }, 400); // Increased delay to allow the full-screen transition to play
   };
 
   if (radius === 0) return null; // Wait for radius calculation
@@ -151,6 +154,21 @@ function WheelCard({
 export default function ServicesList({ services }: { services: Service[] }) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  // State for the seamless transition
+  const [transitioningService, setTransitioningService] = useState<Service | null>(null);
+
+  // Restore scroll position on mount
+  useEffect(() => {
+    const saved = sessionStorage.getItem('maverick_services_scroll');
+    if (saved) {
+      // Small delay to ensure the DOM is ready
+      setTimeout(() => {
+        window.scrollTo({ top: parseInt(saved, 10), behavior: 'instant' });
+      }, 50);
+      sessionStorage.removeItem('maverick_services_scroll');
+    }
+  }, []);
 
   // We make the container 400vh to give plenty of scroll room
   const { scrollYProgress } = useScroll({
@@ -163,9 +181,13 @@ export default function ServicesList({ services }: { services: Service[] }) {
   const maxRotation = -(total - 1) * (360 / total);
   
   // Map scroll progress directly to wheel rotation
-  // We use [0, 0.85] so the wheel reaches its max rotation before the very end of the container,
-  // giving the user a buffer to read the last card without the section abruptly scrolling away.
-  const rotation = useTransform(scrollYProgress, [0, 0.85], [0, maxRotation]);
+  // Buffer [0, 0.1]: Keep 1st service anchored while user enters section
+  // Buffer [0.85, 1]: Keep last service anchored at the end
+  const rotation = useTransform(
+    scrollYProgress, 
+    [0, 0.1, 0.85, 1], 
+    [0, 0, maxRotation, maxRotation]
+  );
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -190,11 +212,29 @@ export default function ServicesList({ services }: { services: Service[] }) {
   }, []);
 
   const handleNavigate = (service: Service) => {
-    router.push(`/services/${service.id}`);
+    setTransitioningService(service);
+    setTimeout(() => {
+      router.push(`/services/${service.id}`);
+    }, 100);
   };
 
   return (
-    <div ref={containerRef} className="relative h-[400vh] w-full">
+    <>
+      {/* Seamless Transition Overlay */}
+      <div 
+        className={`fixed inset-0 z-[9999] pointer-events-none transition-opacity duration-500 ease-in-out ${transitioningService ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <div className="absolute inset-0 bg-background" />
+        <div className="absolute inset-0 mesh-gradient" />
+        {transitioningService && (
+          <div 
+            className="absolute inset-0 opacity-40 mix-blend-screen"
+            style={{ background: `radial-gradient(circle at center, ${transitioningService.color}, transparent 70%)` }}
+          />
+        )}
+      </div>
+
+      <div ref={containerRef} className="relative h-[400vh] w-full">
       {/* Sticky viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-background flex flex-col justify-center">
         
@@ -253,5 +293,6 @@ export default function ServicesList({ services }: { services: Service[] }) {
         
       </div>
     </div>
+    </>
   );
 }
