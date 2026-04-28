@@ -45,10 +45,10 @@ function FloatingShapes({ isDark }: { isDark: boolean }) {
     }
   });
 
-  const accent1 = isDark ? '#8b5cf6' : '#6d28d9';
+  const accent1 = isDark ? '#8b5cf6' : '#7c3aed';
   const accent2 = isDark ? '#3b82f6' : '#2563eb';
-  const accent3 = isDark ? '#d946ef' : '#c026d3';
-  const emissiveIntensity = isDark ? 0.3 : 0.1;
+  const accent3 = isDark ? '#d946ef' : '#db2777';
+  const emissiveIntensity = isDark ? 0.3 : 0.4; // Increased for light mode to pop
 
   return (
     <group ref={groupRef}>
@@ -61,9 +61,11 @@ function FloatingShapes({ isDark }: { isDark: boolean }) {
             speed={2}
             distort={0.4}
             radius={1}
-            roughness={0.2}
-            metalness={0.8}
+            roughness={0.1}
+            metalness={0.9}
             wireframe={isDark}
+            transparent
+            opacity={isDark ? 1 : 0.85}
           />
         </Sphere>
       </Float>
@@ -120,14 +122,14 @@ export default function Global3DBackground() {
     >
       <Canvas
         camera={{ position: [0, 0, 10], fov: 45 }}
-        dpr={[1, 1.5]}
-        gl={{ alpha: true, antialias: false, powerPreference: 'low-power' }}
+        dpr={[1, 2]}
+        gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
       >
         {/* Inline lights — no external HDR fetch */}
-        <ambientLight intensity={isDark ? 1 : 1.5} />
-        <directionalLight position={[10, 10, 5]} intensity={isDark ? 2 : 2.5} />
-        <directionalLight position={[-10, -10, -5]} intensity={0.5} color={isDark ? '#8b5cf6' : '#6d28d9'} />
-        <pointLight position={[0, 5, 5]} intensity={isDark ? 1 : 0.5} color={isDark ? '#3b82f6' : '#4f46e5'} />
+        <ambientLight intensity={isDark ? 1 : 1.2} />
+        <directionalLight position={[10, 10, 5]} intensity={isDark ? 2 : 1.5} />
+        <directionalLight position={[-10, -10, -5]} intensity={0.5} color={isDark ? '#8b5cf6' : '#7c3aed'} />
+        <pointLight position={[0, 5, 5]} intensity={isDark ? 1 : 1.5} color={isDark ? '#3b82f6' : '#6366f1'} />
 
         <FloatingShapes isDark={isDark} />
       </Canvas>

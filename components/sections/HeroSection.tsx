@@ -130,7 +130,7 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.div className="flex overflow-hidden relative" style={{ x: layer1XInv, y: layer1YInv }}>
-            <span className="absolute inset-0 bg-[var(--brand-purple)] blur-3xl opacity-30 pointer-events-none mix-blend-screen" />
+            <span className="absolute inset-0 bg-[var(--brand-purple)] blur-3xl opacity-20 pointer-events-none dark:mix-blend-screen mix-blend-multiply" />
             {['B', 'r', 'a', 'n', 'd', 's', '.'].map((l, i) => (
               <motion.span key={i} variants={wordVars} className="inline-block origin-bottom gradient-text z-10 relative">{l}</motion.span>
             ))}

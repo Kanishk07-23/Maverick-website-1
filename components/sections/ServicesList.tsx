@@ -1,7 +1,8 @@
 'use client';
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { ArrowRight, Check, ChevronDown } from 'lucide-react';
+
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, Check } from 'lucide-react';
 import Link from 'next/link';
 
 interface Service {
@@ -15,165 +16,135 @@ interface Service {
 }
 
 export default function ServicesList({ services }: { services: Service[] }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start start', 'end end']
+  });
 
   return (
-    <div>
-      {services.map((service, index) => (
-        <ServiceAccordionItem
-          key={service.id}
-          service={service}
-          index={index}
-          isOpen={openIndex === index}
-          onToggle={() => setOpenIndex(openIndex === index ? null : index)}
-        />
-      ))}
+    <div ref={container} className="relative mt-20">
+      {services.map((service, index) => {
+        const targetScale = 1 - ((services.length - index) * 0.05);
+        return (
+          <StickyServiceCard
+            key={service.id}
+            service={service}
+            index={index}
+            progress={scrollYProgress}
+            range={[index * (1 / services.length), (index + 1) * (1 / services.length)]}
+            targetScale={targetScale}
+          />
+        );
+      })}
     </div>
   );
 }
 
-function ServiceAccordionItem({
-  service,
-  index,
-  isOpen,
-  onToggle,
-}: {
-  service: Service;
-  index: number;
-  isOpen: boolean;
-  onToggle: () => void;
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+
+function StickyServiceCard({ 
+  service, 
+  index, 
+  progress, 
+  range, 
+  targetScale 
+}: { 
+  service: Service; 
+  index: number; 
+  progress: any; 
+  range: [number, number];
+  targetScale: number;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDark = mounted ? resolvedTheme === 'dark' : false;
 
+  const container = useRef(null);
+  const scale = useTransform(progress, range, [1, targetScale]);
+  
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.4, delay: index * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
-      id={`service-${service.id}`}
-    >
-      {/* Clickable header row */}
-      <button
-        onClick={onToggle}
-        className="w-full text-left group cursor-pointer"
-        aria-expanded={isOpen}
+    <div ref={container} className="h-screen sticky top-0 flex items-center justify-center">
+        <motion.div
+        style={{ 
+          scale,
+          backgroundColor: 'var(--card)',
+          borderColor: 'var(--border)',
+          top: `calc(-5% + ${index * 25}px)`,
+          boxShadow: isDark 
+            ? `0 20px 50px rgba(0,0,0,0.5), 0 0 20px ${service.color}15` 
+            : `0 20px 50px rgba(0,0,0,0.1), 0 0 20px ${service.color}10`
+        }}
+        className="relative w-full h-[500px] md:h-[600px] rounded-[40px] border overflow-hidden p-8 md:p-12 flex flex-col lg:flex-row gap-10 lg:gap-16 items-center"
       >
-        <div
-          className="relative py-8 md:py-10 border-b flex items-center justify-between gap-6 transition-colors duration-300"
-          style={{ borderColor: 'var(--border)' }}
-        >
-          {/* Hover fill */}
-          <div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 -mx-6 pointer-events-none"
-            style={{
-              background: `linear-gradient(90deg, ${service.color}08 0%, ${service.color}04 50%, transparent 100%)`,
-            }}
-          />
+        {/* Background glow */}
+        <div 
+          className="absolute top-0 right-0 w-[400px] h-[400px] opacity-10 blur-[100px] rounded-full pointer-events-none"
+          style={{ backgroundColor: service.color }}
+        />
 
-          <div className="relative z-10 flex items-center gap-6 md:gap-10 flex-1 min-w-0">
-            {/* Number */}
-            <span
-              className="text-sm font-mono font-medium flex-shrink-0 w-8 transition-colors duration-300"
-              style={{ color: isOpen ? service.color : 'var(--muted-foreground)' }}
+        {/* Left: Content */}
+        <div className="flex-1 z-10">
+          <div className="flex items-center gap-4 mb-6">
+            <span 
+              className="text-sm font-mono font-bold px-3 py-1 rounded-full"
+              style={{ backgroundColor: `${service.color}15`, color: service.color }}
             >
-              {String(index + 1).padStart(2, '0')}
+              0{index + 1}
             </span>
-
-            {/* Title + badge */}
-            <div className="flex items-center gap-4 flex-wrap">
-              <h2
-                className="font-outfit font-bold text-foreground text-2xl md:text-3xl lg:text-4xl leading-tight group-hover:translate-x-1 transition-transform duration-300"
-                style={{ letterSpacing: '-0.02em' }}
+            {service.badge && (
+              <span 
+                className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white"
+                style={{ background: service.color }}
               >
-                {service.title}
-              </h2>
-              {service.badge && (
-                <span
-                  className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white flex-shrink-0"
-                  style={{ background: service.color }}
-                >
-                  {service.badge}
-                </span>
-              )}
-            </div>
+                {service.badge}
+              </span>
+            )}
           </div>
 
-          {/* Tagline — desktop only */}
-          <p className="hidden lg:block text-muted-foreground text-sm max-w-xs text-right flex-shrink-0 relative z-10">
-            {service.tagline}
+          <h2 className="font-outfit font-black text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 leading-tight">
+            {service.title}
+          </h2>
+          
+          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-8 max-w-xl">
+            {service.desc}
           </p>
 
-          {/* Chevron */}
-          <motion.div
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="flex-shrink-0 relative z-10"
+          <Link
+            href={`/services/${service.id}`}
+            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold text-white transition-all hover:scale-105"
+            style={{ backgroundColor: service.color }}
           >
-            <ChevronDown size={22} className="text-muted-foreground" />
-          </motion.div>
+            Explore Service <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
-      </button>
 
-      {/* Expanded content */}
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="overflow-hidden"
-          >
-            <div className="py-10 md:py-14 pl-14 md:pl-[72px]">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-                {/* Left: description + CTA */}
-                <div>
-                  <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                    {service.desc}
-                  </p>
-                  <Link
-                    href={`/services/${service.id}`}
-                    className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-sm font-semibold text-white transition-all hover:scale-105 hover:shadow-lg"
-                    style={{ backgroundColor: service.color }}
+        {/* Right: Features Grid */}
+        <div className="flex-1 z-10 w-full lg:w-auto">
+          <div className="bg-muted/30 rounded-3xl p-8 border border-border/40">
+            <h3 className="text-foreground font-bold text-sm uppercase tracking-widest mb-8 opacity-60">
+              Protocol Checklist
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {service.features.map((feature, fi) => (
+                <div key={fi} className="flex items-start gap-4">
+                  <div 
+                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                    style={{ backgroundColor: `${service.color}20` }}
                   >
-                    View Full Service <ArrowRight size={16} />
-                  </Link>
-                </div>
-
-                {/* Right: features list */}
-                <div>
-                  <h3 className="text-foreground font-semibold text-sm uppercase tracking-wider mb-5 opacity-60">
-                    What&apos;s Included
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {service.features.map((feature, fi) => (
-                      <motion.div
-                        key={feature}
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: fi * 0.05 }}
-                        className="flex items-start gap-3"
-                      >
-                        <div
-                          className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                          style={{ backgroundColor: `${service.color}18` }}
-                        >
-                          <Check size={12} style={{ color: service.color }} strokeWidth={2.5} />
-                        </div>
-                        <span className="text-muted-foreground text-sm leading-relaxed">
-                          {feature}
-                        </span>
-                      </motion.div>
-                    ))}
+                    <Check size={14} style={{ color: service.color }} strokeWidth={3} />
                   </div>
+                  <span className="text-muted-foreground text-sm font-medium leading-tight">
+                    {feature}
+                  </span>
                 </div>
-              </div>
+              ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }

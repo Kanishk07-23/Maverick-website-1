@@ -120,21 +120,21 @@ function CoreSphere({ isDark }: { isDark: boolean }) {
       <mesh ref={ref}>
         <sphereGeometry args={[1, 32, 32]} />
         <meshBasicMaterial
-          color={isDark ? '#8b5cf6' : '#6d28d9'}
+          color={isDark ? '#8b5cf6' : '#7c3aed'}
           wireframe
           transparent
-          opacity={isDark ? 0.18 : 0.28}
+          opacity={isDark ? 0.18 : 0.35} // More visible in light mode
         />
       </mesh>
       {/* Inner solid */}
       <mesh>
         <sphereGeometry args={[0.88, 32, 32]} />
         <meshPhysicalMaterial
-          color={isDark ? '#0f0f1a' : '#f0f0ff'}
-          metalness={isDark ? 0.9 : 0.4}
-          roughness={isDark ? 0.05 : 0.1}
+          color={isDark ? '#0f0f1a' : '#ffffff'}
+          metalness={isDark ? 0.9 : 0.2}
+          roughness={isDark ? 0.05 : 0.2}
           transparent
-          opacity={isDark ? 0.7 : 0.5}
+          opacity={isDark ? 0.7 : 0.3}
         />
       </mesh>
     </group>
@@ -149,9 +149,9 @@ function StatScene({ isDark }: { isDark: boolean }) {
 
   return (
     <>
-      <ambientLight intensity={isDark ? 0.8 : 1.4} />
-      <pointLight position={[3, 3, 3]} intensity={isDark ? 2 : 1.5} color={ringColor1} />
-      <pointLight position={[-3, -3, -3]} intensity={1} color={ringColor2} />
+      <ambientLight intensity={isDark ? 0.8 : 1.0} />
+      <pointLight position={[3, 3, 3]} intensity={isDark ? 2 : 3} color={ringColor1} />
+      <pointLight position={[-3, -3, -3]} intensity={isDark ? 1 : 2} color={ringColor2} />
 
       <Float speed={1.2} floatIntensity={0.3} rotationIntensity={0.2}>
         <group>

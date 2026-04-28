@@ -30,9 +30,10 @@ function ParticleField({ isDark, isMobile }: { isDark: boolean; isMobile: boolea
         col[i * 3 + 1] = 0.23 + t * (0.37 - 0.23);
         col[i * 3 + 2] = 0.93;
       } else {
-        col[i * 3]     = 0.43 + t * 0.15;
-        col[i * 3 + 1] = 0.16 + t * 0.15;
-        col[i * 3 + 2] = 0.85 + t * 0.1;
+        // Light mode: more vibrant purple/indigo for visibility
+        col[i * 3]     = 0.48 + t * 0.1;
+        col[i * 3 + 1] = 0.23 + t * 0.1;
+        col[i * 3 + 2] = 0.92;
       }
     }
     return [pos, col];
@@ -52,12 +53,13 @@ function ParticleField({ isDark, isMobile }: { isDark: boolean; isMobile: boolea
         <bufferAttribute attach="attributes-color" args={[colors, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={isDark ? 0.035 : 0.04}
+        size={isDark ? 0.035 : 0.05} // Slightly larger in light mode
         vertexColors
         transparent
-        opacity={isDark ? 0.75 : 0.55} // Raised from 0.4 → 0.55 in light mode
+        opacity={isDark ? 0.75 : 0.65} // Balanced for light mode
         sizeAttenuation
         depthWrite={false}
+        blending={isDark ? THREE.AdditiveBlending : THREE.NormalBlending}
       />
     </points>
   );
@@ -95,9 +97,9 @@ function GridLines({ isDark }: { isDark: boolean }) {
   return (
     <lineSegments ref={lineRef} geometry={geometry}>
       <lineBasicMaterial
-        color={isDark ? '#7C3AED' : '#5b21b6'}
+        color={isDark ? '#7C3AED' : '#6d28d9'}
         transparent
-        opacity={isDark ? 0.08 : 0.10}
+        opacity={isDark ? 0.08 : 0.12}
       />
     </lineSegments>
   );
@@ -129,7 +131,7 @@ export default function HeroCanvas() {
       frameloop="always"
       gl={{ antialias: false, powerPreference: 'low-power' }}
     >
-      <ambientLight intensity={isDark ? 0.5 : 0.9} />
+      <ambientLight intensity={isDark ? 0.5 : 0.7} />
       <ParticleField isDark={isDark} isMobile={isMobile} />
       <GridLines isDark={isDark} />
     </Canvas>
