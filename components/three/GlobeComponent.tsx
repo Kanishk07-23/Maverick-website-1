@@ -3,9 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { useTheme } from 'next-themes';
 import { Mesh, Color } from 'three';
 
-export default function GlobeComponent() {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === 'dark';
+export default function GlobeComponent({ isDark }: { isDark: boolean }) {
   
   const meshRef = useRef<Mesh>(null);
   const wireframeRef = useRef<Mesh>(null);

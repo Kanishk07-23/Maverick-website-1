@@ -1,17 +1,17 @@
 'use client';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useTheme } from 'next-themes';
 
 // Per-instance frame counter — avoids shared global state between canvases
-function ParticleField({ isDark }: { isDark: boolean }) {
+function ParticleField({ isDark, isMobile }: { isDark: boolean; isMobile: boolean }) {
   const meshRef = useRef<THREE.Points>(null);
   const { mouse } = useThree();
 
-  const [positions, colors] = (() => {
-    // useMemo equivalent via lazy init — computed once per isDark change
-    const count = window.innerWidth < 768 ? 1200 : 2000; // Potato-friendly: halve particles on mobile
+  // useMemo — safe, runs only inside Canvas (client-only), no window at module scope
+  const [positions, colors] = useMemo(() => {
+    const count = isMobile ? 1200 : 2000;
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
 
@@ -30,14 +30,13 @@ function ParticleField({ isDark }: { isDark: boolean }) {
         col[i * 3 + 1] = 0.23 + t * (0.37 - 0.23);
         col[i * 3 + 2] = 0.93;
       } else {
-        // Light mode: visible purple/indigo tones instead of near-invisible grey
         col[i * 3]     = 0.43 + t * 0.15;
         col[i * 3 + 1] = 0.16 + t * 0.15;
         col[i * 3 + 2] = 0.85 + t * 0.1;
       }
     }
     return [pos, col];
-  })();
+  }, [isDark, isMobile]);
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
@@ -68,7 +67,7 @@ function GridLines({ isDark }: { isDark: boolean }) {
   const lineRef = useRef<THREE.LineSegments>(null);
   let localFrame = 0;
 
-  const geometry = (() => {
+  const geometry = useMemo(() => {
     const geo = new THREE.BufferGeometry();
     const vertices: number[] = [];
     const step = 2.0;
@@ -80,14 +79,13 @@ function GridLines({ isDark }: { isDark: boolean }) {
     }
     geo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
     return geo;
-  })();
+  }, []);
 
   useFrame(({ clock }) => {
     localFrame++;
     if (localFrame % 4 !== 0) return;
     if (lineRef.current) {
       const mat = lineRef.current.material as THREE.LineBasicMaterial;
-      // Light mode: raised from 0.04 → 0.10 so grid is actually visible
       const baseOpacity = isDark ? 0.08 : 0.10;
       const pulse = Math.sin(clock.elapsedTime * 0.5) * (isDark ? 0.03 : 0.02);
       mat.opacity = baseOpacity + pulse;
@@ -96,7 +94,6 @@ function GridLines({ isDark }: { isDark: boolean }) {
 
   return (
     <lineSegments ref={lineRef} geometry={geometry}>
-      {/* Light mode: deeper purple so grid reads against white background */}
       <lineBasicMaterial
         color={isDark ? '#7C3AED' : '#5b21b6'}
         transparent
@@ -109,9 +106,14 @@ function GridLines({ isDark }: { isDark: boolean }) {
 export default function HeroCanvas() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check, { passive: true });
+    return () => window.removeEventListener('resize', check);
   }, []);
 
   if (!mounted) return null;
@@ -123,14 +125,12 @@ export default function HeroCanvas() {
       id="hero-canvas"
       camera={{ position: [0, 0, 6], fov: 75 }}
       style={{ position: 'absolute', inset: 0 }}
-      // Cap DPR at 1 on all devices — 2× DPR doubles fill rate with no visible quality gain on particles
       dpr={[1, 1]}
-      // frameloop="demand" would save GPU but breaks the rotation animation — keep 'always'
       frameloop="always"
-      gl={{ antialias: false, powerPreference: 'low-power' }} // low-power = integrated GPU preferred on laptops
+      gl={{ antialias: false, powerPreference: 'low-power' }}
     >
       <ambientLight intensity={isDark ? 0.5 : 0.9} />
-      <ParticleField isDark={isDark} />
+      <ParticleField isDark={isDark} isMobile={isMobile} />
       <GridLines isDark={isDark} />
     </Canvas>
   );
