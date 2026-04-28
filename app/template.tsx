@@ -8,12 +8,13 @@ export default function Template({ children }: { children: React.ReactNode }) {
     <>
       <PageTransitionCurtain />
       <motion.main
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ 
-          duration: 0.6, 
-          delay: 0.2, // Wait for curtain to pass halfway
-          ease: [0.16, 1, 0.3, 1] 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          duration: 0.5,
+          // Delay matches strips in (0.45s anim + 0.24s stagger) + buffer
+          delay: 0.75,
+          ease: 'easeOut',
         }}
         className="min-h-screen"
       >

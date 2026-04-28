@@ -127,9 +127,9 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Services — interactive accordion list */}
-      <section className="section-padding">
-        <div className="max-w-7xl mx-auto">
+      {/* Services — 3D flip carousel */}
+      <section className="py-20 overflow-visible">
+        <div className="max-w-7xl mx-auto px-6 overflow-visible">
           <ServicesList services={services} />
         </div>
       </section>
