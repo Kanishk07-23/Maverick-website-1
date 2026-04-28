@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { saveCardTransition } from '@/lib/cardTransition';
 
 interface Service {
   id: string;
@@ -63,16 +62,6 @@ function WheelCard({
     // Only allow clicking if the card is roughly in the center position
     if (distDeg.get() > 15) return;
     if (!cardRef.current) return;
-
-    // Save rect for the ServicePageReveal to expand from
-    const rect = cardRef.current.getBoundingClientRect();
-    saveCardTransition({
-      x: rect.left,
-      y: rect.top,
-      width: rect.width,
-      height: rect.height,
-      color: service.color,
-    });
 
     setIsZooming(true);
     
@@ -174,7 +163,9 @@ export default function ServicesList({ services }: { services: Service[] }) {
   const maxRotation = -(total - 1) * (360 / total);
   
   // Map scroll progress directly to wheel rotation
-  const rotation = useTransform(scrollYProgress, [0, 1], [0, maxRotation]);
+  // We use [0, 0.85] so the wheel reaches its max rotation before the very end of the container,
+  // giving the user a buffer to read the last card without the section abruptly scrolling away.
+  const rotation = useTransform(scrollYProgress, [0, 0.85], [0, maxRotation]);
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -207,13 +198,6 @@ export default function ServicesList({ services }: { services: Service[] }) {
       {/* Sticky viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-background flex flex-col justify-center">
         
-        {/* Instruction pill */}
-        <div className="absolute top-24 left-1/2 -translate-x-1/2 z-50">
-          <span className="text-xs text-muted-foreground px-5 py-2.5 glass-card rounded-full border border-border/40 font-medium tracking-wide shadow-sm">
-            ↓ Scroll to spin the wheel · Click center card to explore
-          </span>
-        </div>
-
         {/* Wheel Center Anchor */}
         {/* Positioned off-screen to the left, so the right side of the wheel arcs through the screen */}
         <div className="absolute left-[-40vw] sm:left-[-20vw] md:left-[-10vw] lg:left-0 top-1/2 w-0 h-0 z-10">
