@@ -74,7 +74,6 @@ function WheelCard({
         opacity,
         zIndex,
         rotateY,
-        perspective: 1200,
         pointerEvents: 'auto', // Allow clicking any visible card
       }}
     >
@@ -272,7 +271,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // Map horizontal scroll progress
+  // Map horizontal scroll progress natively
   const { scrollXProgress } = useScroll({
     container: scrollContainerRef,
   });
@@ -318,7 +317,8 @@ export default function ServicesList({ services }: { services: Service[] }) {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         const isAtStart = el.scrollLeft <= 0;
         const maxScroll = el.scrollWidth - el.clientWidth;
-        const isAtEnd = el.scrollLeft >= maxScroll - 1;
+        // Handle floating point math safely
+        const isAtEnd = Math.ceil(el.scrollLeft) >= maxScroll;
 
         // Escape conditions - let the user naturally scroll down/up the rest of the webpage
         if ((isAtStart && e.deltaY < 0) || (isAtEnd && e.deltaY > 0)) {
@@ -362,109 +362,120 @@ export default function ServicesList({ services }: { services: Service[] }) {
         />
       </div>
 
-      {/* Robust Horizontal Scroll Container */}
+      {/* Robust Horizontal Scroll Container using Flex layout for sticky stability */}
       <div
         ref={scrollContainerRef}
         className="hide-scrollbar"
         style={{
+          display: 'flex',
           width: '100%',
           height: '100vh',
           overflowX: 'auto',
           overflowY: 'hidden',
           scrollSnapType: 'x mandatory',
+          position: 'relative',
         }}
       >
-        <div style={{ width: `${total * 100}vw`, height: '100%', display: 'flex', position: 'relative' }}>
-          
-          {/* Snap zones defining the scrollable physical track */}
-          {services.map((_, i) => (
-            <div key={i} style={{ width: '100vw', height: '100%', flexShrink: 0, scrollSnapAlign: 'center' }} />
-          ))}
+        {/* 
+          1. Sticky Visual Overlay (Acts as Snap Point 0)
+          This flex child is exactly 1 viewport wide. It stays in view via 'sticky',
+          and its width counts towards the first snap point.
+        */}
+        <div
+          style={{
+            position: 'sticky',
+            left: 0,
+            top: 0,
+            width: containerW,
+            height: '100vh',
+            flexShrink: 0,
+            scrollSnapAlign: 'start',
+            overflow: 'hidden',
+            perspective: 1600, // 3D depth applied here!
+          }}
+        >
+          {/* Decorative dashed background arc */}
+          <svg
+            style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}
+            width={containerW < 768 ? containerW * 0.9 : containerW * 0.75}
+            height={containerW < 768 ? 500 : 800}
+          >
+            <ellipse
+              cx="50%"
+              cy="50%"
+              rx={containerW < 768 ? containerW * 0.42 : containerW * 0.35}
+              ry={containerW < 768 ? 250 : 400}
+              fill="none"
+              stroke="var(--border)"
+              strokeWidth="1"
+              strokeDasharray="4 14"
+              opacity="0.25"
+            />
+          </svg>
 
-          {/* Absolute overlay that tracks with the scrolling container bounds */}
-          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-            
-            {/* Sticky Visual Carousel - Always stays centered in the viewport */}
-            <div
-              style={{
-                position: 'sticky',
-                top: 0,
-                left: 0,
-                width: '100vw',
-                height: '100vh',
-                overflow: 'hidden',
-              }}
-            >
-              <div style={{ position: 'relative', width: '100%', height: '100%', pointerEvents: 'auto' }}>
-                
-                {/* Decorative dashed background arc */}
-                <svg
-                  style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}
-                  width={containerW < 768 ? containerW * 0.9 : containerW * 0.75}
-                  height={containerW < 768 ? 500 : 800}
-                >
-                  <ellipse
-                    cx="50%"
-                    cy="50%"
-                    rx={containerW < 768 ? containerW * 0.42 : containerW * 0.35}
-                    ry={containerW < 768 ? 250 : 400}
-                    fill="none"
-                    stroke="var(--border)"
-                    strokeWidth="1"
-                    strokeDasharray="4 14"
-                    opacity="0.25"
-                  />
-                </svg>
+          {/* Center Pivot for cards */}
+          <div style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }}>
+            {services.map((service, i) => (
+              <WheelCard
+                key={service.id}
+                service={service}
+                index={i}
+                total={total}
+                activeFloat={activeFloat}
+                isActive={i === activeIndex}
+                containerW={containerW}
+                onSelect={handleSelect}
+                onFocus={handleFocus}
+              />
+            ))}
+          </div>
 
-                {/* Center Pivot for cards */}
-                <div style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }}>
-                  {services.map((service, i) => (
-                    <WheelCard
-                      key={service.id}
-                      service={service}
-                      index={i}
-                      total={total}
-                      activeFloat={activeFloat}
-                      isActive={i === activeIndex}
-                      containerW={containerW}
-                      onSelect={handleSelect}
-                      onFocus={handleFocus}
-                    />
-                  ))}
-                </div>
-
-                {/* Bottom progress dots */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: 40,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    display: 'flex',
-                    gap: 8,
-                    zIndex: 50,
-                  }}
-                >
-                  {services.map((_, i) => (
-                    <div
-                      key={i}
-                      onClick={() => handleFocus(i)}
-                      style={{
-                        width: i === activeIndex ? 28 : 7,
-                        height: 7,
-                        borderRadius: 99,
-                        backgroundColor: i === activeIndex ? services[activeIndex].color : 'var(--border)',
-                        cursor: 'pointer',
-                        transition: 'all 0.35s cubic-bezier(0.34,1.56,0.64,1)',
-                        boxShadow: i === activeIndex ? `0 0 10px ${services[activeIndex].color}80` : 'none',
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
+          {/* Bottom progress dots */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 40,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              gap: 8,
+              zIndex: 50,
+              pointerEvents: 'auto',
+            }}
+          >
+            {services.map((_, i) => (
+              <div
+                key={i}
+                onClick={() => handleFocus(i)}
+                style={{
+                  width: i === activeIndex ? 28 : 7,
+                  height: 7,
+                  borderRadius: 99,
+                  backgroundColor: i === activeIndex ? services[activeIndex].color : 'var(--border)',
+                  cursor: 'pointer',
+                  transition: 'all 0.35s cubic-bezier(0.34,1.56,0.64,1)',
+                  boxShadow: i === activeIndex ? `0 0 10px ${services[activeIndex].color}80` : 'none',
+                }}
+              />
+            ))}
           </div>
         </div>
+
+        {/* 
+          2. Spacers for the remaining cards (Snap Points 1 through N) 
+          These push the total scroll width to exactly N viewports.
+        */}
+        {services.slice(1).map((_, i) => (
+          <div
+            key={i + 1}
+            style={{
+              width: containerW,
+              height: '100vh',
+              flexShrink: 0,
+              scrollSnapAlign: 'start',
+            }}
+          />
+        ))}
       </div>
     </>
   );
