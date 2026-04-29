@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
-    --background: #fafafa;
-    --foreground: #0f0f0f;
-    --muted: #f0f0f2;
-    --muted-foreground: #6b6b76;
-    --card: #ffffff;
-    --border: rgba(0, 0, 0, 0.10);
+    --background: #f5f4f0;
+    --foreground: #0a0a0a;
+    --muted: #e8e7e3;
+    --muted-foreground: #6b6b6b;
+    --card: #edece8;
+    --border: rgba(0, 0, 0, 0.08);
     --elevated: #ffffff;
 
     --brand-purple: #6d28d9;
@@ -17,52 +18,51 @@
     --brand-blue: #2563eb;
     --brand-lavender: #A5B4FC;
     --brand-whatsapp: #25D366;
-    --brand-dark: #fafafa; /* Matches background for light mode fade edges */
+    --brand-dark: #f5f4f0;
 
-    /* Light mode: frosted glass — reduced blur from 10→6px for cheaper paint */
-    --glass-bg: rgba(255, 255, 255, 0.80);
-    --glass-border: rgba(0, 0, 0, 0.08);
-    --glass-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.07);
+    --glass-bg: rgba(245, 244, 240, 0.85);
+    --glass-border: rgba(0, 0, 0, 0.07);
+    --glass-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
     --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
 
-    /* Light mode elevation — real shadows, no glow */
     --card-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06);
     --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.09), 0 12px 40px rgba(0,0,0,0.11);
-    --section-alt-bg: #f4f4f6;
-    --dot-color: rgba(109, 40, 217, 0.07); /* Purple tint in light mode for parity with dark */
+    --section-alt-bg: #0a0a0a;
+    --dot-color: rgba(109, 40, 217, 0.07);
     --premium-shadow: 0 4px 24px rgba(109, 40, 217, 0.30), 0 1px 4px rgba(0,0,0,0.15);
   }
 
+  /* ─── DARK MODE ──────────────────────────────────────────────────────── */
   .dark {
-    --background: #09090b;
-    --foreground: #fafafa;
-    --muted: #18181b;
-    --muted-foreground: #a1a1aa;
-    --card: #111113;
-    --border: rgba(255, 255, 255, 0.08);
-    --elevated: #1a1a1e;
+    --background: #080808;
+    --foreground: #f0ede6;
+    --muted: #111111;
+    --muted-foreground: #888888;
+    --card: #111111;
+    --border: rgba(255, 255, 255, 0.07);
+    --elevated: #141414;
 
     --brand-purple: #8b5cf6;
     --brand-violet: #6366f1;
     --brand-blue: #3b82f6;
     --brand-lavender: #A5B4FC;
     --brand-whatsapp: #25D366;
-    --brand-dark: #09090b; /* Matches background for dark mode fade edges */
+    --brand-dark: #080808;
 
-    --glass-bg: rgba(17, 17, 19, 0.75);
-    --glass-border: rgba(255, 255, 255, 0.07);
-    --glass-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 8px 24px rgba(0,0,0,0.35);
+    --glass-bg: rgba(12, 12, 12, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.06);
+    --glass-shadow: 0 1px 3px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.5);
     --gradient-brand: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
 
-    /* Dark mode: glow-based elevation */
-    --card-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
-    --card-shadow-hover: 0 0 20px rgba(139,92,246,0.12), 0 12px 40px rgba(0,0,0,0.4);
-    --section-alt-bg: #0e0e11;
-    --dot-color: rgba(255, 255, 255, 0.04);
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
+    --card-shadow-hover: 0 0 40px rgba(139,92,246,0.12), 0 12px 40px rgba(0,0,0,0.5);
+    --section-alt-bg: #f0ede6;
+    --dot-color: rgba(255, 255, 255, 0.03);
     --premium-shadow: 0 4px 24px rgba(139, 92, 246, 0.35), 0 1px 4px rgba(0,0,0,0.4);
   }
 }
 
+/* ─── RESET ──────────────────────────────────────────────────────────────── */
 * {
   margin: 0;
   padding: 0;
@@ -75,79 +75,96 @@ html {
 }
 
 body {
-  background-color: transparent;
+  background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Custom cursor only on pointer (mouse/trackpad) devices */
   cursor: auto;
 }
 
-/* Hide custom cursor on touch-primary devices, show on pointer devices */
+/* ─── CURSOR ──────────────────────────────────────────────────────────────── */
 @media (pointer: fine) {
   body { cursor: none; }
 }
 
-/* Custom Scrollbar — only on desktop */
+/* ─── SCROLLBAR ──────────────────────────────────────────────────────────── */
 @media (pointer: fine) {
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: var(--background); }
-  ::-webkit-scrollbar-thumb { background: var(--brand-purple); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--brand-violet); }
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--foreground); opacity: 0.3; border-radius: 0; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--brand-purple); }
 }
 
-/* Custom Cursor — only renders on pointer (mouse) devices */
+/* ─── CUSTOM CURSOR ──────────────────────────────────────────────────────── */
 @media (pointer: fine) {
   .cursor-dot {
     position: fixed;
     top: 0;
     left: 0;
-    width: 8px;
-    height: 8px;
-    background: var(--brand-purple);
+    width: 6px;
+    height: 6px;
+    background: var(--foreground);
     border-radius: 50%;
     pointer-events: none;
     z-index: 99999;
     transform: translate(-50%, -50%);
     transition: width 0.15s ease, height 0.15s ease, background 0.15s ease;
+    mix-blend-mode: difference;
   }
   .cursor-ring {
     position: fixed;
     top: 0;
     left: 0;
-    width: 36px;
-    height: 36px;
-    border: 1.5px solid rgba(124, 58, 237, 0.5);
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255,255,255,0.5);
     border-radius: 50%;
     pointer-events: none;
     z-index: 99998;
     transform: translate(-50%, -50%);
-    transition: width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-                height 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-                border-color 0.2s ease;
+    mix-blend-mode: difference;
+    transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 }
 
-/* ============================================
-   GLASS CARD — minimal blur budget
-   Light mode: blur(6px), Dark mode: blur(12px)
-   ============================================ */
-.glass-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(6px) saturate(1.3);
-  -webkit-backdrop-filter: blur(6px) saturate(1.3);
-  box-shadow: var(--glass-shadow);
+/* ─── TYPOGRAPHY ─────────────────────────────────────────────────────────── */
+/* Exoape-style: massive, tight tracking, editorial */
+.display-xl {
+  font-family: var(--font-outfit), sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-size: clamp(4rem, 12vw, 12rem);
 }
 
-.dark .glass-card {
-  backdrop-filter: blur(12px) saturate(1.7);
-  -webkit-backdrop-filter: blur(12px) saturate(1.7);
+.display-lg {
+  font-family: var(--font-outfit), sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  font-size: clamp(3rem, 8vw, 8rem);
 }
 
-/* Gradient Text */
+.display-md {
+  font-family: var(--font-outfit), sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-size: clamp(2rem, 5vw, 5rem);
+}
+
+.label-sm {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* ─── GRADIENT TEXT ─────────────────────────────────────────────────────── */
 .gradient-text {
   background: var(--gradient-brand);
   -webkit-background-clip: text;
@@ -155,7 +172,21 @@ body {
   background-clip: text;
 }
 
-/* Gradient Border */
+/* ─── GLASS CARD — kept minimal for dark UI surfaces ────────────────────── */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  box-shadow: var(--glass-shadow);
+}
+
+.dark .glass-card {
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+}
+
+/* ─── GRADIENT BORDER ───────────────────────────────────────────────────── */
 .gradient-border {
   position: relative;
   border-radius: 16px;
@@ -174,81 +205,57 @@ body {
   pointer-events: none;
 }
 
-/* ============================================
-   AMBIENT BACKGROUND — slow-drifting orbs
-   Pure CSS, zero JS overhead, works perfectly
-   in both light and dark mode
-   ============================================ */
-@keyframes orb-drift-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(60px, -40px) scale(1.08); }
-  66%  { transform: translate(-30px, 50px) scale(0.95); }
-}
-@keyframes orb-drift-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  40%  { transform: translate(-70px, 30px) scale(1.05); }
-  75%  { transform: translate(40px, -60px) scale(0.92); }
-}
-
-body::before,
-body::after {
-  content: '';
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(80px);
-}
-
-/* Orb 1 — top-right purple */
-body::before {
-  width: 600px;
-  height: 600px;
-  top: -10%;
-  right: -5%;
-  background: radial-gradient(circle, var(--brand-purple) 0%, transparent 70%);
-  opacity: 0.07;
-  animation: orb-drift-1 18s ease-in-out infinite;
-}
-.dark body::before { opacity: 0.12; }
-
-/* Orb 2 — bottom-left blue */
-body::after {
-  width: 500px;
-  height: 500px;
-  bottom: -10%;
-  left: -5%;
-  background: radial-gradient(circle, var(--brand-blue) 0%, transparent 70%);
-  opacity: 0.06;
-  animation: orb-drift-2 22s ease-in-out infinite;
-}
-.dark body::after { opacity: 0.10; }
-
-/* Section base */
+/* ─── SECTION BASE ──────────────────────────────────────────────────────── */
 .section-padding {
-  padding: 6rem 1.5rem;
+  padding: 8rem 1.5rem;
 }
 @media (min-width: 768px) {
   .section-padding {
-    padding: 8rem 2rem;
+    padding: 12rem 3rem;
   }
 }
 @media (min-width: 1280px) {
   .section-padding {
-    padding: 10rem 4rem;
+    padding: 16rem 6rem;
   }
 }
 
-/* Alternating section background */
+/* ─── EXOAPE DARK SECTION — black bg with light text ───────────────────── */
+.section-dark {
+  background: #0a0a0a;
+  color: #f0ede6;
+}
+.dark .section-dark {
+  background: #050505;
+  color: #f0ede6;
+}
+
+/* ─── SECTION ALT ───────────────────────────────────────────────────────── */
 .section-alt {
   background: var(--section-alt-bg);
 }
 
-/* ============================================
-   BUTTON & INTERACTIVE ELEMENT ANIMATIONS
-   ============================================ */
+/* ─── MESH GRADIENT (subtle, not fluorescent) ───────────────────────────── */
+.mesh-gradient {
+  background: transparent;
+}
+.dark .mesh-gradient {
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(139, 92, 246, 0.06), transparent);
+}
+:root .mesh-gradient {
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(109, 40, 217, 0.04), transparent);
+}
 
-/* Primary CTA button */
+/* ─── HORIZONTAL RULE — exoape style ───────────────────────────────────── */
+.hr-rule {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── BUTTON STYLES ─────────────────────────────────────────────────────── */
 .btn-magnetic {
   position: relative;
   overflow: hidden;
@@ -265,8 +272,6 @@ body::after {
   transform: scale(0.98) translateY(0px);
   transition-duration: 0.1s;
 }
-
-/* Shimmer sweep on hover */
 .btn-magnetic::after {
   content: '';
   position: absolute;
@@ -277,7 +282,7 @@ body::after {
   background: linear-gradient(
     to right,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.12) 50%,
     rgba(255, 255, 255, 0) 100%
   );
   transform: skewX(-20deg);
@@ -288,74 +293,29 @@ body::after {
   left: 125%;
 }
 
-/* Card elevation */
-.card-elevated {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--card-shadow);
-  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1),
-              box-shadow 0.3s ease,
-              border-color 0.25s ease;
+/* ─── TEXT LINK — underline style (Exoape) ─────────────────────────────── */
+.link-underline {
+  position: relative;
+  display: inline-block;
 }
-.card-elevated:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--card-shadow-hover);
-  border-color: var(--brand-purple);
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
 }
-
-/* Glass card interactive lift */
-.glass-card-hover {
-  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1),
-              border-color 0.25s ease,
-              box-shadow 0.3s ease;
-}
-.glass-card-hover:hover {
-  transform: translateY(-4px);
-  border-color: var(--brand-purple);
-  box-shadow: var(--card-shadow-hover);
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
-/* ============================================
-   MESH & SECTION BACKGROUNDS
-   Light and dark mode parity — same visual
-   weight, different colours
-   ============================================ */
-
-/* Hero mesh gradient — translucent to show 3D */
-.mesh-gradient {
-  background: transparent;
-}
-.dark .mesh-gradient {
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59, 130, 246, 0.08), transparent);
-}
-:root .mesh-gradient {
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(109, 40, 217, 0.12), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(37, 99, 235, 0.07), transparent);
-}
-
-/* ============================================
-   PROCESS SECTION — ambient glow
-   Light mode needs a stronger glow to read
-   against the white background
-   ============================================ */
-.process-ambient-glow {
-  opacity: 0.10;
-}
-.dark .process-ambient-glow {
-  opacity: 0.15;
-}
-
-/* Number ticker */
-@keyframes ticker-up {
-  from { transform: translateY(100%); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
-/* Nav link hover — animated underline */
+/* ─── NAV LINK ──────────────────────────────────────────────────────────── */
 .nav-link {
   position: relative;
   transition: color 0.2s ease;
@@ -367,17 +327,47 @@ body::after {
   left: 50%;
   transform: translateX(-50%);
   width: 0;
-  height: 2px;
-  background: var(--gradient-brand);
-  border-radius: 2px;
+  height: 1px;
+  background: var(--foreground);
   transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.nav-link:hover {
-  color: var(--foreground);
-}
+.nav-link:hover { color: var(--foreground); }
 .nav-link:hover::after { width: 100%; }
 
-/* WhatsApp pulsing ring */
+/* ─── CARD ELEVATED ─────────────────────────────────────────────────────── */
+.card-elevated {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1),
+              box-shadow 0.3s ease;
+}
+.card-elevated:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.glass-card-hover {
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1),
+              box-shadow 0.3s ease;
+}
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* ─── PROCESS AMBIENT GLOW ──────────────────────────────────────────────── */
+.process-ambient-glow { opacity: 0.08; }
+.dark .process-ambient-glow { opacity: 0.12; }
+
+/* ─── NUMBER TICKER ─────────────────────────────────────────────────────── */
+@keyframes ticker-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ─── WHATSAPP PULSE ────────────────────────────────────────────────────── */
 @keyframes whatsapp-pulse {
   0% { transform: scale(1); opacity: 0.8; }
   70% { transform: scale(1.6); opacity: 0; }
@@ -387,27 +377,7 @@ body::after {
   animation: whatsapp-pulse 2s ease-out infinite;
 }
 
-/* Service card flip */
-.service-card-inner {
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
-}
-.service-card:hover .service-card-inner {
-  transform: rotateY(180deg);
-}
-.service-card-front,
-.service-card-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-.service-card-back {
-  transform: rotateY(180deg);
-}
-
-/* Marquee */
+/* ─── MARQUEE ───────────────────────────────────────────────────────────── */
 @keyframes marquee {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -427,33 +397,33 @@ body::after {
   width: max-content;
 }
 
-/* Line reveal animation */
+/* ─── LINE REVEAL ───────────────────────────────────────────────────────── */
 @keyframes line-reveal {
   from { clip-path: inset(0 100% 0 0); }
   to { clip-path: inset(0 0% 0 0); }
 }
 
-/* Tab underline */
-[data-state='active'] .tab-indicator {
-  width: 100%;
+/* ─── WORD REVEAL (Exoape style) ────────────────────────────────────────── */
+.word-reveal-container {
+  overflow: hidden;
+  display: inline-block;
 }
 
-/* Form input styles */
+/* ─── FORM INPUTS ───────────────────────────────────────────────────────── */
 .form-input {
   width: 100%;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  padding: 0.875rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0.875rem 0;
   color: var(--foreground);
   font-size: 0.95rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s;
   outline: none;
-  box-shadow: var(--card-shadow);
 }
 .form-input:focus {
-  border-color: var(--brand-purple);
-  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
+  border-color: var(--foreground);
 }
 .form-input::placeholder {
   color: var(--muted-foreground);
@@ -462,25 +432,67 @@ body::after {
   border-color: #ef4444;
 }
 
-/* Accordion */
-[data-state='open'] .accordion-icon {
-  transform: rotate(180deg);
+/* ─── SAFE VIEWPORT HEIGHT ───────────────────────────────────────────────── */
+.h-safe-screen {
+  height: 100vh;
+  height: 100dvh;
 }
-.accordion-icon {
-  transition: transform 0.3s;
+.min-h-safe-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
-/* Hero canvas — hint for compositor layer promotion */
+/* ─── THEME TRANSITION ──────────────────────────────────────────────────── */
+.theme-transitioning,
+.theme-transitioning * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.25s ease !important;
+}
+
+/* ─── GLOBE ─────────────────────────────────────────────────────────────── */
 #hero-canvas {
   position: absolute;
   inset: 0;
   z-index: 0;
   will-change: transform;
 }
+.globe-canvas-light { opacity: 0.75; }
+.globe-canvas-dark { opacity: 0.80; }
 
-/* ============================================
-   SECTION DIVIDER — geometric separator
-   ============================================ */
+/* ─── PROCESS SECTION SPACING ───────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .process-step-gap {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+
+/* ─── MOBILE UTILS ───────────────────────────────────────────────────────── */
+.mobile-break { word-break: break-word; overflow-wrap: break-word; }
+.touch-pan { touch-action: pan-y; }
+
+/* ─── REDUCED MOTION ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .whatsapp-ring { animation: none; }
+  .marquee-track { animation: none; }
+}
+
+/* ─── DISABLE HOVER ON TOUCH ─────────────────────────────────────────────── */
+@media (hover: none) {
+  .glass-card-hover:hover { transform: none; }
+  .card-elevated:hover { transform: none; box-shadow: var(--card-shadow); }
+  .btn-magnetic:hover { transform: none; filter: none; box-shadow: none; }
+}
+@media (hover: none) and (pointer: coarse) {
+  .btn-magnetic::after { display: none; }
+}
+
+/* ─── SECTION DIVIDER ────────────────────────────────────────────────────── */
 .section-divider {
   position: relative;
   height: 1px;
@@ -494,129 +506,43 @@ body::after {
   inset: 0;
   background: linear-gradient(90deg, transparent, var(--border), transparent);
 }
-.section-divider::after {
-  content: '';
+
+/* ─── EXOAPE SPECIFIC: big number / stat style ──────────────────────────── */
+.stat-number {
+  font-family: var(--font-outfit), sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-size: clamp(3rem, 7vw, 7rem);
+}
+
+/* ─── SCROLL INDICATOR LINE ─────────────────────────────────────────────── */
+@keyframes scroll-line {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+.scroll-line {
+  animation: scroll-line 1.8s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+}
+
+/* ─── SERVICE CARD FLIP ─────────────────────────────────────────────────── */
+.service-card-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.service-card:hover .service-card-inner {
+  transform: rotateY(180deg);
+}
+.service-card-front,
+.service-card-back {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--gradient-brand);
-  box-shadow: 0 0 12px rgba(109, 40, 217, 0.3);
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
-
-/* ============================================
-   RESULTS SECTION — Globe canvas
-   ============================================ */
-/* Higher opacity in light mode so globe reads against white */
-.globe-canvas-light {
-  opacity: 0.75;
-}
-.globe-canvas-dark {
-  opacity: 0.80;
-}
-
-/* ============================================
-   THEME TRANSITION — only animate when user
-   explicitly switches theme (via .theme-switching
-   class applied by ThemeProvider)
-   ============================================ */
-.theme-transitioning,
-.theme-transitioning * {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.25s ease !important;
-}
-
-/* ============================================
-   ACCESSIBILITY — Reduced Motion
-   Respects user OS preference for reduced motion.
-   Disables all transitions and animations.
-   ============================================ */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  .whatsapp-ring { animation: none; }
-  .marquee-track { animation: none; }
-}
-
-/* ============================================
-   MOBILE — Safe viewport height (DVH)
-   Fixes iOS Safari 100vh including address bar
-   ============================================ */
-.h-safe-screen {
-  height: 100vh; /* Fallback */
-  height: 100dvh; /* Dynamic viewport height — excludes browser chrome */
-}
-.min-h-safe-screen {
-  min-height: 100vh;
-  min-height: 100dvh;
-}
-
-/* ============================================
-   MOBILE — Process section spacing
-   Reduces 192px (my-24) margins per step on mobile
-   ============================================ */
-@media (max-width: 767px) {
-  .process-step-gap {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
-}
-
-/* ============================================
-   MOBILE — Prevent text overflow
-   Ensure long words/emails break on small screens
-   ============================================ */
-.mobile-break {
-  word-break: break-word;
-  overflow-wrap: break-word;
-}
-
-/* ============================================
-   TOUCH — Prevent scroll hijacking
-   Add to elements that handle click/drag
-   but shouldn't block vertical scroll
-   ============================================ */
-.touch-pan {
-  touch-action: pan-y;
-}
-
-/* ============================================
-   MOBILE — Disable hover-dependent effects
-   on coarse-pointer (touch) devices
-   ============================================ */
-@media (hover: none) {
-  .glass-card-hover:hover {
-    transform: none;
-    border-color: var(--glass-border);
-    box-shadow: var(--glass-shadow);
-  }
-  .card-elevated:hover {
-    transform: none;
-    box-shadow: var(--card-shadow);
-    border-color: var(--border);
-  }
-  .btn-magnetic:hover {
-    transform: none;
-    filter: none;
-    box-shadow: none;
-  }
-}
-
-/* ============================================
-   MOBILE — Magnetic button spring disabled
-   Magnetic button returns to centre on touch
-   (handled in component, this is fallback CSS)
-   ============================================ */
-@media (hover: none) and (pointer: coarse) {
-  .btn-magnetic::after {
-    display: none; /* skip shimmer sweep on touch */
-  }
+.service-card-back {
+  transform: rotateY(180deg);
 }

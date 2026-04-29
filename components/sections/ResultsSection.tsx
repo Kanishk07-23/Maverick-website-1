@@ -1,90 +1,71 @@
 'use client';
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import dynamic from 'next/dynamic';
-import MagneticButton from '@/components/MagneticButton';
-import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
-// Dynamically import 3D stats to keep SSR clean
-const Stats3DGrid = dynamic(() => import('@/components/three/Stats3DGrid'), {
-  ssr: false,
-  loading: () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div
-          key={i}
-          className="rounded-3xl border border-border/40 glass-card animate-pulse"
-          style={{ minHeight: 280 }}
-        />
-      ))}
-    </div>
-  ),
-});
+const stats = [
+  { value: '40+', label: 'Brands Scaled' },
+  { value: '15M+', label: 'Organic Views' },
+  { value: '200%+', label: 'Average ROI' },
+  { value: '₹4Cr+', label: 'Ad Spend Managed' },
+];
 
 export default function ResultsSection() {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const headerInView = useInView(headerRef, { once: true });
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section
-      className="relative w-full py-28 md:py-36 bg-transparent overflow-hidden"
-      id="results"
-    >
-      {/* Ambient glow */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] pointer-events-none opacity-[0.08] dark:opacity-[0.12] blur-[100px] rounded-full"
-        style={{ background: 'radial-gradient(circle, var(--brand-purple) 0%, var(--brand-blue) 100%)' }}
-      />
+    <section className="relative py-24 md:py-36 bg-[var(--background)] border-t border-[var(--border)]" id="results">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10" ref={ref}>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-
-        {/* Header */}
-        <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mb-16 md:mb-20"
+        {/* Label */}
+        <motion.span
+          className="label-sm block mb-16 md:mb-20"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6 }}
         >
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-6">
-            Proven Impact
-          </span>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <h2
-              className="font-outfit font-black text-foreground leading-none"
-              style={{ fontSize: 'clamp(2.8rem, 6vw, 5.5rem)', letterSpacing: '-0.04em' }}
+          Proven Impact
+        </motion.span>
+
+        {/* Stats grid — Exoape big numbers */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="py-10 md:py-16 px-0 border-b border-r border-[var(--border)] last:border-r-0 [&:nth-child(2)]:border-r-0 lg:[&:nth-child(2)]:border-r"
             >
-              Global Scale.<br />
-              <span className="gradient-text">Absolute Precision.</span>
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-sm leading-relaxed md:text-right">
-              Real numbers from real campaigns — no vanity metrics, just bottom-line impact.
-            </p>
-          </div>
-        </motion.div>
+              <div
+                className="font-outfit font-black text-[var(--foreground)] stat-number mb-3"
+              >
+                {stat.value}
+              </div>
+              <div className="label-sm">{stat.label}</div>
+            </motion.div>
+          ))}
+        </div>
 
-        {/* 3D Stats Grid */}
-        <Stats3DGrid />
-
-        {/* Bottom CTA */}
+        {/* CTA strip */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-14 flex justify-center"
+          className="mt-16 md:mt-20 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between border-t border-[var(--border)] pt-10"
         >
-          <MagneticButton href="/contact">
-            <span
-              className="inline-flex items-center gap-3 px-10 py-5 rounded-full font-semibold text-white text-base"
-              style={{ background: 'var(--gradient-brand)' }}
-            >
-              Get Your Free Strategy Call
-              <ArrowRight size={18} />
-            </span>
-          </MagneticButton>
+          <p className="text-[var(--muted-foreground)] text-base md:text-lg max-w-md leading-relaxed">
+            Real numbers from real campaigns. No vanity metrics, just bottom-line impact.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white btn-magnetic flex-shrink-0"
+            style={{ background: 'var(--gradient-brand)' }}
+          >
+            Get Your Free Strategy Call →
+          </Link>
         </motion.div>
-
       </div>
     </section>
   );

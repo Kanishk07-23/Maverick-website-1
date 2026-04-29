@@ -1,123 +1,137 @@
 'use client';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import MagneticButton from '@/components/MagneticButton';
 import Link from 'next/link';
 
 const services = [
   {
     id: 'perf',
+    num: '01',
     title: 'Performance Marketing',
-    desc: 'Data-driven ad campaigns on Meta & Google designed purely for massive ROI. We do not care about clicks, we care about actual revenue.',
+    desc: 'Data-driven ad campaigns on Meta & Google designed purely for massive ROI. We don\'t care about clicks — we care about actual revenue.',
     href: '/services/performance-marketing',
-    accent: '#8b5cf6',
   },
   {
     id: 'seo',
+    num: '02',
     title: 'SEO & SEM',
-    desc: 'Dominate search engines. We reconstruct your digital architecture so high-intent customers find you exactly when they are ready to buy.',
+    desc: 'Dominate search engines. We reconstruct your digital architecture so high-intent customers find you exactly when they\'re ready to buy.',
     href: '/services/seo-sem',
-    accent: '#3b82f6',
   },
   {
     id: 'social',
-    title: 'Social Media Dynamics',
+    num: '03',
+    title: 'Social Media',
     desc: 'We transform boring brand pages into magnetic community hubs. 15M+ organic views generated for our clients so far.',
     href: '/services/social-media',
-    accent: '#d946ef',
   },
   {
     id: 'brand',
-    title: 'Elite Branding',
+    num: '04',
+    title: 'Branding & Strategy',
     desc: 'Your brand is not just a logo. We craft distinct visual and narrative identities that command higher prices in the marketplace.',
     href: '/services/branding-strategy',
-    accent: '#10b981',
   },
   {
     id: 'web',
-    title: 'High-Conversion Web Dev',
+    num: '05',
+    title: 'Web & App Development',
     desc: 'Beautiful websites are useless if they don\'t convert. We build lightning-fast web experiences engineered specifically to sell.',
     href: '/services/web-dev',
-    accent: '#f59e0b',
   },
   {
     id: 'personal',
-    title: 'Founder Branding',
+    num: '06',
+    title: 'Personal Branding',
     desc: 'People buy from people. We scale your personal brand on LinkedIn and Twitter to open high-level B2B opportunities.',
     href: '/services/personal-branding',
-    accent: '#f43f5e',
   },
 ];
 
 function ServiceRow({ service, index }: { service: typeof services[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const [hovered, setHovered] = useState(false);
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+      initial={{ opacity: 0 }}
+      animate={inView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.05 }}
     >
-      <Link href={service.href} className="block group">
-        <div
-          className="relative py-10 md:py-12 border-b transition-colors duration-300"
-          style={{ borderColor: 'var(--border)' }}
-        >
-          {/* Full-width hover fill */}
-          <div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -mx-6"
-            style={{
-              background: `linear-gradient(90deg, ${service.accent}08 0%, ${service.accent}04 50%, transparent 100%)`,
-            }}
+      <Link
+        href={service.href}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="block group"
+      >
+        <div className="relative py-7 md:py-8 border-t border-[var(--border)] overflow-hidden">
+          {/* Hover fill — subtle */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -20 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            style={{ background: 'var(--muted)' }}
           />
 
-          <div className="relative z-10 flex items-center justify-between gap-6">
-            {/* Left: number + title */}
-            <div className="flex items-baseline gap-6 md:gap-10 flex-1 min-w-0">
-              <span
-                className="text-sm font-mono font-medium flex-shrink-0 w-8"
-                style={{ color: service.accent }}
-              >
-                {String(index + 1).padStart(2, '0')}
-              </span>
+          <div className="relative z-10 flex items-start gap-6 md:gap-10 md:items-center">
+            {/* Number */}
+            <span
+              className="label-sm flex-shrink-0 pt-1 md:pt-0 tabular-nums"
+              style={{ minWidth: 28 }}
+            >
+              {service.num}
+            </span>
 
-              <div className="flex-1 min-w-0">
-                <h3 className="font-outfit font-bold text-foreground text-2xl md:text-4xl lg:text-5xl leading-tight group-hover:translate-x-2 transition-transform duration-300"
-                  style={{ letterSpacing: '-0.02em' }}
+            {/* Title + desc */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-4">
+                <h3
+                  className="font-outfit font-black text-[var(--foreground)] transition-colors duration-300"
+                  style={{
+                    fontSize: 'clamp(1.5rem, 4vw, 3.5rem)',
+                    letterSpacing: '-0.03em',
+                    lineHeight: 1.05,
+                    transform: hovered ? 'translateX(8px)' : 'translateX(0)',
+                    transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  }}
                 >
                   {service.title}
                 </h3>
-
-                {/* Description — visible on hover (desktop) or always on mobile */}
-                <div className="mt-3 md:mt-0 md:max-h-0 md:group-hover:max-h-24 md:overflow-hidden md:transition-all md:duration-500 md:ease-out">
-                  <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl md:pt-4">
-                    {service.desc}
-                  </p>
-                </div>
+                {/* Arrow */}
+                <span
+                  className="text-[var(--muted-foreground)] text-xl flex-shrink-0 transition-all duration-300"
+                  style={{
+                    opacity: hovered ? 1 : 0,
+                    transform: hovered ? 'translateX(0) rotate(-45deg)' : 'translateX(-8px) rotate(-45deg)',
+                  }}
+                >
+                  ↗
+                </span>
               </div>
-            </div>
 
-            {/* Right: arrow */}
-            <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-[-8px] group-hover:translate-x-0">
+              {/* Description — expands on hover on desktop, always visible on mobile */}
               <div
-                className="w-12 h-12 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: `${service.accent}15`, color: service.accent }}
+                style={{
+                  maxHeight: hovered ? 80 : 0,
+                  overflow: 'hidden',
+                  transition: 'max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  opacity: hovered ? 1 : 0,
+                }}
+                className="hidden md:block"
               >
-                <ArrowRight size={20} />
+                <p className="text-[var(--muted-foreground)] text-base leading-relaxed pt-3 max-w-2xl">
+                  {service.desc}
+                </p>
               </div>
+
+              {/* Always visible on mobile */}
+              <p className="md:hidden text-[var(--muted-foreground)] text-sm leading-relaxed pt-2">
+                {service.desc}
+              </p>
             </div>
           </div>
-
-          {/* Accent line on hover */}
-          <motion.div
-            className="absolute bottom-0 left-0 h-[2px] origin-left"
-            style={{ backgroundColor: service.accent, scaleX: 0 }}
-            whileHover={{ scaleX: 1 }}
-            transition={{ duration: 0.4 }}
-          />
         </div>
       </Link>
     </motion.div>
@@ -126,63 +140,66 @@ function ServiceRow({ service, index }: { service: typeof services[0]; index: nu
 
 export default function ServicesSection() {
   const headerRef = useRef<HTMLDivElement>(null);
-  const headerInView = useInView(headerRef, { once: true });
+  const inView = useInView(headerRef, { once: true });
 
   return (
-    <section className="relative py-28 md:py-36 bg-transparent" id="services">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <section className="relative py-28 md:py-36 bg-[var(--background)]" id="services">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10">
 
         {/* Header */}
-        <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mb-16 md:mb-24"
-        >
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-6">
-            Our Protocol
-          </span>
-          <h2
-            className="font-outfit font-black text-foreground leading-none mb-6"
-            style={{ fontSize: 'clamp(3rem, 6vw, 5.5rem)', letterSpacing: '-0.03em' }}
+        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-2">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            We Engineer<br />
-            <span className="gradient-text">Growth.</span>
-          </h2>
-          <p className="text-muted-foreground text-lg md:text-xl max-w-xl font-medium leading-relaxed">
-            The precise execution frameworks we use to violently scale our partners&apos; revenue and market share.
-          </p>
-        </motion.div>
+            <span className="label-sm block mb-5">Our Protocol</span>
+            <h2
+              className="font-outfit font-black text-[var(--foreground)] leading-none"
+              style={{ fontSize: 'clamp(2.5rem, 7vw, 6.5rem)', letterSpacing: '-0.04em' }}
+            >
+              We Engineer<br />Growth.
+            </h2>
+          </motion.div>
 
-        {/* Service List — clean expandable rows */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-[var(--muted-foreground)] text-base md:text-lg max-w-sm leading-relaxed md:text-right"
+          >
+            Six specialized service pillars — each engineered for maximum bottom-line impact.
+          </motion.p>
+        </div>
+
+        {/* Service Rows */}
         <div>
           {services.map((service, index) => (
             <ServiceRow key={service.id} service={service} index={index} />
           ))}
+          {/* Bottom border */}
+          <div className="border-t border-[var(--border)]" />
         </div>
 
-        {/* Bottom CTA */}
+        {/* Bottom CTA row */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-20 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between"
+          className="mt-14 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between"
         >
-          <p className="text-muted-foreground text-lg max-w-md">
+          <p className="text-[var(--muted-foreground)] text-base max-w-sm">
             Don&apos;t see what you need? We build custom strategic protocols for unique brands.
           </p>
-          <MagneticButton href="/contact">
-            <span
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-white text-base"
-              style={{ background: 'var(--gradient-brand)' }}
-            >
-              Let&apos;s Build <ArrowRight size={18} />
-            </span>
-          </MagneticButton>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white btn-magnetic flex-shrink-0"
+            style={{ background: 'var(--gradient-brand)' }}
+          >
+            Let&apos;s Build →
+          </Link>
         </motion.div>
-
       </div>
     </section>
   );
