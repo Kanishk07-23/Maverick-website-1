@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,6 @@ interface Service {
   badge?: string;
 }
 
-// ─── Single card component (Vertical/Portrait Brutalist Carousel) ───────────
 function WheelCard({
   service,
   index,
@@ -24,7 +23,6 @@ function WheelCard({
   isActive,
   containerW,
   onSelect,
-  onFocus,
 }: {
   service: Service;
   index: number;
@@ -33,33 +31,24 @@ function WheelCard({
   isActive: boolean;
   containerW: number;
   onSelect: (s: Service) => void;
-  onFocus: (index: number) => void;
 }) {
   const angleStep = 360 / total;
-
-  // Calculate card's angle relative to the active scroll position
   const cardAngleDeg = useTransform(activeFloat, (a: number) => (index - a) * angleStep);
   const cardAngleRad = useTransform(cardAngleDeg, (d: number) => d * (Math.PI / 180));
 
-  // Elliptical orbit radii for a wide wheel look
-  const xRadius = containerW < 768 ? containerW * 0.42 : containerW * 0.35;
-  const zRadius = containerW < 768 ? 250 : 400;
+  const xRadius = containerW < 768 ? containerW * 0.45 : containerW * 0.38;
+  const zRadius = containerW < 768 ? 200 : 450;
 
-  // 3D positional mapping
   const x = useTransform(cardAngleRad, (r: number) => Math.sin(r) * xRadius);
   const z = useTransform(cardAngleRad, (r: number) => Math.cos(r) * zRadius);
-
-  // Cards rotate on Y axis to remain tangent to the wheel
   const rotateY = useTransform(cardAngleDeg, (d: number) => -d);
 
-  // Scale down and fade out as they go to the back
-  const scale = useTransform(z, [-zRadius, 0, zRadius], [0.65, 0.8, 1]);
-  const opacity = useTransform(z, [-zRadius, -zRadius * 0.1, zRadius * 0.5, zRadius], [0, 0, 0.3, 1]);
+  const scale = useTransform(z, [-zRadius, 0, zRadius], [0.6, 0.8, 1]);
+  const opacity = useTransform(z, [-zRadius, -zRadius * 0.2, zRadius * 0.3, zRadius], [0, 0, 0.2, 1]);
   const zIndex = useTransform(z, (val: number) => Math.round(val + 1000));
 
-  // Vertical (Portrait) Card Dimensions
-  const cardWidth = containerW < 640 ? 300 : 380;
-  const cardHeight = containerW < 640 ? 440 : 520;
+  const cardWidth = containerW < 640 ? 280 : 400;
+  const cardHeight = containerW < 640 ? 420 : 560;
 
   return (
     <motion.div
@@ -74,255 +63,174 @@ function WheelCard({
         opacity,
         zIndex,
         rotateY,
-        pointerEvents: 'auto',
+        pointerEvents: isActive ? 'auto' : 'none',
       }}
     >
-      <motion.div
-        onClick={() => {
-          if (isActive) onSelect(service);
-          else onFocus(index);
+      <div
+        onClick={() => onSelect(service)}
+        className="flex flex-col relative group overflow-hidden bg-[var(--background)] border border-[var(--border)] transition-colors duration-500"
+        style={{
+          width: cardWidth,
+          height: cardHeight,
+          cursor: 'pointer',
+          padding: containerW < 768 ? '32px' : '48px',
+          borderColor: isActive ? 'var(--foreground)' : 'var(--border)',
         }}
-        whileHover={isActive ? { scale: 1.02 } : {}}
-        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
       >
-        <div
-          className="flex flex-col relative group"
-          style={{
-            width: cardWidth,
-            height: cardHeight,
-            cursor: isActive ? 'pointer' : 'pointer',
-            background: 'var(--background)',
-            border: `1px solid ${isActive ? 'var(--foreground)' : 'var(--border)'}`,
-            padding: containerW < 768 ? '32px' : '40px',
-            transition: 'border-color 0.4s ease',
-          }}
-        >
-          {/* Top Label */}
-          <div className="flex items-center justify-between mb-8">
-            <span className="label-sm text-[var(--foreground)]">
-              0{index + 1} {'//'}
+        <div className="flex items-center justify-between mb-12">
+          <span className="label-sm text-[var(--foreground)] opacity-50">
+            0{index + 1} {'//'}
+          </span>
+          {service.badge && (
+            <span className="text-[10px] uppercase tracking-[0.2em] font-black bg-[var(--foreground)] text-[var(--background)] px-3 py-1">
+              {service.badge}
             </span>
-            {service.badge && (
-              <span className="text-[9px] uppercase tracking-widest font-bold bg-[var(--foreground)] text-[var(--background)] px-2 py-1">
-                {service.badge}
-              </span>
-            )}
-          </div>
-
-          <div className="flex-1 flex flex-col justify-center">
-            <h2
-              className="font-outfit font-black text-[var(--foreground)] leading-none mb-6"
-              style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', letterSpacing: '-0.04em' }}
-            >
-              {service.title}
-            </h2>
-
-            <div className="h-px bg-[var(--border)] w-12 mb-6 transition-all duration-300 group-hover:w-full" />
-
-            <p className="text-[var(--muted-foreground)] text-sm leading-relaxed max-w-[280px]">
-              {service.tagline}
-            </p>
-          </div>
-
-          {/* Bottom Action */}
-          <div
-            className="mt-auto flex items-center justify-between border-t border-[var(--border)] pt-6"
-            style={{
-              opacity: isActive ? 1 : 0,
-              transform: isActive ? 'translateY(0)' : 'translateY(10px)',
-              transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            }}
-          >
-            <span className="text-xs font-bold uppercase tracking-widest text-[var(--foreground)]">
-              Explore Protocol
-            </span>
-            <div className="w-8 h-8 rounded-full border border-[var(--border)] flex items-center justify-center group-hover:bg-[var(--foreground)] group-hover:text-[var(--background)] transition-colors">
-              <ArrowRight size={14} />
-            </div>
-          </div>
+          )}
         </div>
-      </motion.div>
+
+        <div className="flex-1 flex flex-col justify-center">
+          <h2
+            className="font-outfit font-black text-[var(--foreground)] leading-[0.95] mb-8 uppercase"
+            style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', letterSpacing: '-0.05em' }}
+          >
+            {service.title.split(' ').map((word, i) => (
+              <span key={i} className="block">{word}</span>
+            ))}
+          </h2>
+
+          <div className="h-px bg-[var(--foreground)] w-0 group-hover:w-full transition-all duration-700 ease-exo" />
+
+          <p className="text-[var(--muted-foreground)] text-base leading-relaxed mt-8 max-w-[300px] font-medium opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-100">
+            {service.tagline}
+          </p>
+        </div>
+
+        <div
+          className="mt-auto flex items-center justify-between pt-8 border-t border-[var(--border)]"
+          style={{ opacity: isActive ? 1 : 0 }}
+        >
+          <span className="text-xs font-black uppercase tracking-[0.2em]">Explore Protocol</span>
+          <ArrowRight size={18} className="transform group-hover:translate-x-2 transition-transform duration-500" />
+        </div>
+      </div>
     </motion.div>
   );
 }
 
-// ─── Main Wheel Layout ────────────────────────────────────────────────────────
 export default function ServicesList({ services }: { services: Service[] }) {
   const router = useRouter();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [containerW, setContainerW] = useState(0);
 
   useEffect(() => {
-    if (scrollContainerRef.current) {
-      setContainerW(scrollContainerRef.current.clientWidth);
-      scrollContainerRef.current.scrollLeft = 0;
-    }
-    const onResize = () => {
-      if (scrollContainerRef.current) setContainerW(scrollContainerRef.current.clientWidth);
-    };
+    setContainerW(window.innerWidth);
+    const onResize = () => setContainerW(window.innerWidth);
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  const { scrollXProgress } = useScroll({ container: scrollContainerRef });
-  const smoothProgress = useSpring(scrollXProgress, { damping: 20, stiffness: 90, mass: 0.6 });
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  });
+
   const total = services.length;
+  // We use a spring to make the wheel feel "weighty" and smooth
+  const smoothProgress = useSpring(scrollYProgress, { damping: 30, stiffness: 100, mass: 1 });
   const activeFloat = useTransform(smoothProgress, [0, 1], [0, total - 1]);
 
   useMotionValueEvent(activeFloat, 'change', (v) => {
-    const idx = Math.round(Math.max(0, Math.min(total - 1, v)));
-    if (idx !== activeIndex) setActiveIndex(idx);
+    const idx = Math.round(v);
+    if (idx !== activeIndex && idx >= 0 && idx < total) {
+      setActiveIndex(idx);
+    }
   });
 
-  const handleSelect = useCallback(
-    (service: Service) => {
-      setIsTransitioning(true);
-      setTimeout(() => router.push(`/services/${service.id}`), 450);
-    },
-    [router]
-  );
-
-  const handleFocus = useCallback(
-    (index: number) => {
-      if (scrollContainerRef.current && containerW > 0) {
-        const targetScroll = index * containerW;
-        scrollContainerRef.current.scrollTo({ left: targetScroll, behavior: 'smooth' });
-      }
-    },
-    [containerW]
-  );
-
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        const isAtStart = el.scrollLeft <= 0;
-        const maxScroll = el.scrollWidth - el.clientWidth;
-        const isAtEnd = Math.ceil(el.scrollLeft) >= maxScroll;
-
-        if ((isAtStart && e.deltaY < 0) || (isAtEnd && e.deltaY > 0)) return;
-
-        e.preventDefault();
-        el.scrollBy({ left: e.deltaY * 1.5, behavior: 'auto' });
-      }
-    };
-
-    el.addEventListener('wheel', handleWheel, { passive: false });
-    return () => el.removeEventListener('wheel', handleWheel);
-  }, [containerW]);
-
-  if (containerW === 0) {
-    return <div ref={scrollContainerRef} style={{ width: '100%', height: '100vh' }} />;
-  }
+  const handleSelect = (service: Service) => {
+    setIsTransitioning(true);
+    setTimeout(() => router.push(`/services/${service.id}`), 600);
+  };
 
   return (
-    <>
-      <style dangerouslySetInnerHTML={{
-        __html: ".hide-scrollbar::-webkit-scrollbar { display: none; }\n.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }"
-      }} />
-
-      {/* Screen flash transition */}
-      <div
-        className={`fixed inset-0 z-[9999] pointer-events-none transition-all duration-500 ${
-          isTransitioning ? 'bg-[var(--foreground)] opacity-100' : 'opacity-0'
-        }`}
-      />
-
-      {/* Massive Background Watermark */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIndex}
-            initial={{ opacity: 0, y: 100, filter: 'blur(10px)' }}
-            animate={{ opacity: 0.03, y: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: -100, filter: 'blur(10px)' }}
-            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-            className="font-outfit font-black uppercase text-center text-[var(--foreground)] leading-none whitespace-nowrap absolute"
-            style={{ fontSize: 'clamp(15rem, 40vw, 45rem)', letterSpacing: '-0.05em' }}
-          >
-            {services[activeIndex].id}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      <div
-        ref={scrollContainerRef}
-        className="hide-scrollbar"
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: '100vh',
-          overflowX: 'auto',
-          overflowY: 'hidden',
-          scrollSnapType: 'x mandatory',
-          position: 'relative',
-          zIndex: 10,
-        }}
-      >
+    <div ref={sectionRef} className="relative" style={{ height: `${total * 100}vh` }}>
+      {/* Sticky Container */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[var(--background)]">
+        
+        {/* Flash Overlay */}
         <div
-          style={{
-            position: 'sticky',
-            left: 0,
-            top: 0,
-            width: containerW,
-            height: '100vh',
-            flexShrink: 0,
-            scrollSnapAlign: 'start',
-            overflow: 'hidden',
-            perspective: 2000,
-          }}
-        >
-          {/* Horizontal tracking line */}
-          <div className="absolute top-1/2 left-0 w-full h-px bg-[var(--border)] opacity-30 -translate-y-1/2 pointer-events-none" />
+          className={`fixed inset-0 z-[100] pointer-events-none transition-all duration-700 ease-exo ${
+            isTransitioning ? 'bg-[var(--foreground)] opacity-100' : 'opacity-0'
+          }`}
+        />
 
-          {/* Center Pivot for cards */}
-          <div style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }}>
-            {services.map((service, i) => (
-              <WheelCard
-                key={service.id}
-                service={service}
-                index={i}
-                total={total}
-                activeFloat={activeFloat}
-                isActive={i === activeIndex}
-                containerW={containerW}
-                onSelect={handleSelect}
-                onFocus={handleFocus}
-              />
-            ))}
-          </div>
+        {/* Massive Background Watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, scale: 0.8, filter: 'blur(20px)' }}
+              animate={{ opacity: 0.04, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
+              transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+              className="font-outfit font-black uppercase text-center text-[var(--foreground)] leading-none whitespace-nowrap absolute"
+              style={{ fontSize: '40vw', letterSpacing: '-0.08em' }}
+            >
+              {services[activeIndex].id.split('-')[0]}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-          {/* Bottom progress indicator */}
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-50 pointer-events-auto">
-            <span className="label-sm text-[var(--foreground)]">Scroll / Drag</span>
-            <div className="flex gap-2">
+        {/* 3D Wheel Perspective Wrapper */}
+        <div className="relative h-full w-full flex items-center justify-center" style={{ perspective: '2000px' }}>
+          {/* Decorative Horizontal Axis */}
+          <div className="absolute w-full h-px bg-[var(--border)] top-1/2 left-0 opacity-20 pointer-events-none" />
+          
+          {/* Cards */}
+          {services.map((service, i) => (
+            <WheelCard
+              key={service.id}
+              service={service}
+              index={i}
+              total={total}
+              activeFloat={activeFloat}
+              isActive={i === activeIndex}
+              containerW={containerW}
+              onSelect={handleSelect}
+            />
+          ))}
+        </div>
+
+        {/* Bottom Navigation Meta */}
+        <div className="absolute bottom-12 left-0 w-full px-6 md:px-10 flex items-end justify-between z-50">
+          <div className="flex flex-col gap-2">
+            <span className="label-sm opacity-50">Discovery Protocol</span>
+            <div className="flex gap-1.5">
               {services.map((_, i) => (
                 <div
                   key={i}
-                  onClick={() => handleFocus(i)}
-                  className="cursor-pointer transition-all duration-300"
+                  className="h-[2px] transition-all duration-500 ease-exo"
                   style={{
-                    width: i === activeIndex ? 32 : 8,
-                    height: 2,
+                    width: i === activeIndex ? '40px' : '12px',
                     backgroundColor: i === activeIndex ? 'var(--foreground)' : 'var(--border)',
                   }}
                 />
               ))}
             </div>
           </div>
-        </div>
 
-        {services.slice(1).map((_, i) => (
-          <div
-            key={i + 1}
-            style={{ width: containerW, height: '100vh', flexShrink: 0, scrollSnapAlign: 'start' }}
-          />
-        ))}
+          <div className="text-right flex flex-col items-end gap-2">
+            <span className="label-sm opacity-50">Scroll to Explore</span>
+            <div className="w-px h-12 bg-[var(--border)] relative overflow-hidden">
+              <motion.div
+                className="absolute top-0 left-0 w-full bg-[var(--foreground)]"
+                style={{ height: '100%', scaleY: scrollYProgress, transformOrigin: 'top' }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

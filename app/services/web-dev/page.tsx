@@ -1,153 +1,87 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Website Development Company Mumbai | Maverick Digitals',
-  description: 'Leading web design and development agency in Mumbai. We build fast, responsive, and SEO-optimized custom websites and e-commerce platforms.',
-  keywords: ['website development company mumbai', 'web design agency india', 'ecommerce development', 'custom web apps', 'next.js development india', 'shopify developers mumbai'],
+  title: 'Web & App Development Agency | Maverick Digitals',
+  description: 'High-performance sites, e-commerce, and custom web apps built for speed and conversion.',
 };
 
-const faqs = [
+const offerings = [
   {
-    q: 'Do you build custom websites or use templates?',
-    a: 'We specialize in custom web development. While templates can be a cheap starting point, they are notoriously slow and lack the flexibility growing brands need. We build custom frontends (using modern stacks like Next.js and React) tailored exactly to your brand guidelines and user experience requirements.'
+    title: 'Custom Engineering',
+    desc: 'Lightning-fast React and Next.js applications built with clean code and infinitely scalable architecture.'
   },
   {
-    q: 'How long does it take to develop a new website?',
-    a: 'A standard marketing website or corporate portal typically takes 4–6 weeks from design approval to launch. Complex e-commerce platforms or custom web applications can take 8–12 weeks. We establish clear timelines during our initial discovery phase.'
+    title: 'E-commerce Mastery',
+    desc: 'High-converting Shopify and custom commerce engines designed to turn traffic into transactions with zero friction.'
   },
   {
-    q: 'Will my new website be optimized for SEO?',
-    a: 'Absolutely. Web development and technical SEO go hand-in-hand. We build platforms with clean HTML semantics, lightning-fast load times (optimizing Core Web Vitals), proper heading structures, and schema markup integration right out of the box.'
+    title: 'Product Design',
+    desc: 'Immersive UX/UI design that guides users through a seamless journey from landing to final checkout.'
   },
   {
-    q: 'Do you offer ongoing website maintenance and support?',
-    a: 'Yes! Launching a site is just the beginning. We offer retainer packages for ongoing bug fixes, performance monitoring, content updates, and continuous conversion rate optimization (CRO) to ensure your platform remains secure and high-performing.'
+    title: 'Technical Audit',
+    desc: 'Deep-dive analysis of your current stack to identify performance bottlenecks and security vulnerabilities.'
   }
 ];
 
 export default function WebDevPage() {
   return (
-    <div className="pt-20">
-      <section className="section-padding mesh-gradient relative overflow-hidden" aria-label="Web Development Hero">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[#4F46E5] glass-card border border-[#4F46E5]/20 mb-6">
-              Web & App Development
-            </span>
-            <h1 className="font-outfit font-bold text-foreground mb-6" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}>
-              Premium <span className="gradient-text">Website Development</span> Company in Mumbai
-            </h1>
-            <p className="text-muted-foreground text-xl leading-relaxed mb-8">
-              Your website is your 24/7 salesperson. We engineer high-performance, conversion-optimized digital products that don&apos;t just look good—they generate measurable revenue.
+    <div className="bg-[var(--background)]">
+      <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">
+        <div className="max-w-[1400px] mx-auto">
+          <span className="label-sm block mb-10">[ Service Protocol 06 ]</span>
+          <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16 tracking-tighter"
+              style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}>
+            Web & App<br />
+            <span className="text-[var(--muted-foreground)]">Development.</span>
+          </h1>
+          <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-end border-t border-[var(--border)] pt-12">
+            <p className="text-[var(--muted-foreground)] text-xl md:text-2xl leading-tight font-medium max-w-xl">
+              A website is not a brochure. It is your most powerful salesperson. We build digital products that are engineered to convert.
             </p>
-            <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-foreground transition-all duration-300 hover:scale-105" style={{ background: 'var(--gradient-brand)' }}>
-              Start Your Web Project <ArrowRight size={18} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-padding">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div>
-              <h2 className="font-outfit font-bold text-foreground text-3xl mb-6">Why Invest in Custom Web Development?</h2>
-              <article className="prose prose-invert max-w-none text-muted-foreground">
-                <p className="text-lg leading-relaxed mb-6">
-                  A slow, generic website actively loses you money. In an era of short attention spans and fierce competition, your digital storefront needs to instantly communicate trust, load in milliseconds, and guide users effortlessly toward a conversion.
-                </p>
-                <p className="leading-relaxed mb-6">
-                  As a top-tier <strong>web development agency in Mumbai</strong>, we build bespoke digital experiences. We eschew bloated themes in favor of modern Javascript frameworks (React, Next.js) and headless CMS architectures (Sanity, WordPress Headless, Shopify Plus).
-                </p>
-                <p className="leading-relaxed">
-                  Whether you need a dynamic corporate portal or a scalable e-commerce infrastructure, our engineering team ensures your platform satisfies both user expectations and Google&apos;s stringent Core Web Vitals.
-                </p>
-              </article>
-            </div>
-            <div className="glass-card rounded-3xl p-8 border border-border">
-              <h3 className="text-xl font-bold text-foreground mb-6">Our Development Expertise</h3>
-              <ul className="flex flex-col gap-4">
-                {[
-                  'Custom Web Design & UX/UI Prototyping',
-                  'E-commerce Solutions (Shopify & Custom)',
-                  'Next.js & React Frontend Development',
-                  'Technical SEO & Core Web Vitals Optimization',
-                  'CMS Integration (Headless & Traditional)',
-                  'Mobile App Development (iOS & Android)'
-                ].map(item => (
-                  <li key={item} className="flex items-start gap-3">
-                    <CheckCircle2 size={20} className="text-[#4F46E5] flex-shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground0">{item}</span>
-                  </li>
-                ))}
-              </ul>
+            <div className="label-sm uppercase tracking-[0.2em] opacity-50">
+              Product Engineering {'//'} Conversion Design
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section-padding bg-muted/50" id="faq">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-outfit font-bold text-foreground text-3xl mb-4">
-              Frequently Asked <span className="gradient-text">Questions</span>
-            </h2>
-          </div>
-          <div className="flex flex-col gap-4">
-            {faqs.map((faq, i) => (
-              <details key={i} className="glass-card rounded-2xl border border-border group overflow-hidden">
-                <summary className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 cursor-pointer font-medium text-foreground select-none">
-                  {faq.q}
-                  <span className="text-purple-400 group-open:rotate-45 transition-transform duration-300 text-2xl leading-none">+</span>
-                </summary>
-                <div className="px-6 pb-5 text-muted-foreground text-sm leading-relaxed border-t border-border pt-4">
-                  {faq.a}
-                </div>
-              </details>
+      <section className="py-24 md:py-48 px-6 md:px-10">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid md:grid-cols-2 gap-px bg-[var(--border)] border border-[var(--border)]">
+            {offerings.map((item, i) => (
+              <div key={item.title} className="bg-[var(--background)] p-12 md:p-20 group hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors duration-700">
+                <span className="label-sm block mb-10 opacity-50">Capability 0{i+1}</span>
+                <h3 className="text-3xl md:text-5xl font-black font-outfit uppercase tracking-tighter mb-8 leading-none">
+                  {item.title}
+                </h3>
+                <p className="text-lg md:text-xl opacity-70 leading-relaxed max-w-sm">
+                  {item.desc}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify([
-          {
-            '@context': 'https://schema.org',
-            '@type': 'Service',
-            name: 'Website & App Development',
-            provider: {
-              '@type': 'Organization',
-              name: 'Maverick Digitals',
-              url: 'https://www.maverickdigitals.co.in'
-            },
-            areaServed: ['India', 'USA', 'UAE', 'UK', 'Australia'],
-            offers: {
-              '@type': 'Offer',
-              description: 'Custom Next.js web development, e-commerce, and mobile app creation.'
-            }
-          },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: faqs.map(f => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
-            })),
-          },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'BreadcrumbList',
-            itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.maverickdigitals.co.in/' },
-              { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.maverickdigitals.co.in/services' },
-              { '@type': 'ListItem', position: 3, name: 'Web Development', item: 'https://www.maverickdigitals.co.in/services/web-dev' }
-            ]
-          }
-        ])
-      }} />
+      <section className="py-32 md:py-56 px-6 md:px-10 text-center border-t border-[var(--border)]">
+         <div className="max-w-5xl mx-auto">
+            <span className="label-sm block mb-12">Product Request</span>
+            <h2 className="font-outfit font-black leading-[0.9] uppercase mb-16 tracking-tighter"
+              style={{ fontSize: 'clamp(3.5rem, 10vw, 10rem)' }}>
+              Build Your<br />
+              <span className="text-[var(--muted-foreground)]">Platform.</span>
+            </h2>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
+            >
+              Start Building <ArrowRight size={20} />
+            </Link>
+         </div>
+      </section>
     </div>
   );
 }

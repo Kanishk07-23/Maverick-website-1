@@ -1,153 +1,87 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Top Branding Agency Mumbai | Brand Strategy Consultants',
-  description: 'Elevate your business with Maverick Digitals, a top branding agency in Mumbai. We provide brand identity design, messaging frameworks, and go-to-market strategies.',
-  keywords: ['branding agency mumbai', 'brand strategy consultant', 'brand identity design', 'go-to-market strategy india', 'rebranding experts', 'brand positioning'],
+  title: 'Branding & Strategy Agency | Maverick Digitals',
+  description: 'We build complete brand identities — from visual design and messaging to go-to-market strategy — that create lasting impressions.',
 };
 
-const faqs = [
+const offerings = [
   {
-    q: 'What is the difference between a brand and a logo?',
-    a: 'A logo is merely the visual symbol of your company. Your brand, however, is the holistic perception people have of your business. It encompasses your messaging, your customer service, your visual identity, your values, and the emotional connection you build with your audience.'
+    title: 'Visual Identity',
+    desc: 'Logo systems, typography, and color architecture designed to command premium positioning.'
   },
   {
-    q: 'When should a company consider rebranding?',
-    a: 'You should consider rebranding if your target audience has shifted, if your visual identity feels heavily outdated next to competitors, if you are pivoting your core product offering, or if you are expanding into significantly different international markets where your current messaging falls flat.'
+    title: 'Brand Messaging',
+    desc: 'Bespoke voice and tone frameworks that turn generic features into emotional benefits.'
   },
   {
-    q: 'Do you create Brand Guidelines?',
-    a: 'Yes. For every comprehensive branding project, we deliver an extensive Brand Guidelines document (or Brand Book). This covers logo usage rules, typography, color palettes, tone of voice, and visual layout principles to ensure consistency across all your future marketing materials.'
+    title: 'GTM Strategy',
+    desc: 'Go-to-market launch sequences that ensure your brand enters the market with a bang, not a whisper.'
   },
   {
-    q: 'What is a Go-to-Market (GTM) Strategy?',
-    a: 'A GTM strategy is an action plan specifying how a company will reach target customers and achieve competitive advantage when launching a new product or entering a new market. We help define your pricing, marketing channels, sales strategy, and launch roadmap.'
+    title: 'Market Positioning',
+    desc: 'Relentless competitive analysis to find the "White Space" where your brand can dominate.'
   }
 ];
 
 export default function BrandingStrategyPage() {
   return (
-    <div className="pt-20">
-      <section className="section-padding mesh-gradient relative overflow-hidden" aria-label="Branding Strategy Hero">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[#7C3AED] glass-card border border-[#7C3AED]/20 mb-6">
-              Identity & Positioning
-            </span>
-            <h1 className="font-outfit font-bold text-foreground mb-6" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}>
-              Expert <span className="gradient-text">Branding & Strategy</span> Agency in Mumbai
-            </h1>
-            <p className="text-muted-foreground text-xl leading-relaxed mb-8">
-              We design identities that captivate and strategies that dominate. From visual design to comprehensive go-to-market roadmaps, we build brands that are impossible to ignore.
+    <div className="bg-[var(--background)]">
+      <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">
+        <div className="max-w-[1400px] mx-auto">
+          <span className="label-sm block mb-10">[ Service Protocol 02 ]</span>
+          <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16 tracking-tighter"
+              style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}>
+            Branding &<br />
+            <span className="text-[var(--muted-foreground)]">Strategy.</span>
+          </h1>
+          <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-end border-t border-[var(--border)] pt-12">
+            <p className="text-[var(--muted-foreground)] text-xl md:text-2xl leading-tight font-medium max-w-xl">
+              Your brand is more than a logo. It is a psychological footprint. We engineer identities that stick in the subconscious.
             </p>
-            <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-foreground transition-all duration-300 hover:scale-105" style={{ background: 'var(--gradient-brand)' }}>
-              Schedule a Brand Audit <ArrowRight size={18} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-padding">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div>
-              <h2 className="font-outfit font-bold text-foreground text-3xl mb-6">Building Brands That Command Premium Pricing</h2>
-              <article className="prose prose-invert max-w-none text-muted-foreground">
-                <p className="text-lg leading-relaxed mb-6">
-                  In a commoditized market, the brand with the clearest positioning wins. Branding is not just about looking pretty; it&apos;s a strategic psychological exercise in controlling how your audience perceives your value. Strong brands don&apos;t compete on price; they compete on trust.
-                </p>
-                <p className="leading-relaxed mb-6">
-                  As an elite <strong>branding agency in Mumbai</strong>, Maverick Digitals takes a deeply analytical approach to creativity. We conduct rigorous market research and competitor analysis to find white space in your industry. We then craft a cohesive visual and verbal identity that distinctly occupies that space.
-                </p>
-                <p className="leading-relaxed">
-                  Whether you are a startup needing a powerful launch pad via a precise Go-to-Market strategy, or a legacy business requiring a modern brand refresh, we architect frameworks that scale globally.
-                </p>
-              </article>
-            </div>
-            <div className="glass-card rounded-3xl p-8 border border-border">
-              <h3 className="text-xl font-bold text-foreground mb-6">Our Branding Services</h3>
-              <ul className="flex flex-col gap-4">
-                {[
-                  'Visual Brand Identity (Logo, Colors, Typography)',
-                  'Messaging Architecture & Tone of Voice',
-                  'Comprehensive Brand Guidelines Book',
-                  'Go-to-Market (GTM) Strategy & Execution',
-                  'Competitor Analysis & Brand Positioning',
-                  'Corporate Rebranding & Refresh'
-                ].map(item => (
-                  <li key={item} className="flex items-start gap-3">
-                    <CheckCircle2 size={20} className="text-[#7C3AED] flex-shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground0">{item}</span>
-                  </li>
-                ))}
-              </ul>
+            <div className="label-sm uppercase tracking-[0.2em] opacity-50">
+              Identity Systems {'//'} Market Positioning
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section-padding bg-muted/50" id="faq">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-outfit font-bold text-foreground text-3xl mb-4">
-              Frequently Asked <span className="gradient-text">Questions</span>
-            </h2>
-          </div>
-          <div className="flex flex-col gap-4">
-            {faqs.map((faq, i) => (
-              <details key={i} className="glass-card rounded-2xl border border-border group overflow-hidden">
-                <summary className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 cursor-pointer font-medium text-foreground select-none">
-                  {faq.q}
-                  <span className="text-purple-400 group-open:rotate-45 transition-transform duration-300 text-2xl leading-none">+</span>
-                </summary>
-                <div className="px-6 pb-5 text-muted-foreground text-sm leading-relaxed border-t border-border pt-4">
-                  {faq.a}
-                </div>
-              </details>
+      <section className="py-24 md:py-48 px-6 md:px-10">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid md:grid-cols-2 gap-px bg-[var(--border)] border border-[var(--border)]">
+            {offerings.map((item, i) => (
+              <div key={item.title} className="bg-[var(--background)] p-12 md:p-20 group hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors duration-700">
+                <span className="label-sm block mb-10 opacity-50">Capability 0{i+1}</span>
+                <h3 className="text-3xl md:text-5xl font-black font-outfit uppercase tracking-tighter mb-8 leading-none">
+                  {item.title}
+                </h3>
+                <p className="text-lg md:text-xl opacity-70 leading-relaxed max-w-sm">
+                  {item.desc}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify([
-          {
-            '@context': 'https://schema.org',
-            '@type': 'Service',
-            name: 'Brand Strategy and Design',
-            provider: {
-              '@type': 'Organization',
-              name: 'Maverick Digitals',
-              url: 'https://www.maverickdigitals.co.in'
-            },
-            areaServed: ['India', 'USA', 'UAE', 'UK', 'Australia'],
-            offers: {
-              '@type': 'Offer',
-              description: 'Brand identity, messaging frameworks, and GTM strategies.'
-            }
-          },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: faqs.map(f => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
-            })),
-          },
-          {
-            '@context': 'https://schema.org',
-            '@type': 'BreadcrumbList',
-            itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.maverickdigitals.co.in/' },
-              { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.maverickdigitals.co.in/services' },
-              { '@type': 'ListItem', position: 3, name: 'Branding & Strategy', item: 'https://www.maverickdigitals.co.in/services/branding-strategy' }
-            ]
-          }
-        ])
-      }} />
+      <section className="py-32 md:py-56 px-6 md:px-10 text-center border-t border-[var(--border)]">
+         <div className="max-w-5xl mx-auto">
+            <span className="label-sm block mb-12">Brand Request</span>
+            <h2 className="font-outfit font-black leading-[0.9] uppercase mb-16 tracking-tighter"
+              style={{ fontSize: 'clamp(3.5rem, 10vw, 10rem)' }}>
+              Build Your<br />
+              <span className="text-[var(--muted-foreground)]">Legacy.</span>
+            </h2>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
+            >
+              Start Strategy <ArrowRight size={20} />
+            </Link>
+         </div>
+      </section>
     </div>
   );
 }
