@@ -15,7 +15,7 @@ interface Service {
   badge?: string;
 }
 
-// ─── Single card component (3D Glassmorphism Carousel) ───────────────
+// ─── Single card component (Vertical/Portrait 3D Carousel) ───────────
 function WheelCard({
   service,
   index,
@@ -41,24 +41,25 @@ function WheelCard({
   const cardAngleDeg = useTransform(activeFloat, (a: number) => (index - a) * angleStep);
   const cardAngleRad = useTransform(cardAngleDeg, (d: number) => d * (Math.PI / 180));
 
-  // Elliptical orbit radii
-  // Spread them out wider on desktop, tighter on mobile
-  const xRadius = containerW < 768 ? containerW * 0.45 : containerW * 0.35;
-  const zRadius = containerW < 768 ? 200 : 350;
+  // Elliptical orbit radii for a wide wheel look
+  const xRadius = containerW < 768 ? containerW * 0.42 : containerW * 0.35;
+  const zRadius = containerW < 768 ? 250 : 400;
 
-  // Position in 3D space
+  // 3D positional mapping
   const x = useTransform(cardAngleRad, (r: number) => Math.sin(r) * xRadius);
   const z = useTransform(cardAngleRad, (r: number) => Math.cos(r) * zRadius);
 
-  // Scale, Opacity, and Depth based on Z axis
-  const scale = useTransform(z, [-zRadius, zRadius], [0.55, 1]);
-  const opacity = useTransform(z, [-zRadius, -zRadius * 0.1, zRadius], [0, 0.2, 1]);
-  const zIndex = useTransform(z, (val: number) => Math.round(val + 100));
+  // Cards rotate on Y axis to remain tangent to the wheel (true 3D wheel effect)
+  const rotateY = useTransform(cardAngleDeg, (d: number) => -d);
 
-  // Subtle Y-axis rotation based on X position to make cards look slightly inward
-  const rotateY = useTransform(x, [-xRadius, xRadius], [12, -12]);
+  // Scale down and fade out as they go to the back
+  const scale = useTransform(z, [-zRadius, 0, zRadius], [0.65, 0.8, 1]);
+  const opacity = useTransform(z, [-zRadius, -zRadius * 0.1, zRadius * 0.5, zRadius], [0, 0, 0.5, 1]);
+  const zIndex = useTransform(z, (val: number) => Math.round(val + 1000));
 
-  const cardWidth = containerW < 640 ? Math.min(containerW * 0.85, 340) : containerW < 1024 ? 420 : 520;
+  // Vertical (Portrait) Card Dimensions
+  const cardWidth = containerW < 640 ? 280 : 340;
+  const cardHeight = containerW < 640 ? 400 : 480;
 
   return (
     <motion.div
@@ -74,7 +75,7 @@ function WheelCard({
         zIndex,
         rotateY,
         perspective: 1200,
-        pointerEvents: 'auto', // All cards are clickable to focus them
+        pointerEvents: 'auto', // Allow clicking any visible card
       }}
     >
       <motion.div
@@ -82,15 +83,16 @@ function WheelCard({
           if (isActive) onSelect(service);
           else onFocus(index);
         }}
-        whileHover={isActive ? { scale: 1.03 } : {}}
+        whileHover={isActive ? { scale: 1.02, y: -4 } : {}}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
       >
         <div
-          className="glass-card"
+          className="glass-card flex flex-col"
           style={{
             width: cardWidth,
+            height: cardHeight,
             cursor: isActive ? 'pointer' : 'pointer',
-            borderRadius: 28,
+            borderRadius: 24,
             position: 'relative',
             transformStyle: 'preserve-3d',
             transition: 'box-shadow 0.4s ease, border-color 0.4s ease',
@@ -98,9 +100,9 @@ function WheelCard({
             WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
             borderColor: isActive ? service.color : 'var(--glass-border)',
             boxShadow: isActive
-              ? `var(--glass-shadow), 0 0 80px ${service.color}35`
+              ? `var(--glass-shadow), 0 0 60px ${service.color}25`
               : 'var(--glass-shadow)',
-            padding: containerW < 768 ? '28px 24px' : '40px 40px',
+            padding: containerW < 768 ? '24px' : '32px',
           }}
         >
           {/* Ambient color blob behind card */}
@@ -108,119 +110,123 @@ function WheelCard({
             style={{
               position: 'absolute',
               inset: -1,
-              borderRadius: 28,
-              background: `radial-gradient(ellipse at 70% 20%, ${service.color}15 0%, transparent 65%)`,
+              borderRadius: 24,
+              background: `radial-gradient(ellipse at 50% 20%, ${service.color}15 0%, transparent 60%)`,
               pointerEvents: 'none',
               opacity: isActive ? 1 : 0,
               transition: 'opacity 0.4s ease',
             }}
           />
 
-          {/* Header row */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-            <span
-              style={{
-                fontSize: 11,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '0.1em',
-                padding: '6px 14px',
-                borderRadius: 99,
-                background: `${service.color}15`,
-                color: service.color,
-                border: `1px solid ${service.color}30`,
-              }}
-            >
-              0{index + 1}
-            </span>
-            {service.badge && (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            {/* Header row */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <span
                 style={{
-                  fontSize: 10,
-                  fontWeight: 800,
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  padding: '5px 12px',
+                  fontSize: 11,
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  padding: '4px 12px',
                   borderRadius: 99,
-                  background: `linear-gradient(135deg, ${service.color}, ${service.color}cc)`,
-                  color: '#fff',
-                  boxShadow: `0 2px 12px ${service.color}50`,
+                  background: `${service.color}15`,
+                  color: service.color,
+                  border: `1px solid ${service.color}30`,
                 }}
               >
-                {service.badge}
+                0{index + 1}
               </span>
-            )}
+              {service.badge && (
+                <span
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 800,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    padding: '4px 10px',
+                    borderRadius: 99,
+                    background: `linear-gradient(135deg, ${service.color}, ${service.color}cc)`,
+                    color: '#fff',
+                    boxShadow: `0 2px 8px ${service.color}50`,
+                  }}
+                >
+                  {service.badge}
+                </span>
+              )}
+            </div>
+
+            {/* Title */}
+            <h2
+              style={{
+                fontFamily: 'var(--font-outfit, sans-serif)',
+                fontWeight: 900,
+                fontSize: '1.75rem',
+                lineHeight: 1.1,
+                letterSpacing: '-0.03em',
+                color: 'var(--foreground)',
+                marginBottom: 10,
+              }}
+            >
+              {service.title}
+            </h2>
+
+            {/* Tagline */}
+            <p
+              style={{
+                fontSize: 13,
+                fontWeight: 600,
+                color: service.color,
+                marginBottom: 14,
+                lineHeight: 1.4,
+              }}
+            >
+              {service.tagline}
+            </p>
+
+            {/* Divider */}
+            <div
+              style={{
+                height: 1,
+                background: `linear-gradient(90deg, ${service.color}40, transparent)`,
+                marginBottom: 16,
+                borderRadius: 1,
+                flexShrink: 0,
+              }}
+            />
+
+            {/* Description */}
+            <p
+              className="text-muted-foreground"
+              style={{
+                fontSize: 13,
+                lineHeight: 1.6,
+                display: '-webkit-box',
+                WebkitLineClamp: 4,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
+            >
+              {service.desc}
+            </p>
           </div>
 
-          {/* Title */}
-          <h2
-            style={{
-              fontFamily: 'var(--font-outfit, sans-serif)',
-              fontWeight: 900,
-              fontSize: containerW < 640 ? '1.55rem' : containerW < 1024 ? '1.9rem' : '2.2rem',
-              lineHeight: 1.15,
-              letterSpacing: '-0.03em',
-              color: 'var(--foreground)',
-              marginBottom: 12,
-            }}
-          >
-            {service.title}
-          </h2>
-
-          {/* Tagline */}
-          <p
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: service.color,
-              marginBottom: 14,
-              lineHeight: 1.5,
-            }}
-          >
-            {service.tagline}
-          </p>
-
-          {/* Divider */}
-          <div
-            style={{
-              height: 1,
-              background: `linear-gradient(90deg, ${service.color}40, transparent)`,
-              marginBottom: 16,
-              borderRadius: 1,
-            }}
-          />
-
-          {/* Description */}
-          <p
-            className="text-muted-foreground"
-            style={{
-              fontSize: containerW < 768 ? 13 : 14,
-              lineHeight: 1.7,
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              marginBottom: 24,
-            }}
-          >
-            {service.desc}
-          </p>
-
-          {/* CTA row */}
+          {/* CTA row mapped to bottom */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 12,
+              gap: 10,
+              marginTop: 'auto',
+              paddingTop: 16,
               opacity: isActive ? 1 : 0,
-              transform: isActive ? 'translateX(0)' : 'translateX(-8px)',
+              transform: isActive ? 'translateX(0)' : 'translateX(-6px)',
               transition: 'opacity 0.35s ease, transform 0.35s ease',
             }}
           >
             <div
               style={{
-                width: 40,
-                height: 40,
+                width: 36,
+                height: 36,
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
@@ -231,7 +237,7 @@ function WheelCard({
                 flexShrink: 0,
               }}
             >
-              <ArrowRight size={17} />
+              <ArrowRight size={16} />
             </div>
             <span style={{ fontSize: 13, fontWeight: 700, color: service.color, letterSpacing: '0.02em' }}>
               Enter Protocol
@@ -256,6 +262,8 @@ export default function ServicesList({ services }: { services: Service[] }) {
   useEffect(() => {
     if (scrollContainerRef.current) {
       setContainerW(scrollContainerRef.current.clientWidth);
+      // Force scroll to start on mount to prevent showing 6th card first due to browser state
+      scrollContainerRef.current.scrollLeft = 0;
     }
     const onResize = () => {
       if (scrollContainerRef.current) setContainerW(scrollContainerRef.current.clientWidth);
@@ -269,8 +277,8 @@ export default function ServicesList({ services }: { services: Service[] }) {
     container: scrollContainerRef,
   });
 
-  // Smooth out the scroll for a buttery 3D feel
-  const smoothProgress = useSpring(scrollXProgress, { damping: 24, stiffness: 120, mass: 0.8 });
+  // Smooth out the scroll for a buttery physical wheel feel
+  const smoothProgress = useSpring(scrollXProgress, { damping: 20, stiffness: 90, mass: 0.6 });
   const total = services.length;
   const activeFloat = useTransform(smoothProgress, [0, 1], [0, total - 1]);
 
@@ -300,22 +308,24 @@ export default function ServicesList({ services }: { services: Service[] }) {
     [containerW]
   );
 
-  // Intercept vertical scroll and translate to horizontal scroll
+  // Intercept vertical scroll and translate to native horizontal scroll
   useEffect(() => {
     const el = scrollContainerRef.current;
     if (!el) return;
 
     const handleWheel = (e: WheelEvent) => {
+      // If the scroll is predominantly vertical
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         const isAtStart = el.scrollLeft <= 0;
         const maxScroll = el.scrollWidth - el.clientWidth;
         const isAtEnd = el.scrollLeft >= maxScroll - 1;
 
-        // Escape conditions
+        // Escape conditions - let the user naturally scroll down/up the rest of the webpage
         if ((isAtStart && e.deltaY < 0) || (isAtEnd && e.deltaY > 0)) {
           return;
         }
 
+        // Prevent vertical page scroll, convert to horizontal container scroll
         e.preventDefault();
         el.scrollBy({ left: e.deltaY * 1.5, behavior: 'auto' });
       }
@@ -325,7 +335,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
     return () => el.removeEventListener('wheel', handleWheel);
   }, [containerW]);
 
-  // Initial render guard to prevent 0-width calculations
+  // Initial render guard to prevent 0-width layout bugs
   if (containerW === 0) {
     return <div ref={scrollContainerRef} style={{ width: '100%', height: '100vh' }} />;
   }
@@ -333,10 +343,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
   return (
     <>
       <style dangerouslySetInnerHTML={{
-        __html: `
-          .hide-scrollbar::-webkit-scrollbar { display: none; }
-          .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        `
+        __html: ".hide-scrollbar::-webkit-scrollbar { display: none; }\n.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }"
       }} />
 
       {/* Seamless mesh-gradient transition overlay */}
@@ -355,7 +362,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
         />
       </div>
 
-      {/* Horizontal Scroll Container */}
+      {/* Robust Horizontal Scroll Container */}
       <div
         ref={scrollContainerRef}
         className="hide-scrollbar"
@@ -365,95 +372,96 @@ export default function ServicesList({ services }: { services: Service[] }) {
           overflowX: 'auto',
           overflowY: 'hidden',
           scrollSnapType: 'x mandatory',
-          position: 'relative',
         }}
       >
-        <div style={{ width: `${total * 100}%`, height: '100%', position: 'relative' }}>
+        <div style={{ width: `${total * 100}vw`, height: '100%', display: 'flex', position: 'relative' }}>
           
-          {/* Snap zones defining scroll width */}
-          <div style={{ display: 'flex', height: '100%', width: '100%' }}>
-            {services.map((_, i) => (
-              <div key={i} style={{ flexShrink: 0, width: containerW, height: '100%', scrollSnapAlign: 'center' }} />
-            ))}
-          </div>
+          {/* Snap zones defining the scrollable physical track */}
+          {services.map((_, i) => (
+            <div key={i} style={{ width: '100vw', height: '100%', flexShrink: 0, scrollSnapAlign: 'center' }} />
+          ))}
 
-          {/* Sticky Visual Carousel */}
-          <div
-            style={{
-              position: 'sticky',
-              left: 0,
-              top: 0,
-              width: containerW,
-              height: '100vh',
-              marginTop: '-100vh', // Overlay exactly over snap zones
-              pointerEvents: 'none', // Allow scrolling background
-              overflow: 'hidden',
-            }}
-          >
-            {/* Center Pivot */}
-            <div style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }}>
-              {/* Decorative dashed background arc */}
-              <svg
-                style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}
-                width={containerW < 768 ? containerW * 0.9 : containerW * 0.7}
-                height={containerW < 768 ? 400 : 700}
-              >
-                <ellipse
-                  cx="50%"
-                  cy="50%"
-                  rx={containerW < 768 ? containerW * 0.45 : containerW * 0.35}
-                  ry={containerW < 768 ? 200 : 350}
-                  fill="none"
-                  stroke="var(--border)"
-                  strokeWidth="1"
-                  strokeDasharray="4 14"
-                  opacity="0.3"
-                />
-              </svg>
-
-              {services.map((service, i) => (
-                <WheelCard
-                  key={service.id}
-                  service={service}
-                  index={i}
-                  total={total}
-                  activeFloat={activeFloat}
-                  isActive={i === activeIndex}
-                  containerW={containerW}
-                  onSelect={handleSelect}
-                  onFocus={handleFocus}
-                />
-              ))}
-            </div>
-
-            {/* Bottom progress dots */}
+          {/* Absolute overlay that tracks with the scrolling container bounds */}
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+            
+            {/* Sticky Visual Carousel - Always stays centered in the viewport */}
             <div
               style={{
-                position: 'absolute',
-                bottom: 40,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                display: 'flex',
-                gap: 8,
-                zIndex: 50,
-                pointerEvents: 'auto',
+                position: 'sticky',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                overflow: 'hidden',
               }}
             >
-              {services.map((_, i) => (
+              <div style={{ position: 'relative', width: '100%', height: '100%', pointerEvents: 'auto' }}>
+                
+                {/* Decorative dashed background arc */}
+                <svg
+                  style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}
+                  width={containerW < 768 ? containerW * 0.9 : containerW * 0.75}
+                  height={containerW < 768 ? 500 : 800}
+                >
+                  <ellipse
+                    cx="50%"
+                    cy="50%"
+                    rx={containerW < 768 ? containerW * 0.42 : containerW * 0.35}
+                    ry={containerW < 768 ? 250 : 400}
+                    fill="none"
+                    stroke="var(--border)"
+                    strokeWidth="1"
+                    strokeDasharray="4 14"
+                    opacity="0.25"
+                  />
+                </svg>
+
+                {/* Center Pivot for cards */}
+                <div style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }}>
+                  {services.map((service, i) => (
+                    <WheelCard
+                      key={service.id}
+                      service={service}
+                      index={i}
+                      total={total}
+                      activeFloat={activeFloat}
+                      isActive={i === activeIndex}
+                      containerW={containerW}
+                      onSelect={handleSelect}
+                      onFocus={handleFocus}
+                    />
+                  ))}
+                </div>
+
+                {/* Bottom progress dots */}
                 <div
-                  key={i}
-                  onClick={() => handleFocus(i)}
                   style={{
-                    width: i === activeIndex ? 28 : 7,
-                    height: 7,
-                    borderRadius: 99,
-                    backgroundColor: i === activeIndex ? services[activeIndex].color : 'var(--border)',
-                    cursor: 'pointer',
-                    transition: 'all 0.35s cubic-bezier(0.34,1.56,0.64,1)',
-                    boxShadow: i === activeIndex ? `0 0 10px ${services[activeIndex].color}80` : 'none',
+                    position: 'absolute',
+                    bottom: 40,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    display: 'flex',
+                    gap: 8,
+                    zIndex: 50,
                   }}
-                />
-              ))}
+                >
+                  {services.map((_, i) => (
+                    <div
+                      key={i}
+                      onClick={() => handleFocus(i)}
+                      style={{
+                        width: i === activeIndex ? 28 : 7,
+                        height: 7,
+                        borderRadius: 99,
+                        backgroundColor: i === activeIndex ? services[activeIndex].color : 'var(--border)',
+                        cursor: 'pointer',
+                        transition: 'all 0.35s cubic-bezier(0.34,1.56,0.64,1)',
+                        boxShadow: i === activeIndex ? `0 0 10px ${services[activeIndex].color}80` : 'none',
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
