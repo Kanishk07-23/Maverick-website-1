@@ -91,7 +91,7 @@ function WheelCard({
         <div className="flex-1 flex flex-col justify-center">
           <h2
             className="font-outfit font-black text-[var(--foreground)] leading-[0.95] mb-8 uppercase"
-            style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', letterSpacing: '-0.05em' }}
+            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.05em' }}
           >
             {service.title.split(' ').map((word, i) => (
               <span key={i} className="block">{word}</span>
@@ -119,7 +119,7 @@ function WheelCard({
 
 export default function ServicesList({ services }: { services: Service[] }) {
   const router = useRouter();
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [containerW, setContainerW] = useState(0);
@@ -131,14 +131,12 @@ export default function ServicesList({ services }: { services: Service[] }) {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
+  const { scrollXProgress } = useScroll({
+    container: scrollRef,
   });
 
   const total = services.length;
-  // We use a spring to make the wheel feel "weighty" and smooth
-  const smoothProgress = useSpring(scrollYProgress, { damping: 30, stiffness: 100, mass: 1 });
+  const smoothProgress = useSpring(scrollXProgress, { damping: 30, stiffness: 100, mass: 1 });
   const activeFloat = useTransform(smoothProgress, [0, 1], [0, total - 1]);
 
   useMotionValueEvent(activeFloat, 'change', (v) => {
@@ -154,80 +152,82 @@ export default function ServicesList({ services }: { services: Service[] }) {
   };
 
   return (
-    <div ref={sectionRef} className="relative" style={{ height: `${total * 100}vh` }}>
-      {/* Sticky Container */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[var(--background)]">
+    <div className="relative h-screen min-h-[700px] max-h-[1000px] w-full overflow-hidden bg-[var(--background)]">
+      {/* Flash Overlay */}
+      <div
+        className={`fixed inset-0 z-[100] pointer-events-none transition-all duration-700 ease-exo ${
+          isTransitioning ? 'bg-[var(--foreground)] opacity-100' : 'opacity-0'
+        }`}
+      />
+
+      {/* Massive Background Watermark */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0, scale: 0.8, filter: 'blur(20px)' }}
+            animate={{ opacity: 0.04, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
+            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+            className="font-outfit font-black uppercase text-center text-[var(--foreground)] leading-none whitespace-nowrap absolute"
+            style={{ fontSize: '40vw', letterSpacing: '-0.08em' }}
+          >
+            {services[activeIndex].id.split('-')[0]}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* 3D Wheel Perspective Wrapper */}
+      <div className="relative h-full w-full flex items-center justify-center" style={{ perspective: '2000px' }}>
+        <div className="absolute w-full h-px bg-[var(--border)] top-1/2 left-0 opacity-20 pointer-events-none" />
         
-        {/* Flash Overlay */}
-        <div
-          className={`fixed inset-0 z-[100] pointer-events-none transition-all duration-700 ease-exo ${
-            isTransitioning ? 'bg-[var(--foreground)] opacity-100' : 'opacity-0'
-          }`}
-        />
+        {services.map((service, i) => (
+          <WheelCard
+            key={service.id}
+            service={service}
+            index={i}
+            total={total}
+            activeFloat={activeFloat}
+            isActive={i === activeIndex}
+            containerW={containerW}
+            onSelect={handleSelect}
+          />
+        ))}
+      </div>
 
-        {/* Massive Background Watermark */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, scale: 0.8, filter: 'blur(20px)' }}
-              animate={{ opacity: 0.04, scale: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
-              transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-              className="font-outfit font-black uppercase text-center text-[var(--foreground)] leading-none whitespace-nowrap absolute"
-              style={{ fontSize: '40vw', letterSpacing: '-0.08em' }}
-            >
-              {services[activeIndex].id.split('-')[0]}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+      {/* Invisible Horizontal Scroll Rail */}
+      <div 
+        ref={scrollRef}
+        className="absolute inset-0 overflow-x-auto overflow-y-hidden opacity-0 z-40 hide-scrollbar cursor-ew-resize"
+      >
+        <div style={{ width: `${total * 100}%`, height: '100%' }} />
+      </div>
 
-        {/* 3D Wheel Perspective Wrapper */}
-        <div className="relative h-full w-full flex items-center justify-center" style={{ perspective: '2000px' }}>
-          {/* Decorative Horizontal Axis */}
-          <div className="absolute w-full h-px bg-[var(--border)] top-1/2 left-0 opacity-20 pointer-events-none" />
-          
-          {/* Cards */}
-          {services.map((service, i) => (
-            <WheelCard
-              key={service.id}
-              service={service}
-              index={i}
-              total={total}
-              activeFloat={activeFloat}
-              isActive={i === activeIndex}
-              containerW={containerW}
-              onSelect={handleSelect}
-            />
-          ))}
-        </div>
-
-        {/* Bottom Navigation Meta */}
-        <div className="absolute bottom-12 left-0 w-full px-6 md:px-10 flex items-end justify-between z-50">
-          <div className="flex flex-col gap-2">
-            <span className="label-sm opacity-50">Discovery Protocol</span>
-            <div className="flex gap-1.5">
-              {services.map((_, i) => (
-                <div
-                  key={i}
-                  className="h-[2px] transition-all duration-500 ease-exo"
-                  style={{
-                    width: i === activeIndex ? '40px' : '12px',
-                    backgroundColor: i === activeIndex ? 'var(--foreground)' : 'var(--border)',
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="text-right flex flex-col items-end gap-2">
-            <span className="label-sm opacity-50">Scroll to Explore</span>
-            <div className="w-px h-12 bg-[var(--border)] relative overflow-hidden">
-              <motion.div
-                className="absolute top-0 left-0 w-full bg-[var(--foreground)]"
-                style={{ height: '100%', scaleY: scrollYProgress, transformOrigin: 'top' }}
+      {/* Bottom Navigation Meta */}
+      <div className="absolute bottom-12 left-0 w-full px-6 md:px-10 flex items-end justify-between z-50 pointer-events-none">
+        <div className="flex flex-col gap-2">
+          <span className="label-sm opacity-50">Discovery Protocol</span>
+          <div className="flex gap-1.5">
+            {services.map((_, i) => (
+              <div
+                key={i}
+                className="h-[2px] transition-all duration-500 ease-exo"
+                style={{
+                  width: i === activeIndex ? '40px' : '12px',
+                  backgroundColor: i === activeIndex ? 'var(--foreground)' : 'var(--border)',
+                }}
               />
-            </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="text-right flex flex-col items-end gap-2">
+          <span className="label-sm opacity-50 uppercase tracking-widest">Swipe / Shift {'< >'}</span>
+          <div className="w-24 h-px bg-[var(--border)] relative overflow-hidden">
+            <motion.div
+              className="absolute top-0 left-0 h-full bg-[var(--foreground)]"
+              style={{ width: '100%', scaleX: scrollXProgress, transformOrigin: 'left' }}
+            />
           </div>
         </div>
       </div>

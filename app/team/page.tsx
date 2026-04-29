@@ -52,7 +52,7 @@ export default function TeamPage() {
           >
             <span className="label-sm block mb-10">Leadership Protocol</span>
             <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16 tracking-tighter"
-                style={{ fontSize: 'clamp(3.5rem, 10vw, 11rem)' }}>
+                style={{ fontSize: 'clamp(2.5rem, 10vw, 11rem)' }}>
               Two Founders.<br />
               <span className="text-[var(--muted-foreground)]">Zero Layers.</span>
             </h1>
@@ -123,7 +123,7 @@ export default function TeamPage() {
         <div className="max-w-4xl mx-auto">
           <span className="label-sm block mb-12">Collaborate</span>
           <h2 className="font-outfit font-black leading-[0.9] uppercase mb-16 tracking-tighter"
-            style={{ fontSize: 'clamp(3rem, 8vw, 8.5rem)' }}>
+            style={{ fontSize: 'clamp(2.2rem, 8vw, 8.5rem)' }}>
             Work with <br />
             <span className="text-[var(--muted-foreground)]">The Originals.</span>
           </h2>

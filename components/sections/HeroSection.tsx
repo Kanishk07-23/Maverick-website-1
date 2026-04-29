@@ -82,7 +82,7 @@ export default function HeroSection() {
           initial="hidden"
           animate="show"
           className="font-outfit font-black text-[var(--foreground)] uppercase select-none tracking-tighter"
-          style={{ fontSize: 'clamp(4.5rem, 16vw, 16rem)', lineHeight: 0.85 }}
+          style={{ fontSize: 'clamp(2.5rem, 13vw, 16rem)', lineHeight: 0.85 }}
         >
           <div className="overflow-hidden">
             <div className="flex flex-wrap gap-x-[0.2em]">

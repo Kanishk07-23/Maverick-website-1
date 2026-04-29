@@ -112,7 +112,7 @@ export default function ServicesPage() {
           <div className="max-w-5xl">
             <span className="label-sm block mb-8">Capabilities</span>
             <h1 className="font-outfit font-black text-[var(--foreground)] uppercase"
-              style={{ fontSize: 'clamp(3.5rem, 10vw, 10rem)', letterSpacing: '-0.04em', lineHeight: 0.9 }}>
+              style={{ fontSize: 'clamp(2.5rem, 8vw, 10rem)', letterSpacing: '-0.04em', lineHeight: 0.9 }}>
               Engineering<br />
               <span className="text-[var(--muted-foreground)]">Growth.</span>
             </h1>
@@ -141,7 +141,7 @@ export default function ServicesPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col items-center">
           <span className="label-sm mb-10">Next Steps</span>
           <h2 className="font-outfit font-black text-[var(--foreground)] uppercase mb-16"
-            style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', letterSpacing: '-0.04em', lineHeight: 0.9 }}>
+            style={{ fontSize: 'clamp(2.2rem, 7vw, 8rem)', letterSpacing: '-0.04em', lineHeight: 0.9 }}>
             Initiate<br />
             <span className="text-[var(--muted-foreground)]">Protocol.</span>
           </h2>

@@ -50,10 +50,10 @@ export default function ResultsSection() {
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="py-16 md:py-24 border-b md:border-b-0 md:border-r border-[var(--border)] last:border-r-0 lg:[&:nth-child(2)]:border-r"
+              className="py-16 md:py-24 border-b md:border-b-0 md:border-r border-[var(--border)] last:border-r-0 lg:[&:nth-child(2)]:border-r flex flex-col items-center justify-center text-center"
             >
               <div className="font-outfit font-black text-[var(--foreground)] leading-none tracking-tighter mb-4"
-                   style={{ fontSize: 'clamp(3.5rem, 6vw, 6rem)' }}>
+                   style={{ fontSize: 'clamp(3rem, 6vw, 6rem)' }}>
                 {stat.value}
               </div>
               <div className="label-sm opacity-50 uppercase">{stat.label}</div>

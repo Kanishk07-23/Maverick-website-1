@@ -56,7 +56,7 @@ export default function ProcessSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="font-outfit font-black text-[var(--foreground)] leading-none uppercase"
-          style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', letterSpacing: '-0.04em' }}
+          style={{ fontSize: 'clamp(2.2rem, 8vw, 8rem)', letterSpacing: '-0.04em' }}
         >
           Execution<br />
           <span className="text-[var(--muted-foreground)]">Algorithm.</span>

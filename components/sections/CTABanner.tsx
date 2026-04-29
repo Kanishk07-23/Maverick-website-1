@@ -24,7 +24,7 @@ export default function CTABanner() {
 
         <motion.h2
           className="font-outfit font-black text-[var(--foreground)] uppercase leading-none mb-16 md:mb-24 tracking-tighter"
-          style={{ fontSize: 'clamp(3.5rem, 11vw, 12rem)', lineHeight: 0.85 }}
+          style={{ fontSize: 'clamp(2.5rem, 10vw, 12rem)', lineHeight: 0.85 }}
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
