@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import ProcessSection from '@/components/sections/ProcessSection';
 import ServicesList from '@/components/sections/ServicesList';
 
@@ -12,9 +11,9 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    id: 'personal-branding',
+    id: 'brand',
     title: 'Personal Branding',
-    tagline: 'Strategy, ghostwriting, content systems for founders & creators',
+    tagline: 'Strategy, ghostwriting, content systems for founders',
     desc: "Build an undeniable online presence that attracts opportunities, builds trust, and converts followers into customers. We position you as the most trusted authority in your industry.",
     features: [
       'Brand Strategy Development & Positioning',
@@ -24,13 +23,13 @@ const services = [
       'Social Media Presence Audit & Optimization',
       'Personal Brand Style Guide',
     ],
-    color: '#7C3AED',
-    badge: 'Most Popular',
+    color: '#000000', // Unused in pure brutalism, kept for data structure
+    badge: 'Popular',
   },
   {
-    id: 'social-media',
-    title: 'Social Media Management',
-    tagline: 'Done-for-you content, growth, and analytics across platforms',
+    id: 'social',
+    title: 'Social Media',
+    tagline: 'Done-for-you content, growth, and analytics',
     desc: 'Stop spending hours on social media with little to show for it. We create, publish and optimize content across all major platforms so you can focus on running your business.',
     features: [
       'Monthly Content Planning & Calendar',
@@ -40,13 +39,13 @@ const services = [
       'Monthly Analytics & Performance Reporting',
       'Multi-Platform Scheduling & Publishing',
     ],
-    color: '#6D28D9',
+    color: '#000000',
   },
   {
-    id: 'web-dev',
-    title: 'Website & App Development',
-    tagline: 'High-performance sites, e-commerce, and custom web apps',
-    desc: "Your website is your 24/7 salesperson. We build fast, beautiful, conversion-optimized digital products that don&apos;t just look good — they generate revenue.",
+    id: 'web',
+    title: 'Web & App Dev',
+    tagline: 'High-performance sites and custom web apps',
+    desc: "Your website is your 24/7 salesperson. We build fast, beautiful, conversion-optimized digital products that don't just look good — they generate revenue.",
     features: [
       'Custom Web Design & Development',
       'E-commerce Store (Shopify / Custom)',
@@ -55,12 +54,12 @@ const services = [
       'CMS Integration (Headless or Traditional)',
       'SEO-Ready Architecture',
     ],
-    color: '#4F46E5',
+    color: '#000000',
   },
   {
-    id: 'seo-sem',
+    id: 'seo',
     title: 'SEO & SEM',
-    tagline: 'Keyword strategy, optimization, Google Ads, and inbound lead engines',
+    tagline: 'Search optimization and inbound lead engines',
     desc: 'Get found when your customers are searching. Our technical SEO and search advertising strategies drive qualified traffic that converts into real revenue.',
     features: [
       'Technical SEO Audit & Remediation',
@@ -70,12 +69,12 @@ const services = [
       'Local SEO Optimization & GBP Setup',
       'Monthly Ranking & Traffic Reports',
     ],
-    color: '#2563EB',
+    color: '#000000',
   },
   {
-    id: 'performance-marketing',
+    id: 'perf',
     title: 'Performance Marketing',
-    tagline: 'ROI-first Meta & Google campaigns with funnel-driven execution',
+    tagline: 'ROI-first Meta & Google campaigns',
     desc: 'Stop guessing and start knowing your ROAS. We build data-driven paid advertising campaigns with clear targeting, compelling creatives, and relentless optimization.',
     features: [
       'Meta Ads (Facebook & Instagram) Management',
@@ -85,12 +84,12 @@ const services = [
       'Conversion Rate Optimization (CRO)',
       'Real-Time ROI Tracking & Dashboards',
     ],
-    color: '#1D4ED8',
+    color: '#000000',
   },
   {
-    id: 'branding-strategy',
-    title: 'Branding & Strategy',
-    tagline: 'Identity, messaging, GTM launches, and positioning frameworks',
+    id: 'identity',
+    title: 'Brand Identity',
+    tagline: 'Visual messaging, GTM launches, and positioning',
     desc: 'Your brand is more than a logo. We build complete brand identities — from visual design and messaging to go-to-market strategy — that create lasting impressions.',
     features: [
       'Brand Identity Design (Logo, Colors, Typography)',
@@ -100,100 +99,61 @@ const services = [
       'Brand Style & Usage Guidelines',
       'Rebranding & Brand Refresh',
     ],
-    color: '#7C3AED',
+    color: '#000000',
   },
 ];
 
 export default function ServicesPage() {
   return (
-    <div className="pt-20">
-      {/* Hero */}
-      <section className="section-padding mesh-gradient relative overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 mb-6">
-              What We Do
-            </span>
-            <h1 className="font-outfit font-black text-foreground mb-6"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', letterSpacing: '-0.03em' }}>
-              End-to-End{' '}
-              <span className="gradient-text">Digital Solutions</span>
+    <div className="bg-[var(--background)]">
+      {/* Editorial Hero */}
+      <section className="pt-40 pb-20 md:pt-48 md:pb-28 relative overflow-hidden border-b border-[var(--border)]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
+          <div className="max-w-5xl">
+            <span className="label-sm block mb-8">Capabilities</span>
+            <h1 className="font-outfit font-black text-[var(--foreground)] uppercase"
+              style={{ fontSize: 'clamp(3.5rem, 10vw, 10rem)', letterSpacing: '-0.04em', lineHeight: 0.9 }}>
+              Engineering<br />
+              <span className="text-[var(--muted-foreground)]">Growth.</span>
             </h1>
-            <p className="text-muted-foreground text-xl leading-relaxed">
-              Six specialized service pillars designed to work individually or as a fully integrated growth system.
-              Every service is delivered with a founder-led, performance-first mindset.
-            </p>
+            <div className="mt-12 md:mt-16 flex flex-col md:flex-row gap-8 md:gap-24 border-t border-[var(--border)] pt-10">
+              <p className="text-[var(--muted-foreground)] text-lg md:text-xl leading-relaxed flex-1 font-medium">
+                Six specialized service pillars designed to work individually or as a fully integrated growth system.
+                Zero fluff. Just aggressive execution.
+              </p>
+              <div className="flex-1 flex items-start gap-4 text-sm font-bold text-[var(--foreground)] uppercase tracking-widest">
+                [ Protocol Active ]
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Services — 3D flip carousel */}
-      <section className="py-20 overflow-visible">
-        <div className="max-w-7xl mx-auto px-6 overflow-visible">
-          <ServicesList services={services} />
-        </div>
+      {/* Services — Brutalist 3D Carousel */}
+      <section className="relative overflow-visible bg-[var(--background)]">
+        <ServicesList services={services} />
       </section>
 
       <ProcessSection />
 
-      {/* CTA */}
-      <section className="py-24 text-center">
-        <div className="max-w-2xl mx-auto px-6">
-          <h2 className="font-outfit font-bold text-foreground text-4xl mb-4">
-            Ready to Discuss Your{' '}
-            <span className="gradient-text">Project?</span>
+      {/* Massive CTA */}
+      <section className="py-32 md:py-48 text-center border-t border-[var(--border)]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col items-center">
+          <span className="label-sm mb-10">Next Steps</span>
+          <h2 className="font-outfit font-black text-[var(--foreground)] uppercase mb-16"
+            style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', letterSpacing: '-0.04em', lineHeight: 0.9 }}>
+            Initiate<br />
+            <span className="text-[var(--muted-foreground)]">Protocol.</span>
           </h2>
-          <p className="text-muted-foreground mb-8">
-            Book a free 30-minute strategy consultation with our founders.
-          </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white hover:scale-105 transition-all"
-            style={{ background: 'var(--gradient-brand)' }}
+            className="inline-flex items-center gap-2 px-10 py-5 rounded-full text-base font-semibold text-white btn-magnetic"
+            style={{ background: 'var(--foreground)', color: 'var(--background)' }}
           >
-            Book Free Consultation <ArrowRight size={18} />
+            Book Free Strategy Call →
           </Link>
         </div>
       </section>
-
-      {/* Schema.org */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            {
-              '@context': 'https://schema.org',
-              '@type': 'ItemList',
-              name: 'Maverick Digitals Services',
-              itemListElement: services.map((s, i) => ({
-                '@type': 'ListItem',
-                position: i + 1,
-                name: s.title,
-                description: s.desc,
-                url: `https://www.maverickdigitals.co.in/services/${s.id}`
-              })),
-            },
-            {
-              '@context': 'https://schema.org',
-              '@type': 'BreadcrumbList',
-              itemListElement: [
-                {
-                  '@type': 'ListItem',
-                  position: 1,
-                  name: 'Home',
-                  item: 'https://www.maverickdigitals.co.in/'
-                },
-                {
-                  '@type': 'ListItem',
-                  position: 2,
-                  name: 'Services',
-                  item: 'https://www.maverickdigitals.co.in/services'
-                }
-              ]
-            }
-          ]),
-        }}
-      />
     </div>
   );
 }
