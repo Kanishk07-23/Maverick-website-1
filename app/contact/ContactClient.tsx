@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, MapPin, CheckCircle2, ChevronRight, Sparkles, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, ChevronRight, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
 
@@ -16,11 +16,9 @@ const schema = z.object({
   company: z.string().max(100).optional(),
   service: z.string().min(1, 'Please select a protocol'),
   message: z.string().min(20, 'Tell us more (min 20 chars)').max(2000),
-  // Honeypot — hidden from real users, must stay empty
   website: z.string().optional(),
 });
 
-// Turnstile site key — this is the PUBLIC key (safe to expose client-side)
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '';
 
 type FormData = z.infer<typeof schema>;
@@ -37,30 +35,13 @@ const services = [
 
 const roadmap = [
   { id: '01', title: 'Intake', desc: 'Protocol audit & data diving.' },
-  { id: '02', title: 'Strategy', desc: 'Bespoke growth roadmap architecture.' },
+  { id: '02', title: 'Strategy', desc: 'Bespoke roadmap architecture.' },
   { id: '03', title: 'Execution', desc: 'Surgical deployment & scaling.' },
-];
-
-const faqs = [
-  {
-    q: 'How do we begin?',
-    a: 'We start with a high-bandwidth strategy call to audit your current trajectory and identify leverage points.',
-  },
-  {
-    q: 'What about ROI?',
-    a: 'We only track business outcomes. Impressions are vanity; revenue is sanity.',
-  },
-  {
-    q: 'Direct access?',
-    a: 'Always. You communicate directly with the founders, not an intern or account manager.',
-  },
 ];
 
 export default function ContactClient() {
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
-  // Turnstile state
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileExpired, setTurnstileExpired] = useState(false);
   const turnstileRef = useRef<TurnstileInstance>(null);
@@ -71,257 +52,146 @@ export default function ContactClient() {
 
   const onSubmit = async (data: FormData) => {
     setSubmitError(null);
-
     if (!turnstileToken || turnstileExpired) {
-      setSubmitError('Please wait for the security check to complete.');
+      setSubmitError('Please wait for security verification.');
       turnstileRef.current?.reset();
       return;
     }
-
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, turnstileToken }),
       });
-
-      if (res.status === 429) {
-        const retryAfter = res.headers.get('Retry-After');
-        const mins = retryAfter ? Math.ceil(Number(retryAfter) / 60) : 15;
-        setSubmitError(`Too many submissions. Please wait ${mins} minute${mins !== 1 ? 's' : ''} before trying again.`);
-        return;
-      }
-
-      if (!res.ok) {
-        const json = await res.json().catch(() => ({}));
-        setSubmitError((json as { error?: string }).error ?? 'Something went wrong. Please email us directly.');
-        return;
-      }
-
+      if (!res.ok) throw new Error();
       setSubmitted(true);
     } catch {
-      setSubmitError('Network error. Please check your connection and try again.');
+      setSubmitError('Transmission failed. Please try again or email us.');
     }
   };
 
   return (
-    <div className="bg-[var(--background)] min-h-screen pt-32 pb-24 selection:bg-purple-500/30">
-      
-      {/* Noise Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-[100] opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+    <div className="bg-[var(--background)] min-h-screen">
+      {/* Editorial Header */}
+      <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">
+        <div className="max-w-[1400px] mx-auto">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <span className="label-sm block mb-10">[ Protocol Initialization ]</span>
+            <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16 tracking-tighter"
+                style={{ fontSize: 'clamp(3.5rem, 11vw, 13rem)' }}>
+              Start the<br />
+              <span className="text-[var(--muted-foreground)]">Uprising.</span>
+            </h1>
+          </motion.div>
+          <div className="max-w-2xl border-t border-[var(--border)] pt-12">
+            <p className="text-[var(--muted-foreground)] text-xl md:text-2xl leading-relaxed font-medium">
+              Ready to scale? Connect with our strategic architects. No salespeople, no account managers. Just direct execution.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-20">
-        
-        {/* Left Column: Asymmetrical Heading & Roadmap */}
-        <div className="lg:col-span-5">
-           <motion.div
-             initial={{ opacity: 0, x: -20 }}
-             animate={{ opacity: 1, x: 0 }}
-             transition={{ duration: 0.8 }}
-           >
-              <span className="font-semibold text-xs tracking-widest text-purple-500 uppercase mb-8 block">
-                [ Intake Portal ]
-              </span>
-              <h1 className="font-outfit font-bold text-foreground leading-[0.9] mb-12"
-                  style={{ fontSize: 'clamp(3rem, 6vw, 6rem)', letterSpacing: '-0.04em' }}>
-                Initiate<br />
-                <span className="gradient-text">Protocol.</span>
-              </h1>
-
-              {/* The "Roadmap to Scale" - Bespoke visual */}
-              <div className="space-y-12 relative">
-                 <div className="absolute left-4 top-4 bottom-4 w-[1px] bg-border z-0" />
-                 {roadmap.map((step, i) => (
-                   <motion.div 
-                    key={step.id}
-                    onMouseEnter={() => setHoveredStep(i)}
-                    onMouseLeave={() => setHoveredStep(null)}
-                    className="relative z-10 flex items-start gap-8 group"
-                   >
-                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-semibold text-xs border transition-all duration-500 ${hoveredStep === i ? 'bg-purple-500 border-purple-500 text-white scale-125' : 'bg-[var(--background)] border-border text-muted-foreground'}`}>
-                        {step.id}
-                      </div>
-                      <div>
-                         <h3 className="font-outfit font-bold text-xl uppercase mb-1 group-hover:text-purple-500 transition-colors">{step.title}</h3>
-                         <p className="text-muted-foreground text-sm max-w-[200px]">{step.desc}</p>
-                      </div>
-                   </motion.div>
-                 ))}
+      <section className="py-24 md:py-40 px-6 md:px-10">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20">
+          
+          {/* Left: Intel */}
+          <div className="lg:col-span-4 border-r border-[var(--border)] pr-12 hidden lg:block">
+            <div className="sticky top-40 space-y-24">
+              <div>
+                <span className="label-sm block mb-12">Operational Flow</span>
+                <div className="space-y-12">
+                  {roadmap.map((step) => (
+                    <div key={step.id} className="group">
+                      <div className="label-sm opacity-30 mb-4 group-hover:opacity-100 transition-opacity">[{step.id}]</div>
+                      <h3 className="font-outfit font-black text-2xl uppercase tracking-tighter mb-2">{step.title}</h3>
+                      <p className="label-sm opacity-50 uppercase">{step.desc}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-
-              {/* Unique contact accents */}
-              <div className="mt-24 pt-12 border-t border-border">
-                 <div className="flex flex-col gap-6 font-semibold text-xs uppercase tracking-widest text-muted-foreground">
-                    <div className="flex items-center gap-4">
-                       <Mail size={12} className="text-purple-500" /> maverickdigitals18@gmail.com
-                    </div>
-                    <div className="flex items-center gap-4">
-                       <MapPin size={12} className="text-purple-500" /> Mumbai / Global
-                    </div>
+              
+              <div className="pt-12 border-t border-[var(--border)]">
+                 <span className="label-sm block mb-8">Direct Access</span>
+                 <div className="space-y-4">
+                    <p className="font-outfit font-black text-xl uppercase tracking-tighter">maverickdigitals18@gmail.com</p>
+                    <p className="label-sm opacity-50 uppercase">Mumbai HQ // Global Operations</p>
                  </div>
               </div>
-           </motion.div>
-        </div>
+            </div>
+          </div>
 
-        {/* Right Column: The "Intake Portal" Form */}
-        <div className="lg:col-span-7">
-           <AnimatePresence mode="wait">
-             {submitted ? (
-               <motion.div 
-                 initial={{ opacity: 0, scale: 0.95 }}
-                 animate={{ opacity: 1, scale: 1 }}
-                 className="h-full flex flex-col items-center justify-center py-20 px-8 text-center bg-muted rounded-3xl border border-border"
-               >
-                  <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mb-8">
-                    <CheckCircle2 size={40} className="text-green-500" />
-                  </div>
-                  <h2 className="font-outfit font-black text-4xl uppercase mb-4">Transmission Received</h2>
-                  <p className="text-muted-foreground text-lg mb-8 max-w-sm">
-                    Strategic architects are auditing your request. Expect a response within 24 operational hours.
-                  </p>
-                  <button onClick={() => setSubmitted(false)} className="font-semibold text-xs uppercase tracking-widest text-purple-500 hover:opacity-70 transition-opacity">
-                    Send another transmission
-                  </button>
-               </motion.div>
-             ) : (
-               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-card border border-border rounded-[2.5rem] p-8 md:p-14 shadow-2xl relative overflow-hidden"
-               >
-                  <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-                     <Sparkles size={120} />
+          {/* Right: Intake Form */}
+          <div className="lg:col-span-8">
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-40 text-center border border-[var(--border)]">
+                  <CheckCircle2 size={64} className="mx-auto mb-10 opacity-20" />
+                  <h2 className="font-outfit font-black text-5xl uppercase tracking-tighter mb-6">Transmission Received</h2>
+                  <p className="label-sm opacity-50 uppercase max-w-sm mx-auto">Strategic audit in progress. Response expected within 24 hours.</p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-12 md:space-y-20">
+                  <div className="grid md:grid-cols-2 gap-12 md:gap-20">
+                    <div className="relative border-b border-[var(--border)] focus-within:border-[var(--foreground)] transition-colors">
+                      <label className="label-sm opacity-50 uppercase mb-4 block">Identity</label>
+                      <input {...register('fullName')} className="w-full bg-transparent py-4 font-outfit font-black text-2xl md:text-3xl uppercase tracking-tighter focus:outline-none placeholder:opacity-10" placeholder="John Wick" />
+                    </div>
+                    <div className="relative border-b border-[var(--border)] focus-within:border-[var(--foreground)] transition-colors">
+                      <label className="label-sm opacity-50 uppercase mb-4 block">Node / Email</label>
+                      <input {...register('email')} className="w-full bg-transparent py-4 font-outfit font-black text-2xl md:text-3xl uppercase tracking-tighter focus:outline-none placeholder:opacity-10" placeholder="john@wick.com" />
+                    </div>
                   </div>
 
-                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 relative z-10 text-foreground">
+                  <div className="grid md:grid-cols-2 gap-12 md:gap-20">
+                    <div className="relative border-b border-[var(--border)] focus-within:border-[var(--foreground)] transition-colors">
+                      <label className="label-sm opacity-50 uppercase mb-4 block">Tactical / Phone</label>
+                      <input {...register('phone')} className="w-full bg-transparent py-4 font-outfit font-black text-2xl md:text-3xl uppercase tracking-tighter focus:outline-none placeholder:opacity-10" placeholder="+91 XXX" />
+                    </div>
+                    <div className="relative border-b border-[var(--border)] focus-within:border-[var(--foreground)] transition-colors">
+                      <label className="label-sm opacity-50 uppercase mb-4 block">Protocol Selection</label>
+                      <select {...register('service')} className="w-full bg-transparent py-4 font-outfit font-black text-2xl md:text-3xl uppercase tracking-tighter focus:outline-none appearance-none cursor-pointer">
+                        <option value="" className="bg-[var(--background)]">Select Protocol</option>
+                        {services.map(s => <option key={s} value={s} className="bg-[var(--background)]">{s}</option>)}
+                      </select>
+                    </div>
+                  </div>
 
-                    {/* ── Honeypot field — hidden from real users, traps bots ── */}
-                    <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', top: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
-                      <label htmlFor="website_hp">Leave this field empty</label>
-                      <input
-                        id="website_hp"
-                        type="text"
-                        autoComplete="off"
-                        tabIndex={-1}
-                        {...register('website')}
+                  <div className="relative border-b border-[var(--border)] focus-within:border-[var(--foreground)] transition-colors">
+                    <label className="label-sm opacity-50 uppercase mb-4 block">Objective Description</label>
+                    <textarea {...register('message')} rows={1} className="w-full bg-transparent py-4 font-outfit font-black text-2xl md:text-3xl uppercase tracking-tighter focus:outline-none placeholder:opacity-10 resize-none overflow-hidden" placeholder="Describe the Target..." />
+                  </div>
+
+                  {submitError && (
+                    <div className="flex items-center gap-4 text-red-500 label-sm uppercase font-black">
+                      <AlertTriangle size={20} /> {submitError}
+                    </div>
+                  )}
+
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+                    <div className="flex items-center gap-4">
+                      <ShieldCheck className="opacity-20" size={24} />
+                      <Turnstile 
+                        ref={turnstileRef} 
+                        siteKey={TURNSTILE_SITE_KEY} 
+                        onSuccess={setTurnstileToken} 
+                        onExpire={() => setTurnstileToken(null)}
+                        options={{ theme: 'auto', size: 'compact' }}
                       />
                     </div>
-
-                    <div className="grid md:grid-cols-2 gap-8">
-                       <div className="group relative">
-                          <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Identity</label>
-                          <input {...register('fullName')} maxLength={80} autoComplete="name" className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="John Wick" />
-                          {errors.fullName && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.fullName.message}</span>}
-                       </div>
-                       <div className="group relative">
-                          <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Transmission Node</label>
-                          <input {...register('email')} maxLength={254} type="email" autoComplete="email" className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="john@continental.com" />
-                          {errors.email && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.email.message}</span>}
-                       </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-8">
-                       <div className="group relative">
-                          <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Tactical Direct</label>
-                          <input {...register('phone')} maxLength={20} type="tel" autoComplete="tel" className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="+91 XXXX XXXX" />
-                          {errors.phone && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.phone.message}</span>}
-                       </div>
-                       <div className="group relative">
-                          <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Organization</label>
-                          <input {...register('company')} maxLength={100} autoComplete="organization" className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="Continental Inc." />
-                       </div>
-                    </div>
-
-                    <div className="group relative">
-                       <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Protocol Selection</label>
-                       <select {...register('service')} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium appearance-none cursor-pointer px-0 rounded-none h-auto text-foreground">
-                          <option value="" className="text-foreground bg-background">Select Protocol...</option>
-                          {services.map(s => <option key={s} value={s} className="text-foreground bg-background">{s}</option>)}
-                       </select>
-                    </div>
-
-                    <div className="group relative">
-                       <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mb-2 block transition-colors group-focus-within:text-purple-500">Objective Description</label>
-                       <textarea {...register('message')} maxLength={2000} rows={4} className="w-full bg-transparent border-b-2 border-border py-4 outline-none focus:border-purple-500 transition-colors font-medium resize-none placeholder:text-muted-foreground/30 px-0 rounded-none h-auto text-foreground" placeholder="Tell us about the target goal..." />
-                       {errors.message && <span className="text-[10px] text-red-500 font-semibold mt-1 block">{errors.message.message}</span>}
-                    </div>
-
-                    {/* ── API-level error display ── */}
-                    {submitError && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20"
-                      >
-                        <AlertTriangle size={16} className="text-red-500 mt-0.5 shrink-0" />
-                        <p className="text-red-500 text-xs font-semibold leading-relaxed">{submitError}</p>
-                      </motion.div>
-                    )}
-
-                    {/* ── Cloudflare Turnstile widget ── */}
-                    {TURNSTILE_SITE_KEY ? (
-                      <div className="flex flex-col gap-3">
-                        <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
-                          <ShieldCheck size={12} className="text-purple-500" />
-                          Security Verification
-                        </div>
-                        <Turnstile
-                          ref={turnstileRef}
-                          siteKey={TURNSTILE_SITE_KEY}
-                          onSuccess={(token) => {
-                            setTurnstileToken(token);
-                            setTurnstileExpired(false);
-                          }}
-                          onExpire={() => {
-                            setTurnstileToken(null);
-                            setTurnstileExpired(true);
-                          }}
-                          onError={() => {
-                            setTurnstileToken(null);
-                            setTurnstileExpired(true);
-                            setSubmitError('Security check failed. Please refresh the page.');
-                          }}
-                          options={{
-                            theme: 'auto',
-                            size: 'compact',
-                            language: 'en',
-                          }}
-                        />
-                      </div>
-                    ) : null}
-
                     <button 
                       type="submit" 
-                      disabled={isSubmitting || (!!TURNSTILE_SITE_KEY && (!turnstileToken || turnstileExpired))}
-                      className="w-full py-6 rounded-2xl text-white font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:scale-[0.98] active:scale-95 transition-all disabled:opacity-50 mt-4 shadow-xl btn-magnetic"
-                      style={{ background: 'var(--gradient-brand)' }}
+                      disabled={isSubmitting} 
+                      className="w-full md:w-auto px-16 py-8 rounded-full bg-[var(--foreground)] text-[var(--background)] font-black uppercase tracking-widest text-xl hover:scale-105 transition-transform disabled:opacity-50"
                     >
                       {isSubmitting ? 'Transmitting...' : 'Establish Connection'}
-                      <ChevronRight size={20} className="text-purple-500" />
                     </button>
-                  </form>
-               </motion.div>
-             )}
-           </AnimatePresence>
-
-           {/* Magazine-Style FAQ Sidebar/Bottom section */}
-           <div className="mt-20">
-              <div className="grid md:grid-cols-3 gap-8">
-                 {faqs.map(faq => (
-                   <div key={faq.q} className="group cursor-default">
-                      <h4 className="font-outfit font-bold text-foreground text-sm uppercase mb-3 flex items-center gap-2 group-hover:text-purple-500 transition-colors">
-                         <span className="w-1 h-3 bg-purple-500 block" /> {faq.q}
-                      </h4>
-                      <p className="text-muted-foreground text-xs leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        {faq.a}
-                      </p>
-                   </div>
-                 ))}
-              </div>
-           </div>
+                  </div>
+                </form>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-
-      </div>
+      </section>
     </div>
   );
 }

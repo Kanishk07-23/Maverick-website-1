@@ -1,81 +1,54 @@
-/* -------------------------------------------------------
-   Client Logos Section — Admin-Fillable
-   To add company logos, insert objects into the CLIENTS array:
-     { id, name, logo }  (logo = path to /public/images/)
-   -------------------------------------------------------*/
 'use client';
 import { Plus } from 'lucide-react';
-import Reveal from '@/components/Reveal';
 
-// =============================================
-// ADMIN: ADD CLIENT LOGOS HERE
-// =============================================
 const CLIENTS: Array<{
   id: string;
   name: string;
-  logo?: string; // path relative to /public, e.g. '/images/client-logo.png'
+  logo?: string;
 }> = [
-  // Example (uncomment to use):
-  // { id: '1', name: 'TechCorp', logo: '/images/client-techcorp.png' },
-  // { id: '2', name: 'StartupXYZ', logo: '/images/client-startupxyz.png' },
+  // { id: '1', name: 'Example Brand', logo: '/images/client-logo.png' },
 ];
-// =============================================
-
-const EMPTY_STATE = () => (
-  <div className="flex flex-col items-center justify-center py-16 px-6 glass-card rounded-2xl border border-dashed border-border">
-    <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4"
-      style={{ background: 'rgba(124,58,237,0.12)' }}>
-      <Plus size={22} className="text-[var(--brand-purple)]" />
-    </div>
-    <p className="text-muted-foreground text-sm text-center max-w-xs">
-      Client logos will appear here. Add entries to the <code className="text-[var(--brand-purple)]">CLIENTS</code> array in <code className="text-[var(--brand-purple)]">ClientsSection.tsx</code>.
-    </p>
-  </div>
-);
 
 export default function ClientsSection() {
   const doubled = [...CLIENTS, ...CLIENTS];
 
   return (
-    <section className="py-20 relative border-y border-border" id="clients">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <Reveal direction="up">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[var(--brand-purple)] glass-card border border-border/40 text-muted-foreground mb-4">
-              Trusted By
-            </span>
-            <h2 className="font-outfit font-bold text-foreground mb-3"
-              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)' }}>
-              Brands We&apos;ve Helped{' '}
-              <span className="gradient-text">Scale</span>
+    <section className="py-24 md:py-32 bg-[var(--background)] border-t border-[var(--border)]" id="clients">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10">
+        
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24">
+          <div className="max-w-2xl">
+            <span className="label-sm block mb-8">Client Ecosystem</span>
+            <h2 className="font-outfit font-black text-[var(--foreground)] uppercase leading-none"
+                style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', letterSpacing: '-0.04em' }}>
+              Trusted by the<br />
+              <span className="text-[var(--muted-foreground)]">Category Leaders.</span>
             </h2>
-            <p className="text-muted-foreground text-sm">
-              40+ companies across India, UAE, USA, UK & Australia
-            </p>
           </div>
-        </Reveal>
+          <div className="label-sm opacity-50 uppercase tracking-[0.2em] md:text-right">
+            40+ Global Partnerships<br />
+            India {'//'} UAE {'//'} USA {'//'} UK
+          </div>
+        </div>
 
         {CLIENTS.length === 0 ? (
-          <EMPTY_STATE />
+          <div className="py-20 border border-dashed border-[var(--border)] flex flex-col items-center justify-center grayscale opacity-50">
+             <Plus className="mb-4 opacity-20" size={32} />
+             <p className="label-sm">No Active Partnerships Tracked</p>
+          </div>
         ) : (
-          <div className="marquee-container relative">
+          <div className="relative overflow-hidden group">
             {/* Fade edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-24 z-10"
-              style={{ background: 'linear-gradient(to right, var(--brand-dark), transparent)' }} />
-            <div className="absolute right-0 top-0 bottom-0 w-24 z-10"
-              style={{ background: 'linear-gradient(to left, var(--brand-dark), transparent)' }} />
+            <div className="absolute left-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-r from-[var(--background)] to-transparent" />
+            <div className="absolute right-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-l from-[var(--background)] to-transparent" />
 
-            <div className="marquee-track">
+            <div className="flex animate-marquee whitespace-nowrap gap-12 md:gap-24 items-center">
               {doubled.map((c, i) => (
-                <div
-                  key={`${c.id}-${i}`}
-                  className="flex-shrink-0 glass-card rounded-xl px-8 py-4 border border-border flex items-center gap-3 hover:border-purple-500/30 transition-colors"
-                >
+                <div key={`${c.id}-${i}`} className="flex-shrink-0 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
                   {c.logo ? (
-                    <img src={c.logo} alt={c.name} className="h-8 object-contain filter brightness-75 hover:brightness-100 transition-all" />
+                    <img src={c.logo} alt={c.name} className="h-10 md:h-12 w-auto object-contain" />
                   ) : (
-                    <span className="text-muted-foreground text-sm font-medium whitespace-nowrap">{c.name}</span>
+                    <span className="font-outfit font-black text-2xl md:text-3xl uppercase tracking-tighter">{c.name}</span>
                   )}
                 </div>
               ))}

@@ -5,46 +5,40 @@ import Link from 'next/link';
 
 const services = [
   {
-    id: 'perf',
+    id: 'performance-marketing',
     num: '01',
     title: 'Performance Marketing',
     desc: 'Data-driven ad campaigns on Meta & Google designed purely for massive ROI. We don\'t care about clicks — we care about actual revenue.',
-    href: '/services/performance-marketing',
   },
   {
-    id: 'seo',
+    id: 'seo-sem',
     num: '02',
     title: 'SEO & SEM',
     desc: 'Dominate search engines. We reconstruct your digital architecture so high-intent customers find you exactly when they\'re ready to buy.',
-    href: '/services/seo-sem',
   },
   {
-    id: 'social',
+    id: 'social-media',
     num: '03',
     title: 'Social Media',
     desc: 'We transform boring brand pages into magnetic community hubs. 15M+ organic views generated for our clients so far.',
-    href: '/services/social-media',
   },
   {
-    id: 'brand',
+    id: 'branding-strategy',
     num: '04',
-    title: 'Branding & Strategy',
+    title: 'Brand Identity',
     desc: 'Your brand is not just a logo. We craft distinct visual and narrative identities that command higher prices in the marketplace.',
-    href: '/services/branding-strategy',
   },
   {
-    id: 'web',
+    id: 'web-dev',
     num: '05',
-    title: 'Web & App Development',
+    title: 'Web & App Dev',
     desc: 'Beautiful websites are useless if they don\'t convert. We build lightning-fast web experiences engineered specifically to sell.',
-    href: '/services/web-dev',
   },
   {
-    id: 'personal',
+    id: 'personal-branding',
     num: '06',
     title: 'Personal Branding',
     desc: 'People buy from people. We scale your personal brand on LinkedIn and Twitter to open high-level B2B opportunities.',
-    href: '/services/personal-branding',
   },
 ];
 
@@ -58,79 +52,30 @@ function ServiceRow({ service, index }: { service: typeof services[0]; index: nu
       ref={ref}
       initial={{ opacity: 0 }}
       animate={inView ? { opacity: 1 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.05 }}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
     >
       <Link
-        href={service.href}
+        href={`/services/${service.id}`}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="block group"
+        className="block group relative border-t border-[var(--border)] overflow-hidden transition-colors hover:bg-[var(--foreground)] hover:text-[var(--background)]"
       >
-        <div className="relative py-7 md:py-8 border-t border-[var(--border)] overflow-hidden">
-          {/* Hover fill — subtle */}
-          <motion.div
-            className="absolute inset-0 pointer-events-none"
-            animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -20 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-            style={{ background: 'var(--muted)' }}
-          />
-
-          <div className="relative z-10 flex items-start gap-6 md:gap-10 md:items-center">
-            {/* Number */}
-            <span
-              className="label-sm flex-shrink-0 pt-1 md:pt-0 tabular-nums"
-              style={{ minWidth: 28 }}
-            >
-              {service.num}
+        <div className="relative py-12 md:py-20 px-6 md:px-10 z-10 flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-24">
+          <div className="flex items-center gap-10 md:gap-20">
+            <span className="label-sm opacity-50 block md:w-12">[{service.num}]</span>
+            <h3 className="font-outfit font-black text-[var(--foreground)] group-hover:text-[var(--background)] uppercase tracking-tighter transition-colors"
+                style={{ fontSize: 'clamp(2rem, 5vw, 5rem)', lineHeight: 0.9 }}>
+              {service.title}
+            </h3>
+          </div>
+          
+          <div className="md:max-w-md md:text-right flex flex-col md:items-end">
+            <p className="text-[var(--muted-foreground)] group-hover:text-[var(--background)] opacity-70 text-lg md:text-xl font-medium leading-snug mb-6 transition-colors">
+              {service.desc}
+            </p>
+            <span className="label-sm uppercase tracking-[0.2em] transition-all opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0">
+              Explore Protocol →
             </span>
-
-            {/* Title + desc */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-4">
-                <h3
-                  className="font-outfit font-black text-[var(--foreground)] transition-colors duration-300"
-                  style={{
-                    fontSize: 'clamp(1.5rem, 4vw, 3.5rem)',
-                    letterSpacing: '-0.03em',
-                    lineHeight: 1.05,
-                    transform: hovered ? 'translateX(8px)' : 'translateX(0)',
-                    transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                  }}
-                >
-                  {service.title}
-                </h3>
-                {/* Arrow */}
-                <span
-                  className="text-[var(--muted-foreground)] text-xl flex-shrink-0 transition-all duration-300"
-                  style={{
-                    opacity: hovered ? 1 : 0,
-                    transform: hovered ? 'translateX(0) rotate(-45deg)' : 'translateX(-8px) rotate(-45deg)',
-                  }}
-                >
-                  ↗
-                </span>
-              </div>
-
-              {/* Description — expands on hover on desktop, always visible on mobile */}
-              <div
-                style={{
-                  maxHeight: hovered ? 80 : 0,
-                  overflow: 'hidden',
-                  transition: 'max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                  opacity: hovered ? 1 : 0,
-                }}
-                className="hidden md:block"
-              >
-                <p className="text-[var(--muted-foreground)] text-base leading-relaxed pt-3 max-w-2xl">
-                  {service.desc}
-                </p>
-              </div>
-
-              {/* Always visible on mobile */}
-              <p className="md:hidden text-[var(--muted-foreground)] text-sm leading-relaxed pt-2">
-                {service.desc}
-              </p>
-            </div>
           </div>
         </div>
       </Link>
@@ -143,61 +88,60 @@ export default function ServicesSection() {
   const inView = useInView(headerRef, { once: true });
 
   return (
-    <section className="relative py-28 md:py-36 bg-[var(--background)]" id="services">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10">
+    <section className="relative py-32 md:py-56 bg-[var(--background)] border-t border-[var(--border)]" id="services">
+      <div className="max-w-[1400px] mx-auto">
 
         {/* Header */}
-        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-2">
+        <div ref={headerRef} className="px-6 md:px-10 mb-24 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-12">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="label-sm block mb-5">Our Protocol</span>
+            <span className="label-sm block mb-8">Operational Matrix</span>
             <h2
-              className="font-outfit font-black text-[var(--foreground)] leading-none"
-              style={{ fontSize: 'clamp(2.5rem, 7vw, 6.5rem)', letterSpacing: '-0.04em' }}
+              className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] tracking-tighter"
+              style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}
             >
-              We Engineer<br />Growth.
+              We Engineer<br />
+              <span className="text-[var(--muted-foreground)]">Growth.</span>
             </h2>
           </motion.div>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="text-[var(--muted-foreground)] text-base md:text-lg max-w-sm leading-relaxed md:text-right"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-[var(--muted-foreground)] text-xl md:text-2xl max-w-sm leading-tight font-medium md:text-right"
           >
-            Six specialized service pillars — each engineered for maximum bottom-line impact.
+            Six specialized pillars — each engineered for maximum capital efficiency.
           </motion.p>
         </div>
 
         {/* Service Rows */}
-        <div>
+        <div className="border-b border-[var(--border)]">
           {services.map((service, index) => (
             <ServiceRow key={service.id} service={service} index={index} />
           ))}
-          {/* Bottom border */}
-          <div className="border-t border-[var(--border)]" />
         </div>
 
-        {/* Bottom CTA row */}
+        {/* Bottom Bar */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-14 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between"
+          className="mt-20 md:mt-32 px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-12"
         >
-          <p className="text-[var(--muted-foreground)] text-base max-w-sm">
-            Don&apos;t see what you need? We build custom strategic protocols for unique brands.
-          </p>
+          <div className="max-w-xl text-center md:text-left">
+             <p className="text-[var(--muted-foreground)] text-xl leading-tight font-medium">
+                Don&apos;t see your specific requirement? We architect custom protocols for unique market challenges.
+             </p>
+          </div>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white btn-magnetic flex-shrink-0"
-            style={{ background: 'var(--gradient-brand)' }}
+            className="px-12 py-6 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
           >
-            Let&apos;s Build →
+            Start Strategy →
           </Link>
         </motion.div>
       </div>

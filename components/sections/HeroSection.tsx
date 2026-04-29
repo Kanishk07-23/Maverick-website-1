@@ -14,19 +14,17 @@ export default function HeroSection() {
     offset: ['start start', 'end start']
   });
 
-  // Parallax: headline moves up slower than scroll
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
-  // Stagger words of headline
   const wordVars: Variants = {
     hidden: { y: '110%' },
     show: (i: number) => ({
       y: '0%',
       transition: {
-        duration: 1.0,
-        delay: 0.05 * i,
-        ease: [0.76, 0, 0.24, 1],
+        duration: 1.2,
+        delay: 0.1 * i,
+        ease: [0.16, 1, 0.3, 1],
       },
     }),
   };
@@ -36,22 +34,25 @@ export default function HeroSection() {
     show: (i: number) => ({
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, delay: 0.7 + i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] },
+      transition: { duration: 0.8, delay: 0.8 + i * 0.1, ease: [0.16, 1, 0.3, 1] },
     }),
   };
 
-  // Headline broken into lines and words
   const line1 = ['We', 'Scale'];
   const line2 = ['Brands.'];
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-safe-screen w-full flex flex-col justify-between overflow-hidden bg-[var(--background)]"
+      className="relative h-screen w-full flex flex-col justify-between overflow-hidden bg-[var(--background)]"
       id="home"
     >
-      {/* Top row — label + availability */}
-      <div className="relative z-10 flex items-center justify-between px-6 md:px-10 pt-24 md:pt-28">
+      {/* Structural Borders */}
+      <div className="absolute top-0 left-0 w-full h-px bg-[var(--border)] opacity-20" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-[var(--border)]" />
+      
+      {/* Top Meta */}
+      <div className="relative z-10 flex items-center justify-between px-6 md:px-10 pt-32 md:pt-40">
         <motion.span
           custom={0}
           variants={fadeUp}
@@ -59,20 +60,20 @@ export default function HeroSection() {
           animate="show"
           className="label-sm"
         >
-          Mumbai-Based Growth Partners
+          [ Status: Strategic Growth Partners ]
         </motion.span>
         <motion.span
           custom={1}
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          className="label-sm hidden md:block"
+          className="label-sm hidden md:block opacity-50"
         >
-          Open to New Projects ↗
+          Based in Mumbai {'//'} Operating Globally
         </motion.span>
       </div>
 
-      {/* Center — Massive headline */}
+      {/* Main Content */}
       <motion.div
         style={{ y, opacity }}
         className="relative z-10 px-6 md:px-10 flex-1 flex flex-col justify-center"
@@ -80,109 +81,123 @@ export default function HeroSection() {
         <motion.h1
           initial="hidden"
           animate="show"
-          className="font-outfit font-black text-[var(--foreground)] uppercase leading-none select-none"
-          style={{ fontSize: 'clamp(4.5rem, 14vw, 14rem)', letterSpacing: '-0.04em', lineHeight: 0.92 }}
+          className="font-outfit font-black text-[var(--foreground)] uppercase select-none tracking-tighter"
+          style={{ fontSize: 'clamp(4.5rem, 16vw, 16rem)', lineHeight: 0.85 }}
         >
-          {/* Line 1 */}
-          <div className="flex flex-wrap gap-x-[0.2em] overflow-hidden">
-            {line1.map((word, i) => (
-              <div key={i} className="overflow-hidden">
+          <div className="overflow-hidden">
+            <div className="flex flex-wrap gap-x-[0.2em]">
+              {line1.map((word, i) => (
                 <motion.span
+                  key={i}
                   custom={i}
                   variants={wordVars}
                   className="inline-block"
                 >
                   {word}
                 </motion.span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-
-          {/* Line 2 — gradient accent word */}
-          <div className="flex flex-wrap gap-x-[0.2em] overflow-hidden">
-            {line2.map((word, i) => (
-              <div key={i} className="overflow-hidden">
+          <div className="overflow-hidden">
+            <div className="flex flex-wrap gap-x-[0.2em]">
+              {line2.map((word, i) => (
                 <motion.span
+                  key={i}
                   custom={line1.length + i}
                   variants={wordVars}
-                  className="inline-block gradient-text"
+                  className="inline-block text-[var(--muted-foreground)]"
                 >
                   {word}
                 </motion.span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </motion.h1>
 
-        {/* Subtext — appears after headline */}
-        <motion.p
-          custom={0}
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          className="mt-8 md:mt-10 text-[var(--muted-foreground)] text-base md:text-lg max-w-md leading-relaxed font-medium"
-        >
-          Data-driven architecture with aggressive creative execution.
-          We violently scale your revenue, not your vanity metrics.
-        </motion.p>
+        <div className="mt-12 md:mt-20 flex flex-col md:flex-row items-start gap-12 md:gap-24 border-t border-[var(--border)] pt-12">
+          <motion.p
+            custom={0}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="text-[var(--muted-foreground)] text-xl md:text-2xl max-w-xl leading-tight font-medium"
+          >
+            Aggressive creative execution meet technical data architecture. We build unbreakable revenue engines for brands that refuse to be ignored.
+          </motion.p>
 
-        {/* CTAs */}
-        <motion.div
-          custom={1}
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          className="mt-8 md:mt-10 flex items-center gap-6"
-        >
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white btn-magnetic"
-            style={{ background: 'var(--gradient-brand)' }}
+          <motion.div
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="flex flex-col gap-6"
           >
-            Start Your Journey →
-          </Link>
-          <Link
-            href="/services"
-            className="text-sm font-medium text-[var(--muted-foreground)] link-underline hover:text-[var(--foreground)] transition-colors"
-          >
-            View our work
-          </Link>
-        </motion.div>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-4 px-10 py-5 rounded-full bg-[var(--foreground)] text-[var(--background)] text-base font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
+            >
+              Initiate Discovery <ArrowRight size={18} className="inline" />
+            </Link>
+            <Link
+              href="/services"
+              className="label-sm opacity-50 hover:opacity-100 transition-opacity flex items-center gap-2"
+            >
+              View Prototypes <span className="text-xs">↘</span>
+            </Link>
+          </motion.div>
+        </div>
       </motion.div>
 
-      {/* Bottom row — scroll hint + stat */}
-      <div className="relative z-10 px-6 md:px-10 pb-8 md:pb-10 flex items-end justify-between">
-        {/* Scroll indicator */}
+      {/* Bottom Meta */}
+      <div className="relative z-10 px-6 md:px-10 pb-12 flex items-end justify-between">
         <motion.div
           custom={2}
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          className="flex items-center gap-3"
+          className="flex items-center gap-4"
         >
-          <div className="w-px h-12 overflow-hidden relative">
-            <div className="scroll-line absolute inset-0 w-full bg-[var(--foreground)]" />
+          <div className="w-px h-16 bg-[var(--border)] relative overflow-hidden">
+             <motion.div 
+              animate={{ y: ['-100%', '100%'] }} 
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              className="absolute inset-0 w-full bg-[var(--foreground)]"
+             />
           </div>
-          <span className="label-sm">Scroll</span>
+          <span className="label-sm uppercase tracking-[0.2em] opacity-50">Scroll / Protocol</span>
         </motion.div>
 
-        {/* Stat */}
         <motion.div
           custom={3}
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          className="text-right hidden md:block"
+          className="text-right hidden md:block border-l border-[var(--border)] pl-10"
         >
-          <div className="font-outfit font-black text-[var(--foreground)]" style={{ fontSize: '2rem', letterSpacing: '-0.04em', lineHeight: 1 }}>
+          <div className="font-outfit font-black text-[var(--foreground)] text-5xl tracking-tighter leading-none">
             40+
           </div>
-          <div className="label-sm mt-1">Brands Scaled</div>
+          <div className="label-sm mt-2 opacity-50 uppercase">Network Partners</div>
         </motion.div>
       </div>
-
-      {/* Thin horizontal rule at the very bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-[var(--border)]" />
     </section>
+  );
+}
+
+function ArrowRight({ size, className }: { size: number; className?: string }) {
+  return (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="3" 
+      strokeLinecap="square" 
+      strokeLinejoin="miter" 
+      className={className}
+    >
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
   );
 }

@@ -6,7 +6,7 @@ import Link from 'next/link';
 const stats = [
   { value: '40+', label: 'Brands Scaled' },
   { value: '15M+', label: 'Organic Views' },
-  { value: '200%+', label: 'Average ROI' },
+  { value: '2.5X', label: 'Average ROI' },
   { value: '₹4Cr+', label: 'Ad Spend Managed' },
 ];
 
@@ -15,55 +15,69 @@ export default function ResultsSection() {
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section className="relative py-24 md:py-36 bg-[var(--background)] border-t border-[var(--border)]" id="results">
+    <section className="relative py-24 md:py-48 bg-[var(--background)] border-t border-[var(--border)]" id="results">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10" ref={ref}>
 
-        {/* Label */}
-        <motion.span
-          className="label-sm block mb-16 md:mb-20"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          Proven Impact
-        </motion.span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24 md:mb-32">
+          <div className="max-w-2xl">
+            <motion.span
+              className="label-sm block mb-8"
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+            >
+              Performance Metrics
+            </motion.span>
+            <motion.h2 
+               initial={{ opacity: 0, y: 30 }}
+               animate={inView ? { opacity: 1, y: 0 } : {}}
+               className="font-outfit font-black text-[var(--foreground)] uppercase leading-none tracking-tighter"
+               style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
+            >
+              Proven Growth<br />
+              <span className="text-[var(--muted-foreground)]">Protocols.</span>
+            </motion.h2>
+          </div>
+          <p className="label-sm opacity-50 uppercase tracking-[0.2em] md:text-right">
+            Verified Success Logs {'//'} 2024 Archive
+          </p>
+        </div>
 
-        {/* Stats grid — Exoape big numbers */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
+        {/* Stats grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-[var(--border)]">
           {stats.map((stat, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="py-10 md:py-16 px-0 border-b border-r border-[var(--border)] last:border-r-0 [&:nth-child(2)]:border-r-0 lg:[&:nth-child(2)]:border-r"
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: i * 0.1 }}
+              className="py-16 md:py-24 border-b md:border-b-0 md:border-r border-[var(--border)] last:border-r-0 lg:[&:nth-child(2)]:border-r"
             >
-              <div
-                className="font-outfit font-black text-[var(--foreground)] stat-number mb-3"
-              >
+              <div className="font-outfit font-black text-[var(--foreground)] leading-none tracking-tighter mb-4"
+                   style={{ fontSize: 'clamp(3.5rem, 6vw, 6rem)' }}>
                 {stat.value}
               </div>
-              <div className="label-sm">{stat.label}</div>
+              <div className="label-sm opacity-50 uppercase">{stat.label}</div>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA strip */}
+        {/* Bottom Bar */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-16 md:mt-20 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between border-t border-[var(--border)] pt-10"
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mt-12 md:mt-24 border-t border-[var(--border)] pt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-12"
         >
-          <p className="text-[var(--muted-foreground)] text-base md:text-lg max-w-md leading-relaxed">
-            Real numbers from real campaigns. No vanity metrics, just bottom-line impact.
-          </p>
+          <div className="max-w-xl">
+             <p className="text-[var(--muted-foreground)] text-xl leading-tight font-medium">
+                We optimize for the only metric that matters: net-profit growth. No fluff, no excuses. Just aggressive scaling.
+             </p>
+          </div>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white btn-magnetic flex-shrink-0"
-            style={{ background: 'var(--gradient-brand)' }}
+            className="px-10 py-5 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
           >
-            Get Your Free Strategy Call →
+            Initiate Growth Protocol →
           </Link>
         </motion.div>
       </div>

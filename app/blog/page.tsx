@@ -3,15 +3,11 @@ import Link from 'next/link';
 import { ArrowRight, Clock } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Blog & Insights',
+  title: 'Blog & Insights | Maverick Digitals',
   description:
     'Marketing insights, growth strategies, and digital trends from the Maverick Digitals team. Built for ambitious brands looking to scale.',
 };
 
-// =============================================
-// ADMIN: ADD BLOG POSTS HERE
-// Each post: { id, slug, title, excerpt, category, date, readTime, cover? }
-// =============================================
 const POSTS: Array<{
   id: string;
   slug: string;
@@ -21,20 +17,7 @@ const POSTS: Array<{
   date: string;
   readTime: string;
   cover?: string;
-}> = [
-  // Example (uncomment to use):
-  // {
-  //   id: '1',
-  //   slug: 'how-to-build-personal-brand-2025',
-  //   title: 'How to Build a Powerful Personal Brand in 2025',
-  //   excerpt: 'A step-by-step guide to positioning yourself as the #1 authority in your industry...',
-  //   category: 'Personal Branding',
-  //   date: '2025-04-01',
-  //   readTime: '8 min read',
-  //   cover: '/images/blog-personal-brand.jpg',
-  // },
-];
-// =============================================
+}> = [];
 
 const categories = ['All', 'Performance Marketing', 'SEO', 'Social Media', 'Personal Branding', 'Web Dev', 'Strategy'];
 
@@ -44,111 +27,63 @@ function formatDate(dateStr: string) {
 
 export default function BlogPage() {
   return (
-    <div className="pt-20">
+    <div className="bg-[var(--background)] min-h-screen">
       {/* Hero */}
-      <section className="section-padding mesh-gradient">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-purple-400 glass-card border border-purple-500/20 mb-6">
-              Insights
-            </span>
-            <h1 className="font-outfit font-bold text-foreground mb-6"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
-              Marketing That{' '}
-              <span className="gradient-text">Moves Brands</span>
-            </h1>
-            <p className="text-muted-foreground text-xl leading-relaxed">
-              Deep-dive articles, strategies, and actionable insights from the Maverick Digitals team.
-              Built for founders and marketers serious about scaling.
+      <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">
+        <div className="max-w-[1400px] mx-auto">
+          <span className="label-sm block mb-10">[ Archive Protocol ]</span>
+          <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16 tracking-tighter"
+              style={{ fontSize: 'clamp(3.5rem, 11vw, 12rem)' }}>
+            Insights &<br />
+            <span className="text-[var(--muted-foreground)]">Strategy.</span>
+          </h1>
+          <div className="max-w-2xl border-t border-[var(--border)] pt-12">
+            <p className="text-[var(--muted-foreground)] text-xl md:text-2xl leading-relaxed font-medium">
+              Deep-dive articles, growth blueprints, and category intel from the frontline of performance marketing.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="py-8 border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 flex flex-wrap gap-3">
+      {/* Categories Bar */}
+      <section className="py-8 border-b border-[var(--border)] overflow-x-auto whitespace-nowrap hide-scrollbar">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex gap-8">
           {categories.map((cat) => (
             <button
               key={cat}
-              className="px-4 py-1.5 rounded-full text-sm text-muted-foreground glass-card border border-border hover:border-purple-500/40 hover:text-foreground transition-all"
-              id={`blog-cat-${cat.toLowerCase().replace(/\s/g, '-')}`}
+              className="label-sm opacity-50 hover:opacity-100 transition-opacity uppercase tracking-[0.2em] relative group"
             >
               {cat}
+              <div className="absolute -bottom-1 left-0 w-0 h-px bg-[var(--foreground)] group-hover:w-full transition-all duration-300" />
             </button>
           ))}
         </div>
       </section>
 
       {/* Posts */}
-      <section className="section-padding">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 md:py-40 px-6 md:px-10">
+        <div className="max-w-[1400px] mx-auto">
           {POSTS.length === 0 ? (
-            /* Empty state */
-            <div className="text-center py-20">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
-                style={{ background: 'rgba(124,58,237,0.12)' }}>
-                <span className="text-3xl font-outfit font-bold text-purple-400">...</span>
-              </div>
-              <h2 className="font-outfit font-bold text-foreground text-2xl mb-3">Coming Soon</h2>
-              <p className="text-muted-foreground max-w-sm mx-auto text-sm">
-                Our team is working on insightful articles about digital marketing, growth strategy, and brand building.
-                Check back soon — or subscribe to be first in line.
-              </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center items-center">
-                <form className="flex gap-2" id="blog-notify-form">
-                  <input
-                    type="email"
-                    placeholder="your@email.com"
-                    id="blog-notify-email"
-                    className="form-input w-64"
-                  />
-                  <button type="submit" id="blog-notify-submit"
-                    className="px-5 py-3 rounded-xl text-sm font-semibold text-foreground flex-shrink-0"
-                    style={{ background: 'var(--gradient-brand)' }}>
-                    Notify Me
-                  </button>
-                </form>
-              </div>
+            <div className="py-40 border border-dashed border-[var(--border)] flex flex-col items-center justify-center grayscale opacity-40">
+               <div className="label-sm uppercase tracking-[0.2em] mb-4">Status: Transmission Pending</div>
+               <h2 className="font-outfit font-black text-3xl uppercase tracking-tighter">Coming Soon to the Network</h2>
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--border)] border border-[var(--border)]">
               {POSTS.map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug}`} id={`blog-post-${post.id}`}>
-                  <article className="glass-card rounded-2xl overflow-hidden border border-border hover:border-purple-500/30 transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col">
-                    {/* Cover */}
-                    <div className="h-48 relative overflow-hidden"
-                      style={{ background: 'var(--gradient-brand)', opacity: 0.7 }}>
-                      {post.cover && (
-                        <img src={post.cover} alt={post.title}
-                          className="w-full h-full object-cover" />
-                      )}
+                <Link key={post.id} href={`/blog/${post.slug}`} className="group bg-[var(--background)] p-10 md:p-14 hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors duration-700">
+                    <div className="flex items-center justify-between mb-10">
+                      <span className="label-sm opacity-50 uppercase tracking-[0.2em] group-hover:text-[var(--background)]">{post.category}</span>
+                      <span className="label-sm opacity-50 group-hover:text-[var(--background)]">{post.readTime}</span>
                     </div>
-
-                    {/* Content */}
-                    <div className="p-6 flex flex-col flex-1">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs px-2.5 py-1 rounded-full text-purple-400 border border-purple-500/20 glass-card">
-                          {post.category}
-                        </span>
-                        <span className="flex items-center gap-1 text-muted-foreground text-xs">
-                          <Clock size={11} /> {post.readTime}
-                        </span>
-                      </div>
-
-                      <h2 className="text-foreground font-outfit font-bold text-lg mb-2 group-hover:text-purple-200 transition-colors">
-                        {post.title}
-                      </h2>
-                      <p className="text-muted-foreground text-sm leading-relaxed flex-1">{post.excerpt}</p>
-
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-                        <span className="text-muted-foreground text-xs">{formatDate(post.date)}</span>
-                        <span className="flex items-center gap-1 text-purple-400 text-xs font-medium">
-                          Read more <ArrowRight size={12} />
-                        </span>
-                      </div>
+                    <h2 className="font-outfit font-black text-3xl uppercase tracking-tighter leading-none mb-8 group-hover:text-[var(--background)]">
+                      {post.title}
+                    </h2>
+                    <p className="text-lg opacity-70 mb-12 group-hover:text-[var(--background)]">{post.excerpt}</p>
+                    <div className="mt-auto flex items-center justify-between border-t border-[var(--border)] pt-8 group-hover:border-[var(--background)]/20">
+                      <span className="label-sm opacity-50 group-hover:text-[var(--background)]">{formatDate(post.date)}</span>
+                      <ArrowRight size={18} className="transform group-hover:translate-x-2 transition-transform duration-500" />
                     </div>
-                  </article>
                 </Link>
               ))}
             </div>
@@ -156,28 +91,25 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Newsletter CTA */}
-      {POSTS.length > 0 && (
-        <section className="py-20 text-center">
-          <div className="max-w-xl mx-auto px-6">
-            <h2 className="font-outfit font-bold text-foreground text-3xl mb-4">
-              Get Insights <span className="gradient-text">In Your Inbox</span>
+      {/* Newsletter */}
+      <section className="py-32 md:py-48 px-6 md:px-10 border-t border-[var(--border)] text-center bg-[var(--foreground)] text-[var(--background)]">
+          <div className="max-w-3xl mx-auto">
+            <span className="label-sm block mb-12 opacity-50">Intel Dispatch</span>
+            <h2 className="font-outfit font-black text-5xl md:text-8xl uppercase tracking-tighter leading-none mb-16">
+              Join the<br />Network.
             </h2>
-            <p className="text-muted-foreground mb-6 text-sm">
-              No spam. Just practical marketing strategies, once a week.
-            </p>
-            <form className="flex gap-3" id="blog-subscribe-form">
-              <input type="email" placeholder="your@email.com" id="blog-subscribe-email"
-                className="form-input flex-1" />
-              <button type="submit" id="blog-subscribe-submit"
-                className="px-6 py-3 rounded-xl font-semibold text-foreground flex-shrink-0"
-                style={{ background: 'var(--gradient-brand)' }}>
-                Subscribe
-              </button>
+            <form className="flex flex-col md:flex-row gap-4 max-w-xl mx-auto">
+               <input 
+                 type="email" 
+                 placeholder="your@email.com" 
+                 className="flex-1 bg-transparent border-b-2 border-[var(--background)]/30 py-4 font-outfit font-black text-2xl uppercase tracking-tighter focus:outline-none focus:border-[var(--background)] placeholder:[var(--background)]/30 text-[var(--background)] transition-colors"
+               />
+               <button className="bg-[var(--background)] text-[var(--foreground)] px-10 py-5 font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic">
+                 Subscribe
+               </button>
             </form>
           </div>
-        </section>
-      )}
+      </section>
     </div>
   );
 }

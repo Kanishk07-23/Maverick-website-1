@@ -9,59 +9,56 @@ export default function CTABanner() {
 
   return (
     <section
-      className="relative py-28 md:py-36 border-t border-[var(--border)] bg-[var(--background)] overflow-hidden"
+      className="relative py-32 md:py-56 border-t border-[var(--border)] bg-[var(--background)] overflow-hidden"
       id="cta"
       ref={ref}
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-10">
         <motion.span
-          className="label-sm block mb-8"
+          className="label-sm block mb-12"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
         >
-          Let&apos;s Talk
+          Final Directive
         </motion.span>
 
-        {/* Big question headline */}
         <motion.h2
-          className="font-outfit font-black text-[var(--foreground)] leading-none mb-12 md:mb-16"
-          style={{ fontSize: 'clamp(3rem, 10vw, 10rem)', letterSpacing: '-0.04em', lineHeight: 0.95 }}
-          initial={{ opacity: 0, y: 40 }}
+          className="font-outfit font-black text-[var(--foreground)] uppercase leading-none mb-16 md:mb-24 tracking-tighter"
+          style={{ fontSize: 'clamp(3.5rem, 11vw, 12rem)', lineHeight: 0.85 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          Ready to Grow<br />
-          <span className="gradient-text">Your Brand?</span>
+          Scale Your<br />
+          <span className="text-[var(--muted-foreground)]">Vision.</span>
         </motion.h2>
 
-        {/* Bottom row */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between border-t border-[var(--border)] pt-10"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12 border-t border-[var(--border)] pt-12"
         >
-          <div className="flex flex-col gap-1.5">
-            <p className="text-[var(--muted-foreground)] text-base">
-              Free 30-min strategy call · Custom growth roadmap · No commitment
+          <div className="max-w-md">
+            <p className="text-[var(--muted-foreground)] text-xl font-medium leading-tight">
+              Initiate a 30-min strategy audit. No commitment. Just direct intel on how to dominate your category.
             </p>
+          </div>
+          
+          <div className="flex flex-col items-start md:items-end gap-6">
+            <Link
+              href="/contact"
+              className="px-12 py-6 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic shadow-2xl"
+            >
+              Book Direct Call →
+            </Link>
             <a
               href="mailto:maverickdigitals18@gmail.com"
-              id="cta-email-link"
-              className="text-[var(--foreground)] text-sm link-underline"
+              className="label-sm opacity-50 hover:opacity-100 transition-opacity border-b border-current"
             >
               maverickdigitals18@gmail.com
             </a>
           </div>
-          <Link
-            href="/contact"
-            id="cta-book-call"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm font-semibold text-white btn-magnetic flex-shrink-0"
-            style={{ background: 'var(--gradient-brand)' }}
-          >
-            Book Free Strategy Call →
-          </Link>
         </motion.div>
       </div>
     </section>

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    id: 'brand',
+    id: 'personal-branding',
     title: 'Personal Branding',
     tagline: 'Strategy, ghostwriting, content systems for founders',
     desc: "Build an undeniable online presence that attracts opportunities, builds trust, and converts followers into customers. We position you as the most trusted authority in your industry.",
@@ -23,11 +23,11 @@ const services = [
       'Social Media Presence Audit & Optimization',
       'Personal Brand Style Guide',
     ],
-    color: '#000000', // Unused in pure brutalism, kept for data structure
+    color: '#000000',
     badge: 'Popular',
   },
   {
-    id: 'social',
+    id: 'social-media',
     title: 'Social Media',
     tagline: 'Done-for-you content, growth, and analytics',
     desc: 'Stop spending hours on social media with little to show for it. We create, publish and optimize content across all major platforms so you can focus on running your business.',
@@ -42,7 +42,7 @@ const services = [
     color: '#000000',
   },
   {
-    id: 'web',
+    id: 'web-dev',
     title: 'Web & App Dev',
     tagline: 'High-performance sites and custom web apps',
     desc: "Your website is your 24/7 salesperson. We build fast, beautiful, conversion-optimized digital products that don't just look good — they generate revenue.",
@@ -57,7 +57,7 @@ const services = [
     color: '#000000',
   },
   {
-    id: 'seo',
+    id: 'seo-sem',
     title: 'SEO & SEM',
     tagline: 'Search optimization and inbound lead engines',
     desc: 'Get found when your customers are searching. Our technical SEO and search advertising strategies drive qualified traffic that converts into real revenue.',
@@ -72,7 +72,7 @@ const services = [
     color: '#000000',
   },
   {
-    id: 'perf',
+    id: 'performance-marketing',
     title: 'Performance Marketing',
     tagline: 'ROI-first Meta & Google campaigns',
     desc: 'Stop guessing and start knowing your ROAS. We build data-driven paid advertising campaigns with clear targeting, compelling creatives, and relentless optimization.',
@@ -87,7 +87,7 @@ const services = [
     color: '#000000',
   },
   {
-    id: 'identity',
+    id: 'branding-strategy',
     title: 'Brand Identity',
     tagline: 'Visual messaging, GTM launches, and positioning',
     desc: 'Your brand is more than a logo. We build complete brand identities — from visual design and messaging to go-to-market strategy — that create lasting impressions.',
