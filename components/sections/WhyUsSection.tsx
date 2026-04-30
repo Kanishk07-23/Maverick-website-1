@@ -55,10 +55,10 @@ export default function WhyUsSection() {
             <h2
               className="font-outfit font-black text-[var(--foreground)] uppercase leading-none tracking-tighter"
               style={{ fontSize: 'clamp(2.5rem, 8vw, 7.5rem)' }}
-+            >
-+              Why We Are<br />
-+              <span className="brutalist-highlight px-2 mt-2">Different.</span>
-+            </h2>
+            >
+              Why We Are<br />
+              <span className="brutalist-highlight px-2 mt-2">Different.</span>
+            </h2>
           </motion.div>
 
           <motion.p
