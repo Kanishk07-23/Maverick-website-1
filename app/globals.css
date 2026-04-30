@@ -5,12 +5,12 @@
 @layer base {
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
-    --background: #f4f0f7;
+    --background: #ede9f2;
     --foreground: #0a0a0a;
-    --muted: #e6e2ea;
+    --muted: #e0dae6;
     --muted-foreground: #6b6b6b;
-    --card: #ede8f2;
-    --border: rgba(109, 40, 217, 0.10);
+    --card: #e6dfea;
+    --border: rgba(109, 40, 217, 0.18);
     --elevated: #ffffff;
 
     --brand-purple: #6d28d9;
@@ -18,47 +18,47 @@
     --brand-blue: #2563eb;
     --brand-lavender: #A5B4FC;
     --brand-whatsapp: #25D366;
-    --brand-dark: #f4f0f7;
+    --brand-dark: #ede9f2;
 
-    --glass-bg: rgba(244, 240, 247, 0.85);
-    --glass-border: rgba(109, 40, 217, 0.08);
-    --glass-shadow: 0 1px 3px rgba(109,40,217,0.04), 0 8px 24px rgba(109,40,217,0.06);
+    --glass-bg: rgba(237, 233, 242, 0.85);
+    --glass-border: rgba(109, 40, 217, 0.15);
+    --glass-shadow: 0 1px 3px rgba(109,40,217,0.08), 0 8px 24px rgba(109,40,217,0.12);
     --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
 
-    --card-shadow: 0 1px 2px rgba(109,40,217,0.04), 0 4px 16px rgba(109,40,217,0.06);
-    --card-shadow-hover: 0 4px 12px rgba(109,40,217,0.09), 0 12px 40px rgba(109,40,217,0.11);
-    --section-alt-bg: #0a0812;
-    --dot-color: rgba(109, 40, 217, 0.07);
-    --premium-shadow: 0 4px 24px rgba(109, 40, 217, 0.30), 0 1px 4px rgba(0,0,0,0.15);
+    --card-shadow: 0 1px 2px rgba(109,40,217,0.06), 0 4px 16px rgba(109,40,217,0.08);
+    --card-shadow-hover: 0 4px 12px rgba(109,40,217,0.12), 0 12px 40px rgba(109,40,217,0.15);
+    --section-alt-bg: #0d0a1a;
+    --dot-color: rgba(109, 40, 217, 0.12);
+    --premium-shadow: 0 4px 24px rgba(109, 40, 217, 0.35), 0 1px 4px rgba(0,0,0,0.15);
   }
 
   /* ─── DARK MODE ──────────────────────────────────────────────────────── */
   .dark {
-    --background: #0a0812;
+    --background: #0d0a1a;
     --foreground: #f4f0f7;
-    --muted: #151120;
+    --muted: #1a152b;
     --muted-foreground: #8a849b;
-    --card: #12101c;
-    --border: rgba(139, 92, 246, 0.12);
-    --elevated: #161424;
+    --card: #161326;
+    --border: rgba(139, 92, 246, 0.20);
+    --elevated: #1a1829;
 
     --brand-purple: #8b5cf6;
     --brand-violet: #6366f1;
     --brand-blue: #3b82f6;
     --brand-lavender: #A5B4FC;
     --brand-whatsapp: #25D366;
-    --brand-dark: #0a0812;
+    --brand-dark: #0d0a1a;
 
-    --glass-bg: rgba(10, 8, 18, 0.85);
-    --glass-border: rgba(139, 92, 246, 0.10);
-    --glass-shadow: 0 1px 3px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.5);
+    --glass-bg: rgba(13, 10, 26, 0.85);
+    --glass-border: rgba(139, 92, 246, 0.18);
+    --glass-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.6);
     --gradient-brand: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
 
-    --card-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
-    --card-shadow-hover: 0 0 40px rgba(139,92,246,0.15), 0 12px 40px rgba(0,0,0,0.5);
-    --section-alt-bg: #f4f0f7;
-    --dot-color: rgba(255, 255, 255, 0.03);
-    --premium-shadow: 0 4px 24px rgba(139, 92, 246, 0.35), 0 1px 4px rgba(0,0,0,0.4);
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.4);
+    --card-shadow-hover: 0 0 40px rgba(139,92,246,0.20), 0 12px 40px rgba(0,0,0,0.6);
+    --section-alt-bg: #ede9f2;
+    --dot-color: rgba(139, 92, 246, 0.08);
+    --premium-shadow: 0 4px 24px rgba(139, 92, 246, 0.40), 0 1px 4px rgba(0,0,0,0.5);
   }
 }
 
@@ -237,15 +237,20 @@ body {
 
 /* ─── MESH GRADIENT (subtle, not fluorescent) ───────────────────────────── */
 .mesh-gradient {
-  background: transparent;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 .dark .mesh-gradient {
   background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(139, 92, 246, 0.06), transparent);
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(139, 92, 246, 0.15), transparent),
+    radial-gradient(ellipse 50% 50% at 100% 100%, rgba(99, 102, 241, 0.08), transparent);
 }
 :root .mesh-gradient {
   background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(109, 40, 217, 0.04), transparent);
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(109, 40, 217, 0.12), transparent),
+    radial-gradient(ellipse 50% 50% at 100% 100%, rgba(79, 70, 229, 0.06), transparent);
 }
 
 /* ─── HORIZONTAL RULE — exoape style ───────────────────────────────────── */
