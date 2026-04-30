@@ -9,9 +9,7 @@ import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import ThemeProvider from '@/components/ThemeProvider';
 import ScrollProgress from '@/components/ScrollProgress';
 import BackToTop from '@/components/BackToTop';
-import dynamic from 'next/dynamic';
 
-const Digital3DBackground = dynamic(() => import('@/components/three/Digital3DBackground'), { ssr: false });
 
 const sora = Sora({
   subsets: ['latin'],
@@ -89,9 +87,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <div className="mesh-gradient" />
-          <div className="fixed inset-0 z-0 pointer-events-none">
-            <Digital3DBackground />
-          </div>
           <ScrollProgress />
           <CustomCursor />
           <SmoothScrollProvider>

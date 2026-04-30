@@ -6,7 +6,7 @@
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
     --background: #e2dfea; /* Lavender-Silver */
-    --foreground: #24143d; /* Deep Purple/Black Mix */
+    --foreground: #412670; /* Rich Dark Purple */
     --muted: #d5d1e0;
     --muted-foreground: #4b3b61;
     --card: #ebe9f2;
@@ -20,7 +20,7 @@
     --brand-whatsapp: #25D366;
     --brand-dark: #e2dfea;
 
-    --inverted-bg: #24143d; /* Purple/Black mix for inverted background */
+    --inverted-bg: #412670; /* Rich Dark Purple inverted background */
     --inverted-text: #e2dfea; /* Lavender-Silver inverted text */
 
     --glass-bg: rgba(226, 223, 234, 0.75);
