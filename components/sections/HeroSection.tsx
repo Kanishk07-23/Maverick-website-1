@@ -138,7 +138,7 @@ export default function HeroSection() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center gap-4 px-10 py-5 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] text-base font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
+              className="inline-flex items-center justify-center gap-4 px-10 py-5 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] text-sm md:text-base font-black uppercase tracking-[0.15em] hover:scale-105 transition-transform btn-magnetic"
             >
               Initiate Discovery <ArrowRight size={18} className="inline" />
             </Link>

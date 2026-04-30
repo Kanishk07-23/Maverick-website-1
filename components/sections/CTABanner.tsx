@@ -48,7 +48,7 @@ export default function CTABanner() {
           <div className="flex flex-col items-start md:items-end gap-6">
             <Link
               href="/contact"
-              className="px-12 py-6 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic shadow-2xl"
+              className="px-12 py-6 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] font-black uppercase tracking-[0.15em] text-sm md:text-base hover:scale-105 transition-transform btn-magnetic shadow-2xl"
             >
               Book Direct Call →
             </Link>

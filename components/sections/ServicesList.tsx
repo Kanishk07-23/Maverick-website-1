@@ -156,11 +156,12 @@ export default function ServicesList({ services }: { services: Service[] }) {
 
   return (
     <div className="relative h-screen min-h-[700px] max-h-[1000px] w-full overflow-hidden bg-[var(--background)]">
-      {/* Flash Overlay */}
-      <div
-        className={`fixed inset-0 z-[100] pointer-events-none transition-all duration-700 ease-exo ${
-          isTransitioning ? 'bg-[var(--foreground)] opacity-100' : 'opacity-0'
-        }`}
+      {/* Sophisticated Curtain Reveal Overlay */}
+      <motion.div
+        initial={false}
+        animate={{ scaleY: isTransitioning ? 1 : 0 }}
+        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+        className="fixed inset-0 z-[100] bg-[var(--foreground)] origin-bottom pointer-events-none"
       />
 
       {/* Massive Background Watermark */}

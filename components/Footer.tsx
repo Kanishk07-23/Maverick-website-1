@@ -58,7 +58,7 @@ export default function Footer() {
               <div className="flex flex-col md:items-end gap-6">
                 <Link
                   href="/contact"
-                  className="px-10 py-5 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] label-sm font-black uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
+                  className="px-10 py-5 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] text-xs font-black uppercase tracking-[0.12em] hover:scale-105 transition-transform btn-magnetic"
                 >
                   Initiate Project →
                 </Link>
