@@ -5,9 +5,9 @@
 @layer base {
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
-    --background: #f8f6fc; /* Very Light Airy Lavender */
+    --background: #ffffff; /* Base White */
     --foreground: #482a82; /* Vibrant Lighter Purple */
-    --muted: #e6e3f0;
+    --muted: #f3f0f7;
     --muted-foreground: #6b5a8c;
     --card: #ffffff;
     --border: rgba(139, 92, 246, 0.20);
@@ -27,7 +27,7 @@
     --glass-border: rgba(109, 40, 217, 0.25);
     --glass-shadow: 0 4px 12px rgba(109,40,217,0.1);
     --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
-    --gradient-wash: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.08) 100%);
+    --gradient-wash: linear-gradient(135deg, #e8ddf5 0%, #ffffff 100%);
 
     --card-shadow: 0 4px 20px rgba(109, 40, 217, 0.12), 0 1px 2px rgba(0,0,0,0.05);
     --card-shadow-hover: 0 12px 40px rgba(109, 40, 217, 0.20), 0 4px 12px rgba(0,0,0,0.05);

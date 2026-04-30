@@ -151,7 +151,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
 
   const handleSelect = (service: Service) => {
     setIsTransitioning(true);
-    setTimeout(() => router.push(`/services/${service.id}`), 1200);
+    setTimeout(() => router.push(`/services/${service.id}`), 500);
   };
 
   return (
@@ -160,7 +160,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
       <motion.div
         initial={false}
         animate={{ scaleY: isTransitioning ? 1 : 0 }}
-        transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         className="fixed inset-0 z-[100] bg-[var(--foreground)] origin-bottom pointer-events-none"
       />
 
