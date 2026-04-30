@@ -6,9 +6,9 @@
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
     --background: #ffffff; /* Base White */
-    --foreground: #482a82; /* Vibrant Lighter Purple */
+    --foreground: #8b5cf6; /* Light Purple Base */
     --muted: #f3f0f7;
-    --muted-foreground: #6b5a8c;
+    --muted-foreground: #a78bfa; /* Even Lighter Purple for paragraphs */
     --card: #ffffff;
     --border: rgba(139, 92, 246, 0.20);
     --elevated: #ffffff;
@@ -34,6 +34,15 @@
     --section-alt-bg: #d5d1e0;
     --dot-color: rgba(109, 40, 217, 0.25);
     --premium-shadow: 0 4px 24px rgba(109, 40, 217, 0.30), 0 1px 4px rgba(0,0,0,0.1);
+  }
+
+  /* ─── LIGHT MODE GLOBAL TEXT GRADIENT ─── */
+  html:not(.dark) .font-outfit {
+    background: linear-gradient(135deg, #8b5cf6 0%, #f3e8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
   }
 
   /* ─── DARK MODE ──────────────────────────────────────────────────────── */
