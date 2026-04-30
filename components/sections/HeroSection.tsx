@@ -47,9 +47,13 @@ export default function HeroSection() {
       className="relative h-screen w-full flex flex-col justify-between overflow-hidden bg-[var(--background)]"
       id="home"
     >
-      {/* Structural Borders */}
+      {/* Structural Borders & Creative Accents */}
       <div className="absolute top-0 left-0 w-full h-px bg-[var(--border)] opacity-20" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-[var(--border)]" />
+      
+      {/* Brand Spine */}
+      <div className="absolute top-0 left-[2.5vw] w-px h-full bg-gradient-to-b from-transparent via-[var(--brand-purple)] to-transparent opacity-20 hidden md:block" />
+      <div className="absolute top-1/2 left-[2.5vw] -translate-y-1/2 w-3 h-3 bg-[var(--brand-purple)] rounded-full blur-[2px] hidden md:block" />
       
       {/* Top Meta */}
       <div className="relative z-10 flex items-center justify-between px-6 md:px-10 pt-32 md:pt-40">
@@ -134,7 +138,7 @@ export default function HeroSection() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center gap-4 px-10 py-5 rounded-full bg-[var(--foreground)] text-[var(--background)] text-base font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
+              className="inline-flex items-center gap-4 px-10 py-5 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] text-base font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
             >
               Initiate Discovery <ArrowRight size={18} className="inline" />
             </Link>

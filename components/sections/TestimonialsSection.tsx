@@ -81,13 +81,13 @@ export default function TestimonialsSection() {
 
               {/* Controls */}
               <div className="lg:col-span-2 flex lg:flex-col items-center justify-center gap-4 border-l border-[var(--border)] pl-12 hidden lg:flex">
-                <button onClick={prev} className="w-16 h-16 rounded-full border border-[var(--border)] flex items-center justify-center hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors">
+                <button onClick={prev} className="w-16 h-16 rounded-full border border-[var(--border)] flex items-center justify-center hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)] transition-colors">
                   <ChevronLeft size={24} />
                 </button>
                 <div className="label-sm font-black py-4">
                   0{current + 1} / 0{TESTIMONIALS.length}
                 </div>
-                <button onClick={next} className="w-16 h-16 rounded-full border border-[var(--border)] flex items-center justify-center hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors">
+                <button onClick={next} className="w-16 h-16 rounded-full border border-[var(--border)] flex items-center justify-center hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)] transition-colors">
                   <ChevronRight size={24} />
                 </button>
               </div>

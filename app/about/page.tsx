@@ -90,7 +90,7 @@ export default function AboutPage() {
       </section>
 
       {/* Directives */}
-      <section className="py-32 md:py-48 px-6 md:px-10 border-t border-[var(--border)] bg-[var(--foreground)] text-[var(--background)]">
+      <section className="py-32 md:py-48 px-6 md:px-10 border-t border-[var(--border)] bg-[var(--inverted-bg)] text-[var(--inverted-text)]">
         <div className="max-w-[1400px] mx-auto">
            <div className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
               <h2 className="font-outfit font-black text-6xl md:text-9xl leading-none m-0 uppercase tracking-tighter">
@@ -151,7 +151,7 @@ export default function AboutPage() {
             </h2>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
+              className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
             >
               Collaborate <ArrowRight size={20} />
             </Link>

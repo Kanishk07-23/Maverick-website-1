@@ -52,7 +52,7 @@ export default function SEOSemPage() {
         <div className="max-w-[1400px] mx-auto">
           <div className="grid md:grid-cols-2 gap-px bg-[var(--border)] border border-[var(--border)]">
             {offerings.map((item, i) => (
-              <div key={item.title} className="bg-[var(--background)] p-12 md:p-20 group hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors duration-700">
+              <div key={item.title} className="bg-[var(--background)] p-12 md:p-20 group hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)] transition-colors duration-700">
                 <span className="label-sm block mb-10 opacity-50">Capability 0{i+1}</span>
                 <h3 className="text-3xl md:text-5xl font-black font-outfit uppercase tracking-tighter mb-8 leading-none">
                   {item.title}
@@ -76,7 +76,7 @@ export default function SEOSemPage() {
             </h2>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
+              className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
             >
               Start Optimization <ArrowRight size={20} />
             </Link>

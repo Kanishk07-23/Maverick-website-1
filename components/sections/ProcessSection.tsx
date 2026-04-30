@@ -59,13 +59,13 @@ export default function ProcessSection() {
           style={{ fontSize: 'clamp(2.2rem, 8vw, 8rem)', letterSpacing: '-0.04em' }}
         >
           Execution<br />
-          <span className="text-[var(--muted-foreground)]">Algorithm.</span>
+          <span className="brutalist-highlight px-2 mt-2">Algorithm.</span>
         </motion.h2>
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative">
         {/* Central Vertical Line */}
-        <div className="absolute left-[38px] md:left-1/2 top-0 bottom-0 w-px bg-[var(--border)] transform md:-translate-x-1/2" />
+        <div className="absolute left-[38px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[var(--brand-purple)] to-transparent transform md:-translate-x-1/2" />
 
         <div className="flex flex-col gap-24 md:gap-40">
           {steps.map((step, index) => (
@@ -109,7 +109,7 @@ function ProcessStep({
       className={`relative flex flex-col md:flex-row w-full items-start md:items-center ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
     >
       {/* Node Dot */}
-      <div className="absolute left-[34px] md:left-1/2 top-0 md:top-auto transform md:-translate-x-1/2 w-2 h-2 rounded-full bg-[var(--foreground)] z-10" />
+      <div className="absolute left-[34px] md:left-1/2 top-0 md:top-auto transform md:-translate-x-1/2 w-3 h-3 rounded-full bg-[var(--brand-purple)] z-10 shadow-[0_0_10px_var(--brand-purple)]" />
 
       {/* Spacer */}
       <div className="hidden md:block w-1/2" />

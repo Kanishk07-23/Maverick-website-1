@@ -75,7 +75,7 @@ export default function ResultsSection() {
           </div>
           <Link
             href="/contact"
-            className="px-10 py-5 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
+            className="px-10 py-5 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
           >
             Initiate Growth Protocol →
           </Link>

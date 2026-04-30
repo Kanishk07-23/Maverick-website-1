@@ -37,6 +37,7 @@ export default function Navbar() {
           scrolled ? 'bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)] py-4' : 'bg-transparent py-8'
         )}
       >
+        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--brand-purple)] to-transparent opacity-50" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-10 flex items-center justify-between">
 
           {/* Logo */}
@@ -83,7 +84,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               id="nav-cta"
-              className="hidden lg:inline-flex px-8 py-3 rounded-full bg-[var(--foreground)] text-[var(--background)] label-sm font-black uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
+              className="hidden lg:inline-flex px-8 py-3 rounded-full bg-gradient-to-r from-[var(--brand-purple)] to-[var(--brand-blue)] text-white label-sm font-black uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
             >
               Initiate →
             </Link>

@@ -71,7 +71,7 @@ export default function BlogPage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--border)] border border-[var(--border)]">
               {POSTS.map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug}`} className="group bg-[var(--background)] p-10 md:p-14 hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors duration-700">
+                <Link key={post.id} href={`/blog/${post.slug}`} className="group bg-[var(--background)] p-10 md:p-14 hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)] transition-colors duration-700">
                     <div className="flex items-center justify-between mb-10">
                       <span className="label-sm opacity-50 uppercase tracking-[0.2em] group-hover:text-[var(--background)]">{post.category}</span>
                       <span className="label-sm opacity-50 group-hover:text-[var(--background)]">{post.readTime}</span>
@@ -92,7 +92,7 @@ export default function BlogPage() {
       </section>
 
       {/* Newsletter */}
-      <section className="py-32 md:py-48 px-6 md:px-10 border-t border-[var(--border)] text-center bg-[var(--foreground)] text-[var(--background)]">
+      <section className="py-32 md:py-48 px-6 md:px-10 border-t border-[var(--border)] text-center bg-[var(--inverted-bg)] text-[var(--inverted-text)]">
           <div className="max-w-3xl mx-auto">
             <span className="label-sm block mb-12 opacity-50">Intel Dispatch</span>
             <h2 className="font-outfit font-black text-5xl md:text-8xl uppercase tracking-tighter leading-none mb-16">

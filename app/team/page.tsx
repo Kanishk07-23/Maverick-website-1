@@ -129,7 +129,7 @@ export default function TeamPage() {
           </h2>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
+            className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
           >
             Direct Protocol <ArrowRight size={20} />
           </Link>

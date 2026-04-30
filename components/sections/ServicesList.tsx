@@ -82,7 +82,7 @@ function WheelCard({
             0{index + 1} {'//'}
           </span>
           {service.badge && (
-            <span className="text-[10px] uppercase tracking-[0.2em] font-black bg-[var(--foreground)] text-[var(--background)] px-3 py-1">
+            <span className="text-[10px] uppercase tracking-[0.2em] font-black bg-[var(--inverted-bg)] text-[var(--inverted-text)] px-3 py-1">
               {service.badge}
             </span>
           )}

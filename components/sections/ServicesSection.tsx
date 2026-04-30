@@ -58,7 +58,7 @@ function ServiceRow({ service, index }: { service: typeof services[0]; index: nu
         href={`/services/${service.id}`}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="block group relative border-t border-[var(--border)] overflow-hidden transition-colors hover:bg-[var(--foreground)] hover:text-[var(--background)]"
+        className="block group relative border-t border-[var(--border)] overflow-hidden transition-colors hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)]"
       >
         <div className="relative py-12 md:py-20 px-6 md:px-10 z-10 flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-24">
           <div className="flex items-center gap-10 md:gap-20">
@@ -139,7 +139,7 @@ export default function ServicesSection() {
           </div>
           <Link
             href="/contact"
-            className="px-12 py-6 rounded-full bg-[var(--foreground)] text-[var(--background)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
+            className="px-12 py-6 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
           >
             Start Strategy →
           </Link>

@@ -181,7 +181,7 @@ export default function ContactClient() {
                     <button 
                       type="submit" 
                       disabled={isSubmitting} 
-                      className="w-full md:w-auto px-16 py-8 rounded-full bg-[var(--foreground)] text-[var(--background)] font-black uppercase tracking-widest text-xl hover:scale-105 transition-transform disabled:opacity-50"
+                      className="w-full md:w-auto px-16 py-8 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] font-black uppercase tracking-widest text-xl hover:scale-105 transition-transform disabled:opacity-50"
                     >
                       {isSubmitting ? 'Transmitting...' : 'Establish Connection'}
                     </button>

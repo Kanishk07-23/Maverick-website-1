@@ -20,15 +20,19 @@
     --brand-whatsapp: #25D366;
     --brand-dark: #fdfcff;
 
+    --inverted-bg: #0a0a0a;
+    --inverted-text: #fdfcff;
+
     --glass-bg: rgba(253, 252, 255, 0.85);
     --glass-border: rgba(109, 40, 217, 0.12);
     --glass-shadow: 0 1px 3px rgba(109,40,217,0.06), 0 8px 24px rgba(109,40,217,0.10);
     --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
+    --gradient-wash: linear-gradient(135deg, rgba(109, 40, 217, 0.03) 0%, rgba(79, 70, 229, 0.02) 100%);
 
     --card-shadow: 0 4px 20px rgba(109, 40, 217, 0.08), 0 1px 2px rgba(0,0,0,0.05);
     --card-shadow-hover: 0 12px 40px rgba(109, 40, 217, 0.15), 0 4px 12px rgba(0,0,0,0.05);
     --section-alt-bg: #0d0a1a;
-    --dot-color: rgba(109, 40, 217, 0.12);
+    --dot-color: rgba(109, 40, 217, 0.15);
     --premium-shadow: 0 4px 24px rgba(109, 40, 217, 0.25), 0 1px 4px rgba(0,0,0,0.1);
   }
 
@@ -49,15 +53,19 @@
     --brand-whatsapp: #25D366;
     --brand-dark: #0d0a1a;
 
+    --inverted-bg: #d4cfe0;
+    --inverted-text: #0d0a1a;
+
     --glass-bg: rgba(13, 10, 26, 0.85);
     --glass-border: rgba(139, 92, 246, 0.18);
     --glass-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.6);
     --gradient-brand: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
+    --gradient-wash: linear-gradient(135deg, rgba(139, 92, 246, 0.04) 0%, rgba(99, 102, 241, 0.02) 100%);
 
     --card-shadow: 0 1px 2px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.4);
     --card-shadow-hover: 0 0 40px rgba(139,92,246,0.20), 0 12px 40px rgba(0,0,0,0.6);
     --section-alt-bg: #d4cfe0;
-    --dot-color: rgba(139, 92, 246, 0.12);
+    --dot-color: rgba(139, 92, 246, 0.15);
     --premium-shadow: 0 4px 24px rgba(139, 92, 246, 0.45), 0 1px 4px rgba(0,0,0,0.5);
   }
 }
@@ -76,6 +84,7 @@ html {
 
 body {
   background-color: var(--background);
+  background-image: var(--gradient-wash);
   color: var(--foreground);
   font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
@@ -96,10 +105,13 @@ body {
 
 /* ─── SCROLLBAR ──────────────────────────────────────────────────────────── */
 @media (pointer: fine) {
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--foreground); opacity: 0.3; border-radius: 0; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--brand-purple); }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--background); }
+  ::-webkit-scrollbar-thumb { 
+    background: linear-gradient(to bottom, var(--brand-purple), var(--brand-violet)); 
+    border-radius: 10px; 
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--brand-blue); }
 }
 
 /* ─── CUSTOM CURSOR ──────────────────────────────────────────────────────── */
@@ -167,6 +179,11 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted-foreground);
+}
+.label-sm::before,
+.label-sm::after {
+  color: var(--brand-purple);
+  opacity: 0.8;
 }
 
 /* ─── GRADIENT TEXT ─────────────────────────────────────────────────────── */
@@ -262,7 +279,8 @@ body {
 .hr-rule {
   width: 100%;
   height: 1px;
-  background: var(--border);
+  background: linear-gradient(90deg, transparent, var(--brand-purple), transparent);
+  opacity: 0.3;
 }
 
 /* ─── BUTTON STYLES ─────────────────────────────────────────────────────── */
