@@ -33,7 +33,7 @@ export default function BrandingStrategyPage() {
         <div className="max-w-[1400px] mx-auto">
           <span className="label-sm block mb-10">[ Service Protocol 02 ]</span>
           <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16 tracking-tighter"
-              style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}>
+              style={{ fontSize: 'clamp(1.8rem, 8vw, 11rem)' }}>
             Branding &<br />
             <span className="text-[var(--muted-foreground)]">Strategy.</span>
           </h1>
@@ -70,7 +70,7 @@ export default function BrandingStrategyPage() {
          <div className="max-w-5xl mx-auto">
             <span className="label-sm block mb-12">Brand Request</span>
             <h2 className="font-outfit font-black leading-[0.9] uppercase mb-16 tracking-tighter"
-              style={{ fontSize: 'clamp(3.5rem, 10vw, 10rem)' }}>
+              style={{ fontSize: 'clamp(2rem, 8vw, 10rem)' }}>
               Build Your<br />
               <span className="text-[var(--muted-foreground)]">Legacy.</span>
             </h2>

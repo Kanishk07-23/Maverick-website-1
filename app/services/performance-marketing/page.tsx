@@ -49,7 +49,7 @@ export default function PerformanceMarketingPage() {
         <div className="max-w-[1400px] mx-auto">
           <span className="label-sm block mb-10">[ Service Protocol 01 ]</span>
           <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16 tracking-tighter"
-              style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}>
+              style={{ fontSize: 'clamp(1.8rem, 8vw, 11rem)' }}>
             Performance<br />
             <span className="text-[var(--muted-foreground)]">Marketing.</span>
           </h1>
@@ -110,7 +110,7 @@ export default function PerformanceMarketingPage() {
          <div className="max-w-5xl mx-auto">
             <span className="label-sm block mb-12">Growth Request</span>
             <h2 className="font-outfit font-black leading-[0.9] uppercase mb-16 tracking-tighter"
-              style={{ fontSize: 'clamp(3.5rem, 10vw, 10rem)' }}>
+              style={{ fontSize: 'clamp(2rem, 8vw, 10rem)' }}>
               Scale Your<br />
               <span className="text-[var(--muted-foreground)]">Ad Spend.</span>
             </h2>
