@@ -38,7 +38,7 @@
 
   /* ─── LIGHT MODE GLOBAL TEXT GRADIENT ─── */
   html:not(.dark) .font-outfit {
-    background: linear-gradient(135deg, #8b5cf6 0%, #f3e8ff 100%);
+    background: linear-gradient(135deg, #482a82 0%, #a78bfa 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -446,6 +446,9 @@ body {
   color: var(--inverted-text);
   padding: 0 0.1em;
   display: inline-block;
+  -webkit-text-fill-color: var(--inverted-text);
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
 }
 .dark .brutalist-highlight {
   background: #d4cfe0;
