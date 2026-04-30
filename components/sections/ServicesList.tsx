@@ -151,7 +151,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
 
   const handleSelect = (service: Service) => {
     setIsTransitioning(true);
-    setTimeout(() => router.push(`/services/${service.id}`), 600);
+    setTimeout(() => router.push(`/services/${service.id}`), 1200);
   };
 
   return (
@@ -160,7 +160,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
       <motion.div
         initial={false}
         animate={{ scaleY: isTransitioning ? 1 : 0 }}
-        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+        transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
         className="fixed inset-0 z-[100] bg-[var(--foreground)] origin-bottom pointer-events-none"
       />
 
@@ -181,30 +181,29 @@ export default function ServicesList({ services }: { services: Service[] }) {
         </AnimatePresence>
       </div>
 
-      {/* 3D Wheel Perspective Wrapper */}
-      <div className="relative h-full w-full flex items-center justify-center z-50 pointer-events-none" style={{ perspective: '2000px' }}>
-        <div className="absolute w-full h-px bg-[var(--border)] top-1/2 left-0 opacity-20 pointer-events-none" />
-        
-        {services.map((service, i) => (
-          <WheelCard
-            key={service.id}
-            service={service}
-            index={i}
-            total={total}
-            activeFloat={activeFloat}
-            isActive={i === activeIndex}
-            containerW={containerW}
-            onSelect={handleSelect}
-          />
-        ))}
-      </div>
-
-      {/* Invisible Horizontal Scroll Rail */}
+      {/* Scrollable Rail wrapping the Sticky 3D Wheel */}
       <div 
         ref={scrollRef}
-        className="absolute inset-0 overflow-x-auto overflow-y-hidden opacity-0 z-40 hide-scrollbar cursor-ew-resize"
+        className="absolute inset-0 overflow-x-auto overflow-y-hidden z-40 hide-scrollbar cursor-ew-resize"
       >
-        <div style={{ width: `${total * 100}%`, height: '100%' }} />
+        <div style={{ width: `${total * 100}%`, height: '100%', position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }} />
+        
+        <div className="sticky left-0 top-0 w-screen h-full flex items-center justify-center pointer-events-none" style={{ perspective: '2000px' }}>
+          <div className="absolute w-full h-px bg-[var(--border)] top-1/2 left-0 opacity-20 pointer-events-none" />
+          
+          {services.map((service, i) => (
+            <WheelCard
+              key={service.id}
+              service={service}
+              index={i}
+              total={total}
+              activeFloat={activeFloat}
+              isActive={i === activeIndex}
+              containerW={containerW}
+              onSelect={handleSelect}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Bottom Navigation Meta */}

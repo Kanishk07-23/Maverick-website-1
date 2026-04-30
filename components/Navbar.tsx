@@ -78,7 +78,7 @@ export default function Navbar() {
 
           {/* Right */}
           <div className="flex items-center gap-6 z-10">
-            <div className="hidden md:block">
+            <div>
                <ThemeToggle />
             </div>
             <Link

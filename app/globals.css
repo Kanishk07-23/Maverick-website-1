@@ -5,29 +5,29 @@
 @layer base {
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
-    --background: #e2dfea; /* Lavender-Silver */
-    --foreground: #412670; /* Rich Dark Purple */
-    --muted: #d5d1e0;
-    --muted-foreground: #4b3b61;
-    --card: #ebe9f2;
-    --border: rgba(109, 40, 217, 0.20);
-    --elevated: #f0eef6;
+    --background: #f8f6fc; /* Very Light Airy Lavender */
+    --foreground: #482a82; /* Vibrant Lighter Purple */
+    --muted: #e6e3f0;
+    --muted-foreground: #6b5a8c;
+    --card: #ffffff;
+    --border: rgba(139, 92, 246, 0.20);
+    --elevated: #ffffff;
 
-    --brand-purple: #6d28d9;
-    --brand-violet: #4f46e5;
-    --brand-blue: #2563eb;
+    --brand-purple: #8b5cf6;
+    --brand-violet: #6366f1;
+    --brand-blue: #3b82f6;
     --brand-lavender: #A5B4FC;
     --brand-whatsapp: #25D366;
-    --brand-dark: #e2dfea;
+    --brand-dark: #f8f6fc;
 
-    --inverted-bg: #412670; /* Rich Dark Purple inverted background */
-    --inverted-text: #e2dfea; /* Lavender-Silver inverted text */
+    --inverted-bg: #482a82; /* Vibrant Purple inverted background */
+    --inverted-text: #ffffff; /* White inverted text for maximum legibility */
 
     --glass-bg: rgba(226, 223, 234, 0.75);
     --glass-border: rgba(109, 40, 217, 0.25);
     --glass-shadow: 0 4px 12px rgba(109,40,217,0.1);
     --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
-    --gradient-wash: linear-gradient(135deg, rgba(109, 40, 217, 0.08) 0%, rgba(79, 70, 229, 0.05) 100%);
+    --gradient-wash: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.08) 100%);
 
     --card-shadow: 0 4px 20px rgba(109, 40, 217, 0.12), 0 1px 2px rgba(0,0,0,0.05);
     --card-shadow-hover: 0 12px 40px rgba(109, 40, 217, 0.20), 0 4px 12px rgba(0,0,0,0.05);
