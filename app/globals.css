@@ -5,12 +5,12 @@
 @layer base {
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
-    --background: #f5f4f0;
+    --background: #f4f0f7;
     --foreground: #0a0a0a;
-    --muted: #e8e7e3;
+    --muted: #e6e2ea;
     --muted-foreground: #6b6b6b;
-    --card: #edece8;
-    --border: rgba(0, 0, 0, 0.08);
+    --card: #ede8f2;
+    --border: rgba(109, 40, 217, 0.10);
     --elevated: #ffffff;
 
     --brand-purple: #6d28d9;
@@ -18,45 +18,45 @@
     --brand-blue: #2563eb;
     --brand-lavender: #A5B4FC;
     --brand-whatsapp: #25D366;
-    --brand-dark: #f5f4f0;
+    --brand-dark: #f4f0f7;
 
-    --glass-bg: rgba(245, 244, 240, 0.85);
-    --glass-border: rgba(0, 0, 0, 0.07);
-    --glass-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+    --glass-bg: rgba(244, 240, 247, 0.85);
+    --glass-border: rgba(109, 40, 217, 0.08);
+    --glass-shadow: 0 1px 3px rgba(109,40,217,0.04), 0 8px 24px rgba(109,40,217,0.06);
     --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
 
-    --card-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06);
-    --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.09), 0 12px 40px rgba(0,0,0,0.11);
-    --section-alt-bg: #0a0a0a;
+    --card-shadow: 0 1px 2px rgba(109,40,217,0.04), 0 4px 16px rgba(109,40,217,0.06);
+    --card-shadow-hover: 0 4px 12px rgba(109,40,217,0.09), 0 12px 40px rgba(109,40,217,0.11);
+    --section-alt-bg: #0a0812;
     --dot-color: rgba(109, 40, 217, 0.07);
     --premium-shadow: 0 4px 24px rgba(109, 40, 217, 0.30), 0 1px 4px rgba(0,0,0,0.15);
   }
 
   /* ─── DARK MODE ──────────────────────────────────────────────────────── */
   .dark {
-    --background: #080808;
-    --foreground: #f0ede6;
-    --muted: #111111;
-    --muted-foreground: #888888;
-    --card: #111111;
-    --border: rgba(255, 255, 255, 0.07);
-    --elevated: #141414;
+    --background: #0a0812;
+    --foreground: #f4f0f7;
+    --muted: #151120;
+    --muted-foreground: #8a849b;
+    --card: #12101c;
+    --border: rgba(139, 92, 246, 0.12);
+    --elevated: #161424;
 
     --brand-purple: #8b5cf6;
     --brand-violet: #6366f1;
     --brand-blue: #3b82f6;
     --brand-lavender: #A5B4FC;
     --brand-whatsapp: #25D366;
-    --brand-dark: #080808;
+    --brand-dark: #0a0812;
 
-    --glass-bg: rgba(12, 12, 12, 0.85);
-    --glass-border: rgba(255, 255, 255, 0.06);
+    --glass-bg: rgba(10, 8, 18, 0.85);
+    --glass-border: rgba(139, 92, 246, 0.10);
     --glass-shadow: 0 1px 3px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.5);
     --gradient-brand: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
 
     --card-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
-    --card-shadow-hover: 0 0 40px rgba(139,92,246,0.12), 0 12px 40px rgba(0,0,0,0.5);
-    --section-alt-bg: #f0ede6;
+    --card-shadow-hover: 0 0 40px rgba(139,92,246,0.15), 0 12px 40px rgba(0,0,0,0.5);
+    --section-alt-bg: #f4f0f7;
     --dot-color: rgba(255, 255, 255, 0.03);
     --premium-shadow: 0 4px 24px rgba(139, 92, 246, 0.35), 0 1px 4px rgba(0,0,0,0.4);
   }
@@ -222,12 +222,12 @@ body {
 
 /* ─── EXOAPE DARK SECTION — black bg with light text ───────────────────── */
 .section-dark {
-  background: #0a0a0a;
-  color: #f0ede6;
+  background: #0a0812;
+  color: #f4f0f7;
 }
 .dark .section-dark {
-  background: #050505;
-  color: #f0ede6;
+  background: #07050d;
+  color: #f4f0f7;
 }
 
 /* ─── SECTION ALT ───────────────────────────────────────────────────────── */
