@@ -92,13 +92,9 @@ function WheelCard({
           <h2
             className="font-outfit font-black text-[var(--foreground)] leading-[0.95] mb-8 uppercase"
             style={{ 
-              fontSize: 'clamp(2rem, 4vw, 3.5rem)', 
-              letterSpacing: '-0.07em',
-              wordBreak: 'break-word',
-              hyphens: 'auto',
-              WebkitHyphens: 'auto'
+              fontSize: service.id === 'performance-marketing' ? 'clamp(1.75rem, 3.2vw, 2.75rem)' : 'clamp(2rem, 4vw, 3.5rem)', 
+              letterSpacing: '-0.07em'
             }}
-            lang="en"
           >
             {service.title.split(' ').map((word, i) => (
               <span key={i} className="block">{word}</span>
