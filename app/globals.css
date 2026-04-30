@@ -47,6 +47,19 @@
     color: transparent;
   }
 
+  /* Force white text on interactive elements that turn inverted on hover */
+  html:not(.dark) .hover\:bg-\[var\(--inverted-bg\)\]:hover {
+    background: var(--gradient-brand) !important;
+  }
+  
+  html:not(.dark) .hover\:bg-\[var\(--inverted-bg\)\]:hover .font-outfit {
+    background: none !important;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+  }
+
   html:not(.dark) .btn-magnetic {
     background: var(--gradient-brand) !important;
     color: #ffffff !important;
