@@ -151,7 +151,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
 
   const handleSelect = (service: Service) => {
     setIsTransitioning(true);
-    setTimeout(() => router.push(`/services/${service.id}`), 500);
+    setTimeout(() => router.push(`/services/${service.id}`), 250);
   };
 
   return (
@@ -160,7 +160,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
       <motion.div
         initial={false}
         animate={{ scaleY: isTransitioning ? 1 : 0 }}
-        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+        transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
         className="fixed inset-0 z-[100] bg-[var(--foreground)] origin-bottom pointer-events-none"
       />
 
@@ -221,16 +221,6 @@ export default function ServicesList({ services }: { services: Service[] }) {
                 }}
               />
             ))}
-          </div>
-        </div>
-
-        <div className="text-right flex flex-col items-end gap-2">
-          <span className="label-sm opacity-50 uppercase tracking-widest">Swipe / Shift {'< >'}</span>
-          <div className="w-24 h-px bg-[var(--border)] relative overflow-hidden">
-            <motion.div
-              className="absolute top-0 left-0 h-full bg-[var(--foreground)]"
-              style={{ width: '100%', scaleX: scrollXProgress, transformOrigin: 'left' }}
-            />
           </div>
         </div>
       </div>

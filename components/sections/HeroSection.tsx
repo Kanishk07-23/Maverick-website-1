@@ -168,7 +168,7 @@ export default function HeroSection() {
               className="absolute inset-0 w-full bg-[var(--foreground)]"
              />
           </div>
-          <span className="label-sm uppercase tracking-[0.2em] opacity-50">Scroll / Protocol</span>
+          <span className="label-sm uppercase tracking-[0.2em] opacity-50">Protocol</span>
         </motion.div>
 
         <motion.div
