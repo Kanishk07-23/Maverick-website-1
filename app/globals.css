@@ -6,9 +6,9 @@
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
     --background: #ffffff; /* Base White */
-    --foreground: #8b5cf6; /* Light Purple Base */
+    --foreground: #8b5cf6; /* Light Purple Base for borders and accents */
     --muted: #f3f0f7;
-    --muted-foreground: #a78bfa; /* Even Lighter Purple for paragraphs */
+    --muted-foreground: #a78bfa; 
     --card: #ffffff;
     --border: rgba(139, 92, 246, 0.20);
     --elevated: #ffffff;
@@ -20,13 +20,15 @@
     --brand-whatsapp: #25D366;
     --brand-dark: #f8f6fc;
 
-    --inverted-bg: #482a82; /* Vibrant Purple inverted background */
-    --inverted-text: #ffffff; /* White inverted text for maximum legibility */
+    --inverted-bg: #8b5cf6; /* Fallback */
+    --inverted-text: #ffffff;
 
     --glass-bg: rgba(226, 223, 234, 0.75);
     --glass-border: rgba(109, 40, 217, 0.25);
     --glass-shadow: 0 4px 12px rgba(109,40,217,0.1);
-    --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
+    
+    /* Visually Appealing Maverick Brand Gradient */
+    --gradient-brand: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #3b82f6 100%);
     --gradient-wash: linear-gradient(135deg, #e8ddf5 0%, #ffffff 100%);
 
     --card-shadow: 0 4px 20px rgba(109, 40, 217, 0.12), 0 1px 2px rgba(0,0,0,0.05);
@@ -36,13 +38,31 @@
     --premium-shadow: 0 4px 24px rgba(109, 40, 217, 0.30), 0 1px 4px rgba(0,0,0,0.1);
   }
 
-  /* ─── LIGHT MODE GLOBAL TEXT GRADIENT ─── */
+  /* ─── LIGHT MODE GLOBAL PURPLE GRADIENTS ─── */
   html:not(.dark) .font-outfit {
-    background: linear-gradient(135deg, #8b5cf6 0%, #d8b4fe 100%);
+    background: var(--gradient-brand);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent;
+  }
+
+  html:not(.dark) .btn-magnetic {
+    background: var(--gradient-brand) !important;
+    color: #ffffff !important;
+    border: none !important;
+  }
+
+  html:not(.dark) .bg-\[var\(--foreground\)\] {
+    background: var(--gradient-brand) !important;
+  }
+
+  html:not(.dark) .brutalist-highlight {
+    background: var(--gradient-brand) !important;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
   }
 
   /* ─── DARK MODE ──────────────────────────────────────────────────────── */
