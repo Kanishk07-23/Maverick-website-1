@@ -128,10 +128,35 @@ export default function ServicesList({ services }: { services: Service[] }) {
   const [containerW, setContainerW] = useState(0);
 
   useEffect(() => {
+    // Restore scroll position
+    const savedScroll = sessionStorage.getItem('maverick-wheel-scroll');
+    if (savedScroll && scrollRef.current) {
+      // Small delay ensures DOM is fully painted
+      setTimeout(() => {
+        if (scrollRef.current) scrollRef.current.scrollLeft = parseFloat(savedScroll);
+      }, 50);
+    }
+
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        sessionStorage.setItem('maverick-wheel-scroll', scrollRef.current.scrollLeft.toString());
+      }
+    };
+
+    const currentRef = scrollRef.current;
+    if (currentRef) {
+      currentRef.addEventListener('scroll', handleScroll, { passive: true });
+    }
+
     setContainerW(window.innerWidth);
     const onResize = () => setContainerW(window.innerWidth);
     window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      if (currentRef) {
+        currentRef.removeEventListener('scroll', handleScroll);
+      }
+    };
   }, []);
 
   const { scrollXProgress } = useScroll({
@@ -151,7 +176,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
 
   const handleSelect = (service: Service) => {
     setIsTransitioning(true);
-    setTimeout(() => router.push(`/services/${service.id}`), 250);
+    setTimeout(() => router.push(`/services/${service.id}`), 800);
   };
 
   return (
@@ -160,7 +185,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
       <motion.div
         initial={false}
         animate={{ scaleY: isTransitioning ? 1 : 0 }}
-        transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         className="fixed inset-0 z-[100] bg-[var(--foreground)] origin-bottom pointer-events-none"
       />
 
