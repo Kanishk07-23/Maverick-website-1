@@ -84,7 +84,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               id="nav-cta"
-              className="hidden lg:inline-flex px-8 py-3 rounded-full bg-gradient-to-r from-[var(--brand-purple)] to-[var(--brand-blue)] text-white label-sm font-black uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
+              className="hidden lg:inline-flex px-8 py-3 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] label-sm font-black uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic"
             >
               Initiate →
             </Link>

@@ -181,7 +181,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
       </div>
 
       {/* 3D Wheel Perspective Wrapper */}
-      <div className="relative h-full w-full flex items-center justify-center" style={{ perspective: '2000px' }}>
+      <div className="relative h-full w-full flex items-center justify-center z-50 pointer-events-none" style={{ perspective: '2000px' }}>
         <div className="absolute w-full h-px bg-[var(--border)] top-1/2 left-0 opacity-20 pointer-events-none" />
         
         {services.map((service, i) => (
