@@ -54,7 +54,7 @@ export default function TeamPage() {
             <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16 tracking-tighter"
                 style={{ fontSize: 'clamp(2.5rem, 10vw, 11rem)' }}>
               Two Founders.<br />
-              <span className="text-[var(--muted-foreground)]">Zero Layers.</span>
+              <span className="brutalist-highlight px-4 mt-2">Zero Layers.</span>
             </h1>
           </motion.div>
           <div className="max-w-2xl border-t border-[var(--border)] pt-12">
@@ -125,7 +125,7 @@ export default function TeamPage() {
           <h2 className="font-outfit font-black leading-[0.9] uppercase mb-16 tracking-tighter"
             style={{ fontSize: 'clamp(2.2rem, 8vw, 8.5rem)' }}>
             Work with <br />
-            <span className="text-[var(--muted-foreground)]">The Originals.</span>
+            <span className="brutalist-highlight px-4 mt-2">The Originals.</span>
           </h2>
           <Link
             href="/contact"

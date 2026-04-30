@@ -44,7 +44,7 @@ export default function AboutPage() {
             <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16"
                 style={{ fontSize: 'clamp(3.5rem, 12vw, 13rem)', letterSpacing: '-0.06em' }}>
               We Build<br />
-              <span className="text-[var(--muted-foreground)]">Legends.</span>
+              <span className="brutalist-highlight px-4">Legends.</span>
             </h1>
           </motion.div>
 
@@ -73,7 +73,7 @@ export default function AboutPage() {
               <h2 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.9] m-0"
                   style={{ fontSize: 'clamp(2.5rem, 7vw, 6rem)', letterSpacing: '-0.05em' }}>
                 The Maverick <br />
-                <span className="text-[var(--muted-foreground)]">Origin.</span>
+                <span className="brutalist-highlight px-2">Origin.</span>
               </h2>
             </motion.div>
 
@@ -147,7 +147,7 @@ export default function AboutPage() {
             <h2 className="font-outfit font-black leading-[0.9] uppercase mb-16 tracking-tighter"
               style={{ fontSize: 'clamp(3.5rem, 10vw, 10rem)' }}>
               Start the<br />
-              <span className="text-[var(--muted-foreground)]">Uprising.</span>
+              <span className="brutalist-highlight px-4">Uprising.</span>
             </h2>
             <Link
               href="/contact"

@@ -104,7 +104,7 @@ export default function ServicesSection() {
               style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}
             >
               We Engineer<br />
-              <span className="text-[var(--muted-foreground)]">Growth.</span>
+              <span className="brutalist-highlight px-2">Growth.</span>
             </h2>
           </motion.div>
 

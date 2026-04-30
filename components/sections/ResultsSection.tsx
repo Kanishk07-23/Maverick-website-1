@@ -34,7 +34,7 @@ export default function ResultsSection() {
                style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
             >
               Proven Growth<br />
-              <span className="text-[var(--muted-foreground)]">Protocols.</span>
+              <span className="brutalist-highlight px-2 mt-2">Protocols.</span>
             </motion.h2>
           </div>
           <p className="label-sm opacity-50 uppercase tracking-[0.2em] md:text-right">

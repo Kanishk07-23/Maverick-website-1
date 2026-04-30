@@ -5,12 +5,12 @@
 @layer base {
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
-    --background: #ede9f2;
+    --background: #fdfcff;
     --foreground: #0a0a0a;
-    --muted: #e0dae6;
-    --muted-foreground: #6b6b6b;
-    --card: #e6dfea;
-    --border: rgba(109, 40, 217, 0.18);
+    --muted: #f0f0f5;
+    --muted-foreground: #000000;
+    --card: #ffffff;
+    --border: rgba(109, 40, 217, 0.12);
     --elevated: #ffffff;
 
     --brand-purple: #6d28d9;
@@ -18,26 +18,26 @@
     --brand-blue: #2563eb;
     --brand-lavender: #A5B4FC;
     --brand-whatsapp: #25D366;
-    --brand-dark: #ede9f2;
+    --brand-dark: #fdfcff;
 
-    --glass-bg: rgba(237, 233, 242, 0.85);
-    --glass-border: rgba(109, 40, 217, 0.15);
-    --glass-shadow: 0 1px 3px rgba(109,40,217,0.08), 0 8px 24px rgba(109,40,217,0.12);
+    --glass-bg: rgba(253, 252, 255, 0.85);
+    --glass-border: rgba(109, 40, 217, 0.12);
+    --glass-shadow: 0 1px 3px rgba(109,40,217,0.06), 0 8px 24px rgba(109,40,217,0.10);
     --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
 
-    --card-shadow: 0 1px 2px rgba(109,40,217,0.06), 0 4px 16px rgba(109,40,217,0.08);
-    --card-shadow-hover: 0 4px 12px rgba(109,40,217,0.12), 0 12px 40px rgba(109,40,217,0.15);
+    --card-shadow: 0 4px 20px rgba(109, 40, 217, 0.08), 0 1px 2px rgba(0,0,0,0.05);
+    --card-shadow-hover: 0 12px 40px rgba(109, 40, 217, 0.15), 0 4px 12px rgba(0,0,0,0.05);
     --section-alt-bg: #0d0a1a;
     --dot-color: rgba(109, 40, 217, 0.12);
-    --premium-shadow: 0 4px 24px rgba(109, 40, 217, 0.35), 0 1px 4px rgba(0,0,0,0.15);
+    --premium-shadow: 0 4px 24px rgba(109, 40, 217, 0.25), 0 1px 4px rgba(0,0,0,0.1);
   }
 
   /* ─── DARK MODE ──────────────────────────────────────────────────────── */
   .dark {
     --background: #0d0a1a;
-    --foreground: #f4f0f7;
+    --foreground: #ffffff;
     --muted: #1a152b;
-    --muted-foreground: #8a849b;
+    --muted-foreground: #ffffff;
     --card: #161326;
     --border: rgba(139, 92, 246, 0.20);
     --elevated: #1a1829;
@@ -56,9 +56,9 @@
 
     --card-shadow: 0 1px 2px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.4);
     --card-shadow-hover: 0 0 40px rgba(139,92,246,0.20), 0 12px 40px rgba(0,0,0,0.6);
-    --section-alt-bg: #ede9f2;
-    --dot-color: rgba(139, 92, 246, 0.08);
-    --premium-shadow: 0 4px 24px rgba(139, 92, 246, 0.40), 0 1px 4px rgba(0,0,0,0.5);
+    --section-alt-bg: #d4cfe0;
+    --dot-color: rgba(139, 92, 246, 0.12);
+    --premium-shadow: 0 4px 24px rgba(139, 92, 246, 0.45), 0 1px 4px rgba(0,0,0,0.5);
   }
 }
 
@@ -82,6 +82,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   cursor: auto;
+}
+
+::selection {
+  background: var(--brand-purple);
+  color: #ffffff;
 }
 
 /* ─── CURSOR ──────────────────────────────────────────────────────────────── */
@@ -408,10 +413,16 @@ body {
   to { clip-path: inset(0 0% 0 0); }
 }
 
-/* ─── WORD REVEAL (Exoape style) ────────────────────────────────────────── */
-.word-reveal-container {
-  overflow: hidden;
+/* ─── BRUTALIST HIGHLIGHT ───────────────────────────────────────────────── */
+.brutalist-highlight {
+  background: #ffffff;
+  color: #000000;
+  padding: 0 0.1em;
   display: inline-block;
+}
+.dark .brutalist-highlight {
+  background: #d4cfe0;
+  color: #000000;
 }
 
 /* ─── FORM INPUTS ───────────────────────────────────────────────────────── */

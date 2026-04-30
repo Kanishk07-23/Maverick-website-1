@@ -105,7 +105,7 @@ export default function HeroSection() {
                   key={i}
                   custom={line1.length + i}
                   variants={wordVars}
-                  className="inline-block text-[var(--muted-foreground)]"
+                  className="inline-block brutalist-highlight"
                 >
                   {word}
                 </motion.span>

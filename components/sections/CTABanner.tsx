@@ -30,7 +30,7 @@ export default function CTABanner() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
           Scale Your<br />
-          <span className="text-[var(--muted-foreground)]">Vision.</span>
+          <span className="brutalist-highlight px-4">Vision.</span>
         </motion.h2>
 
         <motion.div
