@@ -5,12 +5,12 @@
 @layer base {
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
-    --background: #f0f0f5; /* Light Lavender-Silver */
-    --foreground: #33333b; /* Silvery Grey */
-    --muted: #e4e4eb;
-    --muted-foreground: #4a4a52;
-    --card: #f8f8fb;
-    --border: rgba(109, 40, 217, 0.15);
+    --background: #fdfcff; /* Classy Icy Lavender-White */
+    --foreground: #0d0a1a; /* Deep Midnight Purple */
+    --muted: #f0edf5;
+    --muted-foreground: #4a4559;
+    --card: #ffffff;
+    --border: rgba(109, 40, 217, 0.18);
     --elevated: #ffffff;
 
     --brand-purple: #6d28d9;
@@ -18,16 +18,16 @@
     --brand-blue: #2563eb;
     --brand-lavender: #A5B4FC;
     --brand-whatsapp: #25D366;
-    --brand-dark: #f0f0f5;
+    --brand-dark: #fdfcff;
 
-    --inverted-bg: #33333b;
-    --inverted-text: #f0f0f5;
+    --inverted-bg: #0d0a1a; /* High contrast midnight */
+    --inverted-text: #ffffff;
 
-    --glass-bg: rgba(240, 240, 245, 0.85);
+    --glass-bg: rgba(253, 252, 255, 0.85);
     --glass-border: rgba(109, 40, 217, 0.15);
     --glass-shadow: 0 1px 3px rgba(109,40,217,0.08), 0 8px 24px rgba(109,40,217,0.12);
     --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
-    --gradient-wash: linear-gradient(135deg, rgba(109, 40, 217, 0.05) 0%, rgba(79, 70, 229, 0.03) 100%);
+    --gradient-wash: linear-gradient(135deg, rgba(109, 40, 217, 0.04) 0%, rgba(79, 70, 229, 0.02) 100%);
 
     --card-shadow: 0 4px 20px rgba(109, 40, 217, 0.12), 0 1px 2px rgba(0,0,0,0.05);
     --card-shadow-hover: 0 12px 40px rgba(109, 40, 217, 0.20), 0 4px 12px rgba(0,0,0,0.05);
