@@ -100,16 +100,7 @@ function RobotBody() {
         />
       </mesh>
 
-      {/* Text Label orbiting */}
-      <Text
-        position={[0, -1.5, 0]}
-        fontSize={0.2}
-        color="white"
-        anchorX="center"
-        anchorY="middle"
-      >
-        MAVERICK_BOT v1.0
-      </Text>
+      {/* Text Label orbiting (removed for stability) */}
     </group>
   );
 }
@@ -140,14 +131,9 @@ export default function InteractiveRobot() {
         
         <Suspense fallback={null}>
           <RobotBody />
-          <Environment preset="city" />
-          <ContactShadows 
-            position={[0, -2, 0]} 
-            opacity={0.4} 
-            scale={10} 
-            blur={2} 
-            far={4.5} 
-          />
+          {/* Robust standard lighting instead of Environment to prevent external fetch crashes */}
+          <directionalLight position={[5, 10, 5]} intensity={1.5} color="#ffffff" />
+          <directionalLight position={[-5, 5, -5]} intensity={0.5} color="#8b5cf6" />
         </Suspense>
       </Canvas>
     </div>
