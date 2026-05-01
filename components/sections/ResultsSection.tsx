@@ -2,8 +2,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
-import { SplineScene } from '@/components/SplineScene';
-
 import InteractiveRobot from '@/components/InteractiveRobot';
 
 const stats = [
@@ -26,7 +24,7 @@ export default function ResultsSection() {
             <motion.span
               className="label-sm block mb-8"
               initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 ? 1 : 0 } : {}}
+              animate={inView ? { opacity: 1 } : {}}
             >
               Performance Metrics
             </motion.span>
@@ -47,10 +45,10 @@ export default function ResultsSection() {
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HlviUof4f/scene.splinecode"
-              className="w-full h-full"
-            />
+            {/* Stable Interactive 3D Robot - Native Three.js */}
+            <div className="absolute inset-0 z-0">
+              <InteractiveRobot />
+            </div>
 
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)]/20 to-transparent pointer-events-none" />
             
