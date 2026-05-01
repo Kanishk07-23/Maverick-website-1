@@ -23,6 +23,15 @@
     --inverted-bg: #8b5cf6; /* Fallback */
     --inverted-text: #ffffff;
 
+    --white: #ffffff;
+    --black: #000000;
+    --transparent: transparent;
+    --blue-300: #93c5fd;
+    --blue-400: #60a5fa;
+    --blue-500: #3b82f6;
+    --indigo-300: #a5b4fc;
+    --violet-200: #ddd6fe;
+
     --glass-bg: rgba(226, 223, 234, 0.75);
     --glass-border: rgba(109, 40, 217, 0.25);
     --glass-shadow: 0 4px 12px rgba(109,40,217,0.1);
@@ -97,6 +106,15 @@
 
     --inverted-bg: #d4cfe0;
     --inverted-text: #0d0a1a;
+
+    --white: #ffffff;
+    --black: #000000;
+    --transparent: transparent;
+    --blue-300: #93c5fd;
+    --blue-400: #60a5fa;
+    --blue-500: #3b82f6;
+    --indigo-300: #a5b4fc;
+    --violet-200: #ddd6fe;
 
     --glass-bg: rgba(13, 10, 26, 0.85);
     --glass-border: rgba(139, 92, 246, 0.18);

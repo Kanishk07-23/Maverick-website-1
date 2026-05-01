@@ -43,6 +43,7 @@ const config: Config = {
         'float': 'float 6s ease-in-out infinite',
         'marquee': 'marquee 30s linear infinite',
         'marquee2': 'marquee2 30s linear infinite',
+        'aurora': 'aurora 60s linear infinite',
       },
       keyframes: {
         'pulse-glow': {
@@ -60,6 +61,14 @@ const config: Config = {
         marquee2: {
           '0%': { transform: 'translateX(50%)' },
           '100%': { transform: 'translateX(0%)' },
+        },
+        aurora: {
+          from: {
+            backgroundPosition: "50% 50%, 50% 50%",
+          },
+          to: {
+            backgroundPosition: "350% 50%, 350% 50%",
+          },
         },
       },
     },

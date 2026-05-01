@@ -9,6 +9,7 @@ import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import ThemeProvider from '@/components/ThemeProvider';
 import ScrollProgress from '@/components/ScrollProgress';
 import BackToTop from '@/components/BackToTop';
+import { AuroraBackground } from '@/components/AuroraBackground';
 
 
 const sora = Sora({
@@ -86,16 +87,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning className={`${sora.variable} ${dmSans.variable} ${spaceMono.variable}`}>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <div className="mesh-gradient" />
-          <ScrollProgress />
-          <CustomCursor />
-          <SmoothScrollProvider>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-            <WhatsAppWidget />
-            <BackToTop />
-          </SmoothScrollProvider>
+          <AuroraBackground>
+            <ScrollProgress />
+            <CustomCursor />
+            <SmoothScrollProvider>
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+              <WhatsAppWidget />
+              <BackToTop />
+            </SmoothScrollProvider>
+          </AuroraBackground>
         </ThemeProvider>
         <script
           type="application/ld+json"
