@@ -1,9 +1,8 @@
 'use client';
-import { useRef, useState, useMemo, Suspense } from 'react';
+import { useRef, useState, useEffect, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { 
   Float, 
-  MeshDistortMaterial, 
   PerspectiveCamera, 
   Text, 
   MeshWobbleMaterial,
@@ -106,7 +105,6 @@ function RobotBody() {
         position={[0, -1.5, 0]}
         fontSize={0.2}
         color="white"
-        font="/fonts/Sora-Bold.ttf"
         anchorX="center"
         anchorY="middle"
       >
@@ -117,6 +115,18 @@ function RobotBody() {
 }
 
 export default function InteractiveRobot() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-[var(--brand-purple)] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
+
   return (
     <div className="w-full h-full min-h-[400px]">
       <Canvas shadows dpr={[1, 2]}>
