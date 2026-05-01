@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState, useMemo } from 'react';
+import { useRef, useState, useMemo, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { 
   Float, 
