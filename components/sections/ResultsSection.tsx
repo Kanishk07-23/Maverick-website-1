@@ -1,6 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import Link from 'next/link';
 import { SplineScene } from '@/components/SplineScene';
 
 const stats = [

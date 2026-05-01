@@ -1,5 +1,6 @@
 'use client';
 import { Plus } from 'lucide-react';
+import Image from 'next/image';
 
 const CLIENTS: Array<{
   id: string;
@@ -46,7 +47,7 @@ export default function ClientsSection() {
               {doubled.map((c, i) => (
                 <div key={`${c.id}-${i}`} className="flex-shrink-0 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
                   {c.logo ? (
-                    <img src={c.logo} alt={c.name} className="h-10 md:h-12 w-auto object-contain" />
+                    <Image src={c.logo} alt={c.name} width={120} height={48} className="h-10 md:h-12 w-auto object-contain" />
                   ) : (
                     <span className="font-outfit font-black text-2xl md:text-3xl uppercase tracking-tighter">{c.name}</span>
                   )}
