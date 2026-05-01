@@ -71,7 +71,7 @@ export default function ContactClient() {
   };
 
   return (
-    <div className="bg-[var(--background)] min-h-screen">
+    <div className="min-h-screen">
       {/* Editorial Header */}
       <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">
         <div className="max-w-[1400px] mx-auto">
@@ -150,8 +150,8 @@ export default function ContactClient() {
                     <div className="relative border-b border-[var(--border)] focus-within:border-[var(--foreground)] transition-colors">
                       <label className="label-sm opacity-50 uppercase mb-4 block">Protocol Selection</label>
                       <select {...register('service')} className="w-full bg-transparent py-4 font-outfit font-black text-2xl md:text-3xl uppercase tracking-tighter focus:outline-none appearance-none cursor-pointer">
-                        <option value="" className="bg-[var(--background)]">Select Protocol</option>
-                        {services.map(s => <option key={s} value={s} className="bg-[var(--background)]">{s}</option>)}
+                        <option value="" className="">Select Protocol</option>
+                        {services.map(s => <option key={s} value={s} className="">{s}</option>)}
                       </select>
                     </div>
                   </div>

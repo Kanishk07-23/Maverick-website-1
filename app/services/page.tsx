@@ -105,7 +105,7 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <div className="bg-[var(--background)]">
+    <div className="">
       {/* Editorial Hero */}
       <section className="pt-40 pb-20 md:pt-48 md:pb-28 relative overflow-hidden border-b border-[var(--border)]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
@@ -130,7 +130,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Services — Brutalist 3D Carousel */}
-      <section className="relative overflow-visible bg-[var(--background)]">
+      <section className="relative overflow-visible ">
         <ServicesList services={services} />
       </section>
 

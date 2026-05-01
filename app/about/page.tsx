@@ -30,7 +30,7 @@ const markets = [
 
 export default function AboutPage() {
   return (
-    <div className="bg-[var(--background)] min-h-screen">
+    <div className=" min-h-screen">
       
       {/* Editorial Hero */}
       <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">
@@ -102,7 +102,7 @@ export default function AboutPage() {
               </p>
            </div>
 
-           <div className="grid md:grid-cols-3 gap-px bg-[var(--background)]/20 border-t border-b border-[var(--background)]/20">
+           <div className="grid md:grid-cols-3 gap-px /20 border-t border-b border-[var(--background)]/20">
              {values.map((v, i) => (
                <div 
                 key={v.num}

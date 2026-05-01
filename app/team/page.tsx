@@ -40,7 +40,7 @@ export default function TeamPage() {
   const [hoveredFounder, setHoveredFounder] = useState<number | null>(null);
 
   return (
-    <div className="bg-[var(--background)]">
+    <div className="">
       
       {/* Hero */}
       <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">

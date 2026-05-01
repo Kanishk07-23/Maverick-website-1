@@ -27,7 +27,7 @@ function formatDate(dateStr: string) {
 
 export default function BlogPage() {
   return (
-    <div className="bg-[var(--background)] min-h-screen">
+    <div className=" min-h-screen">
       {/* Hero */}
       <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">
         <div className="max-w-[1400px] mx-auto">
@@ -71,7 +71,7 @@ export default function BlogPage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--border)] border border-[var(--border)]">
               {POSTS.map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug}`} className="group bg-[var(--background)] p-10 md:p-14 hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)] transition-colors duration-700">
+                <Link key={post.id} href={`/blog/${post.slug}`} className="group  p-10 md:p-14 hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)] transition-colors duration-700">
                     <div className="flex items-center justify-between mb-10">
                       <span className="label-sm opacity-50 uppercase tracking-[0.2em] group-hover:text-[var(--background)]">{post.category}</span>
                       <span className="label-sm opacity-50 group-hover:text-[var(--background)]">{post.readTime}</span>
@@ -104,7 +104,7 @@ export default function BlogPage() {
                  placeholder="your@email.com" 
                  className="flex-1 bg-transparent border-b-2 border-[var(--background)]/30 py-4 font-outfit font-black text-2xl uppercase tracking-tighter focus:outline-none focus:border-[var(--background)] placeholder:[var(--background)]/30 text-[var(--background)] transition-colors"
                />
-               <button className="bg-[var(--background)] text-[var(--foreground)] px-10 py-5 font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic">
+               <button className=" text-[var(--foreground)] px-10 py-5 font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic">
                  Subscribe
                </button>
             </form>
