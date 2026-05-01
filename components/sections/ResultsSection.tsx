@@ -2,7 +2,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
-import { SplineScene } from '@/components/SplineScene';
 
 const stats = [
   { value: '40+', label: 'Brands Scaled' },
@@ -39,15 +38,83 @@ export default function ResultsSection() {
             </motion.h2>
           </div>
           
+          {/* Premium CSS-animated visual — replaces Spline 3D (was crashing in production) */}
           <motion.div 
             className="flex-1 w-full h-[400px] lg:h-[500px] relative mt-10 lg:mt-0 glass-card rounded-2xl overflow-hidden border border-[var(--border)]"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HlviUof4f/scene.splinecode"
-              className="w-full h-full"
+            {/* Animated grid background */}
+            <div className="absolute inset-0" style={{
+              backgroundImage: `
+                linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px)
+              `,
+              backgroundSize: '40px 40px',
+            }} />
+
+            {/* Floating orbs */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              {/* Central orb */}
+              <motion.div
+                className="absolute w-32 h-32 md:w-44 md:h-44 rounded-full"
+                style={{
+                  background: 'radial-gradient(circle, rgba(124,58,237,0.3) 0%, rgba(79,70,229,0.1) 50%, transparent 70%)',
+                  filter: 'blur(1px)',
+                }}
+                animate={{
+                  scale: [1, 1.15, 1],
+                  opacity: [0.7, 1, 0.7],
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              {/* Inner core */}
+              <motion.div
+                className="absolute w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-[var(--brand-purple)]"
+                style={{
+                  background: 'radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%)',
+                  boxShadow: '0 0 40px rgba(124,58,237,0.3), inset 0 0 20px rgba(124,58,237,0.1)',
+                }}
+                animate={{
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 360],
+                }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+              />
+              {/* Orbit ring 1 */}
+              <motion.div
+                className="absolute w-48 h-48 md:w-64 md:h-64 rounded-full border border-[var(--brand-purple)]/20"
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+              >
+                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[var(--brand-purple)] shadow-[0_0_12px_rgba(124,58,237,0.6)]" />
+              </motion.div>
+              {/* Orbit ring 2 */}
+              <motion.div
+                className="absolute w-72 h-72 md:w-96 md:h-96 rounded-full border border-[var(--brand-purple)]/10"
+                animate={{ rotate: [360, 0] }}
+                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+              >
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[var(--brand-purple)]/60 shadow-[0_0_8px_rgba(124,58,237,0.4)]" />
+                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[var(--brand-purple)]/40 shadow-[0_0_8px_rgba(124,58,237,0.3)]" />
+              </motion.div>
+              {/* Center icon */}
+              <div className="relative z-10 flex flex-col items-center gap-3">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-[#7c3aed] to-[#4f46e5] flex items-center justify-center shadow-[0_0_30px_rgba(124,58,237,0.4)]">
+                  <span className="text-white text-2xl md:text-3xl font-black">M</span>
+                </div>
+                <p className="label-sm opacity-80 uppercase tracking-[0.2em] text-[var(--foreground)] text-xs">
+                  Growth Engine
+                </p>
+              </div>
+            </div>
+
+            {/* Scan line animation */}
+            <motion.div
+              className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--brand-purple)]/30 to-transparent"
+              animate={{ top: ['0%', '100%'] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
             />
             
             <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 pointer-events-none">
