@@ -4,6 +4,8 @@ import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
 import { SplineScene } from '@/components/SplineScene';
 
+import InteractiveRobot from '@/components/InteractiveRobot';
+
 const stats = [
   { value: '40+', label: 'Brands Scaled' },
   { value: '15M+', label: 'Organic Views' },
@@ -24,7 +26,7 @@ export default function ResultsSection() {
             <motion.span
               className="label-sm block mb-8"
               initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
+              animate={inView ? { opacity: 1 ? 1 : 0 } : {}}
             >
               Performance Metrics
             </motion.span>
@@ -46,23 +48,15 @@ export default function ResultsSection() {
             transition={{ duration: 1, delay: 0.2 }}
           >
             {/* 
-              Pre-rendered 3D Robot 
-              Alternative to Spline: Using an optimized MP4 loop for perfect performance and SSR stability.
-              This prevents the WebGL crash and is much lighter on mobile devices.
+              Stable Interactive 3D Robot 
+              Built with React Three Fiber (Native Three.js)
+              This provides the mouse-tracking interactivity without the Spline/Vercel crashes.
             */}
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover grayscale contrast-125 brightness-90"
-              poster="/images/robot-placeholder.jpg"
-            >
-              <source src="/videos/robot-3d-optimized.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <div className="absolute inset-0 z-0">
+              <InteractiveRobot />
+            </div>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)]/40 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)]/20 to-transparent pointer-events-none" />
             
             <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 pointer-events-none">
               <div className="bg-[var(--background)]/80 backdrop-blur-md px-4 py-2 border border-[var(--border)] rounded-full">
