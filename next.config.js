@@ -17,9 +17,9 @@ const ContentSecurityPolicy = `
   script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com data:;
-  img-src 'self' data: blob: https://www.maverickdigitals.co.in;
+  img-src 'self' data: blob: https://www.maverickdigitals.co.in https://prod.spline.design;
   media-src 'self' blob:;
-  connect-src 'self' https://challenges.cloudflare.com blob: ${isDev ? 'ws://localhost:* wss://localhost:*' : ''};
+  connect-src 'self' https://challenges.cloudflare.com https://prod.spline.design blob: ${isDev ? 'ws://localhost:* wss://localhost:*' : ''};
   worker-src 'self' blob:;
   frame-src https://challenges.cloudflare.com;
   object-src 'none';
