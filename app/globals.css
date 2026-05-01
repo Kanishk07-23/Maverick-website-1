@@ -38,7 +38,7 @@
     
     /* Visually Appealing Maverick Brand Gradient */
     --gradient-brand: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #3b82f6 100%);
-    --gradient-wash: linear-gradient(135deg, #e8ddf5 0%, #ffffff 100%);
+    --gradient-wash: #ffffff;
 
     --card-shadow: 0 4px 20px rgba(109, 40, 217, 0.12), 0 1px 2px rgba(0,0,0,0.05);
     --card-shadow-hover: 0 12px 40px rgba(109, 40, 217, 0.20), 0 4px 12px rgba(0,0,0,0.05);
