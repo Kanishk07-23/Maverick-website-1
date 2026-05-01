@@ -40,22 +40,15 @@ export default function ResultsSection() {
           </div>
           
           <motion.div 
-            className="flex-1 w-full h-[400px] lg:h-[500px] relative mt-10 lg:mt-0 glass-card rounded-2xl overflow-hidden flex items-center justify-center border-dashed border-2 border-[var(--border)]"
+            className="flex-1 w-full h-[400px] lg:h-[500px] relative mt-10 lg:mt-0 glass-card rounded-2xl overflow-hidden border border-[var(--border)]"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <div className="text-center p-10">
-              <div className="w-20 h-20 bg-gradient-brand rounded-2xl mx-auto mb-6 animate-pulse shadow-2xl flex items-center justify-center">
-                <span className="text-white text-3xl font-black">M</span>
-              </div>
-              <p className="label-sm opacity-100 uppercase tracking-[0.2em] text-[var(--foreground)]">
-                3D Analysis Bot
-              </p>
-              <p className="text-[var(--muted-foreground)] text-xs mt-2 max-w-[200px] mx-auto">
-                Model Link Restricted (403). Please provide a public Spline export URL.
-              </p>
-            </div>
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HlviUof4f/scene.splinecode"
+              className="w-full h-full"
+            />
             
             <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 pointer-events-none">
               <div className="bg-[var(--background)]/80 backdrop-blur-md px-4 py-2 border border-[var(--border)] rounded-full">
