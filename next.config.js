@@ -21,7 +21,7 @@ const ContentSecurityPolicy = `
   media-src 'self' blob:;
   connect-src 'self' https://challenges.cloudflare.com https://prod.spline.design https://raw.githubusercontent.com blob: ${isDev ? 'ws://localhost:* wss://localhost:*' : ''};
   worker-src 'self' blob:;
-  frame-src https://challenges.cloudflare.com;
+  frame-src https://challenges.cloudflare.com https://my.spline.design;
   object-src 'none';
   base-uri 'self';
   form-action 'self';
