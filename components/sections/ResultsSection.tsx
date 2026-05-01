@@ -47,14 +47,10 @@ export default function ResultsSection() {
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            {/* 
-              Stable Interactive 3D Robot 
-              Built with React Three Fiber (Native Three.js)
-              This provides the mouse-tracking interactivity without the Spline/Vercel crashes.
-            */}
-            <div className="absolute inset-0 z-0">
-              <InteractiveRobot />
-            </div>
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HlviUof4f/scene.splinecode"
+              className="w-full h-full"
+            />
 
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)]/20 to-transparent pointer-events-none" />
             
