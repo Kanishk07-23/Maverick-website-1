@@ -43,7 +43,7 @@ const faqs = [
 
 export default function PerformanceMarketingPage() {
   return (
-    <div className="bg-[var(--background)]">
+    <div className="">
       {/* Editorial Hero */}
       <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">
         <div className="max-w-[1400px] mx-auto">
@@ -69,7 +69,7 @@ export default function PerformanceMarketingPage() {
         <div className="max-w-[1400px] mx-auto">
           <div className="grid md:grid-cols-2 gap-px bg-[var(--border)] border border-[var(--border)]">
             {offerings.map((item, i) => (
-              <div key={item.title} className="bg-[var(--background)] p-12 md:p-20 group hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)] transition-colors duration-700">
+              <div key={item.title} className=" p-12 md:p-20 group hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)] transition-colors duration-700">
                 <span className="label-sm block mb-10 opacity-50">Capability 0{i+1}</span>
                 <h3 className="text-3xl md:text-5xl font-black font-outfit uppercase tracking-tighter mb-8 leading-none">
                   {item.title}
