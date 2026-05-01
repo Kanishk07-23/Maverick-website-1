@@ -13,7 +13,7 @@ export default function ClientsSection() {
   const doubled = [...CLIENTS, ...CLIENTS];
 
   return (
-    <section className="py-24 md:py-32 bg-[var(--background)] border-t border-[var(--border)]" id="clients">
+    <section className="py-24 md:py-32 bg-transparent border-t border-[var(--border)]" id="clients">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10">
         
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24">

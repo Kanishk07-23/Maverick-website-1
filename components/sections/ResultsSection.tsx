@@ -15,7 +15,7 @@ export default function ResultsSection() {
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section className="relative py-24 md:py-48 bg-[var(--background)] border-t border-[var(--border)]" id="results">
+    <section className="relative py-24 md:py-48 bg-transparent border-t border-[var(--border)]" id="results">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10" ref={ref}>
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24 md:mb-32">

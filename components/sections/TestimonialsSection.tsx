@@ -29,7 +29,7 @@ export default function TestimonialsSection() {
   const next = () => setCurrent((c) => (c === TESTIMONIALS.length - 1 ? 0 : c + 1));
 
   return (
-    <section className="py-32 md:py-48 bg-[var(--background)] border-t border-[var(--border)] overflow-hidden" id="testimonials">
+    <section className="py-32 md:py-48 bg-transparent border-t border-[var(--border)] overflow-hidden" id="testimonials">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10">
         
         {/* Header */}

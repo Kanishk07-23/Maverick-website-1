@@ -9,7 +9,7 @@ export default function CTABanner() {
 
   return (
     <section
-      className="relative py-32 md:py-56 border-t border-[var(--border)] bg-[var(--background)] overflow-hidden"
+      className="relative py-32 md:py-56 border-t border-[var(--border)] bg-transparent overflow-hidden"
       id="cta"
       ref={ref}
     >

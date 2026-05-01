@@ -44,7 +44,7 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full flex flex-col justify-between overflow-hidden bg-[var(--background)]"
+      className="relative h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent"
       id="home"
     >
       {/* Structural Borders & Creative Accents */}

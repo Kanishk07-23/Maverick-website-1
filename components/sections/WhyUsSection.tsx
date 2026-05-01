@@ -42,7 +42,7 @@ export default function WhyUsSection() {
   const headerInView = useInView(headerRef, { once: true });
 
   return (
-    <section className="relative py-28 md:py-48 bg-[var(--background)] border-t border-[var(--border)]" id="why-us">
+    <section className="relative py-28 md:py-48 bg-transparent border-t border-[var(--border)]" id="why-us">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10">
 
         <div ref={headerRef} className="flex flex-col md:flex-row md:items-end md:justify-between gap-12 mb-24 md:mb-32">

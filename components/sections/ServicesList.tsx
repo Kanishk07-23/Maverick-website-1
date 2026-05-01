@@ -68,7 +68,7 @@ function WheelCard({
     >
       <div
         onClick={() => onSelect(service)}
-        className="flex flex-col relative group overflow-hidden bg-[var(--background)] border border-[var(--border)] transition-colors duration-500"
+        className="flex flex-col relative group overflow-hidden bg-transparent border border-[var(--border)] transition-colors duration-500"
         style={{
           width: cardWidth,
           height: cardHeight,
@@ -180,7 +180,7 @@ export default function ServicesList({ services }: { services: Service[] }) {
   };
 
   return (
-    <div className="relative h-screen min-h-[700px] max-h-[1000px] w-full overflow-hidden bg-[var(--background)]">
+    <div className="relative h-screen min-h-[700px] max-h-[1000px] w-full overflow-hidden bg-transparent">
       {/* Sophisticated Curtain Reveal Overlay */}
       <motion.div
         initial={false}

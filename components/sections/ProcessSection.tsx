@@ -39,7 +39,7 @@ export default function ProcessSection() {
   });
 
   return (
-    <section className="bg-[var(--background)] py-28 md:py-40 relative overflow-hidden border-t border-[var(--border)]" id="process" ref={containerRef}>
+    <section className="bg-transparent py-28 md:py-40 relative overflow-hidden border-t border-[var(--border)]" id="process" ref={containerRef}>
       
       {/* Header */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 mb-24 md:mb-32">
