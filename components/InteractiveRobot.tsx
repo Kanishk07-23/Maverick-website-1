@@ -1,18 +1,7 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import Spline from '@splinetool/react-spline/next';
 import { useState, useEffect } from 'react';
-
-// Dynamically import Spline to disable Server-Side Rendering.
-// This prevents "Window is not defined", WebGL Context, and Vercel build/memory crash issues.
-const Spline = dynamic(() => import('@splinetool/react-spline'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center min-h-[400px]">
-      <div className="w-8 h-8 border-2 border-[var(--brand-purple)] border-t-transparent rounded-full animate-spin" />
-    </div>
-  ),
-});
 
 export default function InteractiveRobot() {
   const [mounted, setMounted] = useState(false);
