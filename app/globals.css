@@ -6,9 +6,9 @@
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
     --background: transparent; /* Changed from #ffffff to allow Aurora background through */
-    --foreground: #4c1d95; /* Deeper Purple for base readability */
-    --muted: #f5f3ff;
-    --muted-foreground: #6d28d9; /* Darkened for accessibility and readability */
+    --foreground: #0a0a0a; /* Original Maverick Black */
+    --muted: #f8f6fc;
+    --muted-foreground: #444444; /* Dark gray for readability */
     --card: #ffffff;
     --border: rgba(76, 29, 149, 0.15);
     --elevated: #ffffff;
@@ -21,7 +21,7 @@
     --brand-dark: #f8f6fc;
 
     --inverted-bg: #8b5cf6;
-    --inverted-text: #ffffff;
+    --inverted-text: #ffffff; /* White text on purple hover */
 
     --white: #ffffff;
     --black: #000000;
@@ -51,6 +51,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
   }
 
   html:not(.dark) .btn-magnetic {

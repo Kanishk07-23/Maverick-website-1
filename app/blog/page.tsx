@@ -71,17 +71,17 @@ export default function BlogPage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--border)] border border-[var(--border)]">
               {POSTS.map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug}`} className="group  p-10 md:p-14 hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)] transition-colors duration-700">
+                <Link key={post.id} href={`/blog/${post.slug}`} className="group p-10 md:p-14 hover:bg-[var(--inverted-bg)] transition-colors duration-700">
                     <div className="flex items-center justify-between mb-10">
-                      <span className="label-sm opacity-50 uppercase tracking-[0.2em] group-hover:text-[var(--background)]">{post.category}</span>
-                      <span className="label-sm opacity-50 group-hover:text-[var(--background)]">{post.readTime}</span>
+                      <span className="label-sm opacity-50 uppercase tracking-[0.2em] group-hover:text-[var(--inverted-text)]">{post.category}</span>
+                      <span className="label-sm opacity-50 group-hover:text-[var(--inverted-text)]">{post.readTime}</span>
                     </div>
-                    <h2 className="font-outfit font-black text-3xl uppercase tracking-tighter leading-none mb-8 group-hover:text-[var(--background)]">
+                    <h2 className="font-outfit font-black text-3xl uppercase tracking-tighter leading-none mb-8 group-hover:text-[var(--inverted-text)]">
                       {post.title}
                     </h2>
-                    <p className="text-lg opacity-70 mb-12 group-hover:text-[var(--background)]">{post.excerpt}</p>
-                    <div className="mt-auto flex items-center justify-between border-t border-[var(--border)] pt-8 group-hover:border-[var(--background)]/20">
-                      <span className="label-sm opacity-50 group-hover:text-[var(--background)]">{formatDate(post.date)}</span>
+                    <p className="text-lg opacity-70 mb-12 group-hover:text-[var(--inverted-text)]">{post.excerpt}</p>
+                    <div className="mt-auto flex items-center justify-between border-t border-[var(--border)] pt-8 group-hover:border-[var(--inverted-text)]/20">
+                      <span className="label-sm opacity-50 group-hover:text-[var(--inverted-text)]">{formatDate(post.date)}</span>
                       <ArrowRight size={18} className="transform group-hover:translate-x-2 transition-transform duration-500" />
                     </div>
                 </Link>
@@ -102,7 +102,7 @@ export default function BlogPage() {
                <input 
                  type="email" 
                  placeholder="your@email.com" 
-                 className="flex-1 bg-transparent border-b-2 border-[var(--background)]/30 py-4 font-outfit font-black text-2xl uppercase tracking-tighter focus:outline-none focus:border-[var(--background)] placeholder:[var(--background)]/30 text-[var(--background)] transition-colors"
+                 className="flex-1 bg-transparent border-b-2 border-[var(--inverted-text)]/30 py-4 font-outfit font-black text-2xl uppercase tracking-tighter focus:outline-none focus:border-[var(--inverted-text)] placeholder:[var(--inverted-text)]/30 text-[var(--inverted-text)] transition-colors"
                />
                <button className=" text-[var(--foreground)] px-10 py-5 font-bold uppercase tracking-widest hover:scale-105 transition-transform btn-magnetic">
                  Subscribe

@@ -63,14 +63,14 @@ function ServiceRow({ service, index }: { service: typeof services[0]; index: nu
         <div className="relative py-12 md:py-20 px-6 md:px-10 z-10 flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-24">
           <div className="flex items-center gap-10 md:gap-20">
             <span className="label-sm opacity-50 block md:w-12">[{service.num}]</span>
-            <h3 className="font-outfit font-black text-[var(--foreground)] group-hover:text-[var(--background)] uppercase tracking-tighter transition-colors"
+            <h3 className="font-outfit font-black text-[var(--foreground)] group-hover:text-[var(--inverted-text)] uppercase tracking-tighter transition-colors"
                 style={{ fontSize: 'clamp(2rem, 5vw, 5rem)', lineHeight: 0.9 }}>
               {service.title}
             </h3>
           </div>
           
           <div className="md:max-w-md md:text-right flex flex-col md:items-end">
-            <p className="text-[var(--muted-foreground)] group-hover:text-[var(--background)] opacity-70 text-lg md:text-xl font-medium leading-snug mb-6 transition-colors">
+            <p className="text-[var(--muted-foreground)] group-hover:text-[var(--inverted-text)] opacity-70 text-lg md:text-xl font-medium leading-snug mb-6 transition-colors">
               {service.desc}
             </p>
             <span className="label-sm uppercase tracking-[0.2em] transition-all opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0">
