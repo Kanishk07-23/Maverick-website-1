@@ -35,7 +35,7 @@ export default function TestimonialsSection() {
         {/* Header */}
         <div className="mb-24 md:mb-32">
           <span className="label-sm block mb-8">Proof of Protocol</span>
-          <h2 className="font-outfit font-black text-[var(--foreground)] uppercase leading-none"
+          <h2 className="font-outfit font-black text-[var(--foreground)] gradient-heading uppercase leading-none"
               style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', letterSpacing: '-0.04em' }}>
             Voice of the<br />
             <span className="text-[var(--muted-foreground)]">Network.</span>

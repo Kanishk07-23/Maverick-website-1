@@ -31,8 +31,8 @@
     --glass-border: rgba(139, 92, 246, 0.2);
     --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     
-    /* Visually Appealing Maverick Brand Gradient */
-    --gradient-brand: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
+    /* Premium Maverick Gradient Hue — Deep Purple to Blue */
+    --gradient-brand: linear-gradient(135deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
     --gradient-wash: transparent;
 
     --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -46,12 +46,13 @@
   /* ─── LIGHT MODE SPECIFIC UI FIXES ─── */
   html:not(.dark) .display-xl,
   html:not(.dark) .display-lg,
-  html:not(.dark) .display-md {
+  html:not(.dark) .display-md,
+  html:not(.dark) .gradient-heading {
     background: var(--gradient-brand);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    color: transparent;
+    color: transparent !important;
   }
 
   html:not(.dark) .btn-magnetic {

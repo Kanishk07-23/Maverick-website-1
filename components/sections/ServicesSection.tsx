@@ -100,7 +100,7 @@ export default function ServicesSection() {
           >
             <span className="label-sm block mb-8">Operational Matrix</span>
             <h2
-              className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] tracking-tighter"
+              className="font-outfit font-black text-[var(--foreground)] gradient-heading uppercase leading-[0.85] tracking-tighter"
               style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}
             >
               We Engineer<br />

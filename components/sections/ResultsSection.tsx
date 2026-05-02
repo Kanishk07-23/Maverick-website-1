@@ -31,7 +31,7 @@ export default function ResultsSection() {
             <motion.h2 
                initial={{ opacity: 0, y: 30 }}
                animate={inView ? { opacity: 1, y: 0 } : {}}
-               className="font-outfit font-black text-[var(--foreground)] uppercase leading-none tracking-tighter"
+               className="font-outfit font-black text-[var(--foreground)] gradient-heading uppercase leading-none tracking-tighter"
                style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
             >
               Proven Growth<br />

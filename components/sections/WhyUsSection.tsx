@@ -53,7 +53,7 @@ export default function WhyUsSection() {
           >
             <span className="label-sm block mb-8">Competitive Edge</span>
             <h2
-              className="font-outfit font-black text-[var(--foreground)] uppercase leading-none tracking-tighter"
+              className="font-outfit font-black text-[var(--foreground)] gradient-heading uppercase leading-none tracking-tighter"
               style={{ fontSize: 'clamp(2.5rem, 8vw, 7.5rem)' }}
             >
               Why We Are<br />

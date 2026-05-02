@@ -55,7 +55,7 @@ export default function ProcessSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="font-outfit font-black text-[var(--foreground)] leading-none uppercase"
+          className="font-outfit font-black text-[var(--foreground)] gradient-heading leading-none uppercase"
           style={{ fontSize: 'clamp(2.2rem, 8vw, 8rem)', letterSpacing: '-0.04em' }}
         >
           Execution<br />
