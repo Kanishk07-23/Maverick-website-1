@@ -22,12 +22,25 @@ const SPLINE_SCENE_URL =
 export default function InteractiveRobot() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  // Use a ref to track loaded state inside the timeout — avoids stale closure bug
-  // where the setTimeout callback captures an old snapshot of `status`.
   const loadedRef = useRef(false);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // ── Fix mobile: keep canvas pixel size in sync with its CSS layout size.
+    // Without explicit width/height attributes, WebGL defaults to 300×150
+    // (or 0×0 on some browsers), making the scene invisible on mobile.
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width > 0 && height > 0) {
+          canvas.width = Math.round(width * window.devicePixelRatio);
+          canvas.height = Math.round(height * window.devicePixelRatio);
+        }
+      }
+    });
+    resizeObserver.observe(canvas);
 
     let app: any = null;
     let cancelled = false;
@@ -37,7 +50,7 @@ export default function InteractiveRobot() {
         const { Application } = await import('@splinetool/runtime');
         if (cancelled) return;
 
-        app = new Application(canvasRef.current!);
+        app = new Application(canvas);
         await app.load(SPLINE_SCENE_URL);
 
         if (!cancelled) {
@@ -63,6 +76,7 @@ export default function InteractiveRobot() {
     return () => {
       cancelled = true;
       clearTimeout(timer);
+      resizeObserver.disconnect();
       if (app) {
         try { app.dispose(); } catch { /* already cleaned */ }
       }
