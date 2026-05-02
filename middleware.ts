@@ -169,6 +169,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Run on all paths except Next.js asset internals
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  // Run on all paths except Next.js asset internals and public static files
+  matcher: ['/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|mp4|webm|splinecode|glb|gltf|woff2?|ttf|eot|xml|txt)$).*)'],
 };
