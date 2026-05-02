@@ -6,9 +6,9 @@
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
     --background: transparent; /* Changed from #ffffff to allow Aurora background through */
-    --foreground: #0a0a0a; /* Original Maverick Black */
+    --foreground: #160c28; /* Original Maverick Dark Purple-Black */
     --muted: #f8f6fc;
-    --muted-foreground: #444444; /* Dark gray for readability */
+    --muted-foreground: #687087; /* Original Maverick Body Text Gray */
     --card: #ffffff;
     --border: rgba(76, 29, 149, 0.15);
     --elevated: #ffffff;
