@@ -28,18 +28,22 @@ export default function InteractiveRobot() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // ── Fix mobile: keep canvas pixel size in sync with its CSS layout size.
-    // Without explicit width/height attributes, WebGL defaults to 300×150
-    // (or 0×0 on some browsers), making the scene invisible on mobile.
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { width, height } = entry.contentRect;
-        if (width > 0 && height > 0) {
-          canvas.width = Math.round(width * window.devicePixelRatio);
-          canvas.height = Math.round(height * window.devicePixelRatio);
-        }
+    // ── Fix mobile: set canvas pixel dimensions BEFORE creating the
+    // Spline Application. WebGL reads canvas size at context creation;
+    // if the canvas is 0×0 at that point, the scene renders invisible.
+    const syncCanvasSize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.round((rect.width || canvas.offsetWidth || 400) * window.devicePixelRatio);
+      const h = Math.round((rect.height || canvas.offsetHeight || 400) * window.devicePixelRatio);
+      if (w > 0 && h > 0) {
+        canvas.width = w;
+        canvas.height = h;
       }
-    });
+    };
+    syncCanvasSize(); // set dimensions NOW before Application is created
+
+    // Keep dimensions in sync when the viewport changes (orientation, resize)
+    const resizeObserver = new ResizeObserver(() => syncCanvasSize());
     resizeObserver.observe(canvas);
 
     let app: any = null;

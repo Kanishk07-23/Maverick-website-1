@@ -110,7 +110,7 @@ export default function Navbar() {
             animate={{ y: 0 }}
             exit={{ y: '-100%' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 bg-[var(--background)] flex flex-col pt-32"
+            className="fixed inset-0 z-40 bg-[var(--background)] backdrop-blur-2xl flex flex-col pt-32"
           >
             <div className="flex-1 flex flex-col justify-center px-8 pb-20">
               <nav className="flex flex-col gap-4">
