@@ -22,25 +22,28 @@ const SPLINE_SCENE_URL =
 export default function InteractiveRobot() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  // Use a ref to track loaded state inside the timeout — avoids stale closure bug
+  // where the setTimeout callback captures an old snapshot of `status`.
+  const loadedRef = useRef(false);
 
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    let app: any = null;   // hold a ref for cleanup
-    let cancelled = false; // guard against race on fast unmount
+    let app: any = null;
+    let cancelled = false;
 
     const loadScene = async () => {
       try {
-        // Dynamic import keeps the 600KB runtime out of the main bundle
-        // and guarantees we are on the client (no SSR).
         const { Application } = await import('@splinetool/runtime');
-
         if (cancelled) return;
 
         app = new Application(canvasRef.current!);
         await app.load(SPLINE_SCENE_URL);
 
-        if (!cancelled) setStatus('ready');
+        if (!cancelled) {
+          loadedRef.current = true;
+          setStatus('ready');
+        }
       } catch (err) {
         console.error('[InteractiveRobot] Spline load failed:', err);
         if (!cancelled) setStatus('error');
@@ -49,13 +52,13 @@ export default function InteractiveRobot() {
 
     loadScene();
 
-    // 15-second timeout — if scene hasn't loaded, show fallback
+    // Timeout reads the ref, not the stale state closure
     const timer = setTimeout(() => {
-      if (!cancelled && status === 'loading') {
-        console.warn('[InteractiveRobot] Spline load timed out after 15s');
+      if (!cancelled && !loadedRef.current) {
+        console.warn('[InteractiveRobot] Spline load timed out after 30s');
         setStatus('error');
       }
-    }, 15000);
+    }, 30000);
 
     return () => {
       cancelled = true;
@@ -64,7 +67,6 @@ export default function InteractiveRobot() {
         try { app.dispose(); } catch { /* already cleaned */ }
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -138,8 +140,6 @@ function AnimatedFallback() {
         ))}
       </motion.div>
 
-      {/* Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--brand-purple)_0%,transparent_50%)] opacity-10 mix-blend-screen pointer-events-none" />
     </div>
   );
 }
