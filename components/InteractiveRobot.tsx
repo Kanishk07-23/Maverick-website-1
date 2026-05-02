@@ -28,9 +28,12 @@ class SplineErrorBoundary extends Component<{ children: ReactNode, fallback: Rea
 
 export default function InteractiveRobot() {
   const [mounted, setMounted] = useState(false);
+  const [sceneUrl, setSceneUrl] = useState('');
 
   useEffect(() => {
     setMounted(true);
+    // Spline Web Workers require an absolute URL to fetch the scene file properly
+    setSceneUrl(window.location.origin + '/scene.splinecode');
   }, []);
 
   const fallbackUI = (
@@ -40,7 +43,7 @@ export default function InteractiveRobot() {
   );
 
   // Extra safety net to ensure we are only rendering on the client
-  if (!mounted) {
+  if (!mounted || !sceneUrl) {
     return fallbackUI;
   }
 
@@ -48,7 +51,7 @@ export default function InteractiveRobot() {
     <div className="w-full h-full min-h-[400px] relative flex items-center justify-center overflow-hidden bg-transparent">
       <SplineErrorBoundary fallback={fallbackUI}>
         <Spline 
-          scene="/scene.splinecode" 
+          scene={sceneUrl} 
           className="w-full h-full"
         />
       </SplineErrorBoundary>
