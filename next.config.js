@@ -62,6 +62,7 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  compress: true,
   images: {
     // remotePatterns replaces deprecated `domains` array (Next.js 14+)
     remotePatterns: [
@@ -71,14 +72,32 @@ const nextConfig = {
       },
     ],
     formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
   transpilePackages: ['three'],
+  // Optimize large package imports for tree-shaking
+  modularizeImports: {
+    'lucide-react': { transform: 'lucide-react/dist/esm/icons/{{ kebabCase member }}' },
+  },
 
   async headers() {
     return [
       {
         source: '/(.*)',
         headers: securityHeaders,
+      },
+      // Long-lived cache for immutable static assets
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/assets/(.*)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=2592000, stale-while-revalidate=86400' },
+        ],
       },
     ];
   },

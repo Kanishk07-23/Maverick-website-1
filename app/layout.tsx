@@ -10,6 +10,8 @@ import ThemeProvider from '@/components/ThemeProvider';
 import ScrollProgress from '@/components/ScrollProgress';
 import BackToTop from '@/components/BackToTop';
 import { AuroraBackground } from '@/components/AuroraBackground';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 
 const sora = Sora({
@@ -99,6 +101,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </SmoothScrollProvider>
           </AuroraBackground>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
