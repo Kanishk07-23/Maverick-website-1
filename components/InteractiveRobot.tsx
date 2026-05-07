@@ -54,10 +54,19 @@ export default function InteractiveRobot() {
         const { Application } = await import('@splinetool/runtime');
         if (cancelled) return;
 
-        app = new Application(canvas);
+        app = new Application(canvas, {
+          // Request a transparent WebGL surface so the webpage shows through
+          renderOnDemand: false,
+        });
         await app.load(SPLINE_SCENE_URL);
 
         if (!cancelled) {
+          // Strip the scene's built-in background so the canvas is transparent
+          try {
+            app.setBackgroundColor('#00000000'); // fully transparent
+          } catch {
+            // Older runtime versions may not expose this method — safe to ignore
+          }
           loadedRef.current = true;
           setStatus('ready');
         }
@@ -97,6 +106,7 @@ export default function InteractiveRobot() {
         style={{
           opacity: status === 'ready' ? 1 : 0,
           transition: 'opacity 0.6s ease-in-out',
+          background: 'transparent',
         }}
       />
 
