@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useRef, useEffect, useState } from 'react';
 import {
   motion,
@@ -11,11 +12,16 @@ import {
   type Variants,
   type Transition,
 } from 'framer-motion';
-import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 
-/* ─── DATA ──────────────────────────────────────────────── */
+// Lazy-load the heavy 3D scene — SSR off
+const SpineScene = dynamic(() => import('@/components/three/SpineScene'), {
+  ssr: false,
+  loading: () => null,
+});
+
+/* ─── DATA ─────────────────────────────────────────────────── */
 
 const NAV_LINKS = [
   { label: 'Work', href: '#work' },
@@ -25,42 +31,12 @@ const NAV_LINKS = [
 ];
 
 const SERVICES = [
-  {
-    num: '01',
-    title: 'Performance\nMarketing',
-    desc: 'Data-driven paid campaigns engineered for maximum ROI. Every rupee tracked, every conversion optimised.',
-    tags: ['Meta Ads', 'Google Ads', 'Attribution'],
-  },
-  {
-    num: '02',
-    title: 'SEO &\nOrganic',
-    desc: 'Dominate search results and capture high-intent traffic. Technical SEO + content at scale.',
-    tags: ['Technical SEO', 'Content', 'Link Building'],
-  },
-  {
-    num: '03',
-    title: 'Social\nMedia',
-    desc: '15M+ organic views generated. We build communities that convert.',
-    tags: ['Instagram', 'LinkedIn', 'YouTube'],
-  },
-  {
-    num: '04',
-    title: 'Brand\nIdentity',
-    desc: 'Visual and narrative systems that command premium pricing and instant recognition.',
-    tags: ['Strategy', 'Design', 'Positioning'],
-  },
-  {
-    num: '05',
-    title: 'Web\nDevelopment',
-    desc: 'Conversion-focused web experiences. Fast, beautiful, and engineered to sell.',
-    tags: ['Next.js', 'UI/UX', 'CRO'],
-  },
-  {
-    num: '06',
-    title: 'Personal\nBranding',
-    desc: 'Scale founder influence on LinkedIn and beyond for B2B growth.',
-    tags: ['LinkedIn', 'Content Strategy', 'Authority'],
-  },
+  { num: '01', title: 'PERFORMANCE\nMARKETING', desc: 'Data-driven campaigns engineered purely for ROI. Every rupee tracked, every conversion owned.', side: 'left' },
+  { num: '02', title: 'SEO &\nORGANIC', desc: 'Dominate search, capture intent. Technical SEO and content at scale.', side: 'right' },
+  { num: '03', title: 'SOCIAL\nMEDIA', desc: '15M+ organic views. We build audiences that actually convert.', side: 'left' },
+  { num: '04', title: 'BRAND\nIDENTITY', desc: 'Visual systems that command premium pricing and instant recall.', side: 'right' },
+  { num: '05', title: 'WEB\nDEVELOPMENT', desc: 'Conversion-engineered web experiences. Fast, ruthless, beautiful.', side: 'left' },
+  { num: '06', title: 'PERSONAL\nBRANDING', desc: 'Scale founder influence. LinkedIn authority that generates real B2B pipeline.', side: 'right' },
 ];
 
 const STATS = [
@@ -70,61 +46,49 @@ const STATS = [
   { value: '₹4Cr+', label: 'Ad Spend Managed' },
 ];
 
-const PROCESS = [
-  { num: '01', title: 'Discovery', desc: 'Deep dive into your market, audience, and competitive landscape.' },
-  { num: '02', title: 'Strategy', desc: 'Custom growth protocol engineered for your specific revenue targets.' },
-  { num: '03', title: 'Execution', desc: 'Relentless, data-led execution across every chosen channel.' },
-  { num: '04', title: 'Scale', desc: 'We double down on what wins and ruthlessly cut what doesn\'t.' },
-];
-
-/* ─── ANIMATION VARIANTS ─────────────────────────────────── */
+/* ─── VARIANTS ──────────────────────────────────────────────── */
 
 const easeOut = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  show: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, delay: i * 0.08, ease: easeOut } as Transition,
+  hidden: { opacity: 0, y: 50 },
+  show: (i: number = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 1, delay: i * 0.1, ease: easeOut } as Transition,
   }),
 };
 
-const fadeIn: Variants = {
-  hidden: { opacity: 0 },
-  show: (i = 0) => ({
-    opacity: 1,
-    transition: { duration: 0.8, delay: i * 0.06, ease: 'easeOut' } as Transition,
-  }),
+const slideLeft: Variants = {
+  hidden: { opacity: 0, x: -60 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.9, ease: easeOut } as Transition },
 };
 
-/* ─── SUB-COMPONENTS ─────────────────────────────────────── */
+const slideRight: Variants = {
+  hidden: { opacity: 0, x: 60 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.9, ease: easeOut } as Transition },
+};
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="t-label inline-block mb-12 opacity-40">
-      {children}
-    </span>
-  );
-}
+/* ─── HELPERS ───────────────────────────────────────────────── */
 
-function RevealBlock({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function InView({ children, variants = fadeUp, custom = 0 }: {
+  children: React.ReactNode;
+  variants?: Variants;
+  custom?: number;
+}) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '-100px' });
   return (
-    <motion.div
-      ref={ref}
-      custom={delay}
-      variants={fadeUp}
-      initial="hidden"
-      animate={inView ? 'show' : 'hidden'}
-    >
+    <motion.div ref={ref} custom={custom} variants={variants} initial="hidden" animate={inView ? 'show' : 'hidden'}>
       {children}
     </motion.div>
   );
 }
 
-/* ─── NAVBAR ─────────────────────────────────────────────── */
+function Label({ children }: { children: React.ReactNode }) {
+  return <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30 mb-10">{children}</p>;
+}
+
+/* ─── NAVBAR ─────────────────────────────────────────────────── */
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -133,7 +97,7 @@ function Navbar() {
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 50);
+    const fn = () => setScrolled(window.scrollY > 60);
     window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
@@ -145,63 +109,39 @@ function Navbar() {
 
   return (
     <>
-      {/* Progress beam */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] origin-left z-[60]"
-        style={{
-          scaleX,
-          background: 'linear-gradient(90deg, #8b5cf6, #6366f1, #3b82f6)',
-        }}
+        className="fixed top-0 left-0 right-0 h-[2px] z-[60] origin-left"
+        style={{ scaleX, background: 'linear-gradient(90deg, #8b5cf6, #6366f1, #3b82f6)' }}
       />
 
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-5 px-5 pointer-events-none">
         <motion.div
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, ease: easeOut }}
           className="pointer-events-auto w-full max-w-[1300px]"
         >
-          <div
-            className={`flex items-center justify-between px-6 h-[60px] rounded-full transition-all duration-500 ${
-              scrolled ? 'bg-black/80 backdrop-blur-2xl border border-white/8' : ''
-            }`}
-          >
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 group">
+          <div className={`flex items-center justify-between px-6 h-[60px] rounded-full transition-all duration-500 ${scrolled ? 'bg-black/70 backdrop-blur-2xl border border-white/[0.07]' : ''}`}>
+            <a href="/" className="flex items-center gap-3 group">
               <div className="w-7 h-7 relative flex-shrink-0 transition-transform duration-500 group-hover:rotate-12">
-                <Image src="/assets/logo.png" alt="Maverick Digitals" fill className="object-contain invert" priority />
+                <Image src="/assets/logo.png" alt="Maverick" fill className="object-contain invert" priority />
               </div>
-              <span className="font-heading font-black text-white text-xs tracking-[0.25em] uppercase">
-                Maverick
-              </span>
-            </Link>
+              <span className="font-semibold text-white text-[11px] tracking-[0.3em] uppercase">Maverick</span>
+            </a>
 
-            {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-10">
               {NAV_LINKS.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  className="t-label opacity-40 hover:opacity-100 transition-opacity underline-anim"
-                >
+                <a key={l.href} href={l.href} className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 hover:text-white transition-colors">
                   {l.label}
                 </a>
               ))}
             </nav>
 
-            {/* CTA + Hamburger */}
-            <div className="flex items-center gap-5">
-              <a
-                href="#contact"
-                className="hidden md:inline-flex btn-primary text-[10px] px-5 py-2.5"
-              >
+            <div className="flex items-center gap-4">
+              <a href="#contact" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#8b5cf6] hover:text-white transition-colors duration-300">
                 Let&apos;s Talk
               </a>
-              <button
-                className="md:hidden text-white/60 hover:text-white transition-colors"
-                onClick={() => setOpen(!open)}
-                aria-label="Toggle menu"
-              >
+              <button className="md:hidden text-white/50 hover:text-white" onClick={() => setOpen(!open)}>
                 {open ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
@@ -209,26 +149,23 @@ function Navbar() {
         </motion.div>
       </header>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
             className="fixed inset-0 z-40 bg-black flex flex-col justify-center px-10"
           >
             <nav className="flex flex-col gap-8">
               {[{ label: 'Home', href: '/' }, ...NAV_LINKS].map((l, i) => (
                 <motion.a
-                  key={l.href}
-                  href={l.href}
+                  key={l.href} href={l.href}
                   onClick={() => setOpen(false)}
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.07 }}
-                  className="font-heading font-black text-white text-5xl uppercase tracking-tighter leading-none hover:text-[var(--accent)] transition-colors"
+                  className="text-white font-black text-5xl uppercase tracking-tighter leading-none hover:text-[#8b5cf6] transition-colors"
                 >
                   {l.label}
                 </motion.a>
@@ -241,157 +178,195 @@ function Navbar() {
   );
 }
 
-/* ─── HERO SECTION ───────────────────────────────────────── */
+/* ─── HERO ───────────────────────────────────────────────────── */
 
-function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
+function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
-
-  const words = ['WE', 'SCALE', 'BRANDS.'];
+  const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center overflow-hidden" id="home">
-
-      {/* Background glow blob */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[60vh] pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(139,92,246,0.08) 0%, transparent 70%)',
-          filter: 'blur(40px)',
-        }}
-      />
-
-      <motion.div style={{ opacity, y }} className="container relative z-10 pt-40 pb-32">
-        {/* Status */}
+    <section ref={ref} id="home" className="relative flex items-center min-h-screen overflow-hidden">
+      <motion.div style={{ opacity, y }} className="relative z-10 w-full px-8 md:px-16 pt-36 pb-24 max-w-[1400px] mx-auto">
+        {/* Live status */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="flex items-center gap-3 mb-20"
+          className="flex items-center gap-3 mb-16"
         >
-          <div className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse shadow-[0_0_12px_var(--accent)]" />
-          <span className="t-label">Mumbai HQ — Operating Globally</span>
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8b5cf6] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#8b5cf6]" />
+          </span>
+          <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30">
+            Mumbai HQ — Growth Protocols Active
+          </span>
         </motion.div>
 
         {/* Giant headline */}
-        <h1 className="overflow-hidden">
-          {words.map((word, wi) => (
-            <div key={wi} className="overflow-hidden">
+        <div className="overflow-hidden mb-2">
+          {['WE', 'SCALE', 'BRANDS.'].map((word, i) => (
+            <div key={i} className="overflow-hidden">
               <motion.div
                 initial={{ y: '110%' }}
                 animate={{ y: '0%' }}
-                transition={{ duration: 1.1, delay: wi * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                className={`t-hero block ${wi === words.length - 1 ? 'accent-text' : 'text-white'}`}
+                transition={{ duration: 1.1, delay: i * 0.12, ease: easeOut }}
+                className={`block font-black uppercase leading-[0.85] tracking-[-0.04em] ${i === 2 ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] via-[#6366f1] to-[#3b82f6]' : 'text-white'}`}
+                style={{ fontSize: 'clamp(5rem, 16vw, 17rem)' }}
               >
                 {word}
               </motion.div>
             </div>
           ))}
-        </h1>
+        </div>
 
-        {/* Subtitle row */}
+        {/* Sub row */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.7 }}
-          className="mt-16 flex flex-col md:flex-row md:items-end justify-between gap-10 border-t border-white/8 pt-10"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 1 }}
+          className="mt-14 flex flex-col md:flex-row md:items-end justify-between gap-10 border-t border-white/[0.07] pt-10"
         >
-          <p className="t-body max-w-md">
-            Aggressive creative execution meets technical data architecture. We build unbreakable revenue engines for brands that refuse to be ignored.
+          <p className="text-white/40 text-lg max-w-md leading-relaxed font-light">
+            Aggressive creative execution meets technical data architecture. We build unbreakable revenue engines.
           </p>
-          <div className="flex flex-col gap-4">
-            <a href="#contact" className="btn-primary">
-              Start a Project <ArrowUpRight size={14} />
+          <div className="flex flex-col sm:flex-row gap-4">
+            <a href="#contact" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black font-black text-[10px] tracking-[0.2em] uppercase hover:bg-[#8b5cf6] hover:text-white transition-colors duration-300">
+              Start a Project <ArrowUpRight size={13} />
             </a>
-            <a href="#services" className="t-label opacity-40 hover:opacity-100 transition-opacity self-end">
-              View Services ↓
+            <a href="#services" className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/15 text-white/50 font-bold text-[10px] tracking-[0.2em] uppercase hover:border-[#8b5cf6] hover:text-white transition-colors duration-300">
+              Our Services
             </a>
           </div>
         </motion.div>
       </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-px h-16 bg-gradient-to-b from-[var(--accent)] to-transparent"
-        />
-      </motion.div>
     </section>
   );
 }
 
-/* ─── MARQUEE STRIP ──────────────────────────────────────── */
+/* ─── SPIRAL SPINE SECTION ───────────────────────────────────── */
+/* 
+ * This is the core visual. A fixed 3D canvas fills the background 
+ * during the services section scroll. HTML cards appear on alternating 
+ * sides timed with scroll position, replicating the reel's spiral effect.
+ */
 
-function MarqueeStrip() {
-  const items = ['Performance Marketing', 'SEO & SEM', 'Social Media', 'Brand Identity', 'Web Development', 'Personal Branding', 'Content Strategy', 'Paid Media'];
-  const doubled = [...items, ...items];
+function SpiralSpineSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] });
+
   return (
-    <div className="relative border-y border-white/8 py-5 overflow-hidden bg-black">
-      <div className="flex overflow-hidden">
-        <div className="marquee-track whitespace-nowrap">
-          {doubled.map((item, i) => (
-            <span key={i} className="t-label inline-flex items-center gap-6 opacity-30">
-              {item}
-              <span className="w-1 h-1 rounded-full bg-[var(--accent)] inline-block" />
-            </span>
-          ))}
-        </div>
+    <section ref={containerRef} id="services" className="relative">
+      {/* 3D Canvas — sticky for the entire scroll height of this section */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
+        <SpineScene scrollYProgress={scrollYProgress} />
       </div>
-    </div>
+
+      {/* HTML content panels — they scroll OVER the sticky canvas */}
+      <div className="relative" style={{ zIndex: 10, marginTop: '-100vh' }}>
+
+        {/* Section label — centered at top */}
+        <div className="flex justify-center items-center h-screen">
+          <InView>
+            <div className="text-center px-6">
+              <Label>Services // Core Matrix</Label>
+              <h2
+                className="font-black uppercase tracking-[-0.04em] text-white leading-none"
+                style={{ fontSize: 'clamp(3rem, 9vw, 9rem)' }}
+              >
+                THE GROWTH<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6]">
+                  ARCHITECTURE.
+                </span>
+              </h2>
+            </div>
+          </InView>
+        </div>
+
+        {/* Spiraling service cards — alternating left/right */}
+        {SERVICES.map((s, i) => (
+          <div key={i} className="flex items-center h-screen px-8 md:px-16 max-w-[1400px] mx-auto">
+            <div className={`w-full flex ${s.side === 'left' ? 'justify-start' : 'justify-end'}`}>
+              <InView variants={s.side === 'left' ? slideLeft : slideRight}>
+                <div
+                  className="relative max-w-xs md:max-w-sm p-8 rounded-2xl border border-white/[0.08] bg-black/60 backdrop-blur-xl overflow-hidden group hover:border-[#8b5cf6]/40 transition-colors duration-500"
+                  style={{ boxShadow: '0 0 40px rgba(139,92,246,0.07)' }}
+                >
+                  {/* Subtle glow top corner */}
+                  <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-[#8b5cf6] opacity-10 blur-3xl group-hover:opacity-20 transition-opacity duration-500" />
+
+                  <p className="text-[9px] font-bold tracking-[0.3em] uppercase text-[#8b5cf6] mb-6">{s.num}</p>
+                  <h3
+                    className="font-black uppercase text-white leading-none tracking-tight mb-6 whitespace-pre-line"
+                    style={{ fontSize: 'clamp(1.6rem, 3vw, 2.5rem)' }}
+                  >
+                    {s.title}
+                  </h3>
+                  <p className="text-white/40 text-sm leading-relaxed">{s.desc}</p>
+                  <div className="mt-8 flex items-center gap-2 text-[9px] font-bold tracking-[0.2em] uppercase text-white/20 group-hover:text-[#8b5cf6] transition-colors duration-300">
+                    Explore <ArrowUpRight size={11} />
+                  </div>
+                </div>
+              </InView>
+            </div>
+          </div>
+        ))}
+
+        {/* Extra height to let the scroll breathe */}
+        <div className="h-screen" />
+      </div>
+    </section>
   );
 }
 
-/* ─── STATS SECTION ──────────────────────────────────────── */
+/* ─── STAT CARD ─────────────────────────────────────────────── */
+
+function StatCard({ value, label, delay }: { value: string; label: string; delay: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay }}
+      className="p-12 border-r border-b lg:border-b-0 border-white/[0.06] last:border-r-0 flex flex-col gap-4 hover:bg-white/[0.02] transition-colors duration-500"
+    >
+      <div className="font-black text-white leading-none tracking-tighter" style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
+        {value}
+      </div>
+      <div className="text-[10px] font-bold tracking-[0.25em] uppercase text-white/30">{label}</div>
+    </motion.div>
+  );
+}
+
+/* ─── STATS SECTION ─────────────────────────────────────────── */
 
 function StatsSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
-
   return (
-    <section className="section border-b border-white/8" id="about">
-      <div className="container" ref={ref}>
+    <section id="about" className="relative py-48 border-t border-white/[0.06]">
+      <div className="max-w-[1400px] mx-auto px-8 md:px-16">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-20 mb-24">
-          <RevealBlock>
-            <SectionLabel>Logs // Proof of Work</SectionLabel>
-            <h2 className="t-display text-white">
+          <InView>
+            <Label>Logs // Proof of Work</Label>
+            <h2
+              className="font-black uppercase tracking-[-0.04em] text-white leading-none"
+              style={{ fontSize: 'clamp(3rem, 9vw, 9rem)' }}
+            >
               PROVEN<br />
-              <span className="accent-text">YIELDS.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6]">YIELDS.</span>
             </h2>
-          </RevealBlock>
-          <RevealBlock delay={2}>
-            <p className="t-body max-w-sm">
-              Every number is a real brand, a real campaign, a real result. No inflated metrics. No fluff.
+          </InView>
+          <InView custom={2}>
+            <p className="text-white/40 text-lg max-w-sm leading-relaxed">
+              Real brands. Real campaigns. Real results. No inflated metrics, no fluff.
             </p>
-          </RevealBlock>
+          </InView>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
+        <div className="grid grid-cols-2 lg:grid-cols-4 border border-white/[0.06]">
           {STATS.map((s, i) => (
-            <motion.div
-              key={i}
-              custom={i}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? 'show' : 'hidden'}
-              className="py-16 px-10 border border-white/5 flex flex-col gap-4 hover:bg-white/[0.02] hover:border-[var(--accent-border)] transition-all duration-500"
-            >
-              <div
-                className="font-heading font-black text-white leading-none tracking-tighter"
-                style={{ fontSize: 'clamp(2.5rem, 5vw, 5.5rem)' }}
-              >
-                {s.value}
-              </div>
-              <div className="t-label opacity-30">{s.label}</div>
-            </motion.div>
+            <StatCard key={i} value={s.value} label={s.label} delay={i * 0.1} />
           ))}
         </div>
       </div>
@@ -399,234 +374,100 @@ function StatsSection() {
   );
 }
 
-/* ─── SERVICES SECTION ───────────────────────────────────── */
-
-function ServicesSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-
-  return (
-    <section className="section" id="services">
-      <div className="container" ref={ref}>
-        <RevealBlock>
-          <SectionLabel>Services // Core Matrix</SectionLabel>
-          <h2 className="t-display text-white mb-24">
-            THE GROWTH<br />
-            <span className="accent-text">ARCHITECTURE.</span>
-          </h2>
-        </RevealBlock>
-
-        <div className="divide-y divide-white/8">
-          {SERVICES.map((s, i) => (
-            <motion.div
-              key={i}
-              custom={i * 0.5}
-              variants={fadeIn}
-              initial="hidden"
-              animate={inView ? 'show' : 'hidden'}
-              className="group grid grid-cols-1 md:grid-cols-12 gap-8 py-12 cursor-pointer hover:bg-white/[0.02] px-6 -mx-6 transition-all duration-500 rounded-2xl"
-            >
-              {/* Number */}
-              <div className="md:col-span-1 t-label opacity-20 group-hover:opacity-60 transition-opacity pt-1">
-                {s.num}
-              </div>
-
-              {/* Title */}
-              <div className="md:col-span-4">
-                <h3
-                  className="font-heading font-black text-white uppercase leading-none tracking-tighter group-hover:accent-text transition-all duration-500"
-                  style={{ fontSize: 'clamp(1.8rem, 3vw, 3rem)', whiteSpace: 'pre-line' }}
-                >
-                  {s.title}
-                </h3>
-              </div>
-
-              {/* Desc */}
-              <div className="md:col-span-5">
-                <p className="t-body">{s.desc}</p>
-              </div>
-
-              {/* Tags + Arrow */}
-              <div className="md:col-span-2 flex flex-col items-start md:items-end gap-3">
-                <ArrowUpRight
-                  size={20}
-                  className="text-white/20 group-hover:text-[var(--accent)] transition-colors duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 transform transition-transform"
-                />
-                <div className="flex flex-wrap gap-2 justify-end">
-                  {s.tags.map((t) => (
-                    <span key={t} className="t-label text-[8px] px-2 py-1 rounded-full border border-white/10 opacity-40">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── PROCESS SECTION ────────────────────────────────────── */
-
-function ProcessSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-
-  return (
-    <section className="section border-t border-white/8 bg-[var(--bg-2)]" id="work">
-      <div className="container" ref={ref}>
-        <RevealBlock>
-          <SectionLabel>Protocol // How We Work</SectionLabel>
-          <h2 className="t-display text-white mb-24">
-            THE<br />
-            <span className="accent-text">PROCESS.</span>
-          </h2>
-        </RevealBlock>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-white/8">
-          {PROCESS.map((p, i) => (
-            <motion.div
-              key={i}
-              custom={i * 0.5}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? 'show' : 'hidden'}
-              className="p-12 border-r border-white/8 last:border-r-0 md:[&:nth-child(2)]:border-r-0 lg:[&:nth-child(2)]:border-r hover:bg-white/[0.03] transition-colors duration-500 flex flex-col gap-8"
-            >
-              <span className="t-label opacity-20">{p.num}</span>
-              <h3 className="font-heading font-black text-white text-3xl uppercase tracking-tighter leading-none">
-                {p.title}
-              </h3>
-              <p className="t-body text-sm">{p.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── CTA SECTION ────────────────────────────────────────── */
+/* ─── CTA SECTION ───────────────────────────────────────────── */
 
 function CTASection() {
   return (
-    <section className="section border-t border-white/8 overflow-hidden" id="contact">
-      <div className="container relative">
-        {/* Glow */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse 60% 50% at 50% 100%, rgba(139,92,246,0.12) 0%, transparent 70%)',
-          }}
-        />
+    <section id="contact" className="relative py-48 border-t border-white/[0.06] overflow-hidden">
+      {/* Glow */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 50% 40% at 50% 100%, rgba(139,92,246,0.12) 0%, transparent 70%)' }} />
 
-        <div className="relative z-10 text-center max-w-4xl mx-auto">
-          <RevealBlock>
-            <SectionLabel>Ready // Let&apos;s Build</SectionLabel>
-            <h2 className="t-display text-white mb-8">
-              START YOUR<br />
-              <span className="accent-text">PROJECT.</span>
-            </h2>
-            <p className="t-body max-w-md mx-auto mb-16">
-              Tell us where you want to be. We&apos;ll build the protocol to get you there.
-            </p>
-          </RevealBlock>
-
-          <RevealBlock delay={2}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <a href="mailto:maverickdigitals18@gmail.com" className="btn-primary text-xs px-10 py-4">
-                maverickdigitals18@gmail.com <ArrowUpRight size={14} />
-              </a>
-              <a href="https://wa.me/919619818332" className="btn-ghost text-xs px-10 py-4">
-                WhatsApp Us
-              </a>
-            </div>
-          </RevealBlock>
-        </div>
+      <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-16 text-center">
+        <InView>
+          <Label>Ready // Let&apos;s Build</Label>
+          <h2
+            className="font-black uppercase tracking-[-0.04em] text-white leading-none mb-8"
+            style={{ fontSize: 'clamp(3.5rem, 10vw, 11rem)' }}
+          >
+            START YOUR<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6]">PROJECT.</span>
+          </h2>
+          <p className="text-white/40 text-lg max-w-md mx-auto mb-16 leading-relaxed">
+            Tell us where you want to be. We&apos;ll architect the protocol to get you there.
+          </p>
+        </InView>
+        <InView custom={2}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+            <a href="mailto:maverickdigitals18@gmail.com" className="inline-flex items-center gap-2 px-10 py-5 rounded-full bg-white text-black font-black text-[10px] tracking-[0.2em] uppercase hover:bg-[#8b5cf6] hover:text-white transition-colors duration-300">
+              maverickdigitals18@gmail.com <ArrowUpRight size={14} />
+            </a>
+            <a href="https://wa.me/919619818332" className="inline-flex items-center gap-2 px-10 py-5 rounded-full border border-white/15 text-white/50 font-bold text-[10px] tracking-[0.2em] uppercase hover:border-[#8b5cf6] hover:text-white transition-colors duration-300">
+              WhatsApp Us
+            </a>
+          </div>
+        </InView>
       </div>
     </section>
   );
 }
 
-/* ─── FOOTER ─────────────────────────────────────────────── */
+/* ─── FOOTER ─────────────────────────────────────────────────── */
 
 function Footer() {
   const year = new Date().getFullYear();
+  const footerLinks = ['Performance Marketing', 'SEO & SEM', 'Social Media', 'Brand Identity', 'Web Dev', 'Personal Branding'];
 
   return (
-    <footer className="border-t border-white/8 bg-[var(--bg)]">
-      <div className="container">
-        {/* Big footer brand */}
-        <div className="py-24 border-b border-white/8">
+    <footer className="border-t border-white/[0.06] bg-black">
+      <div className="max-w-[1400px] mx-auto px-8 md:px-16">
+        <div className="py-24 border-b border-white/[0.06]">
           <h2
-            className="font-heading font-black text-white uppercase leading-none tracking-tighter"
-            style={{ fontSize: 'clamp(4rem, 12vw, 12rem)' }}
+            className="font-black uppercase tracking-[-0.04em] text-white leading-none"
+            style={{ fontSize: 'clamp(4rem, 13vw, 13rem)' }}
           >
             THE FUTURE<br />
-            <span className="accent-text">IS MAVERICK.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6]">IS MAVERICK.</span>
           </h2>
         </div>
 
-        {/* Links grid */}
-        <div className="py-16 grid grid-cols-2 lg:grid-cols-4 gap-16">
+        <div className="py-16 grid grid-cols-2 lg:grid-cols-4 gap-16 border-b border-white/[0.06]">
           <div>
-            <p className="t-label mb-6 opacity-40">Contact</p>
-            <a href="mailto:maverickdigitals18@gmail.com" className="t-label opacity-60 hover:opacity-100 transition-opacity block mb-3">
-              maverickdigitals18@gmail.com
-            </a>
-            <a href="tel:+919619818332" className="t-label opacity-60 hover:opacity-100 transition-opacity block">
-              +91 96198 18332
-            </a>
+            <p className="text-[9px] tracking-[0.3em] uppercase text-white/25 mb-6">Contact</p>
+            <a href="mailto:maverickdigitals18@gmail.com" className="text-[10px] tracking-wider text-white/50 hover:text-white transition-colors block mb-3 uppercase">maverickdigitals18@gmail.com</a>
+            <a href="tel:+919619818332" className="text-[10px] tracking-wider text-white/50 hover:text-white transition-colors block uppercase">+91 96198 18332</a>
           </div>
           <div>
-            <p className="t-label mb-6 opacity-40">Services</p>
-            {['Performance Marketing', 'SEO & SEM', 'Social Media', 'Branding', 'Web Dev'].map((s) => (
-              <p key={s} className="t-label opacity-40 hover:opacity-100 transition-opacity mb-2 cursor-pointer">{s}</p>
-            ))}
+            <p className="text-[9px] tracking-[0.3em] uppercase text-white/25 mb-6">Services</p>
+            {footerLinks.map((l) => <p key={l} className="text-[10px] tracking-wider text-white/30 hover:text-white transition-colors mb-2 uppercase cursor-pointer">{l}</p>)}
           </div>
           <div>
-            <p className="t-label mb-6 opacity-40">Navigate</p>
-            {NAV_LINKS.map((l) => (
-              <a key={l.href} href={l.href} className="block t-label opacity-40 hover:opacity-100 transition-opacity mb-2">{l.label}</a>
-            ))}
+            <p className="text-[9px] tracking-[0.3em] uppercase text-white/25 mb-6">Navigate</p>
+            {NAV_LINKS.map((l) => <a key={l.href} href={l.href} className="block text-[10px] tracking-wider text-white/30 hover:text-white transition-colors mb-2 uppercase">{l.label}</a>)}
           </div>
           <div>
-            <p className="t-label mb-6 opacity-40">Social</p>
-            {['Instagram', 'LinkedIn', 'Twitter'].map((s) => (
-              <p key={s} className="t-label opacity-40 hover:opacity-100 transition-opacity mb-2 cursor-pointer">{s}</p>
-            ))}
-            <div className="mt-8 flex items-center gap-3">
-              <div className="w-6 h-6 relative flex-shrink-0">
-                <Image src="/assets/logo.png" alt="Logo" fill className="object-contain invert" />
-              </div>
-              <span className="font-heading font-black text-white text-xs tracking-widest uppercase">Maverick</span>
-            </div>
+            <p className="text-[9px] tracking-[0.3em] uppercase text-white/25 mb-6">Social</p>
+            {['Instagram', 'LinkedIn', 'Twitter'].map((s) => <p key={s} className="text-[10px] tracking-wider text-white/30 hover:text-white transition-colors mb-2 uppercase cursor-pointer">{s}</p>)}
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="py-8 border-t border-white/8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="t-label opacity-20">© {year} Maverick Digitals. All rights reserved.</p>
-          <p className="t-label opacity-20">Mumbai, India — Global Operations</p>
+        <div className="py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-[9px] tracking-[0.3em] uppercase text-white/15">© {year} Maverick Digitals. All Rights Reserved.</p>
+          <p className="text-[9px] tracking-[0.3em] uppercase text-white/15">Mumbai, India — Global Operations</p>
         </div>
       </div>
     </footer>
   );
 }
 
-/* ─── PAGE ASSEMBLY ──────────────────────────────────────── */
+/* ─── PAGE ───────────────────────────────────────────────────── */
 
 export default function Home() {
   return (
-    <main>
+    <main className="bg-black">
       <Navbar />
-      <HeroSection />
-      <MarqueeStrip />
+      <Hero />
+      <SpiralSpineSection />
       <StatsSection />
-      <ServicesSection />
-      <ProcessSection />
       <CTASection />
       <Footer />
     </main>
