@@ -102,6 +102,80 @@
     --section-alt-bg: #0d0a1a;
     --dot-color: rgba(139, 92, 246, 0.2);
     --premium-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.6);
+    --glow-color: rgba(139, 92, 246, 0.3);
+  }
+}
+
+/* ─── UI UX PRO MAX UTILITIES ────────────────────────────────────────── */
+@layer utilities {
+  .luminous-glow {
+    position: relative;
+  }
+  .luminous-glow::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle at center, var(--glow-color), transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .bento-item {
+    @apply relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)] p-8 transition-all duration-500;
+  }
+
+  .bento-item:hover {
+    @apply border-[var(--brand-purple)] shadow-2xl;
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  .animate-glow {
+    animation: glow 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { opacity: 0.3; filter: blur(40px); }
+    to { opacity: 0.6; filter: blur(60px); }
+  }
+
+  .beam-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .beam {
+    position: absolute;
+    width: 2px;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, var(--brand-purple), transparent);
+    top: -100px;
+    left: 0;
+    opacity: 0.5;
+    animation: beam-down 3s linear infinite;
+  }
+
+  @keyframes beam-down {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(1100%); }
+  }
+
+  @keyframes border-beam {
+    100% {
+      offset-distance: 100%;
+    }
+  }
+
+  .animate-border-beam {
+    animation: border-beam var(--duration) linear infinite;
+    animation-delay: var(--delay);
   }
 }
 

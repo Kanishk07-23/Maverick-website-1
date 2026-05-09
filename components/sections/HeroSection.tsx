@@ -2,6 +2,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 import Link from 'next/link';
+import { ShinyText } from '@/components/ui/ShinyText';
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -18,9 +19,10 @@ export default function HeroSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   const wordVars: Variants = {
-    hidden: { y: '110%' },
+    hidden: { y: '110%', opacity: 0 },
     show: (i: number) => ({
       y: '0%',
+      opacity: 1,
       transition: {
         duration: 1.2,
         delay: 0.1 * i,
@@ -47,13 +49,15 @@ export default function HeroSection() {
       className="relative h-screen w-full flex flex-col justify-between overflow-hidden bg-transparent"
       id="home"
     >
+      <GridBackground className="opacity-40" />
+      
       {/* Structural Borders & Creative Accents */}
       <div className="absolute top-0 left-0 w-full h-px bg-[var(--border)] opacity-20" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-[var(--border)]" />
       
       {/* Brand Spine */}
       <div className="absolute top-0 left-[2.5vw] w-px h-full bg-gradient-to-b from-transparent via-[var(--brand-purple)] to-transparent opacity-20 hidden md:block" />
-      <div className="absolute top-1/2 left-[2.5vw] -translate-y-1/2 w-3 h-3 bg-[var(--brand-purple)] rounded-full blur-[2px] hidden md:block" />
+      <div className="absolute top-1/2 left-[2.5vw] -translate-y-1/2 w-3 h-3 bg-[var(--brand-purple)] rounded-full blur-[2px] luminous-glow hidden md:block" />
       
       {/* Top Meta */}
       <div className="relative z-10 flex items-center justify-between px-6 md:px-10 pt-32 md:pt-40">
@@ -62,9 +66,9 @@ export default function HeroSection() {
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          className="label-sm"
+          className="label-sm px-3 py-1 border border-[var(--border)] rounded-full bg-[var(--card)]/50 backdrop-blur-sm"
         >
-          [ Status: Strategic Growth Partners ]
+          <ShinyText>[ Status: Strategic Growth Partners ]</ShinyText>
         </motion.span>
         <motion.span
           custom={1}

@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
+import { GridBackground } from './ui/GridBackground';
 
 const services = [
   { label: 'Personal Branding', href: '/services/personal-branding' },
@@ -23,8 +24,9 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-[var(--border)] bg-[var(--background)] py-24 md:py-32">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10">
+    <footer className="relative border-t border-[var(--border)] bg-[var(--background)] py-24 md:py-48 overflow-hidden">
+      <GridBackground className="opacity-20" />
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10">
 
         {/* Big Footer Brand */}
         <div className="mb-24 md:mb-40">

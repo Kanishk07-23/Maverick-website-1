@@ -3,6 +3,8 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
 import InteractiveRobot from '@/components/InteractiveRobot';
+import { GridBackground } from '@/components/ui/GridBackground';
+import { Magnetic } from '@/components/ui/Magnetic';
 
 const stats = [
   { value: '40+', label: 'Brands Scaled' },
@@ -16,7 +18,8 @@ export default function ResultsSection() {
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section className="relative py-24 md:py-48 bg-transparent border-t border-[var(--border)]" id="results">
+    <section className="relative py-24 md:py-48 bg-transparent border-t border-[var(--border)] overflow-hidden" id="results">
+      <GridBackground className="opacity-20" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-10" ref={ref}>
 
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-12 mb-24 md:mb-32">
@@ -40,20 +43,24 @@ export default function ResultsSection() {
           </div>
           
           <motion.div 
-            className="flex-1 w-full h-[400px] lg:h-[500px] relative mt-10 lg:mt-0 overflow-hidden rounded-2xl"
+            className="flex-1 w-full h-[400px] lg:h-[500px] relative mt-10 lg:mt-0 overflow-hidden rounded-2xl bg-[var(--card)]/30 backdrop-blur-sm border border-[var(--border)]"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
           >
+            <GridBackground className="opacity-10" />
+            
             {/* Stable Interactive 3D Robot - Native Three.js */}
             <div className="absolute inset-0 z-0">
-              <InteractiveRobot />
+              <Magnetic strength={0.3}>
+                <InteractiveRobot />
+              </Magnetic>
             </div>
 
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)]/10 to-transparent pointer-events-none" />
             
             <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 pointer-events-none">
-              <div className="bg-[var(--background)]/80 backdrop-blur-md px-4 py-2 border border-[var(--border)] rounded-full">
+              <div className="bg-[var(--background)]/80 backdrop-blur-md px-4 py-2 border border-[var(--border)] rounded-full luminous-glow">
                 <p className="label-sm opacity-100 uppercase tracking-[0.2em] text-[var(--foreground)]">
                   Verified Success Logs {'//'} 2024
                 </p>

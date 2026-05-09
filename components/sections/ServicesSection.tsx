@@ -1,98 +1,74 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
+import { BentoGrid, BentoGridItem } from '@/components/ui/BentoGrid';
+import { 
+  TrendingUp, 
+  Search, 
+  Share2, 
+  Zap, 
+  Code, 
+  User 
+} from 'lucide-react';
+import { GridBackground } from '@/components/ui/GridBackground';
 
 const services = [
   {
     id: 'performance-marketing',
-    num: '01',
     title: 'Performance Marketing',
-    desc: 'Data-driven ad campaigns on Meta & Google designed purely for massive ROI. We don\'t care about clicks — we care about actual revenue.',
+    desc: 'Data-driven ad campaigns designed purely for massive ROI. We focus on actual revenue, not just clicks.',
+    icon: <TrendingUp className="h-4 w-4 text-[var(--brand-purple)]" />,
+    className: "md:col-span-2",
   },
   {
     id: 'seo-sem',
-    num: '02',
     title: 'SEO & SEM',
-    desc: 'Dominate search engines. We reconstruct your digital architecture so high-intent customers find you exactly when they\'re ready to buy.',
+    desc: 'Dominate search results and capture high-intent traffic.',
+    icon: <Search className="h-4 w-4 text-[var(--brand-blue)]" />,
+    className: "md:col-span-1",
   },
   {
     id: 'social-media',
-    num: '03',
     title: 'Social Media',
-    desc: 'We transform boring brand pages into magnetic community hubs. 15M+ organic views generated for our clients so far.',
+    desc: 'Transform brand pages into magnetic community hubs with 15M+ organic views.',
+    icon: <Share2 className="h-4 w-4 text-[var(--brand-violet)]" />,
+    className: "md:col-span-1",
   },
   {
     id: 'branding-strategy',
-    num: '04',
     title: 'Brand Identity',
-    desc: 'Your brand is not just a logo. We craft distinct visual and narrative identities that command higher prices in the marketplace.',
+    desc: 'Distinct visual and narrative identities that command higher prices.',
+    icon: <Zap className="h-4 w-4 text-[var(--brand-lavender)]" />,
+    className: "md:col-span-2",
   },
   {
     id: 'web-dev',
-    num: '05',
     title: 'Web & App Dev',
-    desc: 'Beautiful websites are useless if they don\'t convert. We build lightning-fast web experiences engineered specifically to sell.',
+    desc: 'Lightning-fast web experiences engineered specifically to sell.',
+    icon: <Code className="h-4 w-4 text-[var(--brand-purple)]" />,
+    className: "md:col-span-2",
   },
   {
     id: 'personal-branding',
-    num: '06',
     title: 'Personal Branding',
-    desc: 'People buy from people. We scale your personal brand on LinkedIn and Twitter to open high-level B2B opportunities.',
+    desc: 'Scale your influence on LinkedIn and Twitter for B2B opportunities.',
+    icon: <User className="h-4 w-4 text-[var(--brand-blue)]" />,
+    className: "md:col-span-1",
   },
 ];
-
-function ServiceRow({ service, index }: { service: typeof services[0]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0 }}
-      animate={inView ? { opacity: 1 } : {}}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
-    >
-      <Link
-        href={`/services/${service.id}`}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className="block group relative border-t border-[var(--border)] overflow-hidden transition-colors hover:bg-[var(--inverted-bg)] hover:text-[var(--inverted-text)]"
-      >
-        <div className="relative py-12 md:py-20 px-6 md:px-10 z-10 flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-24">
-          <div className="flex items-center gap-10 md:gap-20">
-            <span className="label-sm opacity-50 block md:w-12">[{service.num}]</span>
-            <h3 className="font-outfit font-black text-[var(--foreground)] group-hover:text-[var(--inverted-text)] uppercase tracking-tighter transition-colors"
-                style={{ fontSize: 'clamp(2rem, 5vw, 5rem)', lineHeight: 0.9 }}>
-              {service.title}
-            </h3>
-          </div>
-          
-          <div className="md:max-w-md md:text-right flex flex-col md:items-end">
-            <p className="text-[var(--muted-foreground)] group-hover:text-[var(--inverted-text)] opacity-70 text-lg md:text-xl font-medium leading-snug mb-6 transition-colors">
-              {service.desc}
-            </p>
-            <span className="label-sm uppercase tracking-[0.2em] transition-all opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0">
-              Explore Protocol →
-            </span>
-          </div>
-        </div>
-      </Link>
-    </motion.div>
-  );
-}
 
 export default function ServicesSection() {
   const headerRef = useRef<HTMLDivElement>(null);
   const inView = useInView(headerRef, { once: true });
 
   return (
-    <section className="relative py-32 md:py-56 bg-transparent border-t border-[var(--border)]" id="services">
-      <div className="max-w-[1400px] mx-auto">
+    <section className="relative py-32 md:py-56 bg-transparent border-t border-[var(--border)] overflow-hidden" id="services">
+      <GridBackground className="opacity-20" />
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
 
         {/* Header */}
-        <div ref={headerRef} className="px-6 md:px-10 mb-24 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-12">
+        <div ref={headerRef} className="mb-24 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -101,7 +77,7 @@ export default function ServicesSection() {
             <span className="label-sm block mb-8">Operational Matrix</span>
             <h2
               className="font-outfit font-black text-[var(--foreground)] gradient-heading uppercase leading-[0.85] tracking-tighter"
-              style={{ fontSize: 'clamp(3rem, 10vw, 11rem)' }}
+              style={{ fontSize: 'clamp(3rem, 10vw, 8rem)' }}
             >
               We Engineer<br />
               <span className="brutalist-highlight px-2">Growth.</span>
@@ -118,19 +94,27 @@ export default function ServicesSection() {
           </motion.p>
         </div>
 
-        {/* Service Rows */}
-        <div className="border-b border-[var(--border)]">
-          {services.map((service, index) => (
-            <ServiceRow key={service.id} service={service} index={index} />
+        {/* Bento Grid */}
+        <BentoGrid className="max-w-7xl mx-auto">
+          {services.map((service, i) => (
+            <Link key={service.id} href={`/services/${service.id}`} className={service.className}>
+              <BentoGridItem
+                title={service.title}
+                description={service.desc}
+                header={<div className="flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-[var(--muted)] to-[var(--card)]/50 border border-[var(--border)] group-hover/bento:scale-[1.02] transition-transform duration-300" />}
+                icon={service.icon}
+                className="h-full"
+              />
+            </Link>
           ))}
-        </div>
+        </BentoGrid>
 
         {/* Bottom Bar */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-20 md:mt-32 px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-12"
+          className="mt-20 md:mt-32 flex flex-col md:flex-row items-center justify-between gap-12"
         >
           <div className="max-w-xl text-center md:text-left">
              <p className="text-[var(--muted-foreground)] text-xl leading-tight font-medium">

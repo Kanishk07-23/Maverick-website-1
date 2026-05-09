@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { clsx } from 'clsx';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
 
 const links = [
@@ -17,6 +17,13 @@ const links = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -37,7 +44,11 @@ export default function Navbar() {
           scrolled ? 'bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)] py-4' : 'bg-transparent py-8'
         )}
       >
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--brand-purple)] to-transparent opacity-50" />
+        <motion.div 
+          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--brand-purple)] via-[var(--brand-blue)] to-[var(--brand-purple)] origin-left z-50"
+          style={{ scaleX }}
+        />
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-[var(--border)] opacity-20" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-10 flex items-center justify-between">
 
           {/* Logo */}
