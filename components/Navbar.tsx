@@ -51,7 +51,7 @@ export default function Navbar() {
         >
           {/* Scroll Beam */}
           <motion.div 
-            className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--brand-purple)] via-[var(--brand-cyan)] to-[var(--brand-purple)] origin-left z-50 opacity-60"
+            className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--brand-purple)] via-[var(--brand-blue)] to-[var(--brand-purple)] origin-left z-50 opacity-60"
             style={{ scaleX }}
           />
 

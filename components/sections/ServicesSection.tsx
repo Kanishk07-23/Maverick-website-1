@@ -24,14 +24,14 @@ const services = [
     id: 'seo-sem',
     title: 'ORGANIC',
     desc: 'Capture intent and dominate the search landscape.',
-    icon: <Search className="h-4 w-4 text-[var(--brand-cyan)]" />,
+    icon: <Search className="h-4 w-4 text-[var(--brand-blue)]" />,
     className: "md:col-span-1",
   },
   {
     id: 'social-media',
     title: 'VIRAL',
     desc: '15M+ organic impressions. We build community hubs, not just pages.',
-    icon: <Share2 className="h-4 w-4 text-[var(--brand-rose)]" />,
+    icon: <Share2 className="h-4 w-4 text-[var(--brand-violet)]" />,
     className: "md:col-span-1",
   },
   {

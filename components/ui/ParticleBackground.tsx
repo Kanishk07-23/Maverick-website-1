@@ -49,7 +49,7 @@ export const ParticleBackground = () => {
 
       draw() {
         if (!ctx) return;
-        ctx.fillStyle = `rgba(251, 191, 36, ${this.opacity})`;
+        ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();

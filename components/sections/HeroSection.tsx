@@ -125,7 +125,7 @@ export default function HeroSection() {
 
       {/* Decorative Lines */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-[var(--brand-purple)] to-transparent opacity-50" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-t from-[var(--brand-cyan)] to-transparent opacity-50" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-t from-[var(--brand-blue)] to-transparent opacity-50" />
     </section>
   );
 }
