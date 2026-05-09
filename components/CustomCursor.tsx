@@ -6,58 +6,43 @@ export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Disable on touch devices
+    if (typeof window === 'undefined') return;
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
 
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
 
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
-    let hasMoved = false;
-    let raf: number;
+    let mx = 0, my = 0, rx = 0, ry = 0, raf: number;
 
-    // Use transform3d so cursor stays on compositor thread (avoids layout)
     const onMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      hasMoved = true;
-      dot.style.transform = `translate3d(${mouseX - 4}px, ${mouseY - 4}px, 0)`;
+      mx = e.clientX;
+      my = e.clientY;
+      dot.style.transform = `translate3d(${mx - 4}px, ${my - 4}px, 0)`;
     };
 
     const animate = () => {
-      if (hasMoved) {
-        // Lerp ring toward dot — only compute/write when there's delta
-        const dx = mouseX - ringX;
-        const dy = mouseY - ringY;
-        if (Math.abs(dx) > 0.3 || Math.abs(dy) > 0.3) {
-          ringX += dx * 0.1;
-          ringY += dy * 0.1;
-          ring.style.transform = `translate3d(${ringX - 18}px, ${ringY - 18}px, 0)`;
-        }
+      const dx = mx - rx, dy = my - ry;
+      if (Math.abs(dx) > 0.3 || Math.abs(dy) > 0.3) {
+        rx += dx * 0.1;
+        ry += dy * 0.1;
+        ring.style.transform = `translate3d(${rx - 18}px, ${ry - 18}px, 0)`;
       }
       raf = requestAnimationFrame(animate);
     };
     raf = requestAnimationFrame(animate);
 
     const onEnter = () => {
-      dot.style.width = '12px';
-      dot.style.height = '12px';
-      dot.style.background = 'var(--brand-violet)';
-      ring.style.width = '54px';
-      ring.style.height = '54px';
-      ring.style.marginLeft = '-9px';
-      ring.style.marginTop = '-9px';
+      dot.style.opacity = '0';
+      ring.style.width = '50px';
+      ring.style.height = '50px';
+      ring.style.borderColor = 'rgba(139,92,246,0.8)';
     };
     const onLeave = () => {
-      dot.style.width = '8px';
-      dot.style.height = '8px';
-      dot.style.background = 'var(--brand-purple)';
+      dot.style.opacity = '1';
       ring.style.width = '36px';
       ring.style.height = '36px';
-      ring.style.marginLeft = '0px';
-      ring.style.marginTop = '0px';
+      ring.style.borderColor = 'rgba(255,255,255,0.4)';
     };
 
     document.addEventListener('mousemove', onMove, { passive: true });
@@ -72,23 +57,35 @@ export default function CustomCursor() {
     };
   }, []);
 
-  // Don't render on touch devices (SSR-safe guard)
-  if (typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
-    return null;
-  }
-
   return (
     <>
-      {/* Use top/left=0 and drive position purely via transform3d for compositor-only updates */}
       <div
         ref={dotRef}
-        className="cursor-dot"
-        style={{ top: 0, left: 0, transform: 'translate3d(-100px, -100px, 0)' }}
+        style={{
+          position: 'fixed',
+          top: 0, left: 0,
+          width: '8px', height: '8px',
+          background: '#8b5cf6',
+          borderRadius: '50%',
+          pointerEvents: 'none',
+          zIndex: 99999,
+          transform: 'translate3d(-100px,-100px,0)',
+          transition: 'opacity 0.15s',
+        }}
       />
       <div
         ref={ringRef}
-        className="cursor-ring"
-        style={{ top: 0, left: 0, transform: 'translate3d(-100px, -100px, 0)' }}
+        style={{
+          position: 'fixed',
+          top: 0, left: 0,
+          width: '36px', height: '36px',
+          border: '1px solid rgba(255,255,255,0.4)',
+          borderRadius: '50%',
+          pointerEvents: 'none',
+          zIndex: 99998,
+          transform: 'translate3d(-100px,-100px,0)',
+          transition: 'width 0.3s, height 0.3s, border-color 0.3s',
+        }}
       />
     </>
   );
