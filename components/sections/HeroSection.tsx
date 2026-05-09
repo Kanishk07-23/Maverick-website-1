@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 import Link from 'next/link';
 import { ShinyText } from '@/components/ui/ShinyText';
+import { GridBackground } from '@/components/ui/GridBackground';
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
