@@ -1,29 +1,20 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useInView,
-  AnimatePresence,
-  type Variants,
-  type Transition,
+  motion, useScroll, useTransform, useSpring,
+  useInView, AnimatePresence,
+  type Variants, type Transition,
 } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 
-// Lazy-load the heavy 3D scene — SSR off
-const SpineScene = dynamic(() => import('@/components/three/SpineScene'), {
-  ssr: false,
-  loading: () => null,
-});
+const HeroScene = dynamic(() => import('@/components/three/SpineScene').then(m => ({ default: m.HeroScene })), { ssr: false, loading: () => null });
+const SpineScene = dynamic(() => import('@/components/three/SpineScene'), { ssr: false, loading: () => null });
 
-/* ─── DATA ─────────────────────────────────────────────────── */
-
-const NAV_LINKS = [
+/* ─── DATA ─────────────────────────────────────────────── */
+const NAV = [
   { label: 'Work', href: '#work' },
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#about' },
@@ -31,12 +22,12 @@ const NAV_LINKS = [
 ];
 
 const SERVICES = [
-  { num: '01', title: 'PERFORMANCE\nMARKETING', desc: 'Data-driven campaigns engineered purely for ROI. Every rupee tracked, every conversion owned.', side: 'left' },
-  { num: '02', title: 'SEO &\nORGANIC', desc: 'Dominate search, capture intent. Technical SEO and content at scale.', side: 'right' },
-  { num: '03', title: 'SOCIAL\nMEDIA', desc: '15M+ organic views. We build audiences that actually convert.', side: 'left' },
-  { num: '04', title: 'BRAND\nIDENTITY', desc: 'Visual systems that command premium pricing and instant recall.', side: 'right' },
-  { num: '05', title: 'WEB\nDEVELOPMENT', desc: 'Conversion-engineered web experiences. Fast, ruthless, beautiful.', side: 'left' },
-  { num: '06', title: 'PERSONAL\nBRANDING', desc: 'Scale founder influence. LinkedIn authority that generates real B2B pipeline.', side: 'right' },
+  { num: '01', title: 'PERFORMANCE\nMARKETING', desc: 'Data-driven campaigns engineered purely for ROI. Every rupee tracked, every conversion owned.' },
+  { num: '02', title: 'SEO &\nORGANIC', desc: 'Dominate search, capture intent. Technical SEO and content at scale.' },
+  { num: '03', title: 'SOCIAL\nMEDIA', desc: '15M+ organic views. We build audiences that actually convert.' },
+  { num: '04', title: 'BRAND\nIDENTITY', desc: 'Visual systems that command premium pricing and instant recall.' },
+  { num: '05', title: 'WEB\nDEVELOPMENT', desc: 'Conversion-engineered web experiences. Fast, ruthless, beautiful.' },
+  { num: '06', title: 'PERSONAL\nBRANDING', desc: 'Scale founder influence. LinkedIn authority that generates real B2B pipeline.' },
 ];
 
 const STATS = [
@@ -46,50 +37,37 @@ const STATS = [
   { value: '₹4Cr+', label: 'Ad Spend Managed' },
 ];
 
-/* ─── VARIANTS ──────────────────────────────────────────────── */
+/* ─── HELPERS ───────────────────────────────────────────── */
+const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-const easeOut = [0.16, 1, 0.3, 1] as [number, number, number, number];
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  show: (i: number = 0) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 1, delay: i * 0.1, ease: easeOut } as Transition,
-  }),
-};
-
-const slideLeft: Variants = {
-  hidden: { opacity: 0, x: -60 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.9, ease: easeOut } as Transition },
-};
-
-const slideRight: Variants = {
-  hidden: { opacity: 0, x: 60 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.9, ease: easeOut } as Transition },
-};
-
-/* ─── HELPERS ───────────────────────────────────────────────── */
-
-function InView({ children, variants = fadeUp, custom = 0 }: {
-  children: React.ReactNode;
-  variants?: Variants;
-  custom?: number;
-}) {
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: '-80px' });
   return (
-    <motion.div ref={ref} custom={custom} variants={variants} initial="hidden" animate={inView ? 'show' : 'hidden'}>
+    <motion.div ref={ref} initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease }}>
       {children}
     </motion.div>
   );
 }
 
-function Label({ children }: { children: React.ReactNode }) {
-  return <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30 mb-10">{children}</p>;
+function StatCard({ value, label, delay }: { value: string; label: string; delay: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  return (
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay }}
+      className="p-10 border-r border-b lg:border-b-0 border-white/[0.06] last:border-r-0 flex flex-col gap-3 hover:bg-white/[0.02] transition-colors duration-500">
+      <div className="font-black text-white leading-none tracking-tighter" style={{ fontSize: 'clamp(2.5rem,5vw,5rem)' }}>{value}</div>
+      <div className="text-[10px] font-bold tracking-[0.25em] uppercase text-white/30">{label}</div>
+    </motion.div>
+  );
 }
 
-/* ─── NAVBAR ─────────────────────────────────────────────────── */
-
+/* ─── NAVBAR ────────────────────────────────────────────── */
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -109,36 +87,26 @@ function Navbar() {
 
   return (
     <>
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] z-[60] origin-left"
-        style={{ scaleX, background: 'linear-gradient(90deg, #8b5cf6, #6366f1, #3b82f6)' }}
-      />
-
+      <motion.div className="fixed top-0 left-0 right-0 h-[2px] z-[60] origin-left"
+        style={{ scaleX, background: 'linear-gradient(90deg,#f59e0b,#fcd34d,#8b5cf6)' }} />
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-5 px-5 pointer-events-none">
-        <motion.div
-          initial={{ y: -80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, ease: easeOut }}
-          className="pointer-events-auto w-full max-w-[1300px]"
-        >
-          <div className={`flex items-center justify-between px-6 h-[60px] rounded-full transition-all duration-500 ${scrolled ? 'bg-black/70 backdrop-blur-2xl border border-white/[0.07]' : ''}`}>
+        <motion.div initial={{ y: -80, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, ease }}
+          className="pointer-events-auto w-full max-w-[1300px]">
+          <div className={`flex items-center justify-between px-6 h-[60px] rounded-full transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-2xl border border-white/[0.07]' : ''}`}>
             <a href="/" className="flex items-center gap-3 group">
               <div className="w-7 h-7 relative flex-shrink-0 transition-transform duration-500 group-hover:rotate-12">
                 <Image src="/assets/logo.png" alt="Maverick" fill className="object-contain invert" priority />
               </div>
-              <span className="font-semibold text-white text-[11px] tracking-[0.3em] uppercase">Maverick</span>
+              <span className="font-bold text-white text-[11px] tracking-[0.3em] uppercase">Maverick</span>
             </a>
-
             <nav className="hidden md:flex items-center gap-10">
-              {NAV_LINKS.map((l) => (
-                <a key={l.href} href={l.href} className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 hover:text-white transition-colors">
-                  {l.label}
-                </a>
+              {NAV.map(l => (
+                <a key={l.href} href={l.href} className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 hover:text-white transition-colors">{l.label}</a>
               ))}
             </nav>
-
             <div className="flex items-center gap-4">
-              <a href="#contact" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#8b5cf6] hover:text-white transition-colors duration-300">
+              <a href="#contact" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#f59e0b] text-black text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#fcd34d] transition-colors duration-300">
                 Let&apos;s Talk
               </a>
               <button className="md:hidden text-white/50 hover:text-white" onClick={() => setOpen(!open)}>
@@ -148,25 +116,16 @@ function Navbar() {
           </div>
         </motion.div>
       </header>
-
       <AnimatePresence>
         {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black flex flex-col justify-center px-10"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-black flex flex-col justify-center px-10">
             <nav className="flex flex-col gap-8">
-              {[{ label: 'Home', href: '/' }, ...NAV_LINKS].map((l, i) => (
-                <motion.a
-                  key={l.href} href={l.href}
-                  onClick={() => setOpen(false)}
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
+              {[{ label: 'Home', href: '/' }, ...NAV].map((l, i) => (
+                <motion.a key={l.href} href={l.href} onClick={() => setOpen(false)}
+                  initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.07 }}
-                  className="text-white font-black text-5xl uppercase tracking-tighter leading-none hover:text-[#8b5cf6] transition-colors"
-                >
+                  className="text-white font-black text-5xl uppercase tracking-tighter leading-none hover:text-[#f59e0b] transition-colors">
                   {l.label}
                 </motion.a>
               ))}
@@ -178,258 +137,286 @@ function Navbar() {
   );
 }
 
-/* ─── HERO ───────────────────────────────────────────────────── */
-
+/* ─── HERO ──────────────────────────────────────────────── */
 function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const textOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
+  const helixOpacity = useTransform(scrollYProgress, [0, 0.15, 0.5], [1, 1, 0]);
+  const helixScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
+  const textY = useTransform(scrollYProgress, [0.3, 0.7], [60, 0]);
 
   return (
-    <section ref={ref} id="home" className="relative flex items-center min-h-screen overflow-hidden">
-      <motion.div style={{ opacity, y }} className="relative z-10 w-full px-8 md:px-16 pt-36 pb-24 max-w-[1400px] mx-auto">
-        {/* Live status */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex items-center gap-3 mb-16"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8b5cf6] opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#8b5cf6]" />
-          </span>
-          <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30">
-            Mumbai HQ — Growth Protocols Active
-          </span>
+    <section ref={ref} id="home" className="relative" style={{ height: '250vh' }}>
+      <div className="sticky top-0 h-screen overflow-hidden">
+        {/* 3D Gold Helix — full screen, fades as scroll progresses */}
+        <motion.div className="absolute inset-0 z-10" style={{ opacity: helixOpacity, scale: helixScale }}>
+          <HeroScene scrollProgress={scrollYProgress} />
         </motion.div>
 
-        {/* Giant headline */}
-        <div className="overflow-hidden mb-2">
-          {['WE', 'SCALE', 'BRANDS.'].map((word, i) => (
-            <div key={i} className="overflow-hidden">
-              <motion.div
-                initial={{ y: '110%' }}
-                animate={{ y: '0%' }}
-                transition={{ duration: 1.1, delay: i * 0.12, ease: easeOut }}
-                className={`block font-black uppercase leading-[0.85] tracking-[-0.04em] ${i === 2 ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] via-[#6366f1] to-[#3b82f6]' : 'text-white'}`}
-                style={{ fontSize: 'clamp(5rem, 16vw, 17rem)' }}
-              >
-                {word}
-              </motion.div>
-            </div>
-          ))}
-        </div>
+        {/* Radial glow behind helix */}
+        <div className="absolute inset-0 z-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(245,158,11,0.08) 0%, transparent 70%)' }} />
 
-        {/* Sub row */}
+        {/* Hero text — fades IN as helix fades out */}
         <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 1 }}
-          className="mt-14 flex flex-col md:flex-row md:items-end justify-between gap-10 border-t border-white/[0.07] pt-10"
-        >
-          <p className="text-white/40 text-lg max-w-md leading-relaxed font-light">
-            Aggressive creative execution meets technical data architecture. We build unbreakable revenue engines.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a href="#contact" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black font-black text-[10px] tracking-[0.2em] uppercase hover:bg-[#8b5cf6] hover:text-white transition-colors duration-300">
-              Start a Project <ArrowUpRight size={13} />
-            </a>
-            <a href="#services" className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/15 text-white/50 font-bold text-[10px] tracking-[0.2em] uppercase hover:border-[#8b5cf6] hover:text-white transition-colors duration-300">
-              Our Services
-            </a>
+          className="absolute inset-0 z-20 flex flex-col justify-center px-8 md:px-16 max-w-[1400px] mx-auto"
+          style={{ opacity: textOpacity, y: textY }}>
+
+          <motion.div className="flex items-center gap-3 mb-14">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute h-full w-full rounded-full bg-[#f59e0b] opacity-75" />
+              <span className="relative h-2 w-2 rounded-full bg-[#f59e0b]" />
+            </span>
+            <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30">
+              Mumbai HQ — Growth Protocols Active
+            </span>
+          </motion.div>
+
+          <div>
+            {['WE', 'SCALE', 'BRANDS.'].map((word, i) => (
+              <div key={i} style={{
+                fontSize: 'clamp(4.5rem,14vw,16rem)',
+                fontWeight: 900,
+                lineHeight: 0.85,
+                letterSpacing: '-0.04em',
+                textTransform: 'uppercase',
+                color: i === 2 ? 'transparent' : 'white',
+                background: i === 2 ? 'linear-gradient(135deg,#f59e0b,#fcd34d)' : undefined,
+                WebkitBackgroundClip: i === 2 ? 'text' : undefined,
+                WebkitTextFillColor: i === 2 ? 'transparent' : undefined,
+                backgroundClip: i === 2 ? 'text' : undefined,
+              }}>
+                {word}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-14 flex flex-col md:flex-row md:items-end justify-between gap-10 border-t border-white/[0.07] pt-10">
+            <p className="text-white/40 text-lg max-w-md leading-relaxed font-light">
+              Aggressive creative meets data architecture. We build unbreakable revenue engines for brands that refuse to be ignored.
+            </p>
+            <div className="flex gap-4">
+              <a href="#contact" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#f59e0b] text-black font-black text-[10px] tracking-[0.2em] uppercase hover:bg-[#fcd34d] transition-colors duration-300">
+                Start a Project <ArrowUpRight size={13} />
+              </a>
+              <a href="#services" className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/15 text-white/50 font-bold text-[10px] tracking-[0.2em] uppercase hover:border-[#f59e0b] hover:text-white transition-colors duration-300">
+                Our Services
+              </a>
+            </div>
           </div>
         </motion.div>
-      </motion.div>
+
+        {/* Scroll hint */}
+        <motion.div
+          style={{ opacity: helixOpacity }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
+          <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-px h-12 bg-gradient-to-b from-[#f59e0b] to-transparent" />
+          <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-[#f59e0b]/40">Scroll</span>
+        </motion.div>
+      </div>
     </section>
   );
 }
 
-/* ─── SPIRAL SPINE SECTION ───────────────────────────────────── */
-/* 
- * This is the core visual. A fixed 3D canvas fills the background 
- * during the services section scroll. HTML cards appear on alternating 
- * sides timed with scroll position, replicating the reel's spiral effect.
+/* ─── SPIRAL SPINE SECTION ──────────────────────────────── */
+/*
+ * Architecture:
+ * - Sticky 3D canvas background (the gold helix spine)
+ * - Cards are positioned absolutely and use scroll-driven 3D CSS transforms
+ *   to ROTATE around the spine — each card at a different angle offset,
+ *   creating a true corkscrew/spiral effect as you scroll
  */
-
-function SpiralSpineSection() {
+function SpiralSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] });
 
+  // Height: intro screen + 6 cards * 100vh each + outro screen
+  const SERVICE_COUNT = SERVICES.length;
+  const CARD_HEIGHT = 100; // vh per card
+  const TOTAL = (SERVICE_COUNT + 2) * CARD_HEIGHT;
+
   return (
-    <section ref={containerRef} id="services" className="relative">
-      {/* 3D Canvas — sticky for the entire scroll height of this section */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
+    <section ref={containerRef} id="services" style={{ height: `${TOTAL}vh` }} className="relative">
+
+      {/* Sticky 3D spine canvas */}
+      <div className="sticky top-0 h-screen pointer-events-none" style={{ zIndex: 1 }}>
         <SpineScene scrollYProgress={scrollYProgress} />
       </div>
 
-      {/* HTML content panels — they scroll OVER the sticky canvas */}
-      <div className="relative" style={{ zIndex: 10, marginTop: '-100vh' }}>
+      {/* HTML overlay — scrolls over canvas */}
+      <div className="relative" style={{ marginTop: '-100vh', zIndex: 10 }}>
 
-        {/* Section label — centered at top */}
-        <div className="flex justify-center items-center h-screen">
-          <InView>
+        {/* Section title screen */}
+        <div className="h-screen flex items-center justify-center">
+          <Reveal>
             <div className="text-center px-6">
-              <Label>Services // Core Matrix</Label>
-              <h2
-                className="font-black uppercase tracking-[-0.04em] text-white leading-none"
-                style={{ fontSize: 'clamp(3rem, 9vw, 9rem)' }}
-              >
+              <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#f59e0b]/60 mb-8">Services // Core Matrix</p>
+              <h2 className="font-black uppercase tracking-[-0.04em] text-white leading-none"
+                style={{ fontSize: 'clamp(3rem,9vw,9rem)' }}>
                 THE GROWTH<br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6]">
-                  ARCHITECTURE.
-                </span>
+                <span style={{
+                  background: 'linear-gradient(135deg,#f59e0b,#fcd34d)',
+                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+                }}>ARCHITECTURE.</span>
               </h2>
             </div>
-          </InView>
+          </Reveal>
         </div>
 
-        {/* Spiraling service cards — alternating left/right */}
+        {/* Spiral cards — each takes 100vh, cards rotate around spine using scroll */}
         {SERVICES.map((s, i) => (
-          <div key={i} className="flex items-center h-screen px-8 md:px-16 max-w-[1400px] mx-auto">
-            <div className={`w-full flex ${s.side === 'left' ? 'justify-start' : 'justify-end'}`}>
-              <InView variants={s.side === 'left' ? slideLeft : slideRight}>
-                <div
-                  className="relative max-w-xs md:max-w-sm p-8 rounded-2xl border border-white/[0.08] bg-black/60 backdrop-blur-xl overflow-hidden group hover:border-[#8b5cf6]/40 transition-colors duration-500"
-                  style={{ boxShadow: '0 0 40px rgba(139,92,246,0.07)' }}
-                >
-                  {/* Subtle glow top corner */}
-                  <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-[#8b5cf6] opacity-10 blur-3xl group-hover:opacity-20 transition-opacity duration-500" />
-
-                  <p className="text-[9px] font-bold tracking-[0.3em] uppercase text-[#8b5cf6] mb-6">{s.num}</p>
-                  <h3
-                    className="font-black uppercase text-white leading-none tracking-tight mb-6 whitespace-pre-line"
-                    style={{ fontSize: 'clamp(1.6rem, 3vw, 2.5rem)' }}
-                  >
-                    {s.title}
-                  </h3>
-                  <p className="text-white/40 text-sm leading-relaxed">{s.desc}</p>
-                  <div className="mt-8 flex items-center gap-2 text-[9px] font-bold tracking-[0.2em] uppercase text-white/20 group-hover:text-[#8b5cf6] transition-colors duration-300">
-                    Explore <ArrowUpRight size={11} />
-                  </div>
-                </div>
-              </InView>
-            </div>
-          </div>
+          <SpiralCard key={i} service={s} index={i} total={SERVICE_COUNT} scrollYProgress={scrollYProgress} />
         ))}
 
-        {/* Extra height to let the scroll breathe */}
+        {/* Exit screen */}
         <div className="h-screen" />
       </div>
     </section>
   );
 }
 
-/* ─── STAT CARD ─────────────────────────────────────────────── */
+/* Each card orbits the central spine in 3D via CSS transforms */
+function SpiralCard({
+  service, index, total, scrollYProgress
+}: {
+  service: typeof SERVICES[0];
+  index: number;
+  total: number;
+  scrollYProgress: any;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
 
-function StatCard({ value, label, delay }: { value: string; label: string; delay: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
+  // Each card's scroll window within the section
+  // Cards appear from index 1 to total (screen 0 is the title)
+  const cardStart = (index + 1) / (total + 2);
+  const cardPeak  = (index + 1.5) / (total + 2);
+  const cardEnd   = (index + 2) / (total + 2);
+
+  // 3D rotation: card enters from behind, swings to front, exits behind
+  // This creates the spiral/orbit feel
+  const rotateY = useTransform(
+    scrollYProgress,
+    [cardStart, cardPeak, cardEnd],
+    [index % 2 === 0 ? 90 : -90, 0, index % 2 === 0 ? -90 : 90]
+  );
+  const opacity = useTransform(scrollYProgress, [cardStart, cardStart + 0.05, cardEnd - 0.05, cardEnd], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [cardStart, cardPeak, cardEnd], [0.7, 1, 0.7]);
+
+  // Alternate left/right positioning
+  const isLeft = index % 2 === 0;
+
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay }}
-      className="p-12 border-r border-b lg:border-b-0 border-white/[0.06] last:border-r-0 flex flex-col gap-4 hover:bg-white/[0.02] transition-colors duration-500"
-    >
-      <div className="font-black text-white leading-none tracking-tighter" style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)' }}>
-        {value}
+    <div ref={ref} className="h-screen flex items-center" style={{ perspective: '1200px' }}>
+      <div className={`w-full flex ${isLeft ? 'justify-start pl-12 md:pl-32' : 'justify-end pr-12 md:pr-32'}`}>
+        <motion.div
+          style={{ rotateY, opacity, scale, transformStyle: 'preserve-3d' }}
+          className="max-w-[340px] p-8 rounded-2xl border border-[#f59e0b]/20 bg-black/70 backdrop-blur-xl relative overflow-hidden group">
+
+          {/* Card glow */}
+          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-15 blur-3xl"
+            style={{ background: '#f59e0b' }} />
+
+          <p className="text-[9px] font-bold tracking-[0.3em] uppercase text-[#f59e0b] mb-5">{service.num}</p>
+          <h3 className="font-black uppercase text-white leading-none tracking-tight mb-5 whitespace-pre-line"
+            style={{ fontSize: 'clamp(1.6rem,3vw,2.4rem)' }}>
+            {service.title}
+          </h3>
+          <p className="text-white/40 text-sm leading-relaxed">{service.desc}</p>
+          <div className="mt-7 flex items-center gap-2 text-[9px] font-bold tracking-[0.2em] uppercase text-[#f59e0b]/30 group-hover:text-[#f59e0b] transition-colors duration-300">
+            Explore <ArrowUpRight size={11} />
+          </div>
+
+          {/* Gold border line at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-[1px]"
+            style={{ background: 'linear-gradient(90deg, transparent, #f59e0b, transparent)' }} />
+        </motion.div>
       </div>
-      <div className="text-[10px] font-bold tracking-[0.25em] uppercase text-white/30">{label}</div>
-    </motion.div>
+    </div>
   );
 }
 
-/* ─── STATS SECTION ─────────────────────────────────────────── */
-
+/* ─── STATS ─────────────────────────────────────────────── */
 function StatsSection() {
   return (
-    <section id="about" className="relative py-48 border-t border-white/[0.06]">
+    <section id="about" className="py-48 border-t border-white/[0.06]">
       <div className="max-w-[1400px] mx-auto px-8 md:px-16">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-20 mb-24">
-          <InView>
-            <Label>Logs // Proof of Work</Label>
-            <h2
-              className="font-black uppercase tracking-[-0.04em] text-white leading-none"
-              style={{ fontSize: 'clamp(3rem, 9vw, 9rem)' }}
-            >
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-20 mb-20">
+          <Reveal>
+            <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#f59e0b]/60 mb-8">Logs // Proof of Work</p>
+            <h2 className="font-black uppercase tracking-[-0.04em] text-white leading-none"
+              style={{ fontSize: 'clamp(3rem,9vw,9rem)' }}>
               PROVEN<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6]">YIELDS.</span>
+              <span style={{ background: 'linear-gradient(135deg,#f59e0b,#fcd34d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                YIELDS.
+              </span>
             </h2>
-          </InView>
-          <InView custom={2}>
+          </Reveal>
+          <Reveal delay={0.2}>
             <p className="text-white/40 text-lg max-w-sm leading-relaxed">
-              Real brands. Real campaigns. Real results. No inflated metrics, no fluff.
+              Real brands. Real campaigns. Real results. No inflated metrics.
             </p>
-          </InView>
+          </Reveal>
         </div>
-
         <div className="grid grid-cols-2 lg:grid-cols-4 border border-white/[0.06]">
-          {STATS.map((s, i) => (
-            <StatCard key={i} value={s.value} label={s.label} delay={i * 0.1} />
-          ))}
+          {STATS.map((s, i) => <StatCard key={i} value={s.value} label={s.label} delay={i * 0.1} />)}
         </div>
       </div>
     </section>
   );
 }
 
-/* ─── CTA SECTION ───────────────────────────────────────────── */
-
+/* ─── CTA ────────────────────────────────────────────────── */
 function CTASection() {
   return (
     <section id="contact" className="relative py-48 border-t border-white/[0.06] overflow-hidden">
-      {/* Glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 50% 40% at 50% 100%, rgba(139,92,246,0.12) 0%, transparent 70%)' }} />
-
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 50% 40% at 50% 100%, rgba(245,158,11,0.08) 0%, transparent 70%)' }} />
       <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-16 text-center">
-        <InView>
-          <Label>Ready // Let&apos;s Build</Label>
-          <h2
-            className="font-black uppercase tracking-[-0.04em] text-white leading-none mb-8"
-            style={{ fontSize: 'clamp(3.5rem, 10vw, 11rem)' }}
-          >
+        <Reveal>
+          <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#f59e0b]/60 mb-8">Ready // Let&apos;s Build</p>
+          <h2 className="font-black uppercase tracking-[-0.04em] text-white leading-none mb-8"
+            style={{ fontSize: 'clamp(3.5rem,10vw,11rem)' }}>
             START YOUR<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6]">PROJECT.</span>
+            <span style={{ background: 'linear-gradient(135deg,#f59e0b,#fcd34d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              PROJECT.
+            </span>
           </h2>
           <p className="text-white/40 text-lg max-w-md mx-auto mb-16 leading-relaxed">
             Tell us where you want to be. We&apos;ll architect the protocol to get you there.
           </p>
-        </InView>
-        <InView custom={2}>
+        </Reveal>
+        <Reveal delay={0.2}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-            <a href="mailto:maverickdigitals18@gmail.com" className="inline-flex items-center gap-2 px-10 py-5 rounded-full bg-white text-black font-black text-[10px] tracking-[0.2em] uppercase hover:bg-[#8b5cf6] hover:text-white transition-colors duration-300">
+            <a href="mailto:maverickdigitals18@gmail.com" className="inline-flex items-center gap-2 px-10 py-5 rounded-full bg-[#f59e0b] text-black font-black text-[10px] tracking-[0.2em] uppercase hover:bg-[#fcd34d] transition-colors duration-300">
               maverickdigitals18@gmail.com <ArrowUpRight size={14} />
             </a>
-            <a href="https://wa.me/919619818332" className="inline-flex items-center gap-2 px-10 py-5 rounded-full border border-white/15 text-white/50 font-bold text-[10px] tracking-[0.2em] uppercase hover:border-[#8b5cf6] hover:text-white transition-colors duration-300">
+            <a href="https://wa.me/919619818332" className="inline-flex items-center gap-2 px-10 py-5 rounded-full border border-white/15 text-white/50 font-bold text-[10px] tracking-[0.2em] uppercase hover:border-[#f59e0b] hover:text-white transition-colors duration-300">
               WhatsApp Us
             </a>
           </div>
-        </InView>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-/* ─── FOOTER ─────────────────────────────────────────────────── */
-
+/* ─── FOOTER ─────────────────────────────────────────────── */
 function Footer() {
   const year = new Date().getFullYear();
-  const footerLinks = ['Performance Marketing', 'SEO & SEM', 'Social Media', 'Brand Identity', 'Web Dev', 'Personal Branding'];
-
   return (
     <footer className="border-t border-white/[0.06] bg-black">
       <div className="max-w-[1400px] mx-auto px-8 md:px-16">
         <div className="py-24 border-b border-white/[0.06]">
-          <h2
-            className="font-black uppercase tracking-[-0.04em] text-white leading-none"
-            style={{ fontSize: 'clamp(4rem, 13vw, 13rem)' }}
-          >
+          <h2 className="font-black uppercase tracking-[-0.04em] text-white leading-none"
+            style={{ fontSize: 'clamp(4rem,13vw,13rem)' }}>
             THE FUTURE<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6]">IS MAVERICK.</span>
+            <span style={{ background: 'linear-gradient(135deg,#f59e0b,#fcd34d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              IS MAVERICK.
+            </span>
           </h2>
         </div>
-
         <div className="py-16 grid grid-cols-2 lg:grid-cols-4 gap-16 border-b border-white/[0.06]">
           <div>
             <p className="text-[9px] tracking-[0.3em] uppercase text-white/25 mb-6">Contact</p>
@@ -438,18 +425,17 @@ function Footer() {
           </div>
           <div>
             <p className="text-[9px] tracking-[0.3em] uppercase text-white/25 mb-6">Services</p>
-            {footerLinks.map((l) => <p key={l} className="text-[10px] tracking-wider text-white/30 hover:text-white transition-colors mb-2 uppercase cursor-pointer">{l}</p>)}
+            {SERVICES.map(s => <p key={s.num} className="text-[10px] tracking-wider text-white/30 hover:text-white transition-colors mb-2 uppercase cursor-pointer">{s.title.replace('\n', ' ')}</p>)}
           </div>
           <div>
             <p className="text-[9px] tracking-[0.3em] uppercase text-white/25 mb-6">Navigate</p>
-            {NAV_LINKS.map((l) => <a key={l.href} href={l.href} className="block text-[10px] tracking-wider text-white/30 hover:text-white transition-colors mb-2 uppercase">{l.label}</a>)}
+            {NAV.map(l => <a key={l.href} href={l.href} className="block text-[10px] tracking-wider text-white/30 hover:text-white transition-colors mb-2 uppercase">{l.label}</a>)}
           </div>
           <div>
             <p className="text-[9px] tracking-[0.3em] uppercase text-white/25 mb-6">Social</p>
-            {['Instagram', 'LinkedIn', 'Twitter'].map((s) => <p key={s} className="text-[10px] tracking-wider text-white/30 hover:text-white transition-colors mb-2 uppercase cursor-pointer">{s}</p>)}
+            {['Instagram', 'LinkedIn', 'Twitter'].map(s => <p key={s} className="text-[10px] tracking-wider text-white/30 hover:text-white transition-colors mb-2 uppercase cursor-pointer">{s}</p>)}
           </div>
         </div>
-
         <div className="py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-[9px] tracking-[0.3em] uppercase text-white/15">© {year} Maverick Digitals. All Rights Reserved.</p>
           <p className="text-[9px] tracking-[0.3em] uppercase text-white/15">Mumbai, India — Global Operations</p>
@@ -459,14 +445,13 @@ function Footer() {
   );
 }
 
-/* ─── PAGE ───────────────────────────────────────────────────── */
-
+/* ─── PAGE ───────────────────────────────────────────────── */
 export default function Home() {
   return (
     <main className="bg-black">
       <Navbar />
       <Hero />
-      <SpiralSpineSection />
+      <SpiralSection />
       <StatsSection />
       <CTASection />
       <Footer />

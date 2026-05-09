@@ -1,114 +1,170 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import type { MotionValue } from 'framer-motion';
 
-/* ─── Spine curve definition ───────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════════════════════ */
 
-const SPINE_POINTS = [
-  new THREE.Vector3(0,  14, 0),
-  new THREE.Vector3(0.6, 10, -0.5),
-  new THREE.Vector3(-0.6, 6,  0.5),
-  new THREE.Vector3(0.4,  2, -0.4),
-  new THREE.Vector3(-0.4,-2,  0.4),
-  new THREE.Vector3(0.3, -6, -0.3),
-  new THREE.Vector3(0,  -14, 0),
-];
+const GOLD = new THREE.Color('#f59e0b');
+const GOLD_BRIGHT = new THREE.Color('#fcd34d');
+const PURPLE = new THREE.Color('#8b5cf6');
 
-const SPINE = new THREE.CatmullRomCurve3(SPINE_POINTS, false, 'catmullrom', 0.5);
-const TUBE_POINTS = SPINE.getPoints(200);
+// Number of coils in the helix
+const HELIX_COILS = 4;
+const HELIX_RADIUS = 1.2;
+const HELIX_HEIGHT = 18;
+const HELIX_SEGMENTS = 400;
 
-/* ─── Glowing Spine Tube ────────────────────────────────────── */
+// Generate helix spine points
+function makeHelixPoints(coils: number, radius: number, height: number, segments: number) {
+  const pts: THREE.Vector3[] = [];
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const angle = t * Math.PI * 2 * coils;
+    pts.push(new THREE.Vector3(
+      Math.cos(angle) * radius,
+      t * height - height / 2,
+      Math.sin(angle) * radius
+    ));
+  }
+  return pts;
+}
 
-function SpineTube() {
-  const matRef = useRef<THREE.LineBasicMaterial>(null!);
+const HELIX_POINTS = makeHelixPoints(HELIX_COILS, HELIX_RADIUS, HELIX_HEIGHT, HELIX_SEGMENTS);
+const HELIX_CURVE = new THREE.CatmullRomCurve3(HELIX_POINTS);
 
-  const lineObj = useMemo(() => {
-    const geo = new THREE.BufferGeometry().setFromPoints(TUBE_POINTS);
-    const mat = new THREE.LineBasicMaterial({ color: '#8b5cf6', transparent: true, opacity: 0.8 });
-    matRef.current = mat;
-    return new THREE.Line(geo, mat);
-  }, []);
+/* ═══════════════════════════════════════════════════════════
+   HERO SPIRAL — spinning intro object (shown on landing)
+═══════════════════════════════════════════════════════════ */
+
+export function HeroSpiral({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
+  const groupRef = useRef<THREE.Group>(null!);
+  const progressRef = useRef(0);
+
+  useMemo(() => {
+    return scrollProgress.on('change', (v) => { progressRef.current = v; });
+  }, [scrollProgress]);
 
   useFrame(({ clock }) => {
-    if (matRef.current) {
-      matRef.current.opacity = 0.7 + Math.sin(clock.getElapsedTime() * 1.8) * 0.2;
-    }
+    if (!groupRef.current) return;
+    const t = progressRef.current;
+    const elapsed = clock.getElapsedTime();
+
+    // Auto-rotate + scroll-driven tilt
+    groupRef.current.rotation.y = elapsed * 0.5 + t * Math.PI * 3;
+    groupRef.current.rotation.x = t * Math.PI * 0.5;
+
+    // Scale down and move up as scroll increases (zoom-out transition)
+    const scale = Math.max(0.2, 1 - t * 1.8);
+    groupRef.current.scale.setScalar(scale);
+    groupRef.current.position.y = t * 5;
+    groupRef.current.position.z = t * -3;
   });
 
-  return <primitive object={lineObj} />;
-}
+  // Build the helix geometry once
+  const helixGeo = useMemo(() => {
+    const pts = makeHelixPoints(3, 0.8, 5, 300);
+    const curve = new THREE.CatmullRomCurve3(pts);
+    return new THREE.TubeGeometry(curve, 300, 0.025, 8, false);
+  }, []);
 
-/* ─── Glow spheres along spine ─────────────────────────────── */
+  // Secondary inner helix (offset by PI)
+  const innerHelixGeo = useMemo(() => {
+    const pts: THREE.Vector3[] = [];
+    for (let i = 0; i <= 300; i++) {
+      const t = i / 300;
+      const angle = t * Math.PI * 6 + Math.PI; // offset
+      pts.push(new THREE.Vector3(
+        Math.cos(angle) * 0.5,
+        t * 5 - 2.5,
+        Math.sin(angle) * 0.5
+      ));
+    }
+    const curve = new THREE.CatmullRomCurve3(pts);
+    return new THREE.TubeGeometry(curve, 300, 0.018, 8, false);
+  }, []);
 
-function SpineGlowNodes() {
-  const fractions = [0.1, 0.22, 0.36, 0.5, 0.64, 0.78, 0.9];
-
-  return (
-    <>
-      {fractions.map((t, i) => {
-        const pt = SPINE.getPointAt(t);
-        return (
-          <mesh key={i} position={[pt.x, pt.y, pt.z]}>
-            <sphereGeometry args={[0.06, 8, 8]} />
-            <meshStandardMaterial
-              color="#8b5cf6"
-              emissive="#8b5cf6"
-              emissiveIntensity={3}
-              transparent
-              opacity={0.9}
-            />
-          </mesh>
-        );
-      })}
-    </>
-  );
-}
-
-/* ─── Connector lines (branch lines from spine to card positions) */
-
-function ConnectorLines() {
-  const primitives = useMemo(() => {
-    return [0.15, 0.27, 0.40, 0.53, 0.66, 0.79].map((t, i) => {
-      const pt = SPINE.getPointAt(t);
-      const side = i % 2 === 0 ? 1 : -1;
-      const start = pt.clone();
-      const end = new THREE.Vector3(pt.x + side * 2.5, pt.y, pt.z + 1);
-      const geo = new THREE.BufferGeometry().setFromPoints([start, end]);
-      const mat = new THREE.LineBasicMaterial({ color: '#8b5cf6', transparent: true, opacity: 0.2 });
-      return new THREE.Line(geo, mat);
-    });
+  // Sphere nodes along helix
+  const nodePositions = useMemo(() => {
+    const positions: [number, number, number][] = [];
+    for (let i = 0; i <= 12; i++) {
+      const t = i / 12;
+      const angle = t * Math.PI * 6;
+      positions.push([
+        Math.cos(angle) * 0.8,
+        t * 5 - 2.5,
+        Math.sin(angle) * 0.8,
+      ]);
+    }
+    return positions;
   }, []);
 
   return (
-    <>
-      {primitives.map((obj, i) => (
-        <primitive key={i} object={obj} />
+    <group ref={groupRef}>
+      {/* Main golden helix tube */}
+      <mesh geometry={helixGeo}>
+        <meshStandardMaterial
+          color={GOLD}
+          emissive={GOLD}
+          emissiveIntensity={1.5}
+          metalness={0.8}
+          roughness={0.2}
+          transparent
+          opacity={0.95}
+        />
+      </mesh>
+
+      {/* Inner helix */}
+      <mesh geometry={innerHelixGeo}>
+        <meshStandardMaterial
+          color={GOLD_BRIGHT}
+          emissive={GOLD_BRIGHT}
+          emissiveIntensity={1.2}
+          metalness={0.9}
+          roughness={0.1}
+          transparent
+          opacity={0.7}
+        />
+      </mesh>
+
+      {/* Glow nodes */}
+      {nodePositions.map((pos, i) => (
+        <mesh key={i} position={pos}>
+          <sphereGeometry args={[0.055, 12, 12]} />
+          <meshStandardMaterial
+            color={GOLD_BRIGHT}
+            emissive={GOLD_BRIGHT}
+            emissiveIntensity={4}
+          />
+        </mesh>
       ))}
-    </>
+    </group>
   );
 }
 
-/* ─── Floating particles ────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   PARTICLE FIELD
+═══════════════════════════════════════════════════════════ */
 
-function Particles() {
-  const count = 800;
+function ParticleField({ color = '#f59e0b', count = 800 }: { color?: string; count?: number }) {
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3]     = (Math.random() - 0.5) * 22;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 32;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 8 - 4;
+      arr[i * 3]     = (Math.random() - 0.5) * 20;
+      arr[i * 3 + 1] = (Math.random() - 0.5) * 25;
+      arr[i * 3 + 2] = (Math.random() - 0.5) * 10 - 2;
     }
     return arr;
-  }, []);
+  }, [count]);
 
   const ref = useRef<THREE.Points>(null!);
   useFrame(({ clock }) => {
     if (ref.current) {
-      ref.current.rotation.y = clock.getElapsedTime() * 0.025;
+      ref.current.rotation.y = clock.getElapsedTime() * 0.02;
     }
   });
 
@@ -117,105 +173,161 @@ function Particles() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.022} color="#8b5cf6" transparent opacity={0.45} sizeAttenuation />
+      <pointsMaterial size={0.028} color={color} transparent opacity={0.5} sizeAttenuation />
     </points>
   );
 }
 
-/* ─── Camera driven by scroll ───────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   HERO 3D SCENE  (used on landing page only)
+═══════════════════════════════════════════════════════════ */
 
-function Camera({ scrollProgress }: { scrollProgress: number }) {
-  const { camera } = useThree();
+type HeroSceneProps = { scrollProgress: MotionValue<number> };
 
-  useFrame(() => {
-    const t = Math.max(0.01, Math.min(scrollProgress, 0.97));
-    const lookAhead = Math.min(t + 0.04, 0.99);
-
-    const camTarget = SPINE.getPointAt(t);
-    const lookTarget = SPINE.getPointAt(lookAhead);
-
-    // Camera orbits slightly to the right of spine
-    const target = new THREE.Vector3(
-      camTarget.x + 3.5 + Math.sin(t * Math.PI * 2) * 0.5,
-      camTarget.y + 0.3,
-      camTarget.z + 5.5
-    );
-
-    camera.position.lerp(target, 0.04);
-    camera.lookAt(new THREE.Vector3(lookTarget.x, lookTarget.y, lookTarget.z));
-  });
-
-  return null;
-}
-
-/* ─── MAIN EXPORT ───────────────────────────────────────────── */
-
-type SpineSceneProps = {
-  scrollYProgress: MotionValue<number>;
-};
-
-export default function SpineScene({ scrollYProgress }: SpineSceneProps) {
-  // Read the current scroll progress as a plain number for Three.js
-  const progressRef = useRef(0);
-
-  useRef(() => {
-    return scrollYProgress.on('change', (v) => {
-      progressRef.current = v;
-    });
-  });
-
-  // We'll use a wrapper component inside Canvas to get the live value
+export function HeroScene({ scrollProgress }: HeroSceneProps) {
   return (
-    <div className="w-full h-full">
-      <Canvas
-        camera={{ position: [3.5, 12, 6], fov: 55, near: 0.1, far: 100 }}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        style={{ background: 'transparent', width: '100%', height: '100%' }}
-      >
-        <ambientLight intensity={0.08} />
-        <pointLight position={[0,  10, 5]} intensity={2.5} color="#8b5cf6" />
-        <pointLight position={[0, -10, 5]} intensity={1.5} color="#6366f1" />
-        <pointLight position={[5,   0, 5]} intensity={1}   color="#3b82f6" />
-
-        <SpineTube />
-        <SpineGlowNodes />
-        <ConnectorLines />
-        <Particles />
-        <InnerCamera scrollYProgress={scrollYProgress} />
-      </Canvas>
-    </div>
+    <Canvas
+      camera={{ position: [0, 0, 8], fov: 50 }}
+      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      style={{ background: 'transparent', width: '100%', height: '100%' }}
+    >
+      <ambientLight intensity={0.05} />
+      <pointLight position={[3, 3, 5]} intensity={3} color="#f59e0b" />
+      <pointLight position={[-3, -3, 5]} intensity={2} color="#fcd34d" />
+      <pointLight position={[0, 0, 8]} intensity={1} color="#8b5cf6" />
+      <HeroSpiral scrollProgress={scrollProgress} />
+      <ParticleField color="#f59e0b" count={600} />
+    </Canvas>
   );
 }
 
-/* ─── Inner camera component with motion value subscription ─── */
+/* ═══════════════════════════════════════════════════════════
+   SPINE SCENE — scroll-driven helix with orbiting cards
+═══════════════════════════════════════════════════════════ */
 
-function InnerCamera({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
+const SERVICE_COUNT = 6;
+
+function SpineHelix() {
+  // The main glowing spine line
+  const lineObj = useMemo(() => {
+    const pts: THREE.Vector3[] = [];
+    for (let i = 0; i <= 400; i++) {
+      const t = i / 400;
+      pts.push(new THREE.Vector3(0, t * HELIX_HEIGHT - HELIX_HEIGHT / 2, 0));
+    }
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const mat = new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.6 });
+    return new THREE.Line(geo, mat);
+  }, []);
+
+  const helixLine = useMemo(() => {
+    const geo = new THREE.BufferGeometry().setFromPoints(HELIX_POINTS);
+    const mat = new THREE.LineBasicMaterial({ color: GOLD_BRIGHT, transparent: true, opacity: 0.4 });
+    return new THREE.Line(geo, mat);
+  }, []);
+
+  const helixLineRef = useRef<THREE.Line>(null!);
+  useFrame(({ clock }) => {
+    // Pulse the helix opacity
+    if (helixLine.material instanceof THREE.LineBasicMaterial) {
+      helixLine.material.opacity = 0.3 + Math.sin(clock.getElapsedTime() * 2) * 0.15;
+    }
+  });
+
+  return (
+    <>
+      <primitive object={lineObj} />
+      <primitive object={helixLine} />
+    </>
+  );
+}
+
+function SpineGlowNodes() {
+  const refs = useRef<(THREE.Mesh | null)[]>([]);
+  const positions: [number, number, number][] = useMemo(() =>
+    Array.from({ length: SERVICE_COUNT }, (_, i) => {
+      const t = (i + 0.5) / SERVICE_COUNT;
+      const angle = t * Math.PI * 2 * HELIX_COILS;
+      return [
+        Math.cos(angle) * HELIX_RADIUS,
+        t * HELIX_HEIGHT - HELIX_HEIGHT / 2,
+        Math.sin(angle) * HELIX_RADIUS,
+      ];
+    }), []);
+
+  useFrame(({ clock }) => {
+    refs.current.forEach((mesh, i) => {
+      if (mesh && mesh.material instanceof THREE.MeshStandardMaterial) {
+        mesh.material.emissiveIntensity = 2 + Math.sin(clock.getElapsedTime() * 2 + i * 1.2) * 1;
+      }
+    });
+  });
+
+  return (
+    <>
+      {positions.map((pos, i) => (
+        <mesh key={i} position={pos} ref={(el) => { refs.current[i] = el; }}>
+          <sphereGeometry args={[0.08, 12, 12]} />
+          <meshStandardMaterial color={GOLD_BRIGHT} emissive={GOLD_BRIGHT} emissiveIntensity={3} />
+        </mesh>
+      ))}
+    </>
+  );
+}
+
+/* The camera travels along the spine + orbits */
+
+function SpineCamera({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const { camera } = useThree();
   const progressRef = useRef(0);
 
-  // Subscribe to scroll changes
   useMemo(() => {
-    return scrollYProgress.on('change', (v) => {
-      progressRef.current = v;
-    });
+    return scrollYProgress.on('change', (v) => { progressRef.current = v; });
   }, [scrollYProgress]);
 
-  useFrame(() => {
-    const t = Math.max(0.01, Math.min(progressRef.current, 0.97));
-    const lookAhead = Math.min(t + 0.04, 0.99);
+  useFrame(({ clock }) => {
+    const t = Math.max(0.01, Math.min(progressRef.current, 0.98));
+    const elapsed = clock.getElapsedTime();
 
-    const camTarget = SPINE.getPointAt(t);
-    const lookTarget = SPINE.getPointAt(lookAhead);
+    // Position along the helix height
+    const y = t * HELIX_HEIGHT - HELIX_HEIGHT / 2;
 
-    const target = new THREE.Vector3(
-      camTarget.x + 3.5 + Math.sin(t * Math.PI * 2) * 0.6,
-      camTarget.y + 0.3,
-      camTarget.z + 5.5
+    // Camera orbits around the spine at a fixed radius, rotating as we scroll
+    const orbitAngle = t * Math.PI * 2 + elapsed * 0.05;
+    const camR = 5;
+    const targetPos = new THREE.Vector3(
+      Math.cos(orbitAngle) * camR,
+      y + 1,
+      Math.sin(orbitAngle) * camR
     );
 
-    camera.position.lerp(target, 0.04);
-    camera.lookAt(lookTarget.x, lookTarget.y, lookTarget.z);
+    camera.position.lerp(targetPos, 0.05);
+    camera.lookAt(0, y, 0);
   });
 
   return null;
+}
+
+type SpineSceneProps = { scrollYProgress: MotionValue<number> };
+
+export default function SpineScene({ scrollYProgress }: SpineSceneProps) {
+  return (
+    <div className="w-full h-full">
+      <Canvas
+        camera={{ position: [5, -8, 5], fov: 55, near: 0.1, far: 200 }}
+        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        style={{ background: 'transparent', width: '100%', height: '100%' }}
+      >
+        <ambientLight intensity={0.06} />
+        <pointLight position={[3, 5, 5]} intensity={3} color="#f59e0b" />
+        <pointLight position={[-3, -5, 5]} intensity={2} color="#fcd34d" />
+        <pointLight position={[0, 0, 8]} intensity={1} color="#8b5cf6" />
+
+        <SpineHelix />
+        <SpineGlowNodes />
+        <ParticleField color="#f59e0b" count={500} />
+        <SpineCamera scrollYProgress={scrollYProgress} />
+      </Canvas>
+    </div>
+  );
 }
