@@ -9,10 +9,9 @@ import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import ThemeProvider from '@/components/ThemeProvider';
 import ScrollProgress from '@/components/ScrollProgress';
 import BackToTop from '@/components/BackToTop';
-import { AuroraBackground } from '@/components/AuroraBackground';
+import { ParticleBackground } from '@/components/ui/ParticleBackground';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-
 
 const sora = Sora({
   subsets: ['latin'],
@@ -87,19 +86,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${sora.variable} ${dmSans.variable} ${spaceMono.variable}`}>
-      <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <AuroraBackground>
-            <ScrollProgress />
-            <CustomCursor />
-            <SmoothScrollProvider>
-              <Navbar />
-              <main>{children}</main>
-              <Footer />
-              <WhatsAppWidget />
-              <BackToTop />
-            </SmoothScrollProvider>
-          </AuroraBackground>
+      <body className="bg-[var(--background)] selection:bg-[var(--brand-purple)] selection:text-white">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+          <ParticleBackground />
+          <ScrollProgress />
+          <CustomCursor />
+          <SmoothScrollProvider>
+            <Navbar />
+            <main className="relative z-10">{children}</main>
+            <Footer />
+            <WhatsAppWidget />
+            <BackToTop />
+          </SmoothScrollProvider>
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

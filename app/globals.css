@@ -5,104 +5,39 @@
 @layer base {
   /* ─── LIGHT MODE ─────────────────────────────────────────────────────── */
   :root {
-    --background: transparent; /* Changed from #ffffff to allow Aurora background through */
-    --foreground: #160c28; /* Original Maverick Dark Purple-Black */
-    --muted: #f8f6fc;
-    --muted-foreground: #687087; /* Original Maverick Body Text Gray */
+    --background: #ffffff;
+    --foreground: #030303;
+    --muted: #f4f4f5;
+    --muted-foreground: #71717a;
     --card: #ffffff;
-    --border: rgba(76, 29, 149, 0.15);
-    --elevated: #ffffff;
-
-    --brand-purple: #8b5cf6;
-    --brand-violet: #6366f1;
-    --brand-blue: #3b82f6;
-    --brand-lavender: #A5B4FC;
-    --brand-whatsapp: #25D366;
-    --brand-dark: #f8f6fc;
-
-    --inverted-bg: #8b5cf6;
-    --inverted-text: #ffffff; /* White text on purple hover */
-
-    --white: #ffffff;
-    --black: #000000;
-    --transparent: transparent;
+    --border: rgba(3, 3, 3, 0.1);
     
-    --glass-bg: rgba(255, 255, 255, 0.8);
-    --glass-border: rgba(139, 92, 246, 0.2);
-    --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --brand-purple: #7c3aed;
+    --brand-cyan: #06b6d4;
+    --brand-rose: #f43f5e;
     
-    /* EXACT Maverick Website Gradient — Purple to Blue */
-    --gradient-brand: linear-gradient(to right, #9333ea 0%, #2563eb 100%);
-    --gradient-wash: transparent;
-
-    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    --glow-color: rgba(124, 58, 237, 0.2);
+    --particle-color: rgba(251, 191, 36, 0.4);
     --card-shadow-hover: 0 12px 40px rgba(139, 92, 246, 0.1);
-    --section-alt-bg: #f5f3ff;
-    --dot-color: rgba(139, 92, 246, 0.1);
-    --premium-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3);
+    --section-alt-bg: #f4f4f5;
   }
 
-  /* ─── LIGHT MODE GLOBAL PURPLE GRADIENTS ─── */
-  /* ─── LIGHT MODE SPECIFIC UI FIXES ─── */
-  html:not(.dark) .display-xl,
-  html:not(.dark) .display-lg,
-  html:not(.dark) .display-md,
-  html:not(.dark) .gradient-heading {
-    background: var(--gradient-brand);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent !important;
-  }
-
-  html:not(.dark) .btn-magnetic {
-    background: var(--gradient-brand) !important;
-    color: #ffffff !important;
-  }
-
-  html:not(.dark) .brutalist-highlight {
-    background: var(--inverted-bg) !important;
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-  }
-
-  /* ─── DARK MODE ──────────────────────────────────────────────────────── */
   .dark {
-    --background: transparent; /* Allow Aurora through */
+    --background: #030303;
     --foreground: #ffffff;
-    --muted: #161326;
-    --muted-foreground: #a78bfa; /* Slightly brighter for better contrast on dark surfaces */
-    --card: #110e1f;
-    --border: rgba(139, 92, 246, 0.25);
-    --elevated: #1a1829;
-
-    --brand-purple: #8b5cf6;
-    --brand-violet: #6366f1;
-    --brand-blue: #3b82f6;
-    --brand-lavender: #A5B4FC;
-    --brand-whatsapp: #25D366;
-    --brand-dark: #0d0a1a;
-
-    --inverted-bg: #ffffff;
-    --inverted-text: #0d0a1a;
-
-    --white: #ffffff;
-    --black: #000000;
-    --transparent: transparent;
-
-    --glass-bg: rgba(13, 10, 26, 0.8);
-    --glass-border: rgba(139, 92, 246, 0.25);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --muted: #09090b;
+    --muted-foreground: #a1a1aa;
+    --card: rgba(9, 9, 11, 0.6);
+    --border: rgba(255, 255, 255, 0.1);
     
-    --gradient-brand: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
-    --gradient-wash: transparent;
-
-    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    --card-shadow-hover: 0 12px 40px rgba(139, 92, 246, 0.25);
-    --section-alt-bg: #0d0a1a;
-    --dot-color: rgba(139, 92, 246, 0.2);
-    --premium-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.6);
-    --glow-color: rgba(139, 92, 246, 0.3);
+    --brand-purple: #7c3aed;
+    --brand-cyan: #06b6d4;
+    --brand-rose: #f43f5e;
+    
+    --glow-color: rgba(124, 58, 237, 0.3);
+    --particle-color: rgba(251, 191, 36, 0.5);
+    --card-shadow-hover: 0 12px 40px rgba(124, 58, 237, 0.25);
+    --section-alt-bg: #09090b;
   }
 }
 

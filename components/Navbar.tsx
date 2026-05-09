@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react';
 import { clsx } from 'clsx';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
+import { Magnetic } from './ui/Magnetic';
 
 const links = [
   { label: 'About', href: '/about' },
@@ -26,7 +27,7 @@ export default function Navbar() {
   });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -38,117 +39,107 @@ export default function Navbar() {
 
   return (
     <>
-      <header
-        className={clsx(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-700',
-          scrolled ? 'bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)] py-4' : 'bg-transparent py-8'
-        )}
-      >
-        <motion.div 
-          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--brand-purple)] via-[var(--brand-blue)] to-[var(--brand-purple)] origin-left z-50"
-          style={{ scaleX }}
-        />
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-[var(--border)] opacity-20" />
-        <div className="max-w-[1600px] mx-auto px-6 md:px-10 flex items-center justify-between">
+      <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-6 px-6 pointer-events-none">
+        <motion.div
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className={clsx(
+            'w-full max-w-[1400px] h-16 rounded-full flex items-center justify-between px-6 transition-all duration-500 pointer-events-auto overflow-hidden relative',
+            scrolled ? 'bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl' : 'bg-transparent'
+          )}
+        >
+          {/* Scroll Beam */}
+          <motion.div 
+            className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--brand-purple)] via-[var(--brand-cyan)] to-[var(--brand-purple)] origin-left z-50 opacity-60"
+            style={{ scaleX }}
+          />
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-4 group z-10" id="nav-logo">
-            <div className="w-10 h-10 relative flex-shrink-0 transition-transform duration-500 group-hover:rotate-12">
+          <Link href="/" className="flex items-center gap-3 group z-10" id="nav-logo">
+            <div className="w-8 h-8 relative flex-shrink-0 transition-transform duration-500 group-hover:rotate-12">
               <Image
                 src="/assets/logo.png"
-                alt="Maverick Digitals Logo"
+                alt="Logo"
                 fill
                 className="object-contain dark:invert"
                 priority
               />
             </div>
-            <div className="flex flex-col">
-              <span className="font-outfit font-black text-[var(--foreground)] text-sm tracking-tighter uppercase leading-none">
-                Maverick
-              </span>
-              <span className="label-sm opacity-50 text-[10px] uppercase tracking-[0.2em] leading-none mt-1">
-                Digitals
-              </span>
-            </div>
+            <span className="font-outfit font-black text-white text-xs tracking-[0.2em] uppercase">
+              Maverick
+            </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
+          <nav className="hidden md:flex items-center gap-10">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="label-sm text-[var(--foreground)] opacity-50 hover:opacity-100 transition-opacity uppercase tracking-[0.2em] relative group"
+                className="label-sm text-white/50 hover:text-white transition-colors uppercase tracking-[0.15em] relative group"
                 id={`nav-${l.label.toLowerCase()}`}
               >
                 {l.label}
-                <div className="absolute -bottom-1 left-0 w-0 h-px bg-[var(--foreground)] group-hover:w-full transition-all duration-300" />
+                <div className="absolute -bottom-1 left-0 w-0 h-px bg-white group-hover:w-full transition-all duration-300" />
               </Link>
             ))}
           </nav>
 
           {/* Right */}
           <div className="flex items-center gap-6 z-10">
-            <div>
-               <ThemeToggle />
+            <div className="hidden sm:block">
+              <ThemeToggle />
             </div>
-            <Link
-              href="/contact"
-              id="nav-cta"
-              className="hidden lg:inline-flex px-8 py-3 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] text-xs font-black uppercase tracking-[0.12em] hover:scale-105 transition-transform btn-magnetic"
-            >
-              Initiate →
-            </Link>
+            <Magnetic strength={0.2}>
+              <Link
+                href="/contact"
+                className="px-6 py-2 rounded-full bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[var(--brand-purple)] hover:text-white transition-colors"
+              >
+                Initiate
+              </Link>
+            </Magnetic>
 
             {/* Mobile hamburger */}
             <button
-              className="lg:hidden p-2 text-[var(--foreground)] focus:outline-none"
+              className="md:hidden p-2 text-white focus:outline-none"
               onClick={() => setOpen(!open)}
               aria-label="Toggle menu"
-              id="nav-menu-toggle"
             >
-              {open ? <X size={24} /> : <Menu size={24} />}
+              {open ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
-        </div>
+        </motion.div>
       </header>
 
       {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ y: '-100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '-100%' }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 bg-[var(--background)] backdrop-blur-2xl flex flex-col pt-32"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-40 bg-black/95 backdrop-blur-2xl flex flex-col pt-32 px-10"
           >
-            <div className="flex-1 flex flex-col justify-center px-8 pb-20">
-              <nav className="flex flex-col gap-4">
-                {[{ label: 'Home', href: '/' }, ...links, { label: 'Contact', href: '/contact' }].map((l, i) => (
-                  <motion.div
-                    key={l.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 + i * 0.05 }}
+            <nav className="flex flex-col gap-6">
+              {[{ label: 'Home', href: '/' }, ...links, { label: 'Contact', href: '/contact' }].map((l, i) => (
+                <motion.div
+                  key={l.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <Link
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className="block font-outfit font-black text-white text-4xl uppercase tracking-tighter"
                   >
-                    <Link
-                      href={l.href}
-                      onClick={() => setOpen(false)}
-                      className="block font-outfit font-black text-[var(--foreground)] uppercase leading-none tracking-tighter"
-                      style={{ fontSize: 'clamp(2.5rem, 12vw, 6rem)' }}
-                    >
-                      {l.label} <span className="text-[var(--muted-foreground)] opacity-20">{'//'}</span>
-                    </Link>
-                  </motion.div>
-                ))}
-              </nav>
-
-              <div className="mt-auto pt-12 border-t border-[var(--border)] flex items-center justify-between">
-                <div className="label-sm opacity-50 uppercase tracking-widest">Mumbai // Global</div>
-                <ThemeToggle />
-              </div>
-            </div>
+                    {l.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>

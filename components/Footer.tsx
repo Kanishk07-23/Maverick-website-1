@@ -1,15 +1,14 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { GridBackground } from './ui/GridBackground';
 
 const services = [
   { label: 'Personal Branding', href: '/services/personal-branding' },
   { label: 'Social Media', href: '/services/social-media' },
   { label: 'Web Development', href: '/services/web-dev' },
   { label: 'SEO & SEM', href: '/services/seo-sem' },
-  { label: 'Performance Marketing', href: '/services/performance-marketing' },
-  { label: 'Branding & Strategy', href: '/services/branding-strategy' },
+  { label: 'Performance', href: '/services/performance-marketing' },
+  { label: 'Identity', href: '/services/branding-strategy' },
 ];
 
 const quickLinks = [
@@ -24,74 +23,56 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-[var(--border)] bg-[var(--background)] py-24 md:py-48 overflow-hidden">
-      <GridBackground className="opacity-20" />
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10">
+    <footer className="relative bg-transparent py-48 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10">
 
         {/* Big Footer Brand */}
-        <div className="mb-24 md:mb-40">
-           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
-              <div>
-                <Link href="/" className="flex items-center gap-4 group mb-10">
-                  <div className="w-12 h-12 relative transition-transform duration-500 group-hover:rotate-12">
-                    <Image
-                      src="/assets/logo.png"
-                      alt="Maverick Digitals Logo"
-                      fill
-                      className="object-contain dark:invert"
-                      priority
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-outfit font-black text-[var(--foreground)] text-xl tracking-tighter uppercase leading-none">
-                      Maverick
-                    </span>
-                    <span className="label-sm opacity-50 text-xs uppercase tracking-[0.2em] leading-none mt-1">
-                      Digitals
-                    </span>
-                  </div>
-                </Link>
-                <h2 className="font-outfit font-black text-[var(--foreground)] uppercase leading-none tracking-tighter"
-                    style={{ fontSize: 'clamp(3rem, 10vw, 11rem)', lineHeight: 0.85 }}>
-                  Let&apos;s Build<br />
-                  <span className="text-[var(--muted-foreground)]">Legends.</span>
-                </h2>
-              </div>
-              <div className="flex flex-col md:items-end gap-6">
-                <Link
-                  href="/contact"
-                  className="px-10 py-5 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] text-xs font-black uppercase tracking-[0.12em] hover:scale-105 transition-transform btn-magnetic"
-                >
-                  Initiate Project →
-                </Link>
-                <div className="label-sm opacity-50 uppercase text-right hidden md:block">
-                  Mumbai {'//'} Global HQ<br />
-                  Growth Protocols Active
+        <div className="mb-48">
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
+            <div>
+              <Link href="/" className="flex items-center gap-4 group mb-12">
+                <div className="w-10 h-10 relative transition-transform duration-500 group-hover:rotate-12">
+                  <Image
+                    src="/assets/logo.png"
+                    alt="Logo"
+                    fill
+                    className="object-contain dark:invert"
+                    priority
+                  />
                 </div>
-              </div>
-           </div>
+                <span className="font-outfit font-black text-white text-sm tracking-[0.3em] uppercase">
+                  Maverick
+                </span>
+              </Link>
+              <h2 className="font-outfit font-black text-white uppercase leading-none tracking-tighter"
+                  style={{ fontSize: 'clamp(4rem, 15vw, 12rem)' }}>
+                THE FUTURE<br />
+                <span className="text-[var(--brand-purple)]">IS MAVERICK.</span>
+              </h2>
+            </div>
+          </div>
         </div>
 
         {/* Links grid */}
-        <div className="grid grid-cols-2 md:grid-cols-12 gap-12 border-t border-[var(--border)] pt-16">
-          <div className="col-span-2 md:col-span-4">
-             <span className="label-sm block mb-8 opacity-50 uppercase">Network Intake</span>
-             <a href="mailto:maverickdigitals18@gmail.com" className="font-outfit font-black text-2xl md:text-3xl uppercase tracking-tighter hover:text-[var(--muted-foreground)] transition-colors break-words">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-24 py-24 border-t border-white/5">
+          <div className="col-span-2 lg:col-span-1">
+             <span className="label-sm block mb-8 opacity-40 uppercase tracking-widest">Connect</span>
+             <a href="mailto:maverickdigitals18@gmail.com" className="font-outfit font-black text-2xl uppercase tracking-tighter text-white hover:text-[var(--brand-purple)] transition-colors">
                 maverickdigitals18@gmail.com
              </a>
-             <div className="mt-8 flex gap-4">
+             <div className="mt-8 flex gap-6">
                 {['LinkedIn', 'Instagram', 'Twitter'].map(s => (
-                  <a key={s} href="#" className="label-sm opacity-50 hover:opacity-100 transition-opacity uppercase tracking-widest">{s}</a>
+                  <a key={s} href="#" className="label-sm opacity-40 hover:opacity-100 transition-opacity uppercase tracking-widest text-[10px]">{s}</a>
                 ))}
              </div>
           </div>
 
-          <div className="md:col-span-3">
-            <span className="label-sm block mb-8 opacity-50 uppercase">Services</span>
+          <div className="hidden lg:block">
+            <span className="label-sm block mb-8 opacity-40 uppercase tracking-widest">Capabilities</span>
             <ul className="space-y-4">
               {services.map((s) => (
                 <li key={s.href}>
-                  <Link href={s.href} className="label-sm opacity-50 hover:opacity-100 transition-opacity uppercase tracking-widest">
+                  <Link href={s.href} className="label-sm opacity-40 hover:opacity-100 transition-opacity uppercase tracking-[0.2em] text-[10px]">
                     {s.label}
                   </Link>
                 </li>
@@ -99,12 +80,12 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="md:col-span-2">
-            <span className="label-sm block mb-8 opacity-50 uppercase">Navigation</span>
+          <div className="hidden lg:block">
+            <span className="label-sm block mb-8 opacity-40 uppercase tracking-widest">Navigation</span>
             <ul className="space-y-4">
               {quickLinks.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="label-sm opacity-50 hover:opacity-100 transition-opacity uppercase tracking-widest">
+                  <Link href={l.href} className="label-sm opacity-40 hover:opacity-100 transition-opacity uppercase tracking-[0.2em] text-[10px]">
                     {l.label}
                   </Link>
                 </li>
@@ -112,24 +93,25 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="md:col-span-3 md:text-right">
-            <span className="label-sm block mb-8 opacity-50 uppercase">Regional Nodes</span>
-            <ul className="space-y-4">
-              {['India HQ', 'UAE Operations', 'USA Strategic', 'UK / EU Hub', 'Australia'].map((c) => (
-                <li key={c} className="label-sm opacity-50 uppercase tracking-widest">{c}</li>
-              ))}
-            </ul>
+          <div className="col-span-2 lg:col-span-1 lg:text-right">
+            <span className="label-sm block mb-8 opacity-40 uppercase tracking-widest">HQ</span>
+            <p className="label-sm text-white/60 leading-relaxed uppercase tracking-widest text-[10px]">
+              Mumbai, India<br />
+              Global Operations<br />
+              Digital Excellence
+            </p>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-24 pt-8 border-t border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="label-sm opacity-30 uppercase tracking-[0.2em]">
-            © {year} Maverick Digitals Network
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="label-sm opacity-20 uppercase tracking-[0.3em] text-[8px]">
+            © {year} Maverick Digitals Network // All Protocols Reserved
           </p>
-          <div className="flex gap-12">
-            <span className="label-sm opacity-30 uppercase tracking-[0.2em]">Privacy Protocol</span>
-            <span className="label-sm opacity-30 uppercase tracking-[0.2em]">Terms of Engagement</span>
+          <div className="flex gap-8">
+            {['Privacy', 'Terms'].map(t => (
+              <span key={t} className="label-sm opacity-20 uppercase tracking-[0.3em] text-[8px] cursor-pointer hover:opacity-100 transition-opacity">{t}</span>
+            ))}
           </div>
         </div>
       </div>
