@@ -118,7 +118,7 @@ function GlassCard({ data, index, total }: { data: any, index: number, total: nu
         {/* Pure WebGL Text Overlay */}
         <group position={[0, 0, 0.03]}>
           {data.type === 'service' && (
-            <Text position={[0, 1, 0]} fontSize={0.15} color="#f59e0b" font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyeMZhrib2Bg-4.ttf" letterSpacing={0.2} anchorY="middle">
+            <Text position={[0, 1, 0]} fontSize={0.15} color="#f59e0b" font="/inter.ttf" letterSpacing={0.2} anchorY="middle">
               {data.num}
             </Text>
           )}
@@ -127,7 +127,7 @@ function GlassCard({ data, index, total }: { data: any, index: number, total: nu
             position={[0, data.type === 'hero' ? 0 : 0.3, 0]} 
             fontSize={data.type === 'hero' ? 0.7 : 0.4} 
             color="#ffffff" 
-            font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyeMZhrib2Bg-4.ttf"
+            font="/inter.ttf"
             fontWeight="bold"
             textAlign="center"
             anchorY="middle"
@@ -141,7 +141,7 @@ function GlassCard({ data, index, total }: { data: any, index: number, total: nu
             position={[0, data.type === 'hero' ? -1 : -0.6, 0]} 
             fontSize={data.type === 'hero' ? 0.18 : 0.15} 
             color="#bbbbbb" 
-            font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyeMZhrib2Bg-4.ttf"
+            font="/inter.ttf"
             textAlign="center"
             anchorY="middle"
             maxWidth={data.size[0] - 0.8}
