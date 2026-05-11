@@ -19,7 +19,7 @@ const ContentSecurityPolicy = `
   font-src 'self' https://fonts.gstatic.com data:;
   img-src 'self' data: blob: https://www.maverickdigitals.co.in https://prod.spline.design https://unpkg.com https://raw.githubusercontent.com https://raw.githack.com;
   media-src 'self' blob:;
-  connect-src 'self' https://challenges.cloudflare.com https://prod.spline.design https://unpkg.com https://raw.githubusercontent.com https://raw.githack.com blob: ${isDev ? 'ws://localhost:* wss://localhost:*' : ''};
+  connect-src 'self' https://challenges.cloudflare.com https://prod.spline.design https://unpkg.com https://raw.githubusercontent.com https://raw.githack.com https://fonts.gstatic.com https://fonts.googleapis.com blob: ${isDev ? 'ws://localhost:* wss://localhost:*' : ''};
   worker-src 'self' blob: https://unpkg.com https://prod.spline.design;
   frame-src https://challenges.cloudflare.com https://my.spline.design https://prod.spline.design;
   object-src 'none';

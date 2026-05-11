@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { ScrollControls, useScroll, Environment, Float, Text, ContactShadows, Sparkles } from '@react-three/drei';
+import { ScrollControls, useScroll, Environment, Float, Text, Html, ContactShadows, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 import { useRef, useMemo, useState, useEffect, Suspense } from 'react';
 
@@ -202,7 +202,7 @@ export default function Full3DScene() {
         <pointLight position={[5, 5, 5]} intensity={5} color={GOLD} />
         <pointLight position={[-5, -5, 5]} intensity={3} color={PURPLE} />
         
-        <Suspense fallback={null}>
+        <Suspense fallback={<Html center><div className="text-[#f59e0b] font-bold text-[10px] tracking-[0.3em] uppercase whitespace-nowrap">Loading 3D Assets...</div></Html>}>
           <Environment preset="city" />
           
           <ScrollControls pages={8} damping={0.1} distance={1}>
