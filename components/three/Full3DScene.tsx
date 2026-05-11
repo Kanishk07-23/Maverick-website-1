@@ -1,7 +1,7 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ScrollControls, useScroll, Environment, Float, Html, ContactShadows, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
-import { useRef, useMemo, useState, useEffect } from 'react';
+import { useRef, useMemo, useState, useEffect, Suspense } from 'react';
 
 // --------------------------------------------------------
 // DATA & CONSTANTS
@@ -183,11 +183,13 @@ export default function Full3DScene() {
         <pointLight position={[5, 5, 5]} intensity={5} color={GOLD} />
         <pointLight position={[-5, -5, 5]} intensity={3} color={PURPLE} />
         
-        <Environment preset="city" />
-        
-        <ScrollControls pages={8} damping={0.1} distance={1}>
-          <MainScene />
-        </ScrollControls>
+        <Suspense fallback={null}>
+          <Environment preset="city" />
+          
+          <ScrollControls pages={8} damping={0.1} distance={1}>
+            <MainScene />
+          </ScrollControls>
+        </Suspense>
       </Canvas>
       
       {/* Scroll indicator */}
