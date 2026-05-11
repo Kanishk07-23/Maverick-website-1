@@ -88,6 +88,7 @@ function GlassCard({ data, index, total }: { data: any, index: number, total: nu
   const angle = t * Math.PI * 2 * COILS;
   // To make the card end up at [0, yPos, cardRadius] in WORLD space when the group rotates by `angle`:
   // Local position is [0, 0, cardRadius] rotated by `-angle` around Y.
+  const cardRadius = RADIUS + 1.5;
   const xPos = -Math.sin(angle) * cardRadius;
   const zPos = Math.cos(angle) * cardRadius;
 
