@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { ScrollControls, useScroll, Environment, Float, Html, ContactShadows, Sparkles } from '@react-three/drei';
+import { ScrollControls, useScroll, Environment, Float, Text, ContactShadows, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 import { useRef, useMemo, useState, useEffect, Suspense } from 'react';
 
@@ -115,22 +115,41 @@ function GlassCard({ data, index, total }: { data: any, index: number, total: nu
           />
         </mesh>
         
-        {/* HTML Content Overlay */}
-        <Html transform distanceFactor={1.2} position={[0, 0, 0.03]} center>
-          <div 
-            style={{ width: `${data.size[0] * 80}px`, height: `${data.size[1] * 80}px` }}
-            className="flex flex-col justify-center items-center text-center text-white pointer-events-none select-none p-6"
+        {/* Pure WebGL Text Overlay */}
+        <group position={[0, 0, 0.03]}>
+          {data.type === 'service' && (
+            <Text position={[0, 1, 0]} fontSize={0.15} color="#f59e0b" font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyeMZhrib2Bg-4.ttf" letterSpacing={0.2} anchorY="middle">
+              {data.num}
+            </Text>
+          )}
+          
+          <Text 
+            position={[0, data.type === 'hero' ? 0 : 0.3, 0]} 
+            fontSize={data.type === 'hero' ? 0.7 : 0.4} 
+            color="#ffffff" 
+            font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyeMZhrib2Bg-4.ttf"
+            fontWeight="bold"
+            textAlign="center"
+            anchorY="middle"
+            maxWidth={data.size[0] - 0.5}
+            lineHeight={1.1}
           >
-            {data.type === 'service' && <p className="text-[10px] font-bold tracking-[0.3em] text-[#f59e0b] mb-3">{data.num}</p>}
-            <h2 className="font-black uppercase tracking-tighter mb-4 whitespace-pre-line leading-none text-white drop-shadow-lg" 
-                style={{ fontFamily: 'var(--font-heading)', fontSize: data.type === 'hero' ? '4rem' : '2rem' }}>
-              {data.title}
-            </h2>
-            <p className="text-white/70 text-sm leading-relaxed drop-shadow-md whitespace-pre-line">
-              {data.desc}
-            </p>
-          </div>
-        </Html>
+            {data.title}
+          </Text>
+          
+          <Text 
+            position={[0, data.type === 'hero' ? -1 : -0.6, 0]} 
+            fontSize={data.type === 'hero' ? 0.18 : 0.15} 
+            color="#bbbbbb" 
+            font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyeMZhrib2Bg-4.ttf"
+            textAlign="center"
+            anchorY="middle"
+            maxWidth={data.size[0] - 0.8}
+            lineHeight={1.4}
+          >
+            {data.desc}
+          </Text>
+        </group>
       </Float>
     </group>
   );
