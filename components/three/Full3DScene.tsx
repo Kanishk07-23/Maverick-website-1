@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { ScrollControls, useScroll, Environment, Float, Text, Html, ContactShadows, Sparkles } from '@react-three/drei';
+import { ScrollControls, useScroll, Environment, Float, Text, Html, ContactShadows, Sparkles, Lightformer } from '@react-three/drei';
 import * as THREE from 'three';
 import { useRef, useMemo, useState, useEffect, Suspense } from 'react';
 
@@ -203,7 +203,13 @@ export default function Full3DScene() {
         <pointLight position={[-5, -5, 5]} intensity={3} color={PURPLE} />
         
         <Suspense fallback={<Html center><div className="text-[#f59e0b] font-bold text-[10px] tracking-[0.3em] uppercase whitespace-nowrap">Loading 3D Assets...</div></Html>}>
-          <Environment preset="city" />
+          <Environment resolution={256}>
+            <group rotation={[-Math.PI / 4, -0.3, 0]}>
+              <Lightformer intensity={4} rotation-x={Math.PI / 2} position={[0, 5, -9]} scale={[10, 10, 1]} />
+              <Lightformer intensity={2} rotation-y={Math.PI / 2} position={[-5, 1, -1]} scale={[10, 2, 1]} color={GOLD} />
+              <Lightformer intensity={2} rotation-y={-Math.PI / 2} position={[10, 1, 0]} scale={[20, 2, 1]} color={PURPLE} />
+            </group>
+          </Environment>
           
           <ScrollControls pages={8} damping={0.1} distance={1}>
             <MainScene />
