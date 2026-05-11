@@ -3,7 +3,6 @@ import { Sora } from 'next/font/google';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { ParticleBackground } from '@/components/ui/ParticleBackground';
 import CustomCursor from '@/components/CustomCursor';
 
 const sora = Sora({
@@ -50,7 +49,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className={sora.variable}>
       <body>
-        <ParticleBackground />
         <CustomCursor />
         <div className="relative z-10">
           {children}

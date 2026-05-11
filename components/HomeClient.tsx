@@ -1,17 +1,23 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, Suspense } from 'react';
 import {
   motion, useScroll, useTransform, useSpring,
   useInView, AnimatePresence,
-  type Variants, type Transition,
 } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 
-const HeroScene = dynamic(() => import('@/components/three/SpineScene').then(m => ({ default: m.HeroScene })), { ssr: false, loading: () => null });
-const SpineScene = dynamic(() => import('@/components/three/SpineScene'), { ssr: false, loading: () => null });
+/* ── Dynamically imported 3D scenes (no SSR — they need WebGL) ── */
+const HeroScene = dynamic(
+  () => import('@/components/three/SpineScene').then(m => ({ default: m.HeroScene })),
+  { ssr: false, loading: () => null }
+);
+const SpineScene = dynamic(
+  () => import('@/components/three/SpineScene'),
+  { ssr: false, loading: () => null }
+);
 
 /* ─── DATA ─────────────────────────────────────────────── */
 const NAV = [
@@ -140,6 +146,9 @@ function Navbar() {
 /* ─── HERO ──────────────────────────────────────────────── */
 function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const textOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
   const helixOpacity = useTransform(scrollYProgress, [0, 0.15, 0.5], [1, 1, 0]);
@@ -158,10 +167,10 @@ function Hero() {
         <div className="absolute inset-0 z-0 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(245,158,11,0.08) 0%, transparent 70%)' }} />
 
-        {/* Hero text — fades IN as helix fades out */}
+        {/* Hero text — fades IN as helix fades out (only after mount to avoid hydration mismatch) */}
         <motion.div
           className="absolute inset-0 z-20 flex flex-col justify-center px-8 md:px-16 max-w-[1400px] mx-auto"
-          style={{ opacity: textOpacity, y: textY }}>
+          style={mounted ? { opacity: textOpacity, y: textY } : { opacity: 1, y: 0 }}>
 
           <motion.div className="flex items-center gap-3 mb-14">
             <span className="relative flex h-2 w-2">
@@ -209,7 +218,7 @@ function Hero() {
 
         {/* Scroll hint */}
         <motion.div
-          style={{ opacity: helixOpacity }}
+          style={mounted ? { opacity: helixOpacity } : { opacity: 1 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
           <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             className="w-px h-12 bg-gradient-to-b from-[#f59e0b] to-transparent" />
@@ -221,21 +230,12 @@ function Hero() {
 }
 
 /* ─── SPIRAL SPINE SECTION ──────────────────────────────── */
-/*
- * Architecture:
- * - Sticky 3D canvas background (the gold helix spine)
- * - Cards are positioned absolutely and use scroll-driven 3D CSS transforms
- *   to ROTATE around the spine — each card at a different angle offset,
- *   creating a true corkscrew/spiral effect as you scroll
- */
 function SpiralSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] });
 
-  // Height: intro screen + 6 cards * 100vh each + outro screen
   const SERVICE_COUNT = SERVICES.length;
-  const CARD_HEIGHT = 100; // vh per card
-  const TOTAL = (SERVICE_COUNT + 2) * CARD_HEIGHT;
+  const TOTAL = (SERVICE_COUNT + 2) * 100; // vh
 
   return (
     <section ref={containerRef} id="services" style={{ height: `${TOTAL}vh` }} className="relative">
@@ -265,7 +265,7 @@ function SpiralSection() {
           </Reveal>
         </div>
 
-        {/* Spiral cards — each takes 100vh, cards rotate around spine using scroll */}
+        {/* Spiral cards */}
         {SERVICES.map((s, i) => (
           <SpiralCard key={i} service={s} index={i} total={SERVICE_COUNT} scrollYProgress={scrollYProgress} />
         ))}
@@ -286,16 +286,10 @@ function SpiralCard({
   total: number;
   scrollYProgress: any;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  // Each card's scroll window within the section
-  // Cards appear from index 1 to total (screen 0 is the title)
   const cardStart = (index + 1) / (total + 2);
-  const cardPeak = (index + 1.5) / (total + 2);
-  const cardEnd = (index + 2) / (total + 2);
+  const cardPeak  = (index + 1.5) / (total + 2);
+  const cardEnd   = (index + 2) / (total + 2);
 
-  // 3D rotation: card enters from behind, swings to front, exits behind
-  // This creates the spiral/orbit feel
   const rotateY = useTransform(
     scrollYProgress,
     [cardStart, cardPeak, cardEnd],
@@ -304,11 +298,10 @@ function SpiralCard({
   const opacity = useTransform(scrollYProgress, [cardStart, cardStart + 0.05, cardEnd - 0.05, cardEnd], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [cardStart, cardPeak, cardEnd], [0.7, 1, 0.7]);
 
-  // Alternate left/right positioning
   const isLeft = index % 2 === 0;
 
   return (
-    <div ref={ref} className="h-screen flex items-center" style={{ perspective: '1200px' }}>
+    <div className="h-screen flex items-center" style={{ perspective: '1200px' }}>
       <div className={`w-full flex ${isLeft ? 'justify-start pl-12 md:pl-32' : 'justify-end pr-12 md:pr-32'}`}>
         <motion.div
           style={{ rotateY, opacity, scale, transformStyle: 'preserve-3d' }}
@@ -445,8 +438,8 @@ function Footer() {
   );
 }
 
-/* ─── PAGE ───────────────────────────────────────────────── */
-export default function Home() {
+/* ─── PAGE ROOT ───────────────────────────────────────────── */
+export default function HomeClient() {
   return (
     <main className="bg-black">
       <Navbar />
