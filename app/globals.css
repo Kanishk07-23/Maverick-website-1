@@ -73,7 +73,7 @@ body {
 .t-display {
   font-family: var(--font-heading, 'Sora', sans-serif);
   font-weight: 900;
-  font-size: clamp(3.5rem, 11vw, 14rem);
+  font-size: clamp(2.5rem, 11vw, 14rem);
   letter-spacing: -0.04em;
   line-height: 0.88;
   text-transform: uppercase;
@@ -82,7 +82,7 @@ body {
 .t-hero {
   font-family: var(--font-heading, 'Sora', sans-serif);
   font-weight: 900;
-  font-size: clamp(5rem, 16vw, 18rem);
+  font-size: clamp(3.5rem, 16vw, 18rem);
   letter-spacing: -0.06em;
   line-height: 0.82;
   text-transform: uppercase;
@@ -91,7 +91,7 @@ body {
 .t-title {
   font-family: var(--font-heading, 'Sora', sans-serif);
   font-weight: 800;
-  font-size: clamp(2rem, 6vw, 7rem);
+  font-size: clamp(1.5rem, 6vw, 7rem);
   letter-spacing: -0.03em;
   line-height: 0.9;
   text-transform: uppercase;

@@ -60,7 +60,7 @@ export default function ServicesSection() {
           >
             <span className="label-sm tracking-[0.3em] uppercase opacity-40 mb-8 block">Services // Core Matrix</span>
             <h2 className="font-outfit font-black text-[var(--foreground)] uppercase leading-none tracking-tighter"
-                style={{ fontSize: 'clamp(3rem, 12vw, 10rem)' }}>
+                style={{ fontSize: 'clamp(2.2rem, 12vw, 10rem)' }}>
               THE GROWTH<br />
               <span className="text-[var(--brand-purple)]">ARCHITECTURE.</span>
             </h2>

@@ -198,6 +198,8 @@ export default function Full3DScene() {
       <Canvas camera={{ position: [0, 0, 7], fov: 60 }} gl={{ antialias: true, alpha: false }}>
         <color attach="background" args={['#000000']} />
         
+        <ResponsiveSetup />
+
         <ambientLight intensity={0.5} />
         <pointLight position={[5, 5, 5]} intensity={5} color={GOLD} />
         <pointLight position={[-5, -5, 5]} intensity={3} color={PURPLE} />
@@ -224,10 +226,27 @@ export default function Full3DScene() {
       </div>
       
       {/* Minimal Header */}
-      <div className="absolute top-0 left-0 w-full p-6 flex justify-between items-center pointer-events-none z-20">
+      <div className="absolute top-0 left-0 w-full p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-2 pointer-events-none z-20">
         <span className="font-bold text-white text-[11px] tracking-[0.3em] uppercase">Maverick Digitals</span>
         <span className="font-bold text-white/50 text-[9px] tracking-[0.2em] uppercase">Mumbai HQ</span>
       </div>
     </div>
   );
 }
+
+function ResponsiveSetup() {
+  const { viewport, camera } = useThree();
+  useEffect(() => {
+    const isMobile = viewport.width < viewport.height;
+    if (isMobile) {
+      camera.position.z = 12;
+      (camera as THREE.PerspectiveCamera).fov = 75;
+    } else {
+      camera.position.z = 7;
+      (camera as THREE.PerspectiveCamera).fov = 60;
+    }
+    camera.updateProjectionMatrix();
+  }, [viewport, camera]);
+  return null;
+}
+

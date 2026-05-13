@@ -41,8 +41,8 @@ export default function AboutPage() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="label-sm block mb-10">[ Protocol: Maverick ]</span>
-            <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-16"
-                style={{ fontSize: 'clamp(3.5rem, 12vw, 13rem)', letterSpacing: '-0.06em' }}>
+            <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-12 md:mb-16"
+                style={{ fontSize: 'clamp(2.2rem, 12vw, 13rem)', letterSpacing: '-0.06em' }}>
               We Build<br />
               <span className="brutalist-highlight px-4">Legends.</span>
             </h1>
@@ -71,7 +71,7 @@ export default function AboutPage() {
             >
               <span className="label-sm block mb-8">Provenance</span>
               <h2 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.9] m-0"
-                  style={{ fontSize: 'clamp(2.5rem, 7vw, 6rem)', letterSpacing: '-0.05em' }}>
+                  style={{ fontSize: 'clamp(1.8rem, 5vw, 6rem)', letterSpacing: '-0.05em' }}>
                 The Maverick <br />
                 <span className="brutalist-highlight px-2">Origin.</span>
               </h2>
@@ -144,8 +144,8 @@ export default function AboutPage() {
       <section className="py-32 md:py-56 px-6 md:px-10 text-center border-t border-[var(--border)]">
          <div className="max-w-5xl mx-auto">
             <span className="label-sm block mb-12">Contact Protocol</span>
-            <h2 className="font-outfit font-black leading-[0.9] uppercase mb-16 tracking-tighter"
-              style={{ fontSize: 'clamp(3.5rem, 10vw, 10rem)' }}>
+            <h2 className="font-outfit font-black leading-[0.9] uppercase mb-12 md:mb-16 tracking-tighter"
+              style={{ fontSize: 'clamp(2.2rem, 10vw, 10rem)' }}>
               Start the<br />
               <span className="brutalist-highlight px-4">Uprising.</span>
             </h2>

@@ -29,7 +29,7 @@ export default function ResultsSection() {
             >
               <span className="label-sm tracking-[0.3em] uppercase opacity-40 mb-8 block">Logs // Performance Data</span>
               <h2 className="font-outfit font-black text-[var(--foreground)] uppercase leading-none tracking-tighter"
-                  style={{ fontSize: 'clamp(3rem, 10vw, 8rem)' }}>
+                  style={{ fontSize: 'clamp(2rem, 10vw, 8rem)' }}>
                 PROVEN<br />
                 <span className="text-[var(--brand-purple)]">YIELDS.</span>
               </h2>
@@ -40,7 +40,7 @@ export default function ResultsSection() {
           </div>
           
           <motion.div 
-            className="flex-1 w-full h-[500px] lg:h-[600px] relative rounded-3xl bg-white/[0.02] backdrop-blur-xl border border-white/5 shadow-2xl overflow-hidden group"
+            className="flex-1 w-full h-[400px] lg:h-[600px] relative rounded-3xl bg-white/[0.02] backdrop-blur-xl border border-white/5 shadow-2xl overflow-hidden group"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
@@ -75,7 +75,7 @@ export default function ResultsSection() {
               className="flex flex-col gap-4 border-l border-white/5 pl-8 hover:border-[var(--brand-purple)] transition-colors duration-500"
             >
               <div className="font-outfit font-black text-[var(--foreground)] leading-none tracking-tighter"
-                   style={{ fontSize: 'clamp(2.5rem, 5vw, 6rem)' }}>
+                   style={{ fontSize: 'clamp(2rem, 5vw, 6rem)' }}>
                 {stat.value}
               </div>
               <div className="label-sm opacity-40 uppercase tracking-widest">{stat.label}</div>
