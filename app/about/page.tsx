@@ -1,163 +1,379 @@
-'use client';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, MapPin } from 'lucide-react';
+"use client";
 
-const values = [
+import { useRef, useState } from "react";
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ArrowRight, Mail } from "lucide-react";
+import Link from "next/link";
+
+const LinkedinIcon = () => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+
+const INDUSTRIES = [
+  "D2C Brands",
+  "Healthcare & Clinics",
+  "Travel & Hospitality",
+  "Coaches & Consultants",
+  "B2B Startups",
+  "Wedding Planners",
+];
+
+const TEAM = [
   {
-    num: '01',
-    title: 'Precision Performance',
-    desc: 'We treat your marketing budget like our own. No fluff, no "awareness" campaigns without a conversion path.',
+    name: "Muskan Rathod",
+    role: "Founder & Brand Strategist",
+    bio: "Expert in storytelling, personal branding, and scaling businesses with digital-first positioning. Muskan leads creative strategy and ensures every brand narrative resonates with its audience.",
+    skills: ["Brand Strategy", "Growth Marketing", "Storytelling", "Personal Branding"],
+    email: "muskan.maverickdigitals@gmail.com",
+    linkedin: "https://www.linkedin.com/in/muskan-rathod-9097a0202",
+    color: "#9333ea",
+    letter: "M",
+    image: "/muskan.jpg",
+    index: 0,
   },
   {
-    num: '02',
-    title: 'Data Architecture',
-    desc: 'Creativity without data is just art. We build technical backbones that support your growth strategy.',
-  },
-  {
-    num: '03',
-    title: 'Founder Depth',
-    desc: 'Direct access to the architects of your success. We don\'t outsource your vision to juniors.',
+    name: "Dhaval Shah",
+    role: "Co-Founder & Tech Innovator",
+    bio: "5+ years in scalable web and app development, specializing in building conversion-optimized digital platforms. Dhaval architects the technical backbone behind every Maverick product.",
+    skills: ["Web Development", "App Development", "MERN Stack", "Platform Optimization"],
+    email: "dhaval.maverickdigitals@gmail.com",
+    linkedin: "#",
+    color: "#2563eb",
+    letter: "D",
+    image: "/dhaval.jpg",
+    index: 1,
   },
 ];
 
-const markets = [
-  { country: 'India', desc: 'Central Command' },
-  { country: 'UAE', desc: 'Middle East Strategy' },
-  { country: 'USA', desc: 'Global Scaling' },
-  { country: 'UK', desc: 'European Markets' },
-];
+function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function FounderCard({ member }: { member: typeof TEAM[0] }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay: member.index * 0.18, ease: [0.16, 1, 0.3, 1] }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="group relative cursor-default"
+    >
+      {/* Outer glow on hover */}
+      <motion.div
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.4 }}
+        className="absolute -inset-px rounded-3xl blur-sm"
+        style={{ background: `linear-gradient(135deg, ${member.color}40, transparent)` }}
+      />
+
+      <div className="relative rounded-3xl bg-white border border-gray-100 overflow-hidden">
+
+        {/* Top: large letter + name block */}
+        <div className="relative h-52 overflow-hidden flex items-end">
+          {/* Background texture */}
+          <div
+            className="absolute inset-0 transition-transform duration-700"
+            style={{
+              background: `radial-gradient(ellipse at 30% 50%, ${member.color}18 0%, transparent 70%), linear-gradient(135deg, #fafafa 0%, #f3f4f6 100%)`,
+            }}
+          />
+
+          {/* Giant letter — decorative */}
+          <motion.span
+            animate={{ x: hovered ? 8 : 0, opacity: hovered ? 0.07 : 0.05 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute right-6 bottom-0 font-black leading-none select-none pointer-events-none"
+            style={{
+              fontSize: "clamp(120px, 20vw, 180px)",
+              color: member.color,
+              fontFamily: "Poppins, sans-serif",
+            }}
+          >
+            {member.letter}
+          </motion.span>
+
+          {/* Avatar pill */}
+          <div className="relative z-10 flex items-center gap-5 p-7">
+            <motion.div
+              animate={{ scale: hovered ? 1.05 : 1 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center shadow-xl flex-shrink-0 border-2 border-white/80"
+            >
+              <img
+                src={member.image}
+                alt={member.name}
+                className="w-full h-full object-cover object-top"
+              />
+            </motion.div>
+            <div>
+              <h3 className="text-2xl font-black text-gray-900 tracking-tight leading-tight">
+                {member.name}
+              </h3>
+              <p
+                className="text-sm font-semibold mt-0.5"
+                style={{ color: member.color }}
+              >
+                {member.role}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Thin gradient divider */}
+        <div
+          className="h-px w-full transition-opacity duration-300"
+          style={{
+            background: `linear-gradient(90deg, transparent, ${member.color}40, transparent)`,
+            opacity: hovered ? 1 : 0.4,
+          }}
+        />
+
+        {/* Body */}
+        <div className="p-7 space-y-6">
+          <p className="text-gray-500 leading-relaxed text-sm">
+            {member.bio}
+          </p>
+
+          {/* Skills */}
+          <div className="flex flex-wrap gap-2">
+            {member.skills.map((skill, i) => (
+              <motion.span
+                key={skill}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.4, delay: member.index * 0.18 + 0.3 + i * 0.07 }}
+                className="px-3 py-1 rounded-full text-xs font-semibold border transition-colors duration-300"
+                style={{
+                  borderColor: hovered ? `${member.color}40` : "#e5e7eb",
+                  color: hovered ? member.color : "#6b7280",
+                  backgroundColor: hovered ? `${member.color}08` : "transparent",
+                }}
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-3 pt-2">
+            <a
+              href={`mailto:${member.email}`}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white transition-all duration-300 shadow-md cursor-pointer"
+              style={{ background: `linear-gradient(135deg, ${member.color}, ${member.index === 0 ? "#2563eb" : "#9333ea"})` }}
+            >
+              <Mail className="w-3.5 h-3.5" />
+              Get in Touch
+            </a>
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-xs font-bold hover:border-gray-400 transition-all duration-300 cursor-pointer"
+            >
+              <LinkedinIcon />
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function AboutPage() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+
   return (
-    <div className=" min-h-screen">
-      
-      {/* Editorial Hero */}
-      <section className="relative px-6 md:px-10 pt-40 pb-20 md:pt-56 md:pb-32 overflow-hidden border-b border-[var(--border)]">
-        <div className="max-w-[1400px] mx-auto">
+    <main ref={containerRef} className="min-h-screen overflow-x-hidden">
+
+      {/* Ambient orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-purple-400/6 blur-[130px]" />
+        <div className="absolute top-[50%] left-[5%] w-[400px] h-[400px] rounded-full bg-blue-400/8 blur-[120px]" />
+        <div className="absolute bottom-[20%] right-[20%] w-[300px] h-[300px] rounded-full bg-purple-300/5 blur-[100px]" />
+      </div>
+
+      {/* HERO */}
+      <section className="relative z-10 min-h-[90vh] flex flex-col justify-center max-w-7xl mx-auto px-6 pt-32 pb-20">
+        <motion.div style={{ y: heroY, opacity: heroOpacity }}>
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-3 mb-8"
           >
-            <span className="label-sm block mb-10">[ Protocol: Maverick ]</span>
-            <h1 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.85] mb-12 md:mb-16"
-                style={{ fontSize: 'clamp(2.2rem, 12vw, 13rem)', letterSpacing: '-0.06em' }}>
-              We Build<br />
-              <span className="brutalist-highlight px-4">Legends.</span>
-            </h1>
+            <span className="h-px w-12 bg-gradient-to-r from-purple-500 to-blue-600" />
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-gray-400">Our Story</span>
           </motion.div>
 
-          <div className="flex flex-col md:flex-row gap-12 md:gap-24 items-start border-t border-[var(--border)] pt-12">
-            <p className="text-[var(--muted-foreground)] text-xl md:text-2xl leading-tight font-medium max-w-xl">
-              Based in Mumbai, operating globally. We are an elite performance cell for brands that refuse to be ignored.
-            </p>
-            <div className="label-sm uppercase tracking-[0.2em] opacity-50">
-              Est. 2024 {'//'} Growth Protocol
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The Origin */}
-      <section className="py-24 md:py-40 px-6 md:px-10 relative overflow-hidden">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="grid lg:grid-cols-2 gap-20 items-start">
-            <motion.div 
-              whileInView={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 40 }}
-              viewport={{ once: true }}
-              className="sticky top-40"
+          <div className="overflow-hidden">
+            <motion.h1
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="text-7xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.9] mb-6"
+              style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              <span className="label-sm block mb-8">Provenance</span>
-              <h2 className="font-outfit font-black text-[var(--foreground)] uppercase leading-[0.9] m-0"
-                  style={{ fontSize: 'clamp(1.8rem, 5vw, 6rem)', letterSpacing: '-0.05em' }}>
-                The Maverick <br />
-                <span className="brutalist-highlight px-2">Origin.</span>
-              </h2>
-            </motion.div>
-
-            <div className="space-y-12 text-[var(--muted-foreground)] text-xl leading-relaxed max-w-xl">
-              <p>
-                Maverick Digitals was forged with a singular mission: to provide strategy and execution that translate directly to measurable ROI. We discard generic agency templates in favor of bespoke, aggressive growth models.
-              </p>
-              <p>
-                Co-founded by Muskan Rathod and Dhaval Shah, the agency operates at the intersection of consumer psychology and technical systems. We combine brand storytelling with data architecture to build unbreakable revenue engines.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Directives */}
-      <section className="py-32 md:py-48 px-6 md:px-10 border-t border-[var(--border)] bg-[var(--inverted-bg)] text-[var(--inverted-text)]">
-        <div className="max-w-[1400px] mx-auto">
-           <div className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
-              <h2 className="font-outfit font-black text-6xl md:text-9xl leading-none m-0 uppercase tracking-tighter">
-                Core<br />
-                Directives.
-              </h2>
-              <p className="max-w-sm font-medium text-lg md:text-xl opacity-70">
-                Our operational principles. No templates. No safety nets. Just growth.
-              </p>
-           </div>
-
-           <div className="grid md:grid-cols-3 gap-px /20 border-t border-b border-[var(--background)]/20">
-             {values.map((v, i) => (
-               <div 
-                key={v.num}
-                className="py-16 md:py-24 pr-8 md:pr-12"
-               >
-                 <span className="label-sm mb-10 block opacity-50">[{v.num}]</span>
-                 <h3 className="text-3xl md:text-4xl font-black font-outfit mb-6 uppercase tracking-tight">{v.title}</h3>
-                 <p className="text-lg opacity-70 leading-relaxed max-w-xs">{v.desc}</p>
-               </div>
-             ))}
-           </div>
-        </div>
-      </section>
-
-      {/* Markets */}
-      <section className="py-32 md:py-48 px-6 md:px-10">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-12 mb-24">
-            <span className="label-sm">Global Footprint</span>
-            <div className="h-px flex-1 bg-[var(--border)] hidden md:block" />
-            <span className="label-sm opacity-50">Operational Centers</span>
+              We Are
+              <br />
+              <span className="brand-gradient-text">Maverick.</span>
+            </motion.h1>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-20">
-            {markets.map((m, i) => (
-              <div key={m.country} className="group">
-                <div className="flex items-center gap-4 mb-6 border-b border-[var(--border)] pb-4">
-                  <MapPin size={16} className="text-[var(--foreground)]" />
-                  <span className="font-outfit font-black text-2xl uppercase tracking-tighter">{m.country}</span>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="text-2xl md:text-3xl font-semibold text-gray-400 max-w-2xl mt-6 leading-relaxed"
+          >
+            Turn Attention Into Revenue.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-gray-600 text-lg leading-relaxed max-w-2xl mt-6"
+          >
+            A Mumbai-based full-stack digital agency helping ambitious brands scale through high-conversion strategy, storytelling, and execution.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.65 }}
+            className="flex items-center gap-4 mt-10"
+          >
+            <Link
+              href="/contact"
+              className="group inline-flex items-center gap-2 px-8 py-4 rounded-2xl brand-gradient text-white font-bold hover:opacity-90 transition-all duration-300 shadow-lg shadow-purple-500/20 cursor-pointer"
+            >
+              Work With Us
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl border border-gray-200 text-gray-700 font-semibold hover:border-purple-300 hover:text-purple-700 transition-all duration-300 cursor-pointer"
+            >
+              Our Services
+            </Link>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* OUR STORY */}
+      <section className="relative z-10 py-20">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+          <Reveal>
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-br from-purple-200/30 to-blue-200/20 rounded-[2.5rem] blur-xl" />
+              <div className="relative rounded-3xl overflow-hidden border border-gray-100 shadow-2xl shadow-gray-200/60">
+                <img
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=85&fit=crop"
+                  alt="Maverick team collaborating"
+                  className="w-full h-[520px] object-cover"
+                />
+                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <p className="text-white text-sm font-semibold opacity-80">Founded in Mumbai, serving brands worldwide</p>
                 </div>
-                <p className="label-sm opacity-50 uppercase">{m.desc}</p>
               </div>
+            </div>
+          </Reveal>
+
+          <div className="space-y-8">
+            <Reveal>
+              <div className="flex items-center gap-3 mb-2">
+                <span className="h-px w-8 bg-gradient-to-r from-purple-500 to-blue-600" />
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Our Foundation</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight leading-tight">
+                Built by builders,<br />
+                <span className="brand-gradient-text">for builders.</span>
+              </h2>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Maverick Digitals was co-founded by <strong className="text-gray-900">Muskan Rathod</strong> and <strong className="text-gray-900">Dhaval Shah</strong>, bringing together brand strategy and technical innovation. We're not just another agency — we're a growth partner.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.2}>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Known for blending creativity, psychology, and data, we deliver measurable business outcomes. Whether you need a complete digital transformation or want to optimize your existing marketing, we're ready to deliver results that matter.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.3}>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Industries We Serve</p>
+                <div className="flex flex-wrap gap-2">
+                  {INDUSTRIES.map((ind) => (
+                    <span
+                      key={ind}
+                      className="px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-purple-300 hover:text-purple-700 hover:bg-purple-50 transition-all duration-300 cursor-default"
+                    >
+                      {ind}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* TEAM */}
+      <section className="relative z-10 py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <Reveal className="text-center mb-16">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="h-px w-8 bg-gradient-to-r from-purple-500 to-blue-600" />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">The People</span>
+              <span className="h-px w-8 bg-gradient-to-l from-purple-500 to-blue-600" />
+            </div>
+            <h2 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tighter leading-tight">
+              Meet the <span className="brand-gradient-text">minds</span><br />behind Maverick.
+            </h2>
+            <p className="text-gray-500 text-lg mt-4 max-w-xl mx-auto leading-relaxed">
+              Two founders. One mission. Building the digital future for ambitious brands.
+            </p>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {TEAM.map((member) => (
+              <FounderCard key={member.name} member={member} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-32 md:py-56 px-6 md:px-10 text-center border-t border-[var(--border)]">
-         <div className="max-w-5xl mx-auto">
-            <span className="label-sm block mb-12">Contact Protocol</span>
-            <h2 className="font-outfit font-black leading-[0.9] uppercase mb-12 md:mb-16 tracking-tighter"
-              style={{ fontSize: 'clamp(2.2rem, 10vw, 10rem)' }}>
-              Start the<br />
-              <span className="brutalist-highlight px-4">Uprising.</span>
-            </h2>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-4 px-12 py-6 rounded-full bg-[var(--inverted-bg)] text-[var(--inverted-text)] font-bold uppercase tracking-widest text-lg hover:scale-105 transition-transform btn-magnetic"
-            >
-              Collaborate <ArrowRight size={20} />
-            </Link>
-         </div>
-      </section>
-
-    </div>
+    </main>
   );
 }

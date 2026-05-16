@@ -1,5 +1,0 @@
-Contact: mailto:maverickdigitals18@gmail.com
-Expires: 2027-04-24T00:00:00.000Z
-Preferred-Languages: en
-Canonical: https://www.maverickdigitals.co.in/.well-known/security.txt
-Policy: https://www.maverickdigitals.co.in/security-policy

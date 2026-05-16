@@ -1,159 +1,86 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import ProcessSection from '@/components/sections/ProcessSection';
-import ServicesList from '@/components/sections/ServicesList';
+"use client";
 
-export const metadata: Metadata = {
-  title: 'Digital Marketing Services | Maverick Digitals',
-  description:
-    'Full-stack digital marketing agency in Mumbai. We offer personal branding, social media, web development, SEO/SEM, and performance marketing to scale your business.',
-};
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { CardStack, CardStackItem } from "@/components/ui/card-stack";
 
-const services = [
+const services: CardStackItem[] = [
   {
-    id: 'personal-branding',
-    title: 'Personal Branding',
-    tagline: 'Strategy, ghostwriting, content systems for founders',
-    desc: "Build an undeniable online presence that attracts opportunities, builds trust, and converts followers into customers. We position you as the most trusted authority in your industry.",
-    features: [
-      'Brand Strategy Development & Positioning',
-      'Content Creation & Long-form Ghostwriting',
-      'Thought Leadership Content Calendar',
-      'LinkedIn & X (Twitter) Growth Strategy',
-      'Social Media Presence Audit & Optimization',
-      'Personal Brand Style Guide',
-    ],
-    color: '#000000',
-    badge: 'Popular',
+    id: 1,
+    title: "Personal Branding",
+    description: "Build authority and convert attention into revenue with a solid personal brand. We provide end-to-end support for founders and creators to scale their influence.",
+    imageSrc: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80&fit=crop",
+    href: "/contact",
   },
   {
-    id: 'social-media',
-    title: 'Social Media',
-    tagline: 'Done-for-you content, growth, and analytics',
-    desc: 'Stop spending hours on social media with little to show for it. We create, publish and optimize content across all major platforms so you can focus on running your business.',
-    features: [
-      'Monthly Content Planning & Calendar',
-      'Original Creative Content Production',
-      'Community Management & Engagement',
-      'Platform Growth Strategy',
-      'Monthly Analytics & Performance Reporting',
-      'Multi-Platform Scheduling & Publishing',
-    ],
-    color: '#000000',
+    id: 2,
+    title: "Social Media Management",
+    description: "We handle your social presence end-to-end so you can focus on your business. Creating engaging content that drives real audience growth.",
+    imageSrc: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80&fit=crop",
+    href: "/contact",
   },
   {
-    id: 'web-dev',
-    title: 'Web & App Dev',
-    tagline: 'High-performance sites and custom web apps',
-    desc: "Your website is your 24/7 salesperson. We build fast, beautiful, conversion-optimized digital products that don't just look good — they generate revenue.",
-    features: [
-      'Custom Web Design & Development',
-      'E-commerce Store (Shopify / Custom)',
-      'Mobile App Development (iOS & Android)',
-      'Performance Optimization & Core Web Vitals',
-      'CMS Integration (Headless or Traditional)',
-      'SEO-Ready Architecture',
-    ],
-    color: '#000000',
+    id: 3,
+    title: "Website & App Development",
+    description: "We engineer high-performance platforms using modern tech stacks. Ensuring your digital presence is not only beautiful but scalable and lightning-fast.",
+    imageSrc: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80&fit=crop",
+    href: "/contact",
   },
   {
-    id: 'seo-sem',
-    title: 'SEO & SEM',
-    tagline: 'Search optimization and inbound lead engines',
-    desc: 'Get found when your customers are searching. Our technical SEO and search advertising strategies drive qualified traffic that converts into real revenue.',
-    features: [
-      'Technical SEO Audit & Remediation',
-      'Keyword Research & Competitive Analysis',
-      'On-Page & Off-Page Optimization',
-      'Google Ads Campaign Management',
-      'Local SEO Optimization & GBP Setup',
-      'Monthly Ranking & Traffic Reports',
-    ],
-    color: '#000000',
+    id: 4,
+    title: "SEO & SEM",
+    description: "Own your search results. We build sustainable organic and paid traffic systems that compound over time, making sure your brand is seen by high-intent users.",
+    imageSrc: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80&fit=crop",
+    href: "/contact",
   },
   {
-    id: 'performance-marketing',
-    title: 'Performance Marketing',
-    tagline: 'ROI-first Meta & Google campaigns',
-    desc: 'Stop guessing and start knowing your ROAS. We build data-driven paid advertising campaigns with clear targeting, compelling creatives, and relentless optimization.',
-    features: [
-      'Meta Ads (Facebook & Instagram) Management',
-      'Google Ads (Search, Display, YouTube)',
-      'Full-Funnel Strategy & Audience Targeting',
-      'Ad Creative & Copywriting',
-      'Conversion Rate Optimization (CRO)',
-      'Real-Time ROI Tracking & Dashboards',
-    ],
-    color: '#000000',
+    id: 5,
+    title: "Performance Marketing",
+    description: "Laser-focused paid campaigns that don't waste your budget. We track and optimize every ad rupee to ensure you get measurable business outcomes.",
+    imageSrc: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&fit=crop",
+    href: "/contact",
   },
   {
-    id: 'branding-strategy',
-    title: 'Brand Identity',
-    tagline: 'Visual messaging, GTM launches, and positioning',
-    desc: 'Your brand is more than a logo. We build complete brand identities — from visual design and messaging to go-to-market strategy — that create lasting impressions.',
-    features: [
-      'Brand Identity Design (Logo, Colors, Typography)',
-      'Messaging Framework & Brand Voice',
-      'Go-to-Market (GTM) Launch Strategy',
-      'Competitive Positioning Framework',
-      'Brand Style & Usage Guidelines',
-      'Rebranding & Brand Refresh',
-    ],
-    color: '#000000',
+    id: 6,
+    title: "Branding & Strategy",
+    description: "A brand is a promise. We help you define it and keep it. Building the foundation that makes every other marketing effort more effective.",
+    imageSrc: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80&fit=crop",
+    href: "/contact",
   },
 ];
 
 export default function ServicesPage() {
   return (
-    <div className="">
-      {/* Editorial Hero */}
-      <section className="pt-40 pb-20 md:pt-48 md:pb-28 relative overflow-hidden border-b border-[var(--border)]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
-          <div className="max-w-5xl">
-            <span className="label-sm block mb-8">Capabilities</span>
-            <h1 className="font-outfit font-black text-[var(--foreground)] uppercase"
-              style={{ fontSize: 'clamp(2.5rem, 8vw, 10rem)', letterSpacing: '-0.04em', lineHeight: 0.9 }}>
-              Engineering<br />
-              <span className="text-[var(--muted-foreground)]">Growth.</span>
-            </h1>
-            <div className="mt-12 md:mt-16 flex flex-col md:flex-row gap-8 md:gap-24 border-t border-[var(--border)] pt-10">
-              <p className="text-[var(--muted-foreground)] text-lg md:text-xl leading-relaxed flex-1 font-medium">
-                Six specialized service pillars designed to work individually or as a fully integrated growth system.
-                Zero fluff. Just aggressive execution.
-              </p>
-              <div className="flex-1 flex items-start gap-4 text-sm font-bold text-[var(--foreground)] uppercase tracking-widest">
-                [ Protocol Active ]
-              </div>
-            </div>
-          </div>
+    <main className="min-h-screen pt-24 pb-20 overflow-x-hidden">
+      {/* Header */}
+      <section className="max-w-7xl mx-auto px-6 py-16 text-center">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <p className="text-blue-600 font-semibold text-sm uppercase tracking-widest mb-3">Our Services</p>
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 mb-6 mx-auto">
+            Everything You Need<br />to Grow Online.
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl leading-relaxed mx-auto">
+            We're a full-stack digital partner. Whether you need a website, more traffic, or a stronger brand — we do it all under one roof.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* Card Stack Display */}
+      <section className="w-full pt-10 pb-32 flex items-center justify-center">
+        <div className="w-full max-w-5xl mx-auto">
+          <CardStack
+            items={services}
+            initialIndex={0}
+            autoAdvance
+            intervalMs={3000}
+            pauseOnHover
+            showDots={false}
+          />
         </div>
       </section>
 
-      {/* Services — Brutalist 3D Carousel */}
-      <section className="relative overflow-visible ">
-        <ServicesList services={services} />
-      </section>
 
-      <ProcessSection />
-
-      {/* Massive CTA */}
-      <section className="py-32 md:py-48 text-center border-t border-[var(--border)]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col items-center">
-          <span className="label-sm mb-10">Next Steps</span>
-          <h2 className="font-outfit font-black text-[var(--foreground)] uppercase mb-16"
-            style={{ fontSize: 'clamp(2.2rem, 7vw, 8rem)', letterSpacing: '-0.04em', lineHeight: 0.9 }}>
-            Initiate<br />
-            <span className="text-[var(--muted-foreground)]">Protocol.</span>
-          </h2>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-10 py-5 rounded-full text-base font-semibold text-white btn-magnetic"
-            style={{ background: 'var(--foreground)', color: 'var(--background)' }}
-          >
-            Book Free Strategy Call →
-          </Link>
-        </div>
-      </section>
-    </div>
+    </main>
   );
 }
