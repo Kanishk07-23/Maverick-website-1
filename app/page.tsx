@@ -36,7 +36,7 @@ const Slogan = () => {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      transition: { type: "spring", damping: 14, stiffness: 100 },
+      transition: { type: "spring" as const, damping: 14, stiffness: 100 },
     },
   };
 
