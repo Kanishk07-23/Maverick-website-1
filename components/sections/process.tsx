@@ -1,57 +1,48 @@
 'use client';
-import { Zap, Cpu, Fingerprint, Pencil, Settings2, Sparkles } from 'lucide-react';
+import { MessageSquare, Lightbulb, Rocket, BarChart2 } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FeatureCard } from '@/components/ui/grid-feature-cards';
 
 const features = [
 	{
-		title: 'Faaast',
-		icon: Zap,
-		description: 'It supports an entire helping developers and innovate.',
+		title: 'Discovery & Strategy',
+		icon: MessageSquare,
+		description: 'We start with a deep-dive into your business, audience, and goals. No templates — just a custom growth blueprint built specifically for you.',
 	},
 	{
-		title: 'Powerful',
-		icon: Cpu,
-		description: 'It supports an entire helping developers and businesses.',
+		title: 'Creative & Design',
+		icon: Lightbulb,
+		description: 'Our designers craft pixel-perfect visuals that convert. Every element is intentional — from colour psychology to micro-animations.',
 	},
 	{
-		title: 'Security',
-		icon: Fingerprint,
-		description: 'It supports an helping developers businesses.',
+		title: 'Build & Launch',
+		icon: Rocket,
+		description: 'Engineering-grade execution: blazing-fast, SEO-optimised, and fully accessible. We ship fast without cutting corners.',
 	},
 	{
-		title: 'Customization',
-		icon: Pencil,
-		description: 'It supports helping developers and businesses innovate.',
-	},
-	{
-		title: 'Control',
-		icon: Settings2,
-		description: 'It supports helping developers and businesses innovate.',
-	},
-	{
-		title: 'Built for AI',
-		icon: Sparkles,
-		description: 'It supports helping developers and businesses innovate.',
-	},
+		title: 'Optimise & Scale',
+		icon: BarChart2,
+		description: 'We don\'t disappear after launch. Ongoing analytics, A/B testing, and performance tuning keep your growth compounding.',
+	}
 ];
 
 export function ProcessSection() {
 	return (
 		<section className="py-16 md:py-32 relative z-10">
-			<div className="mx-auto w-full max-w-5xl space-y-8 px-4">
+			<div className="mx-auto w-full max-w-5xl space-y-12 px-4">
 				<AnimatedContainer className="mx-auto max-w-3xl text-center">
-					<h2 className="text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold text-gray-900">
-						Power. Speed. Control.
+                    <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">How We Work</p>
+					<h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900">
+						Our Proven <span className="brand-gradient-text">4-Step Process</span>
 					</h2>
-					<p className="text-gray-500 mt-4 text-sm tracking-wide text-balance md:text-base">
-						Everything you need to build fast, secure, scalable apps.
+					<p className="text-gray-500 mt-6 text-base md:text-lg tracking-wide text-balance">
+						A repeatable system fine-tuned over hundreds of client engagements.
 					</p>
 				</AnimatedContainer>
 
 				<AnimatedContainer
 					delay={0.4}
-					className="grid grid-cols-1 divide-x divide-y divide-dashed border border-dashed border-gray-200 sm:grid-cols-2 md:grid-cols-3"
+					className="grid grid-cols-1 divide-y divide-dashed border border-dashed border-gray-200 sm:grid-cols-2 md:grid-cols-2 sm:divide-x"
 				>
 					{features.map((feature, i) => (
 						<FeatureCard key={i} feature={feature} />
