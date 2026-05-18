@@ -52,7 +52,7 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-gray-950 overflow-x-hidden pt-28">
+    <main className="min-h-screen bg-[#fafafa] overflow-x-hidden pt-28">
       {/* ─── Hero Header (Dark Theme) ──────────────────── */}
       <section className="relative max-w-7xl mx-auto px-6 py-16 text-center z-10">
         {/* Neon Glow Blob */}
@@ -63,16 +63,16 @@ export default function ServicesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="text-violet-400 font-bold text-xs uppercase tracking-[0.3em] mb-4">
+          <p className="text-violet-600 font-bold text-xs uppercase tracking-[0.3em] mb-4">
             Our Offerings
           </p>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 leading-[1.1]">
             Everything You Need<br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
               to Grow Online.
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl leading-relaxed mx-auto font-medium">
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed mx-auto font-medium">
             We are your premium digital partner. Whether you need a high-performance website, hyper-targeted campaigns, or a compelling personal brand — we execute flawlessly.
           </p>
         </motion.div>
@@ -86,21 +86,21 @@ export default function ServicesPage() {
       </section>
 
       {/* ─── Dark CTA Section ────────────────────────────── */}
-      <section className="relative py-28 px-6 text-center overflow-hidden bg-gray-900 border-t border-white/5">
+      <section className="relative py-28 px-6 text-center overflow-hidden bg-white border-t border-gray-200">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-purple-600/10 blur-[100px]" />
         </div>
         <div className="relative z-10 max-w-3xl mx-auto">
-          <p className="text-violet-400 text-xs font-bold uppercase tracking-[0.3em] mb-5">
+          <p className="text-violet-600 text-xs font-bold uppercase tracking-[0.3em] mb-5">
             Ready to Accelerate?
           </p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-6">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-6">
             Let's Build Something{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
               Remarkable
             </span>
           </h2>
-          <p className="text-gray-400 text-lg mb-10 max-w-xl mx-auto leading-relaxed font-medium">
+          <p className="text-gray-600 text-lg mb-10 max-w-xl mx-auto leading-relaxed font-medium">
             Schedule a free consultation call with our team and let us design a customized hyper-growth plan tailored specifically to your objectives.
           </p>
           <Link
