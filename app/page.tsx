@@ -148,7 +148,7 @@ export default function HomePage() {
 
 
       {/* ─── FOOTER ────────────────────────────────────── */}
-      <footer className="border-t border-gray-200/60 py-16 relative z-10 bg-white/40 backdrop-blur-md">
+      <footer className="border-t border-gray-200/60 py-16 relative z-10 bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px]">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gray-900 flex items-center justify-center shadow-lg">

@@ -21,11 +21,11 @@ export function ClientLogosSection() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backdropFilter: "blur(40px) saturate(160%)",
-          WebkitBackdropFilter: "blur(40px) saturate(160%)",
-          background: "rgba(255,255,255,0.55)",
-          borderTop: "1px solid rgba(255,255,255,0.7)",
-          borderBottom: "1px solid rgba(255,255,255,0.7)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+          background: "rgba(255,255,255,0.05)",
+          borderTop: "1px solid rgba(255,255,255,0.1)",
+          borderBottom: "1px solid rgba(255,255,255,0.1)",
         }}
       />
       {/* Ambient colour wash behind the glass */}
@@ -68,12 +68,12 @@ export function ClientLogosSection() {
                 key={`${name}-${i}`}
                 className="flex-shrink-0 px-7 py-3 rounded-2xl select-none"
                 style={{
-                  backdropFilter: "blur(12px) saturate(180%)",
-                  WebkitBackdropFilter: "blur(12px) saturate(180%)",
-                  background: "rgba(255,255,255,0.5)",
-                  border: "1px solid rgba(255,255,255,0.6)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.1)",
                   boxShadow:
-                    "0 4px 16px rgba(15,23,42,0.06), inset 1px 1px 0 rgba(255,255,255,0.8)",
+                    "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                 }}
               >
                 <span

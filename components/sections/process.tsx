@@ -6,18 +6,18 @@ import { MessageSquare, Lightbulb, Rocket, BarChart2 } from "lucide-react";
 
 /* ─── Glass presets from UI/UX pro max Spatial UI style ─────────── */
 const GLASS = {
-  backdropFilter: "blur(20px) saturate(180%)",
-  WebkitBackdropFilter: "blur(20px) saturate(180%)",
-  background: "rgba(255,255,255,0.55)",
-  border: "1px solid rgba(255,255,255,0.75)",
+  backdropFilter: "blur(10px)",
+  WebkitBackdropFilter: "blur(10px)",
+  background: "rgba(255,255,255,0.05)",
+  border: "1px solid rgba(255,255,255,0.1)",
   boxShadow:
-    "0 8px 32px rgba(15,23,42,0.07), inset 1px 1px 0 rgba(255,255,255,0.9), inset -1px -1px 0 rgba(255,255,255,0.35)",
+    "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
 } as const;
 
 const GLASS_TINTED = (hue: string) => ({
   ...GLASS,
-  background: `rgba(255,255,255,0.45)`,
-  backgroundImage: `linear-gradient(135deg, ${hue}06 0%, rgba(255,255,255,0) 100%)`,
+  background: `rgba(255,255,255,0.05)`,
+  backgroundImage: `linear-gradient(135deg, ${hue}04 0%, rgba(255,255,255,0) 100%)`,
 });
 
 const steps = [

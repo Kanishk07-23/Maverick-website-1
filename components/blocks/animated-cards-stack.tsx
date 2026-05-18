@@ -17,9 +17,9 @@ import { cn } from "@/lib/utils"
 const cardVariants = cva("absolute will-change-transform", {
   variants: {
     variant: {
-      dark: "flex size-full flex-col items-center justify-center gap-6 rounded-2xl border border-stone-700/50 bg-gray-900/80 p-6 backdrop-blur-md",
+      dark: "flex size-full flex-col items-center justify-center gap-6 rounded-2xl border border-white/10 bg-[rgba(15,23,42,0.85)] p-6 backdrop-blur-[10px]",
       light:
-        "flex size-full flex-col items-center justify-center gap-6 rounded-2xl border border-gray-200 bg-white/80 p-6 backdrop-blur-md ",
+        "flex size-full flex-col items-center justify-center gap-6 rounded-2xl border border-gray-200/40 bg-[rgba(255,255,255,0.05)] p-6 backdrop-blur-[10px]",
     },
   },
   defaultVariants: {

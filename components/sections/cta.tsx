@@ -31,12 +31,12 @@ export function CtaSection() {
         <div
           className="relative rounded-[2rem] p-12 md:p-16 overflow-hidden"
           style={{
-            backdropFilter: "blur(40px) saturate(200%)",
-            WebkitBackdropFilter: "blur(40px) saturate(200%)",
-            background: "rgba(255,255,255,0.45)",
-            border: "1px solid rgba(255,255,255,0.8)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.1)",
             boxShadow:
-              "0 24px 80px rgba(15,23,42,0.12), inset 1px 1px 0 rgba(255,255,255,0.95), inset -1px -1px 0 rgba(255,255,255,0.4)",
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
           }}
         >
           {/* Inner orbs — vivid, sit inside the panel */}
@@ -85,9 +85,9 @@ export function CtaSection() {
                     style={{
                       backdropFilter: "blur(10px)",
                       WebkitBackdropFilter: "blur(10px)",
-                      background: "rgba(255,255,255,0.7)",
-                      border: "1px solid rgba(255,255,255,0.9)",
-                      boxShadow: "0 2px 8px rgba(15,23,42,0.06), inset 1px 1px 0 rgba(255,255,255,1)",
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                     }}
                   >
                     <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
@@ -124,11 +124,11 @@ export function CtaSection() {
                 href="/services"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-semibold text-gray-700 text-base cursor-pointer transition-all duration-300 hover:text-gray-900"
                 style={{
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                  background: "rgba(255,255,255,0.6)",
-                  border: "1px solid rgba(255,255,255,0.85)",
-                  boxShadow: "0 4px 16px rgba(15,23,42,0.06), inset 1px 1px 0 rgba(255,255,255,0.95)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                 }}
               >
                 Explore our services

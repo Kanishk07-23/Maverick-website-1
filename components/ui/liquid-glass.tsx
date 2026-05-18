@@ -44,21 +44,20 @@ export const GlassEffect: React.FC<GlassEffectProps> = ({
         className="absolute inset-0 z-0 overflow-hidden"
         style={{
           borderRadius: "inherit",
-          backdropFilter: "blur(5px)",
-          filter: "url(#glass-distortion)",
+          backdropFilter: "blur(10px)",
           isolation: "isolate",
         }}
       />
       <div
         className="absolute inset-0 z-10"
-        style={{ borderRadius: "inherit", background: "rgba(255, 255, 255, 0.25)" }}
+        style={{ borderRadius: "inherit", background: "rgba(255, 255, 255, 0.05)" }}
       />
       <div
         className="absolute inset-0 z-20 overflow-hidden"
         style={{
           borderRadius: "inherit",
           boxShadow:
-            "inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5), inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5)",
+            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
         }}
       />
 

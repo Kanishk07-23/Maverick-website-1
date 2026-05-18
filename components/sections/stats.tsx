@@ -6,21 +6,21 @@ import { TrendingUp, Users, Award, Clock } from "lucide-react";
 
 /* ─── Glass helpers ─────────────────────────────────────────────── */
 const GLASS_BASE = {
-  backdropFilter: "blur(20px) saturate(180%)",
-  WebkitBackdropFilter: "blur(20px) saturate(180%)",
-  background: "rgba(255, 255, 255, 0.55)",
-  border: "1px solid rgba(255,255,255,0.7)",
+  backdropFilter: "blur(10px)",
+  WebkitBackdropFilter: "blur(10px)",
+  background: "rgba(255, 255, 255, 0.05)",
+  border: "1px solid rgba(255,255,255,0.1)",
   boxShadow:
-    "0 8px 32px rgba(15,23,42,0.08), inset 1px 1px 0 rgba(255,255,255,0.8), inset -1px -1px 0 rgba(255,255,255,0.4)",
+    "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
 } as const;
 
 const GLASS_DARK = {
-  backdropFilter: "blur(20px) saturate(180%)",
-  WebkitBackdropFilter: "blur(20px) saturate(180%)",
-  background: "linear-gradient(135deg, rgba(26,26,46,0.92) 0%, rgba(22,33,62,0.95) 100%)",
-  border: "1px solid rgba(255,255,255,0.12)",
+  backdropFilter: "blur(10px)",
+  WebkitBackdropFilter: "blur(10px)",
+  background: "rgba(15, 23, 42, 0.85)",
+  border: "1px solid rgba(255,255,255,0.1)",
   boxShadow:
-    "0 8px 32px rgba(0,0,0,0.25), inset 1px 1px 0 rgba(255,255,255,0.08)",
+    "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
 } as const;
 
 /* ─── Counter ───────────────────────────────────────────────────── */

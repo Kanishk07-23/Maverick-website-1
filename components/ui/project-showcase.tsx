@@ -152,7 +152,7 @@ export function ProjectShowcase({ projects = defaultProjects }: { projects?: Pro
               {/* Background highlight on hover */}
               <div
                 className={`
-                  absolute inset-0 -mx-4 px-4 bg-white/40 backdrop-blur-sm rounded-lg
+                  absolute inset-0 -mx-4 px-4 bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] rounded-lg
                   transition-all duration-300 ease-out
                   ${hoveredIndex === index ? "opacity-100 scale-100" : "opacity-0 scale-95"}
                 `}
@@ -195,7 +195,7 @@ export function ProjectShowcase({ projects = defaultProjects }: { projects?: Pro
                 {/* Arrow indicator */}
                 <span
                   className={`
-                    hidden md:flex w-12 h-12 rounded-full items-center justify-center border border-gray-200 bg-white/50 backdrop-blur-sm
+                    hidden md:flex w-12 h-12 rounded-full items-center justify-center border border-gray-200/40 bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px]
                     transition-all duration-300 ease-out
                     ${hoveredIndex === index ? "bg-blue-50 border-blue-200 text-blue-600 scale-110" : "text-gray-400"}
                   `}
