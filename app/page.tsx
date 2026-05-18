@@ -1,11 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, Star } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import { ProjectShowcase } from "@/components/ui/project-showcase";
-import { Card, CardContent } from "@/components/ui/card";
 import { GlassButton } from "@/components/ui/liquid-glass";
 import { TestimonialsSection } from "@/components/sections/testimonials";
+import { StatsSection } from "@/components/sections/stats";
+import { ProcessSection } from "@/components/sections/process";
+import { ClientLogosSection } from "@/components/sections/client-logos";
+import { CtaSection } from "@/components/sections/cta";
 import Link from "next/link";
 
 const fadeUp = {
@@ -56,26 +59,7 @@ const Slogan = () => {
   );
 };
 
-const testimonials = [
-  {
-    name: "Arjun Mehta",
-    role: "CEO, NovaTech",
-    body: "Maverick rebuilt our entire digital presence in 6 weeks. Our inbound leads doubled. Exceptional team.",
-    rating: 5,
-  },
-  {
-    name: "Priya Sharma",
-    role: "Marketing Director, Bloom Co.",
-    body: "The design quality is unmatched. Our bounce rate dropped by 40% within the first month after launch.",
-    rating: 5,
-  },
-  {
-    name: "Rohan Kapoor",
-    role: "Founder, ShipFast",
-    body: "These guys don't just build websites — they build growth engines. Best investment we've made.",
-    rating: 5,
-  },
-];
+
 
 const links = [
   { name: "Home", path: "/" },
@@ -147,9 +131,20 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ─── CLIENT LOGOS ──────────────────────────────── */}
+      <ClientLogosSection />
+
+      {/* ─── STATS ─────────────────────────────────────── */}
+      <StatsSection />
+
+      {/* ─── PROCESS ────────────────────────────────────── */}
+      <ProcessSection />
+
       {/* ─── TESTIMONIALS ──────────────────────────────── */}
       <TestimonialsSection />
 
+      {/* ─── CTA ────────────────────────────────────────── */}
+      <CtaSection />
 
 
       {/* ─── FOOTER ────────────────────────────────────── */}
