@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Mail } from "lucide-react";
 import Link from "next/link";
+import { ExpandableCard } from "@/components/ui/expandable-card";
 
 const LinkedinIcon = () => (
   <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -65,142 +66,6 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
-function FounderCard({ member }: { member: typeof TEAM[0] }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 60 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.9, delay: member.index * 0.18, ease: [0.16, 1, 0.3, 1] }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="group relative cursor-default"
-    >
-      {/* Outer glow on hover */}
-      <motion.div
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.4 }}
-        className="absolute -inset-px rounded-3xl blur-sm"
-        style={{ background: `linear-gradient(135deg, ${member.color}40, transparent)` }}
-      />
-
-      <div className="relative rounded-3xl bg-white border border-gray-100 overflow-hidden">
-
-        {/* Top: large letter + name block */}
-        <div className="relative h-52 overflow-hidden flex items-end">
-          {/* Background texture */}
-          <div
-            className="absolute inset-0 transition-transform duration-700"
-            style={{
-              background: `radial-gradient(ellipse at 30% 50%, ${member.color}18 0%, transparent 70%), linear-gradient(135deg, #fafafa 0%, #f3f4f6 100%)`,
-            }}
-          />
-
-          {/* Giant letter — decorative */}
-          <motion.span
-            animate={{ x: hovered ? 8 : 0, opacity: hovered ? 0.07 : 0.05 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute right-6 bottom-0 font-black leading-none select-none pointer-events-none"
-            style={{
-              fontSize: "clamp(120px, 20vw, 180px)",
-              color: member.color,
-              fontFamily: "Poppins, sans-serif",
-            }}
-          >
-            {member.letter}
-          </motion.span>
-
-          {/* Avatar pill */}
-          <div className="relative z-10 flex items-center gap-5 p-7">
-            <motion.div
-              animate={{ scale: hovered ? 1.05 : 1 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center shadow-xl flex-shrink-0 border-2 border-white/80"
-            >
-              <img
-                src={member.image}
-                alt={member.name}
-                className="w-full h-full object-cover object-top"
-              />
-            </motion.div>
-            <div>
-              <h3 className="text-2xl font-black text-gray-900 tracking-tight leading-tight">
-                {member.name}
-              </h3>
-              <p
-                className="text-sm font-semibold mt-0.5"
-                style={{ color: member.color }}
-              >
-                {member.role}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Thin gradient divider */}
-        <div
-          className="h-px w-full transition-opacity duration-300"
-          style={{
-            background: `linear-gradient(90deg, transparent, ${member.color}40, transparent)`,
-            opacity: hovered ? 1 : 0.4,
-          }}
-        />
-
-        {/* Body */}
-        <div className="p-7 space-y-6">
-          <p className="text-gray-500 leading-relaxed text-sm">
-            {member.bio}
-          </p>
-
-          {/* Skills */}
-          <div className="flex flex-wrap gap-2">
-            {member.skills.map((skill, i) => (
-              <motion.span
-                key={skill}
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: member.index * 0.18 + 0.3 + i * 0.07 }}
-                className="px-3 py-1 rounded-full text-xs font-semibold border transition-colors duration-300"
-                style={{
-                  borderColor: hovered ? `${member.color}40` : "#e5e7eb",
-                  color: hovered ? member.color : "#6b7280",
-                  backgroundColor: hovered ? `${member.color}08` : "transparent",
-                }}
-              >
-                {skill}
-              </motion.span>
-            ))}
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center gap-3 pt-2">
-            <a
-              href={`mailto:${member.email}`}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white transition-all duration-300 shadow-md cursor-pointer"
-              style={{ background: `linear-gradient(135deg, ${member.color}, ${member.index === 0 ? "#2563eb" : "#9333ea"})` }}
-            >
-              <Mail className="w-3.5 h-3.5" />
-              Get in Touch
-            </a>
-            <a
-              href={member.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-xs font-bold hover:border-gray-400 transition-all duration-300 cursor-pointer"
-            >
-              <LinkedinIcon />
-              LinkedIn
-            </a>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
 
 export default function AboutPage() {
   const containerRef = useRef(null);
@@ -368,7 +233,43 @@ export default function AboutPage() {
 
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {TEAM.map((member) => (
-              <FounderCard key={member.name} member={member} />
+              <ExpandableCard
+                key={member.name}
+                title={member.name}
+                src={member.image}
+                description={member.role}
+                classNameExpanded="[&_h4]:text-black dark:[&_h4]:text-white [&_h4]:font-semibold"
+              >
+                <h4>About {member.name.split(" ")[0]}</h4>
+                <p>{member.bio}</p>
+                <h4>Expertise & Skills</h4>
+                <div className="flex flex-wrap gap-2 mt-1 mb-4">
+                  {member.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex items-center gap-4 mt-2 pt-4 border-t border-gray-100 dark:border-zinc-800">
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-white hover:text-blue-600 transition-colors"
+                  >
+                    <Mail className="w-4 h-4" /> Get in Touch
+                  </a>
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-white hover:text-blue-600 transition-colors"
+                  >
+                    <LinkedinIcon /> LinkedIn
+                  </a>
+                </div>
+              </ExpandableCard>
             ))}
           </div>
         </div>
