@@ -238,7 +238,7 @@ export default function AboutPage() {
                 title={member.name}
                 src={member.image}
                 description={member.role}
-                classNameExpanded="[&_h4]:text-black dark:[&_h4]:text-white [&_h4]:font-semibold"
+                classNameExpanded="[&_h4]:text-gray-900 [&_h4]:font-bold [&_h4]:text-xl"
               >
                 <h4>About {member.name.split(" ")[0]}</h4>
                 <p>{member.bio}</p>
@@ -247,16 +247,16 @@ export default function AboutPage() {
                   {member.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300"
+                      className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200 shadow-sm"
                     >
                       {skill}
                     </span>
                   ))}
                 </div>
-                <div className="flex items-center gap-4 mt-2 pt-4 border-t border-gray-100 dark:border-zinc-800">
+                <div className="flex items-center gap-4 mt-2 pt-4 border-t border-gray-200">
                   <a
                     href={`mailto:${member.email}`}
-                    className="flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-white hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-blue-600 transition-colors"
                   >
                     <Mail className="w-4 h-4" /> Get in Touch
                   </a>
@@ -264,7 +264,7 @@ export default function AboutPage() {
                     href={member.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-white hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-blue-600 transition-colors"
                   >
                     <LinkedinIcon /> LinkedIn
                   </a>
