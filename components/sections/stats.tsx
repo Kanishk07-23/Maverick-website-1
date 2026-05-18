@@ -69,7 +69,6 @@ export function StatsSection() {
   return (
     <section ref={ref} className="py-28 relative overflow-hidden">
       {/* Ambient depth orbs */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(180deg, #f0f4ff 0%, #ffffff 100%)" }} />
       <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(147,51,234,0.12) 0%, transparent 65%)", transform: "translate(30%, -30%)" }} />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.10) 0%, transparent 65%)", transform: "translate(-30%, 30%)" }} />
 

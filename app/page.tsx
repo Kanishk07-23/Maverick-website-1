@@ -7,7 +7,7 @@ import { GlassButton } from "@/components/ui/liquid-glass";
 import { TestimonialsSection } from "@/components/sections/testimonials";
 import { StatsSection } from "@/components/sections/stats";
 import { ProcessSection } from "@/components/sections/process";
-import { ClientLogosSection } from "@/components/sections/client-logos";
+
 import { CtaSection } from "@/components/sections/cta";
 import Link from "next/link";
 
@@ -131,8 +131,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── CLIENT LOGOS ──────────────────────────────── */}
-      <ClientLogosSection />
 
       {/* ─── STATS ─────────────────────────────────────── */}
       <StatsSection />

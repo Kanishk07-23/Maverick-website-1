@@ -13,8 +13,7 @@ export function CtaSection() {
 
   return (
     <section ref={ref} className="py-28 px-6 relative overflow-hidden">
-      {/* Page-level background wash */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f0f4ff 100%)" }} />
+      {/* Page-level background wash removed to show global grid */}
 
       {/* Big ambient orbs — these show THROUGH the glass panel */}
       <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(147,51,234,0.18) 0%, transparent 65%)", transform: "translate(20%, -30%)" }} />
