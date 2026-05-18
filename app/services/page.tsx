@@ -63,12 +63,12 @@ export default function ServicesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="text-violet-600 font-bold text-xs uppercase tracking-[0.3em] mb-4">
+          <p className="text-[#9333ea] font-bold text-xs uppercase tracking-[0.3em] mb-4">
             Our Offerings
           </p>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 leading-[1.1]">
             Everything You Need<br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#9333ea] to-[#2563eb]">
               to Grow Online.
             </span>
           </h1>
@@ -91,12 +91,12 @@ export default function ServicesPage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-purple-600/10 blur-[100px]" />
         </div>
         <div className="relative z-10 max-w-3xl mx-auto">
-          <p className="text-violet-600 text-xs font-bold uppercase tracking-[0.3em] mb-5">
+          <p className="text-[#9333ea] text-xs font-bold uppercase tracking-[0.3em] mb-5">
             Ready to Accelerate?
           </p>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-6">
             Let's Build Something{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#9333ea] to-[#2563eb]">
               Remarkable
             </span>
           </h2>
@@ -105,7 +105,7 @@ export default function ServicesPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-base font-bold text-white transition-all duration-300 hover:gap-5 hover:shadow-2xl group bg-gradient-to-r from-purple-600 to-blue-600 hover:brightness-110 shadow-lg shadow-purple-500/20"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-base font-bold text-white transition-all duration-300 hover:gap-5 hover:shadow-2xl group bg-gradient-to-r from-[#9333ea] to-[#2563eb] hover:brightness-110 shadow-lg shadow-purple-500/20"
           >
             Get in Touch
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
