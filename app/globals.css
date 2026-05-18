@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -77,14 +77,14 @@
   }
 
   body {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: 'Playfair Display', Georgia, Cambria, "Times New Roman", Times, serif;
     background-color: #ffffff;
     color: #111827;
     line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: 'Playfair Display', Georgia, Cambria, "Times New Roman", Times, serif;
     line-height: 1.2;
     font-weight: 700;
   }
@@ -107,7 +107,7 @@
   background-clip: text;
 }
 
-/* Force monospace override for custom Poppins tailwind utilities */
+/* Force override for custom Poppins tailwind utilities to use Playfair Display */
 .font-\[\'Poppins\'\] {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-family: 'Playfair Display', Georgia, Cambria, "Times New Roman", Times, serif !important;
 }
