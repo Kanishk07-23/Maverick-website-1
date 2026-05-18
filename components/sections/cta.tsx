@@ -15,10 +15,6 @@ export function CtaSection() {
     <section ref={ref} className="py-28 px-6 relative overflow-hidden">
       {/* Page-level background wash removed to show global grid */}
 
-      {/* Big ambient orbs — these show THROUGH the glass panel */}
-      <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(147,51,234,0.18) 0%, transparent 65%)", transform: "translate(20%, -30%)" }} />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 65%)", transform: "translate(-20%, 30%)" }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse, rgba(147,51,234,0.08) 0%, transparent 70%)" }} />
 
       <motion.div
         className="relative max-w-5xl mx-auto"
@@ -38,21 +34,6 @@ export function CtaSection() {
               "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
           }}
         >
-          {/* Inner orbs — vivid, sit inside the panel */}
-          <div className="absolute top-0 right-0 w-80 h-80 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(147,51,234,0.22) 0%, transparent 65%)", transform: "translate(30%, -30%)" }} />
-          <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 65%)", transform: "translate(-25%, 30%)" }} />
-
-          {/* Grid texture */}
-          <div
-            className="absolute inset-0 pointer-events-none opacity-[0.03]"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v1H0zM0 0v40h1V0z' fill='%231A1A2E'/%3E%3C/svg%3E")`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-
-          {/* Inset shine */}
-          <div className="absolute inset-0 rounded-[2rem] pointer-events-none" style={{ boxShadow: "inset 2px 2px 0 rgba(255,255,255,0.9), inset -1px -1px 0 rgba(255,255,255,0.3)" }} />
 
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12">
 
