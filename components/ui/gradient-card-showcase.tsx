@@ -61,14 +61,14 @@ export default function SkewCards({ cards: customCards }: { cards?: CardItem[] }
             </span>
 
             {/* Content */}
-            <div className="relative z-20 left-0 p-[20px_40px] bg-white/60 backdrop-blur-[12px] border border-gray-200 shadow-xl rounded-lg text-gray-900 transition-all duration-500 group-hover:left-[-25px] group-hover:p-[60px_40px] h-full flex flex-col justify-between group-hover:text-white group-hover:border-white/20">
+            <div className="relative z-20 left-0 p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[60px_40px] h-full flex flex-col justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-4 font-['Poppins']">{title}</h2>
-                <p className="text-sm leading-relaxed text-gray-600 font-medium group-hover:text-white/90 transition-colors duration-500">{desc}</p>
+                <p className="text-sm leading-relaxed text-white/80 font-medium">{desc}</p>
               </div>
               <a
                 href={href || "#"}
-                className="inline-block text-center text-sm font-bold text-white bg-gray-900 group-hover:text-gray-900 group-hover:bg-white px-4 py-2 rounded-xl hover:shadow-md transition-all duration-300 self-start mt-4"
+                className="inline-block text-center text-sm font-bold text-black bg-white px-4 py-2 rounded-xl hover:bg-[#ffcf4d] hover:border hover:border-[rgba(255,0,88,0.4)] hover:shadow-md transition-all duration-300 self-start mt-4"
               >
                 Read More
               </a>
