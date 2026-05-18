@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+@import url('https://fonts.cdnfonts.com/css/atteron');
 @import "tailwindcss";
 
 @theme {
@@ -77,14 +77,14 @@
   }
 
   body {
-    font-family: 'Cinzel', Georgia, Cambria, "Times New Roman", Times, serif;
+    font-family: 'Atteron', Georgia, Cambria, "Times New Roman", Times, serif;
     background-color: #ffffff;
     color: #111827;
     line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cinzel', Georgia, Cambria, "Times New Roman", Times, serif;
+    font-family: 'Atteron', Georgia, Cambria, "Times New Roman", Times, serif;
     line-height: 1.2;
     font-weight: 700;
   }
@@ -107,7 +107,7 @@
   background-clip: text;
 }
 
-/* Force override for custom Poppins tailwind utilities to use Cinzel */
+/* Force override for custom Poppins tailwind utilities to use Atteron */
 .font-\[\'Poppins\'\] {
-  font-family: 'Cinzel', Georgia, Cambria, "Times New Roman", Times, serif !important;
+  font-family: 'Atteron', Georgia, Cambria, "Times New Roman", Times, serif !important;
 }
