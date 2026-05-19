@@ -181,6 +181,102 @@ export default function RadialOrbitalTimeline({
     }
   };
 
+  const renderCardContent = (item: TimelineItem, isMobileCard: boolean) => (
+    <>
+      {/* Connection Line (Hidden on Mobile) */}
+      {!isMobileCard && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 bg-gray-300"></div>
+      )}
+      
+      {/* Close button for mobile */}
+      {isMobileCard && (
+        <button 
+          onClick={(e) => { e.stopPropagation(); closeAll(); }}
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 bg-gray-100 rounded-full p-1 z-10"
+        >
+          <X size={14} />
+        </button>
+      )}
+
+      <CardHeader className="pb-2 pt-5 md:pt-6">
+        <div className="flex justify-between items-center pr-6 md:pr-0">
+          <Badge
+            className={`px-2 text-[10px] md:text-xs ${getStatusStyles(
+              item.status
+            )}`}
+          >
+            {item.status === "completed"
+              ? "ACTIVE"
+              : item.status === "in-progress"
+              ? "GROWING"
+              : "ONGOING"}
+          </Badge>
+          <span className="text-[10px] md:text-xs font-mono text-gray-500">
+            {item.date}
+          </span>
+        </div>
+        <CardTitle className="text-sm md:text-base mt-2 text-gray-900 pr-4">
+          {item.title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="text-xs md:text-sm text-gray-600">
+        <p>{item.content}</p>
+
+        <div className="mt-4 pt-3 border-t border-gray-100">
+          <div className="flex justify-between items-center text-xs mb-1">
+            <span className="flex items-center text-gray-700">
+              <Zap size={10} className="mr-1" />
+              Impact Score
+            </span>
+            <span className="font-mono text-gray-800">{item.energy}%</span>
+          </div>
+          <div className="w-full h-1.5 md:h-1 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-[#9333ea] to-[#2563eb]"
+              style={{ width: `${item.energy}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {item.relatedIds.length > 0 && (
+          <div className="mt-4 pt-3 border-t border-gray-100">
+            <div className="flex items-center mb-2">
+              <Link size={10} className="text-gray-500 mr-1" />
+              <h4 className="text-[10px] md:text-xs uppercase tracking-wider font-medium text-gray-500">
+                Connected Services
+              </h4>
+            </div>
+            <div className="flex flex-wrap gap-1 md:gap-1.5">
+              {item.relatedIds.map((relatedId) => {
+                const relatedItem = timelineData.find(
+                  (i) => i.id === relatedId
+                );
+                return (
+                  <Button
+                    key={relatedId}
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center h-7 md:h-6 px-2 py-0 text-[10px] md:text-xs rounded-md md:rounded-none border-gray-200 bg-gray-50 md:bg-transparent hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-all"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleItem(relatedId);
+                    }}
+                  >
+                    {relatedItem?.title}
+                    <ArrowRight
+                      size={10}
+                      className="ml-1 text-gray-400"
+                    />
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </>
+  );
+
   return (
     <div
       className="w-full min-h-[500px] md:min-h-[600px] lg:min-h-[800px] flex flex-col items-center justify-center bg-transparent overflow-hidden relative"
@@ -194,6 +290,22 @@ export default function RadialOrbitalTimeline({
           onClick={closeAll}
         />
       )}
+
+      {/* Mobile Fixed Card - Rendered outside the orbit transform container */}
+      {isMobile && activeNodeId && (() => {
+        const item = timelineData.find(i => i.id === activeNodeId);
+        if (!item) return null;
+        return (
+          <div className="fixed inset-0 flex items-center justify-center z-[300] pointer-events-none">
+            <Card 
+              className="bg-white/95 backdrop-blur-lg border-gray-200 shadow-xl shadow-gray-200/50 overflow-visible w-[90vw] max-w-sm pointer-events-auto"
+              onClick={(e) => e.stopPropagation()} 
+            >
+              {renderCardContent(item, true)}
+            </Card>
+          </div>
+        );
+      })()}
 
       <div className="relative w-full max-w-5xl h-[500px] md:h-[600px] lg:h-[800px] flex items-center justify-center">
         <div
@@ -293,108 +405,13 @@ export default function RadialOrbitalTimeline({
                   {item.title}
                 </div>
 
-                {/* Expanded Card */}
-                {isExpanded && (
+                {/* Desktop Expanded Card - Rendered inside the orbit loop */}
+                {!isMobile && isExpanded && (
                   <Card 
-                    className={cn(
-                      "bg-white/95 backdrop-blur-lg border-gray-200 shadow-xl shadow-gray-200/50 overflow-visible",
-                      isMobile 
-                        ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-sm z-[300]" 
-                        : "absolute top-20 left-1/2 -translate-x-1/2 w-64 z-[250]"
-                    )}
+                    className="absolute top-20 left-1/2 -translate-x-1/2 w-64 z-[250] bg-white/95 backdrop-blur-lg border-gray-200 shadow-xl shadow-gray-200/50 overflow-visible"
                     onClick={(e) => e.stopPropagation()} // Prevent clicking card from closing it
                   >
-                    {/* Connection Line (Hidden on Mobile) */}
-                    {!isMobile && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 bg-gray-300"></div>
-                    )}
-                    
-                    {/* Close button for mobile */}
-                    {isMobile && (
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); closeAll(); }}
-                        className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 bg-gray-100 rounded-full p-1"
-                      >
-                        <X size={14} />
-                      </button>
-                    )}
-
-                    <CardHeader className="pb-2 pt-5 md:pt-6">
-                      <div className="flex justify-between items-center pr-6 md:pr-0">
-                        <Badge
-                          className={`px-2 text-[10px] md:text-xs ${getStatusStyles(
-                            item.status
-                          )}`}
-                        >
-                          {item.status === "completed"
-                            ? "ACTIVE"
-                            : item.status === "in-progress"
-                            ? "GROWING"
-                            : "ONGOING"}
-                        </Badge>
-                        <span className="text-[10px] md:text-xs font-mono text-gray-500">
-                          {item.date}
-                        </span>
-                      </div>
-                      <CardTitle className="text-sm md:text-base mt-2 text-gray-900 pr-4">
-                        {item.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-xs md:text-sm text-gray-600">
-                      <p>{item.content}</p>
-
-                      <div className="mt-4 pt-3 border-t border-gray-100">
-                        <div className="flex justify-between items-center text-xs mb-1">
-                          <span className="flex items-center text-gray-700">
-                            <Zap size={10} className="mr-1" />
-                            Impact Score
-                          </span>
-                          <span className="font-mono text-gray-800">{item.energy}%</span>
-                        </div>
-                        <div className="w-full h-1.5 md:h-1 bg-gray-200 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-gradient-to-r from-[#9333ea] to-[#2563eb]"
-                            style={{ width: `${item.energy}%` }}
-                          ></div>
-                        </div>
-                      </div>
-
-                      {item.relatedIds.length > 0 && (
-                        <div className="mt-4 pt-3 border-t border-gray-100">
-                          <div className="flex items-center mb-2">
-                            <Link size={10} className="text-gray-500 mr-1" />
-                            <h4 className="text-[10px] md:text-xs uppercase tracking-wider font-medium text-gray-500">
-                              Connected Services
-                            </h4>
-                          </div>
-                          <div className="flex flex-wrap gap-1 md:gap-1.5">
-                            {item.relatedIds.map((relatedId) => {
-                              const relatedItem = timelineData.find(
-                                (i) => i.id === relatedId
-                              );
-                              return (
-                                <Button
-                                  key={relatedId}
-                                  variant="outline"
-                                  size="sm"
-                                  className="flex items-center h-7 md:h-6 px-2 py-0 text-[10px] md:text-xs rounded-md md:rounded-none border-gray-200 bg-gray-50 md:bg-transparent hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-all"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    toggleItem(relatedId);
-                                  }}
-                                >
-                                  {relatedItem?.title}
-                                  <ArrowRight
-                                    size={10}
-                                    className="ml-1 text-gray-400"
-                                  />
-                                </Button>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
+                    {renderCardContent(item, false)}
                   </Card>
                 )}
               </div>
