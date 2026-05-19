@@ -172,7 +172,7 @@ export function FocusRail({
   return (
     <div
       className={cn(
-        "group relative flex h-screen w-full flex-col overflow-hidden bg-[#06080c] text-white outline-none select-none overflow-x-hidden justify-center",
+        "group relative flex h-screen w-full flex-col overflow-hidden bg-[#fafafa] text-gray-900 outline-none select-none overflow-x-hidden justify-center",
         className
       )}
       onMouseEnter={() => setIsHovering(true)}
@@ -181,18 +181,8 @@ export function FocusRail({
       onKeyDown={onKeyDown}
       onWheel={onWheel}
     >
-      {/* Page-level background spotlight from top-left, matching the image */}
+      {/* Page-level ambient glow (light mode) */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute -top-[20%] -left-[5%] w-[50%] h-[80%] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at top left, rgba(255,255,255,0.05) 0%, transparent 60%)",
-            transform: "rotate(-15deg)",
-            filter: "blur(40px)",
-          }}
-        />
-        {/* Subtle page ambient glow that shifts with active card */}
         <AnimatePresence mode="popLayout">
           <motion.div
             key={`bg-${activeItem.id}`}
@@ -203,7 +193,7 @@ export function FocusRail({
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(ellipse 60% 50% at 50% 60%, rgba(80,40,180,0.08) 0%, transparent 70%)",
+                "radial-gradient(ellipse 70% 50% at 50% 65%, rgba(147,51,234,0.06) 0%, transparent 70%)",
             }}
           />
         </AnimatePresence>
@@ -266,11 +256,11 @@ export function FocusRail({
                   className="h-full w-full flex flex-col overflow-hidden"
                   style={{
                     borderRadius: "28px",
-                    background: "#0d0f14",
-                    border: "1px solid rgba(255,255,255,0.07)",
+                    background: "#ffffff",
+                    border: "1px solid rgba(0,0,0,0.08)",
                     boxShadow: isCenter
-                      ? "0 32px 80px rgba(0,0,0,0.7), 0 0 0 0.5px rgba(255,255,255,0.06) inset"
-                      : "0 16px 40px rgba(0,0,0,0.5)",
+                      ? "0 24px 60px rgba(0,0,0,0.12), 0 0 0 0.5px rgba(0,0,0,0.04) inset"
+                      : "0 8px 24px rgba(0,0,0,0.06)",
                   }}
                 >
 
@@ -384,13 +374,13 @@ export function FocusRail({
                         className="absolute inset-0 pointer-events-none"
                         style={{
                           backgroundImage:
-                            "radial-gradient(circle, rgba(255,255,255,0.55) 0.7px, transparent 0.7px)",
+                            "radial-gradient(circle, rgba(0,0,0,0.18) 0.7px, transparent 0.7px)",
                           backgroundSize: "5px 5px",
                           maskImage:
                             "radial-gradient(ellipse 70% 60% at 80% 90%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%)",
                           WebkitMaskImage:
                             "radial-gradient(ellipse 70% 60% at 80% 90%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 65%)",
-                          opacity: 0.3,
+                          opacity: 0.4,
                         }}
                       />
                     )}
@@ -401,7 +391,7 @@ export function FocusRail({
                         className="font-bold leading-tight mb-3"
                         style={{
                           fontSize: "clamp(17px, 2vw, 21px)",
-                          color: isCenter ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.35)",
+                          color: isCenter ? "rgba(17,24,39,0.97)" : "rgba(17,24,39,0.30)",
                           transition: "color 0.5s",
                         }}
                       >
@@ -411,7 +401,7 @@ export function FocusRail({
                         className="leading-relaxed line-clamp-4"
                         style={{
                           fontSize: "12px",
-                          color: isCenter ? "rgba(255,255,255,0.62)" : "rgba(255,255,255,0.18)",
+                          color: isCenter ? "rgba(75,85,99,0.90)" : "rgba(17,24,39,0.20)",
                           transition: "color 0.5s",
                         }}
                       >
@@ -428,9 +418,9 @@ export function FocusRail({
                           padding: "8px 22px",
                           borderRadius: "999px",
                           fontSize: "12px",
-                          background: isCenter ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.06)",
-                          color: isCenter ? "#0d0f14" : "rgba(255,255,255,0.35)",
-                          border: isCenter ? "none" : "1px solid rgba(255,255,255,0.08)",
+                          background: isCenter ? "rgba(17,24,39,0.92)" : "rgba(0,0,0,0.04)",
+                          color: isCenter ? "#ffffff" : "rgba(17,24,39,0.25)",
+                          border: isCenter ? "none" : "1px solid rgba(0,0,0,0.08)",
                           pointerEvents: isCenter ? "auto" : "none",
                         }}
                       >
