@@ -225,11 +225,24 @@ export function FocusRail({
                 }}
               >
                 <div className="h-full w-full rounded-[28px] bg-[#ffffff] border border-gray-200/60 shadow-2xl shadow-gray-200/50 overflow-hidden flex flex-col relative group">
-                  {/* The purple glow at the bottom for active card */}
+                  {/* The Inner Gradient & Dotted Texture for the bottom half */}
                   <div className={cn(
-                    "absolute -bottom-16 inset-x-4 h-40 bg-gradient-to-t from-[#9333ea]/30 via-[#2563eb]/10 to-transparent blur-2xl transition-opacity duration-700 z-0 pointer-events-none",
-                    isCenter ? "opacity-100" : "opacity-0"
-                  )} />
+                    "absolute bottom-0 left-0 right-0 h-[65%] transition-all duration-700 pointer-events-none z-0",
+                    isCenter ? "bg-gradient-to-t from-[#9333ea] via-[#b975f8] to-[#9333ea]/0 opacity-100" : "bg-gradient-to-t from-gray-50 to-transparent opacity-100"
+                  )}>
+                    {/* The dotted texture */}
+                    <div className={cn(
+                         "absolute inset-0 transition-opacity duration-700",
+                         isCenter ? "opacity-30" : "opacity-0"
+                       )} 
+                         style={{
+                           backgroundImage: 'radial-gradient(circle at center, #ffffff 1px, transparent 1px)',
+                           backgroundSize: '8px 8px',
+                           maskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+                           WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)'
+                         }} 
+                    />
+                  </div>
 
                   {/* Top visual area */}
                   <div className="w-full h-[55%] p-2 relative z-10">
@@ -268,11 +281,14 @@ export function FocusRail({
                     <div>
                       <h3 className={cn(
                         "text-[20px] md:text-[22px] font-bold leading-tight mb-3 transition-colors duration-700",
-                        isCenter ? "text-gray-900" : "text-gray-400"
+                        isCenter ? "text-white" : "text-gray-400"
                       )}>
                         {item.title}
                       </h3>
-                      <p className="text-xs md:text-sm text-gray-500 leading-relaxed line-clamp-3">
+                      <p className={cn(
+                        "text-xs md:text-sm leading-relaxed line-clamp-3 transition-colors duration-700",
+                        isCenter ? "text-purple-50" : "text-gray-500"
+                      )}>
                         {item.description}
                       </p>
                     </div>
@@ -281,7 +297,7 @@ export function FocusRail({
                       <Link href={item.href || "#"} className={cn(
                         "inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full transition-all duration-300",
                         isCenter 
-                          ? "bg-white text-gray-900 shadow-md shadow-gray-200/50 border border-gray-200 hover:bg-gray-50 hover:shadow-lg" 
+                          ? "bg-white text-[#9333ea] shadow-lg shadow-purple-900/20 hover:scale-105" 
                           : "bg-gray-50 text-gray-400 border border-transparent pointer-events-none"
                       )}>
                         Learn more
@@ -294,28 +310,7 @@ export function FocusRail({
           })}
         </motion.div>
 
-        {/* Navigation Controls Only */}
-        <div className="mx-auto mt-10 flex w-full justify-center pointer-events-auto relative z-20">
-          <div className="flex items-center gap-1 rounded-full bg-white/80 p-1 ring-1 ring-gray-200 backdrop-blur-md shadow-sm">
-            <button
-              onClick={handlePrev}
-              className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
-              aria-label="Previous"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <span className="min-w-[40px] text-center text-xs font-mono text-gray-500">
-              {activeIndex + 1} / {count}
-            </span>
-            <button
-              onClick={handleNext}
-              className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
-              aria-label="Next"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
+
       </div>
     </div>
   );
