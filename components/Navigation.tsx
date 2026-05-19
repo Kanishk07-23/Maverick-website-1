@@ -44,9 +44,11 @@ export function Navigation() {
           <div className="flex w-full items-center justify-between px-6 py-3">
             {/* Logo */}
             <Link href="/" className="flex items-center group">
-              <span className="font-bold text-gray-900 text-2xl tracking-tight font-['Poppins']">
-                M<span className="brand-gradient-text">.</span>
-              </span>
+              <img
+                src="/logo.png"
+                alt="Maverick Digitals"
+                className="h-10 w-10 object-contain"
+              />
             </Link>
 
             <div className="flex items-center gap-6">

@@ -147,10 +147,11 @@ export default function HomePage() {
       <footer className="border-t border-gray-200/60 py-16 relative z-10 bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px]">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gray-900 flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg font-['Poppins']">M</span>
-            </div>
-            <span className="font-bold text-gray-900 text-xl tracking-tight font-['Poppins']">M<span className="text-blue-600">.</span></span>
+            <img
+              src="/logo.png"
+              alt="Maverick Digitals Logo"
+              className="h-12 w-12 object-contain"
+            />
           </div>
           <nav className="flex gap-8 text-sm font-semibold text-gray-500">
             {links.map((l) => (
