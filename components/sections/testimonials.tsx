@@ -40,7 +40,7 @@ export function TestimonialsSection() {
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">Social Proof</p>
-          <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
             What Our Clients Say
           </h2>
         </div>

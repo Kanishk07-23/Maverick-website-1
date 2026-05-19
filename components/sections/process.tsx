@@ -32,7 +32,7 @@ export function ProcessSection() {
 			<div className="mx-auto w-full max-w-5xl space-y-12 px-4">
 				<AnimatedContainer className="mx-auto max-w-3xl text-center">
                     <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">How We Work</p>
-					<h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900">
+					<h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900">
 						Our Proven <span className="brand-gradient-text">4-Step Process</span>
 					</h2>
 					<p className="text-gray-500 mt-6 text-base md:text-lg tracking-wide text-balance">

@@ -48,7 +48,7 @@ const Slogan = () => {
       variants={container}
       initial="hidden"
       animate="show"
-      className="flex flex-wrap justify-center text-6xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-8 max-w-5xl"
+      className="flex flex-wrap justify-center text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
     >
       {words.map((word, index) => (
         <motion.span variants={child} className="mr-[0.25em] pb-2" key={index}>
@@ -86,7 +86,7 @@ export default function HomePage() {
             initial="hidden"
             animate="show"
             custom={3}
-            className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-14 font-medium tracking-tight"
+            className="text-lg sm:text-xl md:text-2xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-10 md:mb-14 font-medium tracking-tight px-4"
           >
             A full-stack digital marketing agency helping ambitious brands scale through high-conversion strategy, immersive storytelling, and flawless execution.
           </motion.p>
@@ -118,7 +118,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6">
             <div>
               <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">What We Do</p>
-              <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
                 Services Built<br />for Growth
               </h2>
             </div>
@@ -150,7 +150,7 @@ export default function HomePage() {
             <div className="w-10 h-10 rounded-xl bg-gray-900 flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg font-['Poppins']">M</span>
             </div>
-            <span className="font-bold text-gray-900 text-xl tracking-tight font-['Poppins']">Maverick Digitals<span className="text-blue-600">.</span></span>
+            <span className="font-bold text-gray-900 text-xl tracking-tight font-['Poppins']">M<span className="text-blue-600">.</span></span>
           </div>
           <nav className="flex gap-8 text-sm font-semibold text-gray-500">
             {links.map((l) => (

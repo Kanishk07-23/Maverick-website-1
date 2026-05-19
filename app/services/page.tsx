@@ -66,7 +66,7 @@ export default function ServicesPage() {
           <p className="text-[#9333ea] font-bold text-xs uppercase tracking-[0.3em] mb-4">
             Our Offerings
           </p>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 leading-[1.1]">
             Everything You Need<br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#9333ea] to-[#2563eb]">
               to Grow Online.
@@ -94,7 +94,7 @@ export default function ServicesPage() {
           <p className="text-[#9333ea] text-xs font-bold uppercase tracking-[0.3em] mb-5">
             Ready to Accelerate?
           </p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-6">
             Let's Build Something{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#9333ea] to-[#2563eb]">
               Remarkable

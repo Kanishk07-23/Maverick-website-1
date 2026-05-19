@@ -46,7 +46,7 @@ export function CtaSection() {
             >
               <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">Ready to grow?</p>
 
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-5 font-['Poppins'] text-gray-900">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-5 font-['Poppins'] text-gray-900">
                 Let&apos;s Build Something{" "}
                 <span className="brand-gradient-text">Extraordinary.</span>
               </h2>

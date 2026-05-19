@@ -101,7 +101,7 @@ export default function AboutPage() {
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="text-7xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.9] mb-6"
+              className="text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.9] mb-6"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               We Are
@@ -114,7 +114,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-2xl md:text-3xl font-semibold text-gray-400 max-w-2xl mt-6 leading-relaxed"
+            className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-400 max-w-2xl mt-6 leading-relaxed"
           >
             Turn Attention Into Revenue.
           </motion.p>
@@ -177,7 +177,7 @@ export default function AboutPage() {
                 <span className="h-px w-8 bg-gradient-to-r from-purple-500 to-blue-600" />
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Our Foundation</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 tracking-tight leading-tight">
                 Built by builders,<br />
                 <span className="brand-gradient-text">for builders.</span>
               </h2>
@@ -223,7 +223,7 @@ export default function AboutPage() {
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">The People</span>
               <span className="h-px w-8 bg-gradient-to-l from-purple-500 to-blue-600" />
             </div>
-            <h2 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tighter leading-tight">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 tracking-tighter leading-tight">
               Meet the <span className="brand-gradient-text">minds</span><br />behind Maverick.
             </h2>
             <p className="text-gray-500 text-lg mt-4 max-w-xl mx-auto leading-relaxed">
