@@ -58,24 +58,27 @@ const services: FocusRailItem[] = [
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-neutral-950 overflow-x-hidden pt-28">
+    <main className="min-h-screen bg-[#fafafa] overflow-x-hidden pt-28">
       {/* ─── Hero Header ──────────────────── */}
       <section className="relative max-w-7xl mx-auto px-6 py-16 text-center z-10">
+        {/* Neon Glow Blob */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[300px] rounded-full bg-purple-500/10 blur-[120px] pointer-events-none" />
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="text-emerald-400 font-bold text-xs uppercase tracking-[0.3em] mb-4">
+          <p className="text-[#9333ea] font-bold text-xs uppercase tracking-[0.3em] mb-4">
             Our Offerings
           </p>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 leading-[1.1]">
             Everything You Need<br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#9333ea] to-[#2563eb]">
               to Grow Online.
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed mx-auto font-medium">
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed mx-auto font-medium">
             We are your premium digital partner. Whether you need a high-performance website, hyper-targeted campaigns, or a compelling personal brand — we execute flawlessly.
           </p>
         </motion.div>
@@ -91,26 +94,26 @@ export default function ServicesPage() {
       </section>
 
       {/* ─── CTA Section ────────────────────────────── */}
-      <section className="relative py-28 px-6 text-center overflow-hidden bg-neutral-900 border-t border-neutral-800">
+      <section className="relative py-28 px-6 text-center overflow-hidden bg-white border-t border-gray-200">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-emerald-500/10 blur-[100px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-purple-600/10 blur-[100px]" />
         </div>
         <div className="relative z-10 max-w-3xl mx-auto">
-          <p className="text-emerald-400 text-xs font-bold uppercase tracking-[0.3em] mb-5">
+          <p className="text-[#9333ea] text-xs font-bold uppercase tracking-[0.3em] mb-5">
             Ready to Accelerate?
           </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-6">
             Let's Build Something{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#9333ea] to-[#2563eb]">
               Remarkable
             </span>
           </h2>
-          <p className="text-neutral-400 text-lg mb-10 max-w-xl mx-auto leading-relaxed font-medium">
+          <p className="text-gray-600 text-lg mb-10 max-w-xl mx-auto leading-relaxed font-medium">
             Schedule a free consultation call with our team and let us design a customized hyper-growth plan tailored specifically to your objectives.
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold text-neutral-950 transition-all duration-300 hover:gap-5 hover:shadow-2xl group bg-gradient-to-r from-emerald-400 to-cyan-400 hover:brightness-110 shadow-lg shadow-emerald-500/20"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold text-white transition-all duration-300 hover:gap-5 hover:shadow-2xl group bg-gradient-to-r from-[#9333ea] to-[#2563eb] hover:brightness-110 shadow-lg shadow-purple-500/20"
           >
             Get in Touch
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />

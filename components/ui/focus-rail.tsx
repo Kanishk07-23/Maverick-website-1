@@ -139,7 +139,7 @@ export function FocusRail({
   return (
     <div
       className={cn(
-        "group relative flex h-[600px] w-full flex-col overflow-hidden bg-neutral-950 text-white outline-none select-none overflow-x-hidden",
+        "group relative flex h-[600px] w-full flex-col overflow-hidden bg-[#fafafa] text-gray-900 outline-none select-none overflow-x-hidden",
         className
       )}
       onMouseEnter={() => setIsHovering(true)}
@@ -164,7 +164,7 @@ export function FocusRail({
               alt=""
               className="h-full w-full object-cover blur-3xl saturate-200"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#fafafa] via-[#fafafa]/50 to-transparent" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -203,8 +203,8 @@ export function FocusRail({
               <motion.div
                 key={absIndex}
                 className={cn(
-                  "absolute aspect-[3/4] w-[260px] md:w-[300px] rounded-2xl border-t border-white/20 bg-neutral-900 shadow-2xl transition-shadow duration-300",
-                  isCenter ? "z-20 shadow-white/10" : "z-10"
+                  "absolute aspect-[3/4] w-[260px] md:w-[300px] rounded-2xl border-t border-gray-200 bg-white shadow-2xl transition-shadow duration-300",
+                  isCenter ? "z-20 shadow-gray-300" : "z-10 shadow-gray-200/50"
                 )}
                 initial={false}
                 animate={{
@@ -233,7 +233,7 @@ export function FocusRail({
                 />
 
                 {/* Lighting layers */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-black/5 to-transparent pointer-events-none" />
                 <div className="absolute inset-0 rounded-2xl bg-black/10 pointer-events-none mix-blend-multiply" />
               </motion.div>
             );
@@ -253,15 +253,15 @@ export function FocusRail({
                 className="space-y-2"
               >
                 {activeItem.meta && (
-                  <span className="text-xs font-medium uppercase tracking-wider text-emerald-400">
+                  <span className="text-xs font-medium uppercase tracking-wider text-[#9333ea]">
                     {activeItem.meta}
                   </span>
                 )}
-                <h2 className="text-3xl font-bold tracking-tight md:text-4xl text-white">
+                <h2 className="text-3xl font-bold tracking-tight md:text-4xl text-gray-900">
                   {activeItem.title}
                 </h2>
                 {activeItem.description && (
-                  <p className="max-w-md text-neutral-400">
+                  <p className="max-w-md text-gray-600">
                     {activeItem.description}
                   </p>
                 )}
@@ -270,20 +270,20 @@ export function FocusRail({
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1 rounded-full bg-neutral-900/80 p-1 ring-1 ring-white/10 backdrop-blur-md">
+            <div className="flex items-center gap-1 rounded-full bg-white/80 p-1 ring-1 ring-gray-200 backdrop-blur-md">
               <button
                 onClick={handlePrev}
-                className="rounded-full p-3 text-neutral-400 transition hover:bg-white/10 hover:text-white active:scale-95"
+                className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
                 aria-label="Previous"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
-              <span className="min-w-[40px] text-center text-xs font-mono text-neutral-500">
+              <span className="min-w-[40px] text-center text-xs font-mono text-gray-500">
                 {activeIndex + 1} / {count}
               </span>
               <button
                 onClick={handleNext}
-                className="rounded-full p-3 text-neutral-400 transition hover:bg-white/10 hover:text-white active:scale-95"
+                className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
                 aria-label="Next"
               >
                 <ChevronRight className="h-5 w-5" />
@@ -293,7 +293,7 @@ export function FocusRail({
             {activeItem.href && (
               <Link
                 href={activeItem.href}
-                className="group flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition-transform hover:scale-105 active:scale-95"
+                className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-[#9333ea] to-[#2563eb] px-5 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 active:scale-95"
               >
                 Explore
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
