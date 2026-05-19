@@ -65,6 +65,10 @@ export function ProjectShowcase({ projects = defaultProjects }: { projects?: Pro
   const containerRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number | null>(null)
 
+  const touchTimeoutRef = useRef<any>(null)
+  const isHoldRef = useRef(false)
+  const touchStartPos = useRef({ x: 0, y: 0 })
+
   useEffect(() => {
     const lerp = (start: number, end: number, factor: number) => {
       return start + (end - start) * factor
@@ -84,6 +88,9 @@ export function ProjectShowcase({ projects = defaultProjects }: { projects?: Pro
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
+      if (touchTimeoutRef.current) {
+        clearTimeout(touchTimeoutRef.current)
+      }
     }
   }, [mousePosition])
 
@@ -98,6 +105,7 @@ export function ProjectShowcase({ projects = defaultProjects }: { projects?: Pro
   }
 
   const handleMouseEnter = (index: number) => {
+    isHoldRef.current = false
     setHoveredIndex(index)
     setIsVisible(true)
   }
@@ -105,6 +113,57 @@ export function ProjectShowcase({ projects = defaultProjects }: { projects?: Pro
   const handleMouseLeave = () => {
     setHoveredIndex(null)
     setIsVisible(false)
+  }
+
+  const handleTouchStart = (index: number, e: React.TouchEvent) => {
+    const touch = e.touches[0]
+    touchStartPos.current = { x: touch.clientX, y: touch.clientY }
+    isHoldRef.current = false
+
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect()
+      setMousePosition({
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      })
+    }
+
+    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current)
+    touchTimeoutRef.current = setTimeout(() => {
+      isHoldRef.current = true
+      setHoveredIndex(index)
+      setIsVisible(true)
+    }, 200)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const touch = e.touches[0]
+    const dist = Math.hypot(touch.clientX - touchStartPos.current.x, touch.clientY - touchStartPos.current.y)
+
+    if (dist > 15) {
+      if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current)
+      setHoveredIndex(null)
+      setIsVisible(false)
+      isHoldRef.current = true
+    } else if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect()
+      setMousePosition({
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      })
+    }
+  }
+
+  const handleTouchEnd = () => {
+    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current)
+    setHoveredIndex(null)
+    setIsVisible(false)
+  }
+
+  const handleLinkClick = (e: React.MouseEvent) => {
+    if (isHoldRef.current) {
+      e.preventDefault()
+    }
   }
 
   return (
@@ -144,9 +203,13 @@ export function ProjectShowcase({ projects = defaultProjects }: { projects?: Pro
           <a
             key={project.title}
             href={project.link}
-            className="group block"
+            className="group block select-none"
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={handleMouseLeave}
+            onTouchStart={(e) => handleTouchStart(index, e)}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onClick={handleLinkClick}
           >
             <div className="relative py-6 md:py-8 border-t border-border transition-all duration-300 ease-out">
               {/* Background highlight on hover */}
