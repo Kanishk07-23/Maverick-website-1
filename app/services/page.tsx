@@ -58,7 +58,7 @@ const services: FocusRailItem[] = [
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-[#fafafa] overflow-hidden flex flex-col justify-center relative">
+    <main className="min-h-screen bg-[#06080c] overflow-hidden flex flex-col justify-center relative">
       <section className="relative z-10 w-full h-screen flex items-center justify-center pt-20">
         <FocusRail 
           items={services} 
