@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight } from "lucide-react";
-import { ProjectShowcase } from "@/components/ui/project-showcase";
+import { ArrowRight, ChevronRight, Calendar, Code, FileText, User, Clock } from "lucide-react";
+import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
 import { GlassButton } from "@/components/ui/liquid-glass";
 import { TestimonialsSection } from "@/components/sections/testimonials";
 
@@ -68,6 +68,64 @@ const links = [
   { name: "Contact", path: "/contact" },
 ];
 
+const timelineData = [
+  {
+    id: 1,
+    title: "Brand Strategy",
+    date: "Phase 1",
+    content: "Defining your brand architecture, positioning, and visual identity to stand out.",
+    category: "Strategy",
+    icon: FileText,
+    relatedIds: [2],
+    status: "completed" as const,
+    energy: 100,
+  },
+  {
+    id: 2,
+    title: "UI/UX Design",
+    date: "Phase 2",
+    content: "Crafting beautiful, high-converting digital experiences and user interfaces.",
+    category: "Design",
+    icon: Code,
+    relatedIds: [1, 3],
+    status: "in-progress" as const,
+    energy: 90,
+  },
+  {
+    id: 3,
+    title: "Web Development",
+    date: "Phase 3",
+    content: "Building scalable, lightning-fast platforms with cutting-edge tech.",
+    category: "Development",
+    icon: Calendar,
+    relatedIds: [2, 4],
+    status: "in-progress" as const,
+    energy: 60,
+  },
+  {
+    id: 4,
+    title: "SEO & Growth",
+    date: "Phase 4",
+    content: "Driving high-intent organic traffic through search optimization.",
+    category: "Growth",
+    icon: User,
+    relatedIds: [3, 5],
+    status: "pending" as const,
+    energy: 30,
+  },
+  {
+    id: 5,
+    title: "Performance Ads",
+    date: "Phase 5",
+    content: "Scaling your revenue with laser-focused paid campaigns.",
+    category: "Marketing",
+    icon: Clock,
+    relatedIds: [4],
+    status: "pending" as const,
+    energy: 10,
+  },
+];
+
 export default function HomePage() {
   return (
     <main className="overflow-x-hidden">
@@ -127,7 +185,9 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <ProjectShowcase />
+          <div className="relative mt-12 w-full flex justify-center">
+            <RadialOrbitalTimeline timelineData={timelineData} />
+          </div>
         </div>
       </section>
 
