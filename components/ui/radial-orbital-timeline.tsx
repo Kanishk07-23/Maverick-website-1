@@ -111,10 +111,10 @@ export default function RadialOrbitalTimeline({
     if (autoRotate && viewMode === "orbital") {
       rotationTimer = setInterval(() => {
         setRotationAngle((prev) => {
-          const newAngle = (prev + 0.3) % 360;
+          const newAngle = (prev + 0.1) % 360;
           return Number(newAngle.toFixed(3));
         });
-      }, 50);
+      }, 16);
     }
 
     return () => {
@@ -348,7 +348,10 @@ export default function RadialOrbitalTimeline({
               <div
                 key={item.id}
                 ref={(el) => { nodeRefs.current[item.id] = el; }}
-                className="absolute transition-all duration-700 cursor-pointer"
+                className={cn(
+                  "absolute cursor-pointer",
+                  autoRotate ? "transition-opacity duration-700" : "transition-all duration-700 ease-out"
+                )}
                 style={nodeStyle}
                 onClick={(e) => {
                   e.stopPropagation();
