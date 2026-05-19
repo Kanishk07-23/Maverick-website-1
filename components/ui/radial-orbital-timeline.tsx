@@ -298,7 +298,7 @@ export default function RadialOrbitalTimeline({
         return (
           <div className="fixed inset-0 flex items-center justify-center z-[300] pointer-events-none">
             <Card 
-              className="bg-white/95 backdrop-blur-lg border-gray-200 shadow-xl shadow-gray-200/50 overflow-visible w-[90vw] max-w-sm pointer-events-auto"
+              className="bg-white/50 backdrop-blur-xl border border-white/60 shadow-2xl shadow-purple-500/10 overflow-visible w-[90vw] max-w-sm pointer-events-auto"
               onClick={(e) => e.stopPropagation()} 
             >
               {renderCardContent(item, true)}
@@ -307,9 +307,9 @@ export default function RadialOrbitalTimeline({
         );
       })()}
 
-      <div className="relative w-full max-w-5xl h-[500px] md:h-[600px] lg:h-[800px] flex items-center justify-center">
+      <div className="relative w-full max-w-5xl h-[500px] md:h-[600px] lg:h-[800px]">
         <div
-          className="absolute w-full h-full flex items-center justify-center"
+          className="absolute w-full h-full"
           ref={orbitRef}
           style={{
             perspective: "1000px",
@@ -317,7 +317,7 @@ export default function RadialOrbitalTimeline({
           }}
         >
           {/* Central Energy Core */}
-          <div className="absolute w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-purple-500 via-blue-500 to-teal-500 animate-pulse flex items-center justify-center z-10">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-purple-500 via-blue-500 to-teal-500 animate-pulse flex items-center justify-center z-10">
             <div className="absolute w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full border border-[#9333ea]/20 animate-ping opacity-70"></div>
             <div
               className="absolute w-20 h-20 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full border border-[#9333ea]/10 animate-ping opacity-50"
@@ -327,7 +327,7 @@ export default function RadialOrbitalTimeline({
           </div>
 
           {/* Outer Orbit Ring */}
-          <div className="absolute w-[280px] h-[280px] md:w-[440px] md:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full border border-gray-200"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[440px] md:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full border border-gray-200"></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
@@ -337,7 +337,9 @@ export default function RadialOrbitalTimeline({
             const Icon = item.icon;
 
             const nodeStyle = {
-              transform: `translate(${position.x}px, ${position.y}px)`,
+              top: '50%',
+              left: '50%',
+              transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
               zIndex: isExpanded ? 200 : position.zIndex,
               opacity: isExpanded ? 1 : position.opacity,
             };
@@ -398,8 +400,8 @@ export default function RadialOrbitalTimeline({
                   className={`
                   absolute top-12 md:top-14 lg:top-16 whitespace-nowrap
                   text-xs lg:text-sm font-semibold tracking-wider
-                  transition-all duration-300 left-1/2 -translate-x-1/2
-                  ${isExpanded ? "text-gray-900 scale-125 opacity-0 md:opacity-100" : "text-gray-500"}
+                  transition-all duration-300 left-1/2 -translate-x-1/2 pointer-events-none
+                  ${isExpanded ? "opacity-0" : "text-gray-600 opacity-100"}
                 `}
                 >
                   {item.title}
@@ -408,7 +410,7 @@ export default function RadialOrbitalTimeline({
                 {/* Desktop Expanded Card - Rendered inside the orbit loop */}
                 {!isMobile && isExpanded && (
                   <Card 
-                    className="absolute top-20 left-1/2 -translate-x-1/2 w-64 z-[250] bg-white/95 backdrop-blur-lg border-gray-200 shadow-xl shadow-gray-200/50 overflow-visible"
+                    className="absolute top-20 left-1/2 -translate-x-1/2 w-64 z-[250] bg-white/50 backdrop-blur-xl border border-white/60 shadow-2xl shadow-purple-500/10 overflow-visible"
                     onClick={(e) => e.stopPropagation()} // Prevent clicking card from closing it
                   >
                     {renderCardContent(item, false)}
