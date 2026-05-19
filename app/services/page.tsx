@@ -84,8 +84,7 @@ export default function ServicesPage() {
         </motion.div>
       </section>
 
-      {/* ─── Focus Rail Showcase ──────────────── */}
-      <section className="relative z-10 w-full flex items-center justify-center pb-24">
+      <section className="relative z-10 w-full flex items-center justify-center">
         <FocusRail 
           items={services} 
           autoPlay={false} 

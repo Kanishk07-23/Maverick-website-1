@@ -139,7 +139,7 @@ export function FocusRail({
   return (
     <div
       className={cn(
-        "group relative flex h-[600px] w-full flex-col overflow-hidden bg-[#fafafa] text-gray-900 outline-none select-none overflow-x-hidden",
+        "group relative flex h-[650px] w-full flex-col overflow-hidden bg-[#090d16] text-white outline-none select-none overflow-x-hidden",
         className
       )}
       onMouseEnter={() => setIsHovering(true)}
@@ -148,20 +148,22 @@ export function FocusRail({
       onKeyDown={onKeyDown}
       onWheel={onWheel}
     >
-      {/* Background Ambience */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* Background Ambience & Spotlight */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Spotlight light ray from top-left */}
+        <div className="absolute -top-[30%] -left-[10%] w-[70%] h-[160%] bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.08),transparent_65%)] -rotate-12 pointer-events-none" />
+        <div className="absolute top-0 left-0 w-[40%] h-full bg-gradient-to-br from-white/[0.04] via-transparent to-transparent -rotate-12 blur-[10px] pointer-events-none" />
+        
+        {/* Ambient background glow behind the active card */}
         <AnimatePresence mode="popLayout">
           <motion.div
             key={`bg-${activeItem.id}`}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.4 }}
+            animate={{ opacity: 0.15 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="absolute inset-0"
-          >
-            <div className="h-full w-full bg-gradient-to-br from-purple-400/20 via-blue-400/20 to-transparent blur-3xl" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#fafafa] via-[#fafafa]/80 to-transparent" />
-          </motion.div>
+            className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/10 blur-3xl"
+          />
         </AnimatePresence>
       </div>
 
@@ -293,21 +295,21 @@ export function FocusRail({
         </motion.div>
 
         {/* Navigation Controls Only */}
-        <div className="mx-auto mt-10 flex w-full justify-center pointer-events-auto">
-          <div className="flex items-center gap-1 rounded-full bg-white/80 p-1 ring-1 ring-gray-200 backdrop-blur-md shadow-sm">
+        <div className="mx-auto mt-10 flex w-full justify-center pointer-events-auto relative z-20">
+          <div className="flex items-center gap-1 rounded-full bg-white/5 p-1 ring-1 ring-white/10 backdrop-blur-md shadow-lg">
             <button
               onClick={handlePrev}
-              className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
+              className="rounded-full p-3 text-gray-400 transition hover:bg-white/10 hover:text-white active:scale-95"
               aria-label="Previous"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
-            <span className="min-w-[40px] text-center text-xs font-mono text-gray-500">
+            <span className="min-w-[40px] text-center text-xs font-mono text-gray-400">
               {activeIndex + 1} / {count}
             </span>
             <button
               onClick={handleNext}
-              className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
+              className="rounded-full p-3 text-gray-400 transition hover:bg-white/10 hover:text-white active:scale-95"
               aria-label="Next"
             >
               <ChevronRight className="h-5 w-5" />
