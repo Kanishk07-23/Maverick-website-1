@@ -51,56 +51,56 @@ const TAP_SPRING = {
 const CARD_THEMES = [
   {
     // Warm gold / amber
-    topBase: "bg-[#1a1408]",
-    topGlow: "rgba(180,130,40,0.55)",
-    hexBorder: "rgba(200,160,60,0.35)",
-    hexGlow: "rgba(180,130,40,0.15)",
-    iconColor: "text-amber-200",
-    bottomGlow: null, // inactive cards: no glow
+    topBase: "#1a1204",
+    topGlow: "rgba(200,150,30,0.90)",
+    hexBorder: "rgba(220,170,60,0.60)",
+    hexGlow: "rgba(200,140,30,0.40)",
+    iconColor: "text-amber-100",
+    bottomGlow: null,
   },
   {
     // Blue-purple (active card in image)
-    topBase: "bg-[#0d0d1e]",
-    topGlow: "rgba(100,80,220,0.70)",
-    hexBorder: "rgba(140,100,255,0.45)",
-    hexGlow: "rgba(120,80,240,0.25)",
-    iconColor: "text-purple-200",
-    bottomGlow: "rgba(120,40,200,0.55)", // purple radial from bottom
+    topBase: "#080818",
+    topGlow: "rgba(110,70,240,0.95)",
+    hexBorder: "rgba(150,110,255,0.65)",
+    hexGlow: "rgba(130,80,255,0.45)",
+    iconColor: "text-purple-100",
+    bottomGlow: "rgba(120,40,210,0.45)",
   },
   {
     // Rose / mauve
-    topBase: "bg-[#180d12]",
-    topGlow: "rgba(180,70,120,0.55)",
-    hexBorder: "rgba(200,100,140,0.35)",
-    hexGlow: "rgba(180,70,120,0.15)",
-    iconColor: "text-rose-200",
+    topBase: "#160a10",
+    topGlow: "rgba(200,60,120,0.90)",
+    hexBorder: "rgba(220,100,150,0.55)",
+    hexGlow: "rgba(190,60,110,0.35)",
+    iconColor: "text-rose-100",
     bottomGlow: null,
   },
   {
     // Teal
-    topBase: "bg-[#091412]",
-    topGlow: "rgba(40,170,150,0.55)",
-    hexBorder: "rgba(60,200,170,0.35)",
-    hexGlow: "rgba(40,170,150,0.15)",
-    iconColor: "text-teal-200",
+    topBase: "#061210",
+    topGlow: "rgba(20,180,150,0.90)",
+    hexBorder: "rgba(40,210,170,0.55)",
+    hexGlow: "rgba(20,170,140,0.35)",
+    iconColor: "text-teal-100",
     bottomGlow: null,
   },
   {
     // Cyan-blue
-    topBase: "bg-[#080e18]",
-    topGlow: "rgba(40,140,220,0.55)",
-    hexBorder: "rgba(60,160,240,0.35)",
-    hexGlow: "rgba(40,140,220,0.15)",
-    iconColor: "text-cyan-200",
+    topBase: "#060c18",
+    topGlow: "rgba(20,130,230,0.90)",
+    hexBorder: "rgba(50,160,255,0.55)",
+    hexGlow: "rgba(20,130,220,0.35)",
+    iconColor: "text-cyan-100",
     bottomGlow: null,
   },
   {
     // Violet-indigo
-    topBase: "bg-[#0e0a1a]",
-    topGlow: "rgba(120,60,220,0.55)",
-    hexBorder: "rgba(150,90,255,0.35)",
-    hexGlow: "rgba(120,60,220,0.15)",
-    iconColor: "text-violet-200",
+    topBase: "#0a0818",
+    topGlow: "rgba(130,50,230,0.90)",
+    hexBorder: "rgba(160,90,255,0.55)",
+    hexGlow: "rgba(130,50,220,0.35)",
+    iconColor: "text-violet-100",
     bottomGlow: null,
   },
 ];
@@ -172,7 +172,7 @@ export function FocusRail({
   return (
     <div
       className={cn(
-        "group relative flex h-screen w-full flex-col overflow-hidden bg-[#fafafa] text-gray-900 outline-none select-none overflow-x-hidden justify-center",
+        "group relative flex h-screen w-full flex-col overflow-hidden bg-transparent text-gray-900 outline-none select-none overflow-x-hidden justify-center",
         className
       )}
       onMouseEnter={() => setIsHovering(true)}
@@ -271,10 +271,7 @@ export function FocusRail({
                       className="relative w-full h-full overflow-hidden flex items-center justify-center"
                       style={{
                         borderRadius: "20px",
-                        background: theme.topBase.replace("bg-", ""),
-                        backgroundColor: theme.topBase.includes("[") 
-                          ? theme.topBase.replace("bg-[", "").replace("]", "") 
-                          : undefined,
+                        background: theme.topBase,
                       }}
                     >
                       {/* The coloured ambient glow in the centre of the top panel */}
