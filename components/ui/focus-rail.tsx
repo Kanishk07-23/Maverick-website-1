@@ -159,12 +159,8 @@ export function FocusRail({
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="absolute inset-0"
           >
-            <img
-              src={activeItem.imageSrc}
-              alt=""
-              className="h-full w-full object-cover blur-3xl saturate-200"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#fafafa] via-[#fafafa]/50 to-transparent" />
+            <div className="h-full w-full bg-gradient-to-br from-purple-400/20 via-blue-400/20 to-transparent blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#fafafa] via-[#fafafa]/80 to-transparent" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -226,15 +222,26 @@ export function FocusRail({
                   if (offset !== 0) setActive((p) => p + offset);
                 }}
               >
-                <img
-                  src={item.imageSrc}
-                  alt={item.title}
-                  className="h-full w-full rounded-2xl object-cover pointer-events-none"
-                />
-
-                {/* Lighting layers */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-black/5 to-transparent pointer-events-none" />
-                <div className="absolute inset-0 rounded-2xl bg-black/10 pointer-events-none mix-blend-multiply" />
+                <div className="h-full w-full rounded-2xl bg-white p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
+                  <div className="absolute top-2 right-2 text-[120px] font-black text-gray-50/80 leading-none select-none pointer-events-none tracking-tighter">
+                    {index + 1}
+                  </div>
+                  <div className="relative z-10 h-full flex flex-col justify-between">
+                    <div>
+                      {item.meta && (
+                        <span className="text-xs font-bold uppercase tracking-widest text-[#9333ea] mb-3 block">
+                          {item.meta}
+                        </span>
+                      )}
+                      <h3 className="text-2xl font-extrabold text-gray-900 leading-tight">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <div className="w-12 h-12 rounded-full border border-gray-100 bg-gray-50 flex items-center justify-center text-[#9333ea] group-hover:scale-110 transition-transform">
+                      <ArrowUpRight className="h-5 w-5" />
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             );
           })}
