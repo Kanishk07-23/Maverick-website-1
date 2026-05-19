@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowUpRight, Feather, Layout, Monitor, Search, BarChart3, Fingerprint, Hexagon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -169,7 +169,7 @@ export function FocusRail({
       <div className="relative z-10 flex flex-1 flex-col justify-center px-4 md:px-8">
         {/* DRAGGABLE RAIL CONTAINER */}
         <motion.div
-          className="relative mx-auto flex h-[360px] w-full max-w-6xl items-center justify-center perspective-[1200px] cursor-grab active:cursor-grabbing"
+          className="relative mx-auto flex h-[480px] w-full max-w-6xl items-center justify-center perspective-[1200px] cursor-grab active:cursor-grabbing"
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.2}
@@ -199,14 +199,14 @@ export function FocusRail({
               <motion.div
                 key={absIndex}
                 className={cn(
-                  "absolute aspect-[3/4] w-[260px] md:w-[300px] rounded-2xl border-t border-gray-200 bg-white shadow-2xl transition-shadow duration-300",
-                  isCenter ? "z-20 shadow-gray-300" : "z-10 shadow-gray-200/50"
+                  "absolute h-[400px] md:h-[460px] w-[280px] md:w-[320px] transition-shadow duration-300",
+                  isCenter ? "z-20" : "z-10"
                 )}
                 initial={false}
                 animate={{
                   x: xOffset,
                   z: zOffset,
-                  scale: scale, // Trigger "tap" via TAP_SPRING when this changes
+                  scale: scale,
                   rotateY: rotateY,
                   opacity: opacity,
                   filter: `blur(${blur}px) brightness(${brightness})`,
@@ -222,23 +222,68 @@ export function FocusRail({
                   if (offset !== 0) setActive((p) => p + offset);
                 }}
               >
-                <div className="h-full w-full rounded-2xl bg-white p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
-                  <div className="absolute top-2 right-2 text-[120px] font-black text-gray-50/80 leading-none select-none pointer-events-none tracking-tighter">
-                    {index + 1}
+                <div className="h-full w-full rounded-[28px] bg-[#ffffff] border border-gray-200/60 shadow-2xl shadow-gray-200/50 overflow-hidden flex flex-col relative group">
+                  {/* The purple glow at the bottom for active card */}
+                  <div className={cn(
+                    "absolute -bottom-16 inset-x-4 h-40 bg-gradient-to-t from-[#9333ea]/30 via-[#2563eb]/10 to-transparent blur-2xl transition-opacity duration-700 z-0 pointer-events-none",
+                    isCenter ? "opacity-100" : "opacity-0"
+                  )} />
+
+                  {/* Top visual area */}
+                  <div className="w-full h-[55%] p-2 relative z-10">
+                    <div className={cn(
+                      "w-full h-full rounded-[20px] relative overflow-hidden flex items-center justify-center transition-colors duration-700",
+                      isCenter ? "bg-gradient-to-br from-purple-50 to-blue-50" : "bg-gray-100/50"
+                    )}>
+                      {/* Glossy light streaks */}
+                      <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-br from-white/80 via-transparent to-transparent rotate-12 pointer-events-none opacity-80" />
+                      
+                      {/* Icon Container */}
+                      <div className={cn(
+                        "relative z-10 w-20 h-20 md:w-24 md:h-24 rounded-[24px] flex items-center justify-center backdrop-blur-md border transition-all duration-700",
+                        isCenter ? "bg-white/60 border-white shadow-[0_8px_30px_rgb(147,51,234,0.12)]" : "bg-white/40 border-white/50 shadow-sm"
+                      )}>
+                        <div className="absolute inset-0 rounded-[24px] bg-gradient-to-br from-white/80 to-transparent opacity-60 pointer-events-none" />
+                        
+                        <div className={cn(
+                          "relative z-20 transition-colors duration-700",
+                          isCenter ? "text-[#9333ea]" : "text-gray-400"
+                        )}>
+                          {index === 0 ? <Feather className="w-8 h-8 md:w-10 md:h-10" strokeWidth={1.5} /> :
+                           index === 1 ? <Layout className="w-8 h-8 md:w-10 md:h-10" strokeWidth={1.5} /> :
+                           index === 2 ? <Monitor className="w-8 h-8 md:w-10 md:h-10" strokeWidth={1.5} /> :
+                           index === 3 ? <Search className="w-8 h-8 md:w-10 md:h-10" strokeWidth={1.5} /> :
+                           index === 4 ? <BarChart3 className="w-8 h-8 md:w-10 md:h-10" strokeWidth={1.5} /> :
+                           index === 5 ? <Fingerprint className="w-8 h-8 md:w-10 md:h-10" strokeWidth={1.5} /> :
+                           <Hexagon className="w-8 h-8 md:w-10 md:h-10" strokeWidth={1.5} />}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="relative z-10 h-full flex flex-col justify-between">
+
+                  {/* Bottom text area */}
+                  <div className="flex-1 px-6 pt-4 pb-6 flex flex-col justify-between relative z-10">
                     <div>
-                      {item.meta && (
-                        <span className="text-xs font-bold uppercase tracking-widest text-[#9333ea] mb-3 block">
-                          {item.meta}
-                        </span>
-                      )}
-                      <h3 className="text-2xl font-extrabold text-gray-900 leading-tight">
+                      <h3 className={cn(
+                        "text-[20px] md:text-[22px] font-bold leading-tight mb-3 transition-colors duration-700",
+                        isCenter ? "text-gray-900" : "text-gray-400"
+                      )}>
                         {item.title}
                       </h3>
+                      <p className="text-xs md:text-sm text-gray-500 leading-relaxed line-clamp-3">
+                        {item.description}
+                      </p>
                     </div>
-                    <div className="w-12 h-12 rounded-full border border-gray-100 bg-gray-50 flex items-center justify-center text-[#9333ea] group-hover:scale-110 transition-transform">
-                      <ArrowUpRight className="h-5 w-5" />
+                    
+                    <div className="mt-4">
+                      <Link href={item.href || "#"} className={cn(
+                        "inline-flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-full transition-all duration-300",
+                        isCenter 
+                          ? "bg-white text-gray-900 shadow-md shadow-gray-200/50 border border-gray-200 hover:bg-gray-50 hover:shadow-lg" 
+                          : "bg-gray-50 text-gray-400 border border-transparent pointer-events-none"
+                      )}>
+                        Learn more
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -247,65 +292,26 @@ export function FocusRail({
           })}
         </motion.div>
 
-        {/* Info & Controls */}
-        <div className="mx-auto mt-12 flex w-full max-w-4xl flex-col items-center justify-between gap-6 md:flex-row pointer-events-auto">
-          <div className="flex flex-1 flex-col items-center text-center md:items-start md:text-left h-32 justify-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeItem.id}
-                initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
-                transition={{ duration: 0.3 }}
-                className="space-y-2"
-              >
-                {activeItem.meta && (
-                  <span className="text-xs font-medium uppercase tracking-wider text-[#9333ea]">
-                    {activeItem.meta}
-                  </span>
-                )}
-                <h2 className="text-3xl font-bold tracking-tight md:text-4xl text-gray-900">
-                  {activeItem.title}
-                </h2>
-                {activeItem.description && (
-                  <p className="max-w-md text-gray-600">
-                    {activeItem.description}
-                  </p>
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1 rounded-full bg-white/80 p-1 ring-1 ring-gray-200 backdrop-blur-md">
-              <button
-                onClick={handlePrev}
-                className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
-                aria-label="Previous"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <span className="min-w-[40px] text-center text-xs font-mono text-gray-500">
-                {activeIndex + 1} / {count}
-              </span>
-              <button
-                onClick={handleNext}
-                className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
-                aria-label="Next"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
-
-            {activeItem.href && (
-              <Link
-                href={activeItem.href}
-                className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-[#9333ea] to-[#2563eb] px-5 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 active:scale-95"
-              >
-                Explore
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </Link>
-            )}
+        {/* Navigation Controls Only */}
+        <div className="mx-auto mt-10 flex w-full justify-center pointer-events-auto">
+          <div className="flex items-center gap-1 rounded-full bg-white/80 p-1 ring-1 ring-gray-200 backdrop-blur-md shadow-sm">
+            <button
+              onClick={handlePrev}
+              className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <span className="min-w-[40px] text-center text-xs font-mono text-gray-500">
+              {activeIndex + 1} / {count}
+            </span>
+            <button
+              onClick={handleNext}
+              className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 active:scale-95"
+              aria-label="Next"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
           </div>
         </div>
       </div>
