@@ -1,7 +1,6 @@
-"use client" 
+"use client"
 
 import * as React from "react"
-
 import { VariantProps, cva } from "class-variance-authority"
 import {
   HTMLMotionProps,
@@ -9,9 +8,9 @@ import {
   motion,
   useMotionTemplate,
   useScroll,
+  useSpring,
   useTransform,
 } from "framer-motion"
-
 import { cn } from "@/lib/utils"
 
 const cardVariants = cva("absolute will-change-transform", {
@@ -26,10 +25,12 @@ const cardVariants = cva("absolute will-change-transform", {
     variant: "light",
   },
 })
+
 interface ReviewProps extends React.HTMLAttributes<HTMLDivElement> {
   rating: number
   maxRating?: number
 }
+
 interface CardStickyProps
   extends HTMLMotionProps<"div">,
     VariantProps<typeof cardVariants> {
@@ -39,6 +40,7 @@ interface CardStickyProps
   incrementZ?: number
   incrementRotation?: number
 }
+
 interface ContainerScrollContextValue {
   scrollYProgress: MotionValue<number>
 }
@@ -46,6 +48,7 @@ interface ContainerScrollContextValue {
 const ContainerScrollContext = React.createContext<
   ContainerScrollContextValue | undefined
 >(undefined)
+
 function useContainerScrollContext() {
   const context = React.useContext(ContainerScrollContext)
   if (context === undefined) {
@@ -56,21 +59,39 @@ function useContainerScrollContext() {
   return context
 }
 
-export const ContainerScroll: React.FC<
-  React.HTMLAttributes<HTMLDivElement>
-> = ({ children, style, className, ...props }) => {
+interface ContainerScrollProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Pass an outer scrollable container ref to scope scroll tracking to it */
+  scrollContainer?: React.RefObject<HTMLElement | null>
+}
+
+export const ContainerScroll: React.FC<ContainerScrollProps> = ({
+  children,
+  style,
+  className,
+  scrollContainer,
+  ...props
+}) => {
   const scrollRef = React.useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
+
+  const { scrollYProgress: rawProgress } = useScroll({
     target: scrollRef,
-    offset: ["start center", "end end"],
+    container: scrollContainer as React.RefObject<HTMLElement> | undefined,
+    offset: ["start start", "end end"],
+  })
+
+  // Bouncier spring physics for the cards flying away
+  const scrollYProgress = useSpring(rawProgress, {
+    stiffness: 120,
+    damping: 14,
+    restDelta: 0.001,
   })
 
   return (
     <ContainerScrollContext.Provider value={{ scrollYProgress }}>
       <div
         ref={scrollRef}
-        className={cn("relative min-h-svh w-full", className)}
-        style={{ perspective: "1000px", ...style }}
+        className={cn("relative w-full", className)}
+        style={{ perspective: "1200px", ...style }}
         {...props}
       >
         {children}
@@ -85,13 +106,10 @@ export const CardsContainer: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }) => {
-  const containerRef = React.useRef<HTMLDivElement>(null)
-
   return (
     <div
-      ref={containerRef}
       className={cn("relative", className)}
-      style={{ perspective: "1000px", ...props.style }}
+      style={{ perspective: "1200px", ...props.style }}
       {...props}
     >
       {children}
@@ -99,6 +117,7 @@ export const CardsContainer: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   )
 }
 CardsContainer.displayName = "CardsContainer"
+
 export const CardTransformed = React.forwardRef<
   HTMLDivElement,
   CardStickyProps
@@ -117,16 +136,21 @@ export const CardTransformed = React.forwardRef<
     },
     ref
   ) => {
-
-    
     const { scrollYProgress } = useContainerScrollContext()
+
+    const isLast = index >= arrayLength
 
     const start = index / (arrayLength + 1)
     const end = (index + 1) / (arrayLength + 1)
     const range = React.useMemo(() => [start, end], [start, end])
     const rotateRange = [range[0] - 1.5, range[1] / 1.5]
 
-    const y = useTransform(scrollYProgress, range, ["0%", "-180%"])
+    // Last card: stays put (y never goes to -180%). All others: fly out.
+    const y = useTransform(
+      scrollYProgress,
+      range,
+      ["0%", isLast ? "0%" : "-180%"]
+    )
     const rotate = useTransform(scrollYProgress, rotateRange, [
       incrementRotation,
       0,
@@ -135,23 +159,14 @@ export const CardTransformed = React.forwardRef<
       index * incrementZ
     }px) translateY(${y}) rotate(${rotate}deg)`
 
-    const dx = useTransform(scrollYProgress, rotateRange, [4, 0])
-    const dy = useTransform(scrollYProgress, rotateRange, [4, 12])
-    const blur = useTransform(scrollYProgress, rotateRange, [2, 24])
-    const alpha = useTransform(scrollYProgress, rotateRange, [0.15, 0.2])
-    const filter =
-      variant === "light" 
-        ? useMotionTemplate`drop-shadow(${dx}px ${dy}px ${blur}px rgba(0,0,0,${alpha}))`
-        : "none"
-
     const cardStyle = {
       top: index * incrementY,
       transform,
       backfaceVisibility: "hidden" as const,
       zIndex: (arrayLength - index) * incrementZ,
-      filter,
       ...style,
     }
+
     return (
       <motion.div
         layout="position"

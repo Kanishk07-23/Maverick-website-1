@@ -10,6 +10,7 @@ import { ProcessSection } from "@/components/sections/process";
 
 import { CtaSection } from "@/components/sections/cta";
 import Link from "next/link";
+import { Component as InfiniteGrid } from "@/components/ui/the-infinite-grid";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
@@ -128,8 +129,9 @@ const timelineData = [
 
 export default function HomePage() {
   return (
-    <main className="overflow-x-hidden">
-      {/* ─── HERO ──────────────────────────────────────── */}
+    <InfiniteGrid>
+      <main className="overflow-x-hidden">
+        {/* ─── HERO ──────────────────────────────────────── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-16 text-center">
         {/* Ambient Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] max-w-[800px] max-h-[800px] rounded-full bg-blue-400/10 blur-[120px] pointer-events-none" />
@@ -221,6 +223,7 @@ export default function HomePage() {
           <p className="text-sm font-medium text-gray-400">© 2026 Maverick Digitals. All rights reserved.</p>
         </div>
       </footer>
-    </main>
+      </main>
+    </InfiniteGrid>
   );
 }

@@ -9,10 +9,26 @@ type FeatureType = {
 
 type FeatureCardPorps = React.ComponentProps<'div'> & {
 	feature: FeatureType;
+	/** Pass a stable 0-based index so the pattern is deterministic on both server and client. */
+	cardIndex?: number;
 };
 
-export function FeatureCard({ feature, className, ...props }: FeatureCardPorps) {
-	const p = genRandomPattern();
+/**
+ * Pre-defined static patterns — one per card slot.
+ * Using Math.random() at render time causes SSR/client hydration mismatches
+ * because the server and client each call it independently and get different results.
+ */
+const STATIC_PATTERNS: number[][][] = [
+	[[7, 2], [9, 4], [8, 1], [10, 5], [7, 3]],
+	[[8, 3], [10, 1], [9, 5], [7, 6], [8, 2]],
+	[[9, 1], [7, 4], [10, 3], [8, 6], [9, 2]],
+	[[10, 2], [8, 5], [7, 1], [9, 6], [10, 4]],
+	[[7, 5], [9, 3], [8, 4], [10, 2], [7, 6]],
+	[[8, 6], [10, 3], [7, 2], [9, 1], [8, 5]],
+];
+
+export function FeatureCard({ feature, cardIndex = 0, className, ...props }: FeatureCardPorps) {
+	const p = STATIC_PATTERNS[cardIndex % STATIC_PATTERNS.length];
 
 	return (
 		<div className={cn('relative overflow-hidden p-6', className)} {...props}>
@@ -64,10 +80,5 @@ function GridPattern({
 	);
 }
 
-function genRandomPattern(length?: number): number[][] {
-	length = length ?? 5;
-	return Array.from({ length }, () => [
-		Math.floor(Math.random() * 4) + 7, // random x between 7 and 10
-		Math.floor(Math.random() * 6) + 1, // random y between 1 and 6
-	]);
-}
+// genRandomPattern removed — was causing SSR/client hydration mismatches.
+// Replaced with STATIC_PATTERNS lookup above.

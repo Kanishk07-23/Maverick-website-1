@@ -42,6 +42,20 @@ export default function RadialOrbitalTimeline({
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [isTablet, setIsTablet] = useState<boolean>(false);
 
+  /**
+   * Hydration guard: the rotation interval fires every 16 ms.
+   * If it starts before React finishes hydrating, the computed node
+   * positions (transform / opacity / zIndex) differ from the server
+   * render (which used rotationAngle = 0) → hydration mismatch.
+   * Setting canAnimate inside a useEffect ensures the interval only
+   * starts after the first client-side commit.
+   */
+  const [canAnimate, setCanAnimate] = useState<boolean>(false);
+
+  useEffect(() => {
+    setCanAnimate(true);
+  }, []);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<number, HTMLDivElement | null>>({});
@@ -108,7 +122,7 @@ export default function RadialOrbitalTimeline({
   useEffect(() => {
     let rotationTimer: NodeJS.Timeout;
 
-    if (autoRotate && viewMode === "orbital") {
+    if (canAnimate && autoRotate && viewMode === "orbital") {
       rotationTimer = setInterval(() => {
         setRotationAngle((prev) => {
           const newAngle = (prev + 0.1) % 360;
@@ -122,7 +136,7 @@ export default function RadialOrbitalTimeline({
         clearInterval(rotationTimer);
       }
     };
-  }, [autoRotate, viewMode]);
+  }, [canAnimate, autoRotate, viewMode]);
 
   const centerViewOnNode = (nodeId: number) => {
     if (viewMode !== "orbital" || !nodeRefs.current[nodeId]) return;
@@ -353,6 +367,7 @@ export default function RadialOrbitalTimeline({
                   autoRotate ? "transition-opacity duration-700" : "transition-all duration-700 ease-out"
                 )}
                 style={nodeStyle}
+                suppressHydrationWarning
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleItem(item.id);
