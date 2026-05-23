@@ -6,60 +6,60 @@ import { ArrowRight, Briefcase, Share2, Smartphone, Search, Target, Layers } fro
 import Link from "next/link";
 import { Component as InfiniteGrid } from "@/components/ui/the-infinite-grid";
 
-// 1. Adjusted Data with distinct Outer (Bottom-Up) and Inner (Top-Down) glows
+// 1. Data equipped with intensely bright Bottom-Up glows and separate Inner glows
 const servicesData = [
   {
     id: 1,
     title: "Personal Branding",
     description: "Build authority and convert attention into revenue with a solid personal brand.",
-    outerGlow: "from-violet-600/30",
-    innerGlow: "from-violet-500/25",
-    icon: <Briefcase className="w-20 h-20 text-violet-400 drop-shadow-[0_0px_20px_rgba(139,92,246,0.6)]" strokeWidth={1} />,
+    outerGlow: "from-violet-600/90 via-violet-600/30",
+    innerGlow: "from-violet-500/30",
+    icon: <Briefcase className="w-20 h-20 text-violet-300 drop-shadow-[0_0px_20px_rgba(139,92,246,0.8)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 2,
     title: "Social Media",
     description: "We handle your social presence end-to-end so you can focus on your business.",
-    outerGlow: "from-blue-600/30",
-    innerGlow: "from-blue-500/25",
-    icon: <Share2 className="w-20 h-20 text-blue-400 drop-shadow-[0_0px_20px_rgba(59,130,246,0.6)]" strokeWidth={1} />,
+    outerGlow: "from-blue-600/90 via-blue-600/30",
+    innerGlow: "from-blue-500/30",
+    icon: <Share2 className="w-20 h-20 text-blue-300 drop-shadow-[0_0px_20px_rgba(59,130,246,0.8)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 3,
     title: "App Development",
     description: "We engineer high-performance platforms using modern tech stacks.",
-    outerGlow: "from-pink-600/30",
-    innerGlow: "from-pink-500/25",
-    icon: <Smartphone className="w-20 h-20 text-pink-400 drop-shadow-[0_0px_20px_rgba(236,72,153,0.6)]" strokeWidth={1} />,
+    outerGlow: "from-pink-600/90 via-pink-600/30",
+    innerGlow: "from-pink-500/30",
+    icon: <Smartphone className="w-20 h-20 text-pink-300 drop-shadow-[0_0px_20px_rgba(236,72,153,0.8)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 4,
     title: "SEO & SEM",
     description: "Own your search results. We build sustainable organic and paid traffic systems.",
-    outerGlow: "from-emerald-600/30",
-    innerGlow: "from-emerald-500/25",
-    icon: <Search className="w-20 h-20 text-emerald-400 drop-shadow-[0_0px_20px_rgba(16,185,129,0.6)]" strokeWidth={1} />,
+    outerGlow: "from-emerald-600/90 via-emerald-600/30",
+    innerGlow: "from-emerald-500/30",
+    icon: <Search className="w-20 h-20 text-emerald-300 drop-shadow-[0_0px_20px_rgba(16,185,129,0.8)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 5,
     title: "Performance Ads",
     description: "Laser-focused paid campaigns that don't waste your budget. We track every rupee.",
-    outerGlow: "from-amber-600/30",
-    innerGlow: "from-amber-500/25",
-    icon: <Target className="w-20 h-20 text-amber-400 drop-shadow-[0_0px_20px_rgba(245,158,11,0.6)]" strokeWidth={1} />,
+    outerGlow: "from-amber-600/90 via-amber-600/30",
+    innerGlow: "from-amber-500/30",
+    icon: <Target className="w-20 h-20 text-amber-300 drop-shadow-[0_0px_20px_rgba(245,158,11,0.8)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 6,
     title: "Brand Strategy",
     description: "A brand is a promise. We help you define it and keep it, building a solid foundation.",
-    outerGlow: "from-indigo-600/30",
-    innerGlow: "from-indigo-500/25",
-    icon: <Layers className="w-20 h-20 text-indigo-400 drop-shadow-[0_0px_20px_rgba(99,102,241,0.6)]" strokeWidth={1} />,
+    outerGlow: "from-indigo-600/90 via-indigo-600/30",
+    innerGlow: "from-indigo-500/30",
+    icon: <Layers className="w-20 h-20 text-indigo-300 drop-shadow-[0_0px_20px_rgba(99,102,241,0.8)]" strokeWidth={1} />,
     href: "/contact",
   },
 ];
@@ -222,23 +222,29 @@ export default function ServicesPage() {
                   }}
                 >
                   
-                  {/* --- THE INSET CARD ARCHITECTURE --- */}
-                  <div className={`relative w-full h-full rounded-[32px] bg-[#0d0d0f] border border-white/5 flex flex-col p-[10px] overflow-hidden ${isFront ? 'shadow-[0_20px_50px_rgba(0,0,0,0.5)]' : 'shadow-none'}`}>
+                  {/* --- THE EXACT LAYERED ARCHITECTURE --- */}
+                  <div className={`relative w-full h-full rounded-[32px] bg-[#111115]/50 backdrop-blur-[32px] border border-white/10 flex flex-col p-[10px] overflow-hidden ${isFront ? 'shadow-[inset_0_2px_4px_rgba(255,255,255,0.15),inset_0_-1px_2px_rgba(255,255,255,0.05),0_20px_50px_rgba(0,0,0,0.5)]' : 'shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)]'}`}>
                     
-                    {/* OUTER CARD: Fine Dot Matrix Background */}
+                    {/* OUTER CARD: Fine Dot Matrix with BOTTOM-FADE MASK */}
+                    {/* Notice the mask-image: it makes the grid disappear exactly where the light is brightest */}
                     <div 
-                      className="absolute inset-0 opacity-[0.25] pointer-events-none" 
-                      style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px)', backgroundSize: '5px 5px' }} 
+                      className="absolute inset-0 pointer-events-none" 
+                      style={{ 
+                        backgroundImage: 'radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px)', 
+                        backgroundSize: '5px 5px',
+                        WebkitMaskImage: 'linear-gradient(to top, transparent 5%, black 40%)'
+                      }} 
                     />
 
-                    {/* OUTER CARD: Bottom-Up Lighting Gradient */}
-                    {/* Starts at the very bottom and fades UP toward the 1px line of the inner card */}
-                    <div className={`absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t ${card.outerGlow} to-transparent transition-opacity duration-700 pointer-events-none z-0 ${isFront ? 'opacity-100' : 'opacity-0'}`} />
+                    {/* OUTER CARD: Intense Bottom-Up Lighting */}
+                    {/* Obscures the bottom, fades up to hit the inner card border */}
+                    <div className={`absolute bottom-0 left-0 right-0 h-[50%] bg-gradient-to-t ${card.outerGlow} to-transparent transition-opacity duration-700 pointer-events-none z-0 ${isFront ? 'opacity-100' : 'opacity-0'}`} />
 
-                    {/* --- INNER CARD (Top Half) --- */}
-                    <div className="relative h-[55%] w-full rounded-[24px] bg-[#161618] border border-white/10 flex items-center justify-center overflow-hidden z-10 shadow-inner">
+                    {/* --- INNER CARD (Top 55%) --- */}
+                    {/* Has its own frosted glass, its own inner shadow edge-shine, and creates the hard 1px divider */}
+                    <div className="relative h-[55%] w-full rounded-[22px] bg-[#18181d]/60 backdrop-blur-3xl border border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_1px_rgba(255,255,255,0.1)] flex items-center justify-center overflow-hidden z-10">
                       
-                      {/* INNER CARD: Top-Down Internal Lighting (Separated from outer glow) */}
+                      {/* INNER CARD: Top-Down Internal Stage Light */}
                       <div className={`absolute top-0 left-0 right-0 h-full bg-gradient-to-b ${card.innerGlow} to-transparent transition-opacity duration-700 pointer-events-none ${isFront ? 'opacity-100' : 'opacity-0'}`} />
 
                       {/* 3D Icon Proxy */}
@@ -249,19 +255,19 @@ export default function ServicesPage() {
                     </div>
 
                     {/* --- BOTTOM SECTION (Typography) --- */}
-                    <div className="relative h-[45%] w-full px-6 pt-6 pb-2 flex flex-col items-start text-left z-20">
+                    <div className="relative h-[45%] w-full px-5 pt-6 pb-2 flex flex-col items-start text-left z-20">
                       
-                      <h3 className="text-[22px] font-bold tracking-tight text-white mb-2">
+                      <h3 className="text-[22px] font-bold tracking-tight text-white mb-2 shadow-black/50 drop-shadow-md">
                         {card.title}
                       </h3>
 
-                      <p className="text-[15px] text-zinc-400 leading-relaxed max-w-[95%] line-clamp-3">
+                      <p className="text-[14px] text-zinc-300 leading-relaxed max-w-[95%] line-clamp-3">
                         {card.description}
                       </p>
 
                       {/* Minimalist CTA Button */}
                       <div className={`mt-auto mb-2 pointer-events-auto transition-all duration-700 ${isFront ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-                        <Link href={card.href} className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-semibold shadow-md hover:shadow-lg hover:shadow-violet-500/20 transition-shadow">
+                        <Link href={card.href} className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-semibold shadow-lg hover:shadow-violet-500/25 transition-shadow">
                           Explore services <ArrowRight className="w-4 h-4" />
                         </Link>
                       </div>
