@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, Calendar, Code, FileText, User, Clock } from "lucide-react";
-import PremiumServiceCards from "@/components/PremiumServiceCards";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
 import { GlassButton } from "@/components/ui/liquid-glass";
 import { TestimonialsSection } from "@/components/sections/testimonials";
@@ -195,9 +194,6 @@ export default function HomePage() {
       </section>
 
 
-
-      {/* ─── PREMIUM SERVICE CARDS ──────────────────────── */}
-      <PremiumServiceCards />
 
       {/* ─── PROCESS ────────────────────────────────────── */}
       <ProcessSection />
