@@ -6,60 +6,60 @@ import { ArrowRight, Briefcase, Share2, Smartphone, Search, Target, Layers } fro
 import Link from "next/link";
 import { Component as InfiniteGrid } from "@/components/ui/the-infinite-grid";
 
-// 1. Updated Data: Neon glow colors optimized for pure Dark Mode cards
+// 1. Adjusted Data with distinct Outer (Bottom-Up) and Inner (Top-Down) glows
 const servicesData = [
   {
     id: 1,
     title: "Personal Branding",
-    description: "Build authority and convert attention into revenue with a solid personal brand. We provide end-to-end support for founders and creators.",
-    meta: "Authority • Influence",
-    glowColor: "rgba(139, 92, 246, 0.7)", // Intense Violet
-    icon: <Briefcase className="w-12 h-12 text-violet-400" strokeWidth={1.5} />,
+    description: "Build authority and convert attention into revenue with a solid personal brand.",
+    outerGlow: "from-violet-600/30",
+    innerGlow: "from-violet-500/25",
+    icon: <Briefcase className="w-20 h-20 text-violet-400 drop-shadow-[0_0px_20px_rgba(139,92,246,0.6)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 2,
     title: "Social Media",
-    description: "We handle your social presence end-to-end so you can focus on your business. Creating engaging content that drives real audience growth.",
-    meta: "Growth • Engagement",
-    glowColor: "rgba(59, 130, 246, 0.7)", // Intense Blue
-    icon: <Share2 className="w-12 h-12 text-blue-400" strokeWidth={1.5} />,
+    description: "We handle your social presence end-to-end so you can focus on your business.",
+    outerGlow: "from-blue-600/30",
+    innerGlow: "from-blue-500/25",
+    icon: <Share2 className="w-20 h-20 text-blue-400 drop-shadow-[0_0px_20px_rgba(59,130,246,0.6)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 3,
     title: "App Development",
-    description: "We engineer high-performance platforms using modern tech stacks. Ensuring your digital presence is not only beautiful but scalable.",
-    meta: "Engineering • Performance",
-    glowColor: "rgba(236, 72, 153, 0.7)", // Intense Pink
-    icon: <Smartphone className="w-12 h-12 text-pink-400" strokeWidth={1.5} />,
+    description: "We engineer high-performance platforms using modern tech stacks.",
+    outerGlow: "from-pink-600/30",
+    innerGlow: "from-pink-500/25",
+    icon: <Smartphone className="w-20 h-20 text-pink-400 drop-shadow-[0_0px_20px_rgba(236,72,153,0.6)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 4,
     title: "SEO & SEM",
-    description: "Own your search results. We build sustainable organic and paid traffic systems that compound over time, making sure your brand is seen.",
-    meta: "Search • Visibility",
-    glowColor: "rgba(16, 185, 129, 0.7)", // Intense Emerald
-    icon: <Search className="w-12 h-12 text-emerald-400" strokeWidth={1.5} />,
+    description: "Own your search results. We build sustainable organic and paid traffic systems.",
+    outerGlow: "from-emerald-600/30",
+    innerGlow: "from-emerald-500/25",
+    icon: <Search className="w-20 h-20 text-emerald-400 drop-shadow-[0_0px_20px_rgba(16,185,129,0.6)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 5,
     title: "Performance Ads",
-    description: "Laser-focused paid campaigns that don't waste your budget. We track and optimize every ad rupee to ensure measurable outcomes.",
-    meta: "ROI • Analytics",
-    glowColor: "rgba(245, 158, 11, 0.7)", // Intense Amber
-    icon: <Target className="w-12 h-12 text-amber-400" strokeWidth={1.5} />,
+    description: "Laser-focused paid campaigns that don't waste your budget. We track every rupee.",
+    outerGlow: "from-amber-600/30",
+    innerGlow: "from-amber-500/25",
+    icon: <Target className="w-20 h-20 text-amber-400 drop-shadow-[0_0px_20px_rgba(245,158,11,0.6)]" strokeWidth={1} />,
     href: "/contact",
   },
   {
     id: 6,
     title: "Brand Strategy",
-    description: "A brand is a promise. We help you define it and keep it. Building the foundation that makes every other marketing effort more effective.",
-    meta: "Identity • Strategy",
-    glowColor: "rgba(99, 102, 241, 0.7)", // Intense Indigo
-    icon: <Layers className="w-12 h-12 text-indigo-400" strokeWidth={1.5} />,
+    description: "A brand is a promise. We help you define it and keep it, building a solid foundation.",
+    outerGlow: "from-indigo-600/30",
+    innerGlow: "from-indigo-500/25",
+    icon: <Layers className="w-20 h-20 text-indigo-400 drop-shadow-[0_0px_20px_rgba(99,102,241,0.6)]" strokeWidth={1} />,
     href: "/contact",
   },
 ];
@@ -189,8 +189,7 @@ export default function ServicesPage() {
             </h1>
           </div>
 
-          {/* 3-D card stack container */}
-          <div className="relative mt-8" style={{ width: 380, height: 560, perspective: 1200 }}>
+          <div className="relative mt-8" style={{ width: 380, height: 550, perspective: 1200 }}>
             {[...order].reverse().map((id, revIdx) => {
               const pos = order.length - 1 - revIdx; 
               const card = servicesData.find((s) => s.id === id)!;
@@ -223,56 +222,50 @@ export default function ServicesPage() {
                   }}
                 >
                   
-                  {/* --- 1:1 DARK MODE REFERENCE REPLICA --- */}
-                  <div className="relative w-full h-full">
+                  {/* --- THE INSET CARD ARCHITECTURE --- */}
+                  <div className={`relative w-full h-full rounded-[32px] bg-[#0d0d0f] border border-white/5 flex flex-col p-[10px] overflow-hidden ${isFront ? 'shadow-[0_20px_50px_rgba(0,0,0,0.5)]' : 'shadow-none'}`}>
                     
-                    {/* Glowing Under-Shadow (Only active on front card) */}
-                    <div className={`absolute -inset-1 rounded-[32px] bg-gradient-to-br from-violet-600 via-fuchsia-600 to-blue-600 blur-2xl transition-opacity duration-700 -z-10 ${isFront ? 'opacity-30' : 'opacity-0'}`} />
+                    {/* OUTER CARD: Fine Dot Matrix Background */}
+                    <div 
+                      className="absolute inset-0 opacity-[0.25] pointer-events-none" 
+                      style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px)', backgroundSize: '5px 5px' }} 
+                    />
 
-                    {/* Gradient Border Mask */}
-                    <div className={`absolute inset-0 rounded-[32px] p-[1px] transition-colors duration-700 ${isFront ? 'bg-gradient-to-br from-violet-500 via-fuchsia-500 to-blue-500' : 'bg-white/10'}`}>
+                    {/* OUTER CARD: Bottom-Up Lighting Gradient */}
+                    {/* Starts at the very bottom and fades UP toward the 1px line of the inner card */}
+                    <div className={`absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t ${card.outerGlow} to-transparent transition-opacity duration-700 pointer-events-none z-0 ${isFront ? 'opacity-100' : 'opacity-0'}`} />
+
+                    {/* --- INNER CARD (Top Half) --- */}
+                    <div className="relative h-[55%] w-full rounded-[24px] bg-[#161618] border border-white/10 flex items-center justify-center overflow-hidden z-10 shadow-inner">
                       
-                      {/* The Pure Dark Card Body */}
-                      <div className="relative w-full h-full bg-[#0A0A0A] rounded-[31px] flex flex-col overflow-hidden">
-                        
-                        {/* --- TOP HALF: STAGE LIGHT & 3D ICON --- */}
-                        <div className="relative h-[45%] w-full flex items-center justify-center">
-                          {/* Radial Backlight */}
-                          <div 
-                            className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${isFront ? 'opacity-80' : 'opacity-20'}`}
-                            style={{ background: `radial-gradient(circle at 50% 50%, ${card.glowColor} 0%, transparent 70%)` }} 
-                          />
-                          {/* Dark Glass Icon Proxy */}
-                          <div className={`relative z-10 flex items-center justify-center w-28 h-28 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-700 ${isFront ? 'scale-110 shadow-[0_0_40px_rgba(139,92,246,0.2)]' : 'scale-95'}`}>
-                              {card.icon}
-                          </div>
-                        </div>
+                      {/* INNER CARD: Top-Down Internal Lighting (Separated from outer glow) */}
+                      <div className={`absolute top-0 left-0 right-0 h-full bg-gradient-to-b ${card.innerGlow} to-transparent transition-opacity duration-700 pointer-events-none ${isFront ? 'opacity-100' : 'opacity-0'}`} />
 
-                        {/* --- BOTTOM HALF: TYPOGRAPHY & CTA --- */}
-                        <div className="relative h-[55%] w-full px-8 pb-8 pt-2 flex flex-col items-start text-left z-20">
-                          
-                          {/* Pill Tag */}
-                          <span className={`inline-block px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase transition-colors duration-500 mb-4 border ${isFront ? 'bg-white/10 text-gray-200 border-white/20' : 'bg-white/5 text-gray-500 border-white/5'}`}>
-                            {card.meta}
-                          </span>
-
-                          <h3 className="text-[24px] font-bold tracking-tight text-white mb-2 leading-none">
-                            {card.title}
-                          </h3>
-
-                          <p className="text-sm text-zinc-400 leading-relaxed line-clamp-3">
-                            {card.description}
-                          </p>
-
-                          {/* Animated CTA Button */}
-                          <div className={`mt-auto pt-4 pointer-events-auto transition-all duration-700 ${isFront ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-                            <Link href={card.href} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-bold shadow-[0_4px_20px_rgba(139,92,246,0.3)] hover:shadow-[0_4px_25px_rgba(139,92,246,0.5)] transition-shadow">
-                              Get Started <ArrowRight className="w-4 h-4" />
-                            </Link>
-                          </div>
-
-                        </div>
+                      {/* 3D Icon Proxy */}
+                      <div className={`relative z-20 transition-transform duration-700 ease-out ${isFront ? 'scale-110 translate-y-2' : 'scale-95 translate-y-0'}`}>
+                          {card.icon}
                       </div>
+
+                    </div>
+
+                    {/* --- BOTTOM SECTION (Typography) --- */}
+                    <div className="relative h-[45%] w-full px-6 pt-6 pb-2 flex flex-col items-start text-left z-20">
+                      
+                      <h3 className="text-[22px] font-bold tracking-tight text-white mb-2">
+                        {card.title}
+                      </h3>
+
+                      <p className="text-[15px] text-zinc-400 leading-relaxed max-w-[95%] line-clamp-3">
+                        {card.description}
+                      </p>
+
+                      {/* Minimalist CTA Button */}
+                      <div className={`mt-auto mb-2 pointer-events-auto transition-all duration-700 ${isFront ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+                        <Link href={card.href} className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-semibold shadow-md hover:shadow-lg hover:shadow-violet-500/20 transition-shadow">
+                          Explore services <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
+
                     </div>
                   </div>
 
