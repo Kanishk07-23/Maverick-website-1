@@ -292,7 +292,6 @@ function ServiceCard({ service }: { service: Service }) {
               gap: "8px",
               padding: "10px 20px",
               borderRadius: "9999px",
-              border: "none",
               cursor: "pointer",
               fontWeight: 600,
               fontSize: "0.8125rem",
