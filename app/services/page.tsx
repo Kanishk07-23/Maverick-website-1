@@ -2,75 +2,107 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Briefcase, Share2, Smartphone, Search, Target, Layers } from "lucide-react";
+import {
+  Briefcase, Share2, Smartphone, Search, Target, Layers,
+} from "lucide-react";
 import Link from "next/link";
 import { Component as InfiniteGrid } from "@/components/ui/the-infinite-grid";
 
-// SVG Noise texture used to organically break up the light gradients
-const noiseSvg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`;
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface ServiceCard {
+  id: number;
+  title: string;
+  description: string;
+  /** Gradient colors for the top-half stage light  */
+  stageGradient: string;
+  /** Outer glow color around card border (CSS color) */
+  borderGlow: string;
+  /** Icon background tint inside hex */
+  hexBg: string;
+  /** Rendered icon node */
+  icon: React.ReactNode;
+  href: string;
+}
 
-// Adjusted Data: Outer glow now uses a single powerful base color for the blob engine
-const servicesData = [
+// ─── Data ─────────────────────────────────────────────────────────────────────
+const servicesData: ServiceCard[] = [
   {
     id: 1,
     title: "Personal Branding",
-    description: "Build authority and convert attention into revenue with a solid personal brand.",
-    outerGlow: "from-violet-600",
-    innerGlow: "from-violet-500/30",
-    icon: <Briefcase className="w-20 h-20 text-violet-300 drop-shadow-[0_0px_20px_rgba(139,92,246,0.8)]" strokeWidth={1} />,
+    description:
+      "Build authority and convert attention into revenue. We craft a brand identity that makes you the obvious choice.",
+    stageGradient: "linear-gradient(160deg, #c4a35a 0%, #8b6914 30%, #3d2c0a 65%, #0d0d11 100%)",
+    borderGlow: "rgba(196,163,90,0.45)",
+    hexBg: "rgba(196,163,90,0.18)",
+    icon: <Briefcase className="w-9 h-9 text-white drop-shadow-[0_0_12px_rgba(255,220,120,0.9)]" strokeWidth={1.3} />,
     href: "/contact",
   },
   {
     id: 2,
     title: "Social Media",
-    description: "We handle your social presence end-to-end so you can focus on your business.",
-    outerGlow: "from-blue-600",
-    innerGlow: "from-blue-500/30",
-    icon: <Share2 className="w-20 h-20 text-blue-300 drop-shadow-[0_0px_20px_rgba(59,130,246,0.8)]" strokeWidth={1} />,
+    description:
+      "We handle your social presence end-to-end so you can focus on what matters. Consistent, on-brand, and growth-focused.",
+    stageGradient: "linear-gradient(160deg, #a78bfa 0%, #6d28d9 28%, #2e1065 60%, #0d0d11 100%)",
+    borderGlow: "rgba(139,92,246,0.5)",
+    hexBg: "rgba(139,92,246,0.2)",
+    icon: <Share2 className="w-9 h-9 text-white drop-shadow-[0_0_12px_rgba(167,139,250,0.9)]" strokeWidth={1.3} />,
     href: "/contact",
   },
   {
     id: 3,
     title: "App Development",
-    description: "We engineer high-performance platforms using modern tech stacks.",
-    outerGlow: "from-pink-600",
-    innerGlow: "from-pink-500/30",
-    icon: <Smartphone className="w-20 h-20 text-pink-300 drop-shadow-[0_0px_20px_rgba(236,72,153,0.8)]" strokeWidth={1} />,
+    description:
+      "We engineer high-performance platforms using modern tech stacks. From MVP to scale, built for speed and reliability.",
+    stageGradient: "linear-gradient(160deg, #f9a8d4 0%, #db2777 28%, #7c1149 60%, #0d0d11 100%)",
+    borderGlow: "rgba(236,72,153,0.45)",
+    hexBg: "rgba(236,72,153,0.18)",
+    icon: <Smartphone className="w-9 h-9 text-white drop-shadow-[0_0_12px_rgba(249,168,212,0.9)]" strokeWidth={1.3} />,
     href: "/contact",
   },
   {
     id: 4,
     title: "SEO & SEM",
-    description: "Own your search results. We build sustainable organic and paid traffic systems.",
-    outerGlow: "from-emerald-600",
-    innerGlow: "from-emerald-500/30",
-    icon: <Search className="w-20 h-20 text-emerald-300 drop-shadow-[0_0px_20px_rgba(16,185,129,0.8)]" strokeWidth={1} />,
+    description:
+      "Own your search results. We build sustainable organic and paid traffic systems that compound over time.",
+    stageGradient: "linear-gradient(160deg, #6ee7b7 0%, #059669 28%, #064e3b 60%, #0d0d11 100%)",
+    borderGlow: "rgba(16,185,129,0.45)",
+    hexBg: "rgba(16,185,129,0.18)",
+    icon: <Search className="w-9 h-9 text-white drop-shadow-[0_0_12px_rgba(110,231,183,0.9)]" strokeWidth={1.3} />,
     href: "/contact",
   },
   {
     id: 5,
     title: "Performance Ads",
-    description: "Laser-focused paid campaigns that don't waste your budget. We track every rupee.",
-    outerGlow: "from-amber-600",
-    innerGlow: "from-amber-500/30",
-    icon: <Target className="w-20 h-20 text-amber-300 drop-shadow-[0_0px_20px_rgba(245,158,11,0.8)]" strokeWidth={1} />,
+    description:
+      "Laser-focused paid campaigns that don't waste your budget. We track every dollar and optimize for return.",
+    stageGradient: "linear-gradient(160deg, #fcd34d 0%, #d97706 28%, #78350f 60%, #0d0d11 100%)",
+    borderGlow: "rgba(245,158,11,0.45)",
+    hexBg: "rgba(245,158,11,0.18)",
+    icon: <Target className="w-9 h-9 text-white drop-shadow-[0_0_12px_rgba(252,211,77,0.9)]" strokeWidth={1.3} />,
     href: "/contact",
   },
   {
     id: 6,
     title: "Brand Strategy",
-    description: "A brand is a promise. We help you define it and keep it, building a solid foundation.",
-    outerGlow: "from-indigo-600",
-    innerGlow: "from-indigo-500/30",
-    icon: <Layers className="w-20 h-20 text-indigo-300 drop-shadow-[0_0px_20px_rgba(99,102,241,0.8)]" strokeWidth={1} />,
+    description:
+      "A brand is a promise. We help you define it and keep it — building a solid foundation for long-term trust.",
+    stageGradient: "linear-gradient(160deg, #93c5fd 0%, #2563eb 28%, #1e3a8a 60%, #0d0d11 100%)",
+    borderGlow: "rgba(59,130,246,0.45)",
+    hexBg: "rgba(59,130,246,0.18)",
+    icon: <Layers className="w-9 h-9 text-white drop-shadow-[0_0_12px_rgba(147,197,253,0.9)]" strokeWidth={1.3} />,
     href: "/contact",
   },
 ];
 
-const N = servicesData.length;
-const STACK_Y = 20;       
-const SCALE_STEP = 0.05;  
+// ─── Hexagon shape via CSS clip-path ─────────────────────────────────────────
+const HEX_CLIP = "polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)";
 
+// ─── Stack constants ──────────────────────────────────────────────────────────
+const N = servicesData.length;
+const STACK_Y = 18;
+const SCALE_STEP = 0.045;
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function ServicesPage() {
   const [mounted, setMounted] = useState(false);
   const [order, setOrder] = useState<number[]>(servicesData.map((s) => s.id));
@@ -100,38 +132,33 @@ export default function ServicesPage() {
     if (busy.current || now - lastCycleAt.current < 650) return;
     busy.current = true;
     lastCycleAt.current = now;
-    const backId = order[order.length - 1];
     setOrder((prev) => {
-      const newOrder = [...prev];
-      const last = newOrder.pop()!;
-      newOrder.unshift(last);
-      return newOrder;
+      const next = [...prev];
+      next.unshift(next.pop()!);
+      return next;
     });
-    setDismissingId(backId);
     setTimeout(() => {
       setDismissingId(null);
       setTimeout(() => { busy.current = false; }, 500);
     }, 20);
-  }, [order]);
+  }, []);
 
+  // Wheel
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > 10) {
-        if (e.deltaY > 0) cycle();
-        else reverseCycle();
-      }
+      if (Math.abs(e.deltaY) > 10) { e.deltaY > 0 ? cycle() : reverseCycle(); }
     };
     window.addEventListener("wheel", onWheel, { passive: true });
     return () => window.removeEventListener("wheel", onWheel);
   }, [cycle, reverseCycle]);
 
+  // Touch
   useEffect(() => {
     let startY = 0;
     const onTouchStart = (e: TouchEvent) => { startY = e.touches[0].clientY; };
     const onTouchEnd = (e: TouchEvent) => {
       const dy = startY - e.changedTouches[0].clientY;
-      if (dy > 40) cycle();
-      else if (dy < -40) reverseCycle();
+      if (dy > 40) cycle(); else if (dy < -40) reverseCycle();
     };
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
@@ -141,13 +168,14 @@ export default function ServicesPage() {
     };
   }, [cycle, reverseCycle]);
 
+  // Keyboard
   useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
+    const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowDown" || e.key === "ArrowRight") cycle();
       if (e.key === "ArrowUp" || e.key === "ArrowLeft") reverseCycle();
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [cycle, reverseCycle]);
 
   if (!mounted) return null;
@@ -156,45 +184,47 @@ export default function ServicesPage() {
     <InfiniteGrid>
       <div className="flex w-full h-screen overflow-hidden select-none">
 
-        {/* ── LEFT: locked hero text ───────────────────────── */}
+        {/* ── LEFT: Hero text ──────────────────────────────────── */}
         <div className="hidden lg:flex w-[42%] shrink-0 h-full flex-col justify-center px-14 xl:px-20 relative">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(37,99,235,0.04),transparent_70%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(99,102,241,0.05),transparent_70%)] pointer-events-none" />
           <div className="relative z-10 space-y-6 max-w-md">
-            <p className="text-blue-600 font-bold text-sm uppercase tracking-widest">
+            <p className="text-blue-500 font-bold text-sm uppercase tracking-widest">
               What We Do
             </p>
             <h1 className="text-5xl xl:text-6xl font-black tracking-tighter text-gray-900 leading-[1.05]">
-              Our
-              <br />
+              Our<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                 Expertise
               </span>
             </h1>
             <p className="text-gray-500 text-lg leading-relaxed">
-              Scroll through our core capabilities. We engineer
-              high-performance systems and digital strategies to scale your
-              influence.
+              Scroll through our core capabilities. We engineer high-performance
+              systems and digital strategies to scale your influence.
             </p>
-            <div className="flex items-center gap-3 text-gray-400 text-xs font-semibold tracking-widest uppercase pt-4">
+            <div className="flex items-center gap-3 text-gray-400 text-xs font-semibold tracking-widest uppercase pt-2">
               <span className="w-[1px] h-8 bg-gradient-to-b from-gray-300 to-transparent block" />
               <span>Scroll / Arrow Keys to explore</span>
             </div>
           </div>
         </div>
 
-        {/* ── RIGHT: card stack ────── */}
-        <div className="w-full lg:w-[58%] h-full flex items-center justify-center overflow-hidden cursor-default" style={{ touchAction: "none" }}>
-          
+        {/* ── RIGHT: Card stack ────────────────────────────────── */}
+        <div
+          className="w-full lg:w-[58%] h-full flex items-center justify-center overflow-hidden"
+          style={{ touchAction: "none" }}
+        >
+          {/* Mobile header */}
           <div className="absolute top-0 left-0 right-0 lg:hidden px-6 pt-24 pb-4 text-center pointer-events-none z-50">
-            <p className="text-blue-600 font-bold text-xs uppercase tracking-widest mb-2">What We Do</p>
+            <p className="text-blue-500 font-bold text-xs uppercase tracking-widest mb-2">What We Do</p>
             <h1 className="text-4xl font-black tracking-tighter text-gray-900">
               Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Expertise</span>
             </h1>
           </div>
 
-          <div className="relative mt-8" style={{ width: 380, height: 550, perspective: 1200 }}>
+          {/* Stack container */}
+          <div className="relative" style={{ width: 340, height: 520, perspective: 1200 }}>
             {[...order].reverse().map((id, revIdx) => {
-              const pos = order.length - 1 - revIdx; 
+              const pos = order.length - 1 - revIdx;
               const card = servicesData.find((s) => s.id === id)!;
               const isDismissing = dismissingId === id;
               const isFront = pos === 0;
@@ -204,92 +234,183 @@ export default function ServicesPage() {
               return (
                 <motion.div
                   key={id}
-                  className="absolute inset-0 rounded-[32px] cursor-grab active:cursor-grabbing overflow-visible"
+                  className="absolute inset-0 cursor-grab active:cursor-grabbing"
                   style={{ zIndex: isDismissing ? N + 10 : N - pos }}
                   animate={
                     isDismissing
-                      ? { y: -140, scale: 0.9, rotate: -4, opacity: 0 }
-                      : { y: pos * STACK_Y, scale: 1 - pos * SCALE_STEP, rotate: 0, opacity: pos > 3 ? 0 : 1 }
+                      ? { y: -150, scale: 0.88, rotate: -5, opacity: 0 }
+                      : {
+                          y: pos * STACK_Y,
+                          scale: 1 - pos * SCALE_STEP,
+                          rotate: 0,
+                          opacity: pos > 3 ? 0 : 1,
+                        }
                   }
                   transition={
                     isDismissing
-                      ? { type: "spring", stiffness: 350, damping: 25 }
-                      : { type: "spring", stiffness: 180, damping: 16, mass: 1 }
+                      ? { type: "spring", stiffness: 350, damping: 26 }
+                      : { type: "spring", stiffness: 180, damping: 18, mass: 1 }
                   }
                   drag={isFront ? "y" : false}
                   dragConstraints={{ top: 0, bottom: 0 }}
-                  dragElastic={0.2}
-                  onDragEnd={(e, { offset, velocity }) => {
+                  dragElastic={0.18}
+                  onDragEnd={(_, { offset, velocity }) => {
                     if (offset.y < -50 || velocity.y < -500) cycle();
                     else if (offset.y > 50 || velocity.y > 500) reverseCycle();
                   }}
                 >
-                  
-                  {/* --- THE INSET CARD ARCHITECTURE --- */}
-                  <div className={`relative w-full h-full rounded-[32px] bg-[#111115]/50 backdrop-blur-[32px] border border-white/10 flex flex-col p-[10px] overflow-hidden ${isFront ? 'shadow-[inset_0_2px_4px_rgba(255,255,255,0.15),inset_0_-1px_2px_rgba(255,255,255,0.05),0_20px_50px_rgba(0,0,0,0.5)]' : 'shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)]'}`}>
-                    
-                    {/* 1. Ultra-Fine, Subtle Dot Matrix */}
-                    <div 
-                      className="absolute inset-0 pointer-events-none" 
-                      style={{ 
-                        backgroundImage: 'radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)', 
-                        backgroundSize: '3px 3px', // Finer dots
-                        WebkitMaskImage: 'linear-gradient(to top, transparent 10%, black 60%)' // Keeps dots away from the intense bottom light
-                      }} 
-                    />
+                  {/* ── Card shell ────────────────────────────────── */}
+                  <div
+                    className="relative w-full h-full rounded-[28px] overflow-hidden flex flex-col"
+                    style={{
+                      background: "#0d0d11",
+                      boxShadow: isFront
+                        ? `0 0 0 1px rgba(255,255,255,0.12), 0 0 40px 4px ${card.borderGlow}, 0 30px 60px rgba(0,0,0,0.7)`
+                        : "0 0 0 1px rgba(255,255,255,0.07), 0 10px 30px rgba(0,0,0,0.4)",
+                    }}
+                  >
 
-                    {/* 2. Organic, Randomized Bottom-Up Light Engine */}
-                    <div className={`absolute bottom-0 left-0 right-0 h-[60%] transition-opacity duration-700 pointer-events-none z-0 ${isFront ? 'opacity-100' : 'opacity-0'}`}>
-                      {/* Overlapping asymmetrical blobs to create a messy, non-uniform fade */}
-                      <div className={`absolute -bottom-10 -left-10 w-[80%] h-[80%] blur-[40px] opacity-80 bg-gradient-to-tr ${card.outerGlow} to-transparent rounded-[100%]`} />
-                      <div className={`absolute -bottom-5 right-[-10%] w-[70%] h-[100%] blur-[50px] opacity-60 bg-gradient-to-tl ${card.outerGlow} to-transparent rounded-[100%]`} />
-                      <div className={`absolute -bottom-16 left-[15%] w-[90%] h-[70%] blur-[30px] opacity-100 bg-gradient-to-t ${card.outerGlow} to-transparent rounded-[100%]`} />
-                      
-                      {/* Fractal noise overlay to physically break the light apart randomly */}
-                      <div className="absolute inset-0 mix-blend-overlay opacity-40" style={{ backgroundImage: noiseSvg }} />
-                    </div>
+                    {/* ══ TOP HALF — Gradient Stage Light ═══════════════ */}
+                    <div
+                      className="relative flex-shrink-0 flex items-center justify-center overflow-hidden"
+                      style={{ height: "55%", background: card.stageGradient }}
+                    >
+                      {/* Soft vignette to merge top stage into card edges */}
+                      <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          background:
+                            "radial-gradient(ellipse 85% 90% at 50% 30%, transparent 40%, rgba(13,13,17,0.55) 100%)",
+                        }}
+                      />
 
-                    {/* --- INNER CARD (Top 55%) --- */}
-                    <div className="relative h-[55%] w-full rounded-[22px] bg-[#18181d]/60 backdrop-blur-3xl border border-white/10 shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_1px_rgba(255,255,255,0.1)] flex items-center justify-center overflow-hidden z-10">
-                      
-                      {/* INNER CARD: Top-Down Internal Stage Light */}
-                      <div className={`absolute top-0 left-0 right-0 h-full bg-gradient-to-b ${card.innerGlow} to-transparent transition-opacity duration-700 pointer-events-none ${isFront ? 'opacity-100' : 'opacity-0'}`} />
+                      {/* Reflective top-center specular highlight */}
+                      <div
+                        className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
+                        style={{
+                          width: "60%",
+                          height: "2px",
+                          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)",
+                          filter: "blur(1px)",
+                        }}
+                      />
 
-                      {/* 3D Icon Proxy */}
-                      <div className={`relative z-20 transition-transform duration-700 ease-out ${isFront ? 'scale-110 translate-y-2' : 'scale-95 translate-y-0'}`}>
+                      {/* ── Glassmorphic Hexagonal Icon Badge ────────── */}
+                      <div
+                        className="relative z-10 flex items-center justify-center"
+                        style={{
+                          width: 110,
+                          height: 110,
+                          clipPath: HEX_CLIP,
+                          background: "rgba(255,255,255,0.08)",
+                          backdropFilter: "blur(16px) saturate(160%)",
+                          WebkitBackdropFilter: "blur(16px) saturate(160%)",
+                          boxShadow: `inset 0 1px 2px rgba(255,255,255,0.35), inset 0 -1px 2px rgba(0,0,0,0.3)`,
+                        }}
+                      >
+                        {/* Inner hex layer for depth */}
+                        <div
+                          className="absolute flex items-center justify-center"
+                          style={{
+                            inset: 10,
+                            clipPath: HEX_CLIP,
+                            background: card.hexBg,
+                            backdropFilter: "blur(8px)",
+                            WebkitBackdropFilter: "blur(8px)",
+                          }}
+                        />
+                        {/* Icon */}
+                        <div className="relative z-10">
                           {card.icon}
+                        </div>
                       </div>
 
+                      {/* Stage light bleeds downward into bottom half */}
+                      <div
+                        className="absolute bottom-0 left-0 right-0 pointer-events-none"
+                        style={{
+                          height: "40px",
+                          background: "linear-gradient(to bottom, transparent, #0d0d11)",
+                        }}
+                      />
                     </div>
 
-                    {/* --- BOTTOM SECTION (Typography) --- */}
-                    <div className="relative h-[45%] w-full px-5 pt-6 pb-2 flex flex-col items-start text-left z-20">
-                      
-                      <h3 className="text-[22px] font-bold tracking-tight text-white mb-2 shadow-black/50 drop-shadow-md">
+                    {/* ══ BOTTOM HALF — Dark Typography Area ════════════ */}
+                    <div
+                      className="relative flex flex-col flex-1 px-6 pt-5 pb-5"
+                      style={{ background: "#0d0d11" }}
+                    >
+                      {/* Subtle dot matrix texture */}
+                      <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          backgroundImage: "radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px)",
+                          backgroundSize: "4px 4px",
+                          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, black 100%)",
+                          maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, black 100%)",
+                        }}
+                      />
+
+                      {/* Color accent glow bleeding up from bottom */}
+                      <div
+                        className="absolute bottom-0 left-0 right-0 pointer-events-none"
+                        style={{
+                          height: "70px",
+                          background: `radial-gradient(ellipse 80% 100% at 50% 100%, ${card.borderGlow.replace("0.45", "0.18")}, transparent 80%)`,
+                          opacity: isFront ? 1 : 0,
+                          transition: "opacity 0.7s ease",
+                        }}
+                      />
+
+                      {/* Title */}
+                      <h3
+                        className="relative z-10 font-bold tracking-tight text-white leading-tight mb-2"
+                        style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.3rem)" }}
+                      >
                         {card.title}
                       </h3>
 
-                      <p className="text-[14px] text-zinc-300 leading-relaxed max-w-[95%] line-clamp-3">
+                      {/* Description */}
+                      <p className="relative z-10 text-[13px] text-zinc-400 leading-relaxed line-clamp-3 flex-1">
                         {card.description}
                       </p>
 
-                      {/* Minimalist CTA Button */}
-                      <div className={`mt-auto mb-2 pointer-events-auto transition-all duration-700 ${isFront ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-                        <Link href={card.href} className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-semibold shadow-lg hover:shadow-violet-500/25 transition-shadow">
-                          Explore services <ArrowRight className="w-4 h-4" />
+                      {/* CTA — white pill, matches reference exactly */}
+                      <div
+                        className="relative z-10 mt-4"
+                        style={{
+                          opacity: isFront ? 1 : 0,
+                          transform: isFront ? "translateY(0)" : "translateY(8px)",
+                          transition: "opacity 0.5s ease, transform 0.5s ease",
+                          pointerEvents: isFront ? "auto" : "none",
+                        }}
+                      >
+                        <Link
+                          href={card.href}
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 hover:opacity-90 active:scale-[0.97]"
+                          style={{
+                            background: "rgba(255,255,255,0.95)",
+                            color: "#111",
+                            boxShadow: "0 2px 12px rgba(0,0,0,0.3)",
+                          }}
+                        >
+                          Learn more
                         </Link>
                       </div>
-
                     </div>
                   </div>
-
                 </motion.div>
               );
             })}
           </div>
 
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-400 pointer-events-none select-none">
-            <motion.div animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }} className="text-xs font-semibold tracking-widest uppercase">
+          {/* Scroll hint */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none select-none">
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+              className="text-xs font-semibold tracking-widest uppercase text-gray-500"
+            >
               ↓ Scroll or Swipe
             </motion.div>
           </div>
