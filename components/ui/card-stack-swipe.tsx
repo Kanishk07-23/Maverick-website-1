@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useTransform, AnimatePresence, PanInfo } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const SWIPE_THRESHOLD = 150;
@@ -10,7 +10,7 @@ export interface ServiceCardData {
   id: string | number;
   title: string;
   description: string;
-  icon?: React.ComponentType<any>;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 interface CardStackSwipeProps {
@@ -82,7 +82,7 @@ function SwipeableCard({ card, index, isTop, onSwipe }: SwipeableCardProps) {
   const yOffset = index * 20; 
   const scale = 1 - index * 0.05;
 
-  const handleDragEnd = (event: any, info: any) => {
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (Math.abs(info.offset.x) > SWIPE_THRESHOLD) {
       onSwipe();
     }
