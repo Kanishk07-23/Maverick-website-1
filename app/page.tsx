@@ -1,16 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, Calendar, Code, FileText, User, Clock } from "lucide-react";
-import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
+import { ArrowRight } from "lucide-react";
 import { GlassButton } from "@/components/ui/liquid-glass";
 import { TestimonialsSection } from "@/components/sections/testimonials";
-
 import { ProcessSection } from "@/components/sections/process";
-
 import { CtaSection } from "@/components/sections/cta";
 import Link from "next/link";
 import { Component as InfiniteGrid } from "@/components/ui/the-infinite-grid";
+import { PortfolioGallery } from "@/components/ui/portfolio-gallery";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
@@ -69,62 +67,17 @@ const links = [
   { name: "Contact", path: "/contact" },
 ];
 
-const timelineData = [
-  {
-    id: 1,
-    title: "Brand Strategy",
-    date: "Phase 1",
-    content: "Defining your brand architecture, positioning, and visual identity to stand out.",
-    category: "Strategy",
-    icon: FileText,
-    relatedIds: [2],
-    status: "completed" as const,
-    energy: 100,
-  },
-  {
-    id: 2,
-    title: "UI/UX Design",
-    date: "Phase 2",
-    content: "Crafting beautiful, high-converting digital experiences and user interfaces.",
-    category: "Design",
-    icon: Code,
-    relatedIds: [1, 3],
-    status: "in-progress" as const,
-    energy: 90,
-  },
-  {
-    id: 3,
-    title: "Web Development",
-    date: "Phase 3",
-    content: "Building scalable, lightning-fast platforms with cutting-edge tech.",
-    category: "Development",
-    icon: Calendar,
-    relatedIds: [2, 4],
-    status: "in-progress" as const,
-    energy: 60,
-  },
-  {
-    id: 4,
-    title: "SEO & Growth",
-    date: "Phase 4",
-    content: "Driving high-intent organic traffic through search optimization.",
-    category: "Growth",
-    icon: User,
-    relatedIds: [3, 5],
-    status: "pending" as const,
-    energy: 30,
-  },
-  {
-    id: 5,
-    title: "Performance Ads",
-    date: "Phase 5",
-    content: "Scaling your revenue with laser-focused paid campaigns.",
-    category: "Marketing",
-    icon: Clock,
-    relatedIds: [4],
-    status: "pending" as const,
-    energy: 10,
-  },
+const serviceImages = [
+  { src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&q=80", alt: "Personal Branding" },
+  { src: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop&q=80", alt: "Social Media" },
+  { src: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop&q=80", alt: "App Development" },
+  { src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&q=80", alt: "SEO & SEM" },
+  { src: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop&q=80", alt: "Performance Ads" },
+  { src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop&q=80", alt: "Brand Strategy" },
+  { src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&q=80", alt: "Analytics & Growth" },
+  { src: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&h=600&fit=crop&q=80", alt: "Content Marketing" },
+  { src: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&h=600&fit=crop&q=80", alt: "Creative Direction" },
+  { src: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop&q=80", alt: "Campaign Strategy" },
 ];
 
 export default function HomePage() {
@@ -173,25 +126,13 @@ export default function HomePage() {
       </section>
 
       {/* ─── SERVICES STRIP ────────────────────────────── */}
-      <section className="py-28 relative">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6">
-            <div>
-              <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">What We Do</p>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
-                Services Built<br />for Growth
-              </h2>
-            </div>
-            <Link href="/services" className="inline-flex items-center gap-2 text-gray-900 font-bold text-lg hover:text-blue-600 transition-colors cursor-pointer group">
-              View all services <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-
-          <div className="relative mt-12 w-full flex justify-center">
-            <RadialOrbitalTimeline timelineData={timelineData} />
-          </div>
-        </div>
-      </section>
+      <PortfolioGallery
+        title="Services Built for Growth"
+        archiveButton={{ text: "View all services", href: "/services" }}
+        images={serviceImages}
+        maxHeight={100}
+        spacing="-space-x-64 md:-space-x-72"
+      />
 
 
 

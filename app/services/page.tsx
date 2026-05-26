@@ -1,6 +1,20 @@
 "use client";
 
 import { ExpandableCard } from "@/components/ui/expandable-card";
+import { PortfolioGallery } from "@/components/ui/portfolio-gallery";
+
+const galleryImages = [
+  { src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&q=80", alt: "Personal Branding" },
+  { src: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop&q=80", alt: "Social Media" },
+  { src: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop&q=80", alt: "App Development" },
+  { src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&q=80", alt: "SEO & SEM" },
+  { src: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop&q=80", alt: "Performance Ads" },
+  { src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop&q=80", alt: "Brand Strategy" },
+  { src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&q=80", alt: "Analytics & Growth" },
+  { src: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&h=600&fit=crop&q=80", alt: "Content Marketing" },
+  { src: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&h=600&fit=crop&q=80", alt: "Creative Direction" },
+  { src: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop&q=80", alt: "Campaign Strategy" },
+];
 
 const services = [
   {
@@ -179,20 +193,25 @@ const services = [
 export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-[#fafaf9]">
-      {/* Page header */}
-      <div className="max-w-7xl mx-auto px-6 pt-32 pb-16">
-        <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">
-          What We Do
-        </p>
-        <h1 className="text-5xl sm:text-6xl xl:text-7xl font-black tracking-tighter text-gray-900 leading-[1.02] mb-6">
-          Our&nbsp;
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-            Expertise
-          </span>
-        </h1>
+      {/* Portfolio Gallery hero */}
+      <div className="pt-20">
+        <PortfolioGallery
+          title="Our Expertise"
+          archiveButton={{ text: "Book a free call", href: "/contact" }}
+          images={galleryImages}
+          maxHeight={100}
+          spacing="-space-x-64 md:-space-x-72"
+        />
+      </div>
+
+      {/* Section label */}
+      <div className="max-w-7xl mx-auto px-6 pt-8 pb-6">
+        <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-2">What We Do</p>
+        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 mb-3">
+          Six Core Capabilities
+        </h2>
         <p className="text-gray-500 text-lg max-w-xl leading-relaxed">
-          Six core capabilities, each designed to compound your growth. Click
-          any card to explore the full service.
+          Each service is designed to compound your growth. Click any card to explore the full offering.
         </p>
       </div>
 
