@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CardItem {
+  tempId: number | string;
   title: string;
   desc: string;
   gradientFrom: string;
@@ -12,7 +13,9 @@ interface CardItem {
   buttonText?: string;
 }
 
-const defaultCards: CardItem[] = [
+type CardInput = Omit<CardItem, 'tempId'>;
+
+const defaultCards: CardInput[] = [
   {
     title: 'Card one',
     desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -37,52 +40,87 @@ export default function SkewCards({
   cards: customCards,
   buttonText: globalButtonText,
 }: {
-  cards?: CardItem[];
+  cards?: CardInput[];
   buttonText?: string;
 }) {
-  const cards = customCards || defaultCards;
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [cardsList, setCardsList] = useState<CardItem[]>(
+    (customCards || defaultCards).map((c, i) => ({ ...c, tempId: i }))
+  );
+  const [spacing, setSpacing] = useState(390);
+
+  // ── Scrolling mechanism from reference ──────────────────────────────────
+  const handleMove = (steps: number) => {
+    const newList = [...cardsList];
+    if (steps > 0) {
+      for (let i = steps; i > 0; i--) {
+        const item = newList.shift();
+        if (!item) return;
+        newList.push({ ...item, tempId: Math.random() });
+      }
+    } else {
+      for (let i = steps; i < 0; i++) {
+        const item = newList.pop();
+        if (!item) return;
+        newList.unshift({ ...item, tempId: Math.random() });
+      }
+    }
+    setCardsList(newList);
+  };
+
+  useEffect(() => {
+    const update = () => {
+      setSpacing(window.matchMedia('(min-width: 640px)').matches ? 390 : 290);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  // ────────────────────────────────────────────────────────────────────────
 
   return (
     <>
-      {/* Outer clip container */}
-      <div ref={containerRef} className="relative w-full overflow-hidden">
+      <div className="relative w-full overflow-hidden" style={{ height: 600 }}>
+        {cardsList.map((card, index) => {
+          // ── Position logic from reference ──
+          const position =
+            cardsList.length % 2
+              ? index - (cardsList.length + 1) / 2
+              : index - cardsList.length / 2;
+          const isCenter = position === 0;
+          // ──────────────────────────────────
 
-        {/* Left edge fade */}
-        <div
-          className="absolute left-0 top-0 bottom-0 w-32 z-30 pointer-events-none"
-          style={{ background: 'linear-gradient(to right, hsl(48,33%,97%), transparent)' }}
-        />
-        {/* Right edge fade */}
-        <div
-          className="absolute right-0 top-0 bottom-0 w-32 z-30 pointer-events-none"
-          style={{ background: 'linear-gradient(to left, hsl(48,33%,97%), transparent)' }}
-        />
-
-        {/* Draggable horizontal track */}
-        <motion.div
-          drag="x"
-          dragConstraints={containerRef}
-          dragElastic={0.08}
-          dragTransition={{ bounceStiffness: 200, bounceDamping: 25, timeConstant: 300 }}
-          whileTap={{ cursor: 'grabbing' }}
-          className="flex flex-nowrap items-center py-16 px-20 will-change-transform"
-          style={{ cursor: 'grab' }}
-        >
-          {cards.map(({ title, desc, gradientFrom, gradientTo, href, buttonText }, idx) => (
+          return (
             <div
-              key={idx}
-              className="group relative flex-shrink-0 w-[320px] h-[400px] mx-8 transition-all duration-500"
+              key={card.tempId}
+              onClick={() => handleMove(position)}
+              // ── Card wrapper: sizing + scrolling transforms from reference ──
+              className="absolute left-1/2 top-1/2 cursor-pointer group transition-all duration-500 ease-in-out"
+              style={{
+                width: 320,
+                height: 400,
+                opacity: Math.abs(position) > 2 ? 0 : 1,
+                pointerEvents: Math.abs(position) > 2 ? 'none' : 'auto',
+                zIndex: isCenter ? 10 : Math.max(0, 5 - Math.abs(position)),
+                transform: `
+                  translate(-50%, -50%)
+                  translateX(${spacing * position}px)
+                  translateY(${isCenter ? -20 : position % 2 ? 15 : -15}px)
+                  rotate(${isCenter ? 0 : position % 2 ? 2.5 : -2.5}deg)
+                  scale(${isCenter ? 1 : 0.88})
+                `,
+              }}
             >
+              {/* ── Card visuals: unchanged from original reference design ── */}
+
               {/* Skewed gradient panel */}
               <span
                 className="absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
-                style={{ background: `linear-gradient(315deg, ${gradientFrom}, ${gradientTo})` }}
+                style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
               />
               {/* Blurred glow panel */}
               <span
                 className="absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] blur-[30px] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
-                style={{ background: `linear-gradient(315deg, ${gradientFrom}, ${gradientTo})` }}
+                style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
               />
 
               {/* Animated corner blobs */}
@@ -91,25 +129,44 @@ export default function SkewCards({
                 <span className="absolute bottom-0 right-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-500 animate-blob animation-delay-1000 group-hover:bottom-[-50px] group-hover:right-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
               </span>
 
-              {/* Card content */}
-              <div className="relative z-20 left-0 p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[60px_40px] h-full">
-                <h2 className="text-2xl mb-2">{title}</h2>
-                <p className="text-lg leading-relaxed mb-4">{desc}</p>
+              {/* Content */}
+              <div className="relative z-20 left-0 p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[60px_40px]">
+                <h2 className="text-2xl mb-2">{card.title}</h2>
+                <p className="text-lg leading-relaxed mb-2">{card.desc}</p>
                 <a
-                  href={href || '#'}
+                  href={card.href || '#'}
                   draggable={false}
                   onClick={(e) => e.stopPropagation()}
-                  className="inline-block text-lg font-bold text-black bg-white px-3 py-2 rounded hover:bg-[#ffcf4d] hover:border hover:border-[rgba(255,0,88,0.4)] hover:shadow-md transition-colors duration-200"
+                  className="inline-block text-lg font-bold text-black bg-white px-3 py-2 rounded hover:bg-[#ffcf4d] hover:border hover:border-[rgba(255,0,88,0.4)] hover:shadow-md"
                 >
-                  {buttonText || globalButtonText || 'Read More'}
+                  {card.buttonText || globalButtonText || 'Read More'}
                 </a>
               </div>
+              {/* ─────────────────────────────────────────────────────────── */}
             </div>
-          ))}
-        </motion.div>
+          );
+        })}
+
+        {/* ── Navigation buttons from reference ── */}
+        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-3 z-20">
+          <button
+            onClick={() => handleMove(-1)}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-colors"
+            aria-label="Previous"
+          >
+            <ChevronLeft className="w-5 h-5 text-gray-700" />
+          </button>
+          <button
+            onClick={() => handleMove(1)}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-colors"
+            aria-label="Next"
+          >
+            <ChevronRight className="w-5 h-5 text-gray-700" />
+          </button>
+        </div>
+        {/* ──────────────────────────────────────── */}
       </div>
 
-      {/* Keyframe animations */}
       <style>{`
         @keyframes blob {
           0%, 100% { transform: translateY(10px); }
