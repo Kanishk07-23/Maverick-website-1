@@ -65,11 +65,17 @@ export default function ServicesPage() {
             <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto font-medium">
               Every service we offer is engineered to drive measurable results — from first impression to lasting revenue.
             </p>
+            {/* Drag hint */}
+            <p className="mt-6 text-sm text-gray-400 flex items-center justify-center gap-2 select-none">
+              <span className="inline-block animate-bounce-x">←</span>
+              <span>Drag to explore</span>
+              <span className="inline-block animate-bounce-x-rev">→</span>
+            </p>
           </div>
         </section>
 
         {/* Cards Section */}
-        <section className="pb-24">
+        <section>
           <SkewCards cards={serviceCards} />
         </section>
 

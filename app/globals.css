@@ -99,6 +99,19 @@
   animation: marquee var(--duration, 40s) linear infinite;
 }
 
+/* Drag-hint arrow animations */
+@keyframes bounce-x {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-6px); }
+}
+@keyframes bounce-x-rev {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+.animate-bounce-x { animation: bounce-x 1.4s ease-in-out infinite; }
+.animate-bounce-x-rev { animation: bounce-x-rev 1.4s ease-in-out infinite; }
+
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f9fafb; }
