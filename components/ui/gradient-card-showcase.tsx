@@ -6,6 +6,7 @@ interface CardItem {
   gradientFrom: string;
   gradientTo: string;
   href?: string;
+  buttonText?: string;
 }
 
 const defaultCards: CardItem[] = [
@@ -29,7 +30,7 @@ const defaultCards: CardItem[] = [
   },
 ];
 
-export default function SkewCards({ cards: customCards }: { cards?: CardItem[] }) {
+export default function SkewCards({ cards: customCards, buttonText: globalButtonText }: { cards?: CardItem[]; buttonText?: string }) {
   const cards = customCards || defaultCards;
 
   return (
@@ -70,7 +71,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardItem[] }
                 href={href || "#"}
                 className="inline-block text-center text-sm font-bold text-black bg-white px-4 py-2 rounded-xl hover:bg-[#ffcf4d] hover:border hover:border-[rgba(255,0,88,0.4)] hover:shadow-md transition-all duration-300 self-start mt-4"
               >
-                Read More
+                {globalButtonText || 'Get Started'}
               </a>
             </div>
           </div>
