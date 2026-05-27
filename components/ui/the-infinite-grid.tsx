@@ -11,6 +11,11 @@ import {
 
 export const Component = ({ children }: { children?: React.ReactNode }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -44,15 +49,20 @@ export const Component = ({ children }: { children?: React.ReactNode }) => {
         "relative w-full min-h-screen bg-background text-foreground"
       )}
     >
+      {/* Static grid — always visible */}
       <div className="fixed inset-0 z-0 opacity-[0.15] pointer-events-none">
         <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} />
       </div>
-      <motion.div 
-        className="fixed inset-0 z-0 opacity-40 pointer-events-none"
-        style={{ maskImage, WebkitMaskImage: maskImage }}
-      >
-        <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} />
-      </motion.div>
+
+      {/* Mouse-following bright overlay — desktop only (no cursor on touch) */}
+      {!isTouch && (
+        <motion.div 
+          className="fixed inset-0 z-0 opacity-40 pointer-events-none"
+          style={{ maskImage, WebkitMaskImage: maskImage }}
+        >
+          <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} />
+        </motion.div>
+      )}
 
 
 

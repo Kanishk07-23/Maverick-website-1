@@ -132,7 +132,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.65 }}
-            className="flex items-center gap-4 mt-10"
+            className="flex flex-wrap items-center gap-4 mt-10"
           >
             <Link
               href="/contact"
@@ -161,7 +161,7 @@ export default function AboutPage() {
                 <img
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=85&fit=crop"
                   alt="Maverick team collaborating"
-                  className="w-full h-[520px] object-cover"
+                  className="w-full h-64 sm:h-[520px] object-cover"
                 />
                 <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">

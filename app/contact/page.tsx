@@ -56,7 +56,7 @@ export default function ContactPage() {
         <div className="absolute top-[55%] right-[5%] w-[400px] h-[400px] rounded-full bg-blue-400/7  blur-[120px]" />
       </div>
 
-      <div className="relative z-10 max-w-2xl mx-auto px-6 pt-36 pb-24">
+      <div className="relative z-10 max-w-2xl mx-auto px-6 pt-24 sm:pt-36 pb-24">
 
         {/* HEADER */}
         <motion.div

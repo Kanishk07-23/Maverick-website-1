@@ -10,7 +10,6 @@ interface CardItem {
   gradientFrom: string;
   gradientTo: string;
   href?: string;
-  buttonText?: string;
 }
 
 type CardInput = Omit<CardItem, 'tempId'>;
@@ -36,19 +35,14 @@ const defaultCards: CardInput[] = [
   },
 ];
 
-export default function SkewCards({
-  cards: customCards,
-  buttonText: globalButtonText,
-}: {
-  cards?: CardInput[];
-  buttonText?: string;
-}) {
+export default function SkewCards({ cards: customCards }: { cards?: CardInput[] }) {
   const [cardsList, setCardsList] = useState<CardItem[]>(
     (customCards || defaultCards).map((c, i) => ({ ...c, tempId: i }))
   );
   const [spacing, setSpacing] = useState(390);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // ── Scrolling mechanism from reference ──────────────────────────────────
+  // ── Scrolling mechanism ────────────────────────────────────────────────
   const handleMove = (steps: number) => {
     const newList = [...cardsList];
     if (steps > 0) {
@@ -69,7 +63,9 @@ export default function SkewCards({
 
   useEffect(() => {
     const update = () => {
-      setSpacing(window.matchMedia('(min-width: 640px)').matches ? 390 : 290);
+      const mobile = !window.matchMedia('(min-width: 640px)').matches;
+      setIsMobile(mobile);
+      setSpacing(mobile ? 260 : 390);
     };
     update();
     window.addEventListener('resize', update);
@@ -77,77 +73,78 @@ export default function SkewCards({
   }, []);
   // ────────────────────────────────────────────────────────────────────────
 
+  // Container height: leave 80px below card bottom for nav buttons
+  const containerH = isMobile ? 520 : 600;
+
   return (
     <>
-      <div className="relative w-full overflow-hidden" style={{ height: 600 }}>
+      <div className="relative w-full overflow-hidden" style={{ height: containerH }}>
         {cardsList.map((card, index) => {
-          // ── Position logic from reference ──
           const position =
             cardsList.length % 2
               ? index - (cardsList.length + 1) / 2
               : index - cardsList.length / 2;
           const isCenter = position === 0;
-          // ──────────────────────────────────
+
+          // Mobile: only show center card (smooth crossfade via opacity transition)
+          // Desktop: show ±2 cards around center
+          const isVisible = isMobile ? isCenter : Math.abs(position) <= 2;
 
           return (
             <div
               key={card.tempId}
-              onClick={() => handleMove(position)}
-              // ── Card wrapper: sizing + scrolling transforms from reference ──
+              // On desktop: clicking a side card jumps to it. Mobile: buttons only.
+              onClick={() => !isMobile && handleMove(position)}
               className="absolute left-1/2 top-1/2 cursor-pointer group transition-all duration-500 ease-in-out"
               style={{
                 width: 320,
                 height: 400,
-                opacity: Math.abs(position) > 2 ? 0 : 1,
-                pointerEvents: Math.abs(position) > 2 ? 'none' : 'auto',
+                opacity: isVisible ? 1 : 0,
+                pointerEvents: isVisible ? 'auto' : 'none',
                 zIndex: isCenter ? 10 : Math.max(0, 5 - Math.abs(position)),
-                transform: `
-                  translate(-50%, -50%)
-                  translateX(${spacing * position}px)
-                  translateY(${isCenter ? -20 : position % 2 ? 15 : -15}px)
-                  rotate(${isCenter ? 0 : position % 2 ? 2.5 : -2.5}deg)
-                  scale(${isCenter ? 1 : 0.88})
-                `,
+                // Mobile: center the card, push up 40px so nav buttons don't overlap
+                // Desktop: stagger layout with spacing, rotation, scale
+                transform: isMobile
+                  ? 'translate(-50%, -50%) translateY(-40px)'
+                  : `
+                      translate(-50%, -50%)
+                      translateX(${spacing * position}px)
+                      translateY(${isCenter ? -20 : position % 2 ? 15 : -15}px)
+                      rotate(${isCenter ? 0 : position % 2 ? 2.5 : -2.5}deg)
+                      scale(${isCenter ? 1 : 0.88})
+                    `,
               }}
             >
-              {/* ── Card visuals: unchanged from original reference design ── */}
+              {/* ── Card visuals (untouched from original reference) ── */}
 
               {/* Skewed gradient panel */}
               <span
                 className="absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
                 style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
               />
-              {/* Blurred glow panel */}
+              {/* Blurred glow */}
               <span
                 className="absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] blur-[30px] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
                 style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
               />
 
-              {/* Animated corner blobs */}
+              {/* Corner blobs */}
               <span className="pointer-events-none absolute inset-0 z-10">
                 <span className="absolute top-0 left-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-100 animate-blob group-hover:top-[-50px] group-hover:left-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
                 <span className="absolute bottom-0 right-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-500 animate-blob animation-delay-1000 group-hover:bottom-[-50px] group-hover:right-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
               </span>
 
-              {/* Content */}
+              {/* Content — "Read More" button removed */}
               <div className="relative z-20 left-0 p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[60px_40px]">
                 <h2 className="text-2xl mb-2">{card.title}</h2>
-                <p className="text-lg leading-relaxed mb-2">{card.desc}</p>
-                <a
-                  href={card.href || '#'}
-                  draggable={false}
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-block text-lg font-bold text-black bg-white px-3 py-2 rounded hover:bg-[#ffcf4d] hover:border hover:border-[rgba(255,0,88,0.4)] hover:shadow-md"
-                >
-                  {card.buttonText || globalButtonText || 'Read More'}
-                </a>
+                <p className="text-lg leading-relaxed">{card.desc}</p>
               </div>
-              {/* ─────────────────────────────────────────────────────────── */}
+              {/* ─────────────────────────────────────────────────────── */}
             </div>
           );
         })}
 
-        {/* ── Navigation buttons from reference ── */}
+        {/* Navigation buttons */}
         <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-3 z-20">
           <button
             onClick={() => handleMove(-1)}
@@ -164,7 +161,6 @@ export default function SkewCards({
             <ChevronRight className="w-5 h-5 text-gray-700" />
           </button>
         </div>
-        {/* ──────────────────────────────────────── */}
       </div>
 
       <style>{`

@@ -213,7 +213,7 @@ export default function HomePage() {
               className="h-12 w-12 object-contain"
             />
           </div>
-          <nav className="flex gap-8 text-sm font-semibold text-gray-500">
+          <nav className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm font-semibold text-gray-500">
             {links.map((l) => (
               <Link key={l.path} href={l.path} className="hover:text-gray-900 transition-colors cursor-pointer">{l.name}</Link>
             ))}
