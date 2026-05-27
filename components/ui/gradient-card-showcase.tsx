@@ -62,16 +62,14 @@ export default function SkewCards({ cards: customCards, buttonText: globalButton
             </span>
 
             {/* Content */}
-            <div className="relative z-20 left-0 p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[60px_40px] h-full flex flex-col justify-between">
-              <div>
-                <h2 className="text-2xl font-bold mb-4 font-['Poppins']">{title}</h2>
-                <p className="text-sm leading-relaxed text-white/80 font-medium">{desc}</p>
-              </div>
+            <div className="relative z-20 left-0 p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[60px_40px]">
+              <h2 className="text-2xl mb-2">{title}</h2>
+              <p className="text-lg leading-relaxed mb-2">{desc}</p>
               <a
                 href={href || "#"}
-                className="inline-block text-center text-sm font-bold text-black bg-white px-4 py-2 rounded-xl hover:bg-[#ffcf4d] hover:border hover:border-[rgba(255,0,88,0.4)] hover:shadow-md transition-all duration-300 self-start mt-4"
+                className="inline-block text-lg font-bold text-black bg-white px-3 py-2 rounded hover:bg-[#ffcf4d] hover:border hover:border-[rgba(255,0,88,0.4)] hover:shadow-md"
               >
-                {globalButtonText || 'Get Started'}
+                {globalButtonText || 'Read More'}
               </a>
             </div>
           </div>
