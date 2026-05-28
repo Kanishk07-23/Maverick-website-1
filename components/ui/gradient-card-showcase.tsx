@@ -74,7 +74,10 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
   // ────────────────────────────────────────────────────────────────────────
 
   // Container height: leave 80px below card bottom for nav buttons
-  const containerH = isMobile ? 520 : 600;
+  // On mobile: extra height needed because the activated card expands its content
+  const containerH = isMobile ? 620 : 600;
+  const cardWidth  = isMobile ? 270  : 320;
+  const cardHeight = isMobile ? 340  : 400;
 
   return (
     <>
@@ -97,8 +100,8 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
               onClick={() => !isMobile && handleMove(position)}
               className={`absolute left-1/2 top-1/2 cursor-pointer group transition-all duration-500 ease-in-out${isMobile && isCenter ? ' mobile-active' : ''}`}
               style={{
-                width: 320,
-                height: 400,
+                width: cardWidth,
+                height: cardHeight,
                 opacity: isVisible ? 1 : 0,
                 pointerEvents: isVisible ? 'auto' : 'none',
                 zIndex: isCenter ? 10 : Math.max(0, 5 - Math.abs(position)),
@@ -194,6 +197,30 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
         .mobile-active .mobile-content {
           left: -25px;
           padding: 100px 40px;
+        }
+
+        /* On small screens: tighten offsets so nothing gets clipped */
+        @media (max-width: 639px) {
+          .mobile-active .mobile-panel {
+            left: 15px;
+            width: calc(100% - 70px);
+          }
+          .mobile-active .mobile-blob-top {
+            top: -20px;
+            left: 20px;
+            width: 70px;
+            height: 70px;
+          }
+          .mobile-active .mobile-blob-bottom {
+            bottom: -20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+          }
+          .mobile-active .mobile-content {
+            left: 0px;
+            padding: 50px 24px;
+          }
         }
       `}</style>
     </>
