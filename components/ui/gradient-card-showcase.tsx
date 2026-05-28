@@ -95,7 +95,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
               key={card.tempId}
               // On desktop: clicking a side card jumps to it. Mobile: buttons only.
               onClick={() => !isMobile && handleMove(position)}
-              className="absolute left-1/2 top-1/2 cursor-pointer group transition-all duration-500 ease-in-out"
+              className={`absolute left-1/2 top-1/2 cursor-pointer group transition-all duration-500 ease-in-out${isMobile && isCenter ? ' mobile-active' : ''}`}
               style={{
                 width: 320,
                 height: 400,
@@ -119,23 +119,23 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
 
               {/* Skewed gradient panel */}
               <span
-                className="absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
+                className="mobile-panel absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
                 style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
               />
               {/* Blurred glow */}
               <span
-                className="absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] blur-[30px] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
+                className="mobile-panel absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] blur-[30px] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
                 style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
               />
 
               {/* Corner blobs */}
               <span className="pointer-events-none absolute inset-0 z-10">
-                <span className="absolute top-0 left-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-100 animate-blob group-hover:top-[-50px] group-hover:left-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
-                <span className="absolute bottom-0 right-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-500 animate-blob animation-delay-1000 group-hover:bottom-[-50px] group-hover:right-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
+                <span className="mobile-blob-top absolute top-0 left-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-100 animate-blob group-hover:top-[-50px] group-hover:left-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
+                <span className="mobile-blob-bottom absolute bottom-0 right-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-500 animate-blob animation-delay-1000 group-hover:bottom-[-50px] group-hover:right-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
               </span>
 
               {/* Content — button removed, min-h keeps same card size as original */}
-              <div className="relative z-20 left-0 min-h-[250px] p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[100px_40px]">
+              <div className="mobile-content relative z-20 left-0 min-h-[250px] p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[100px_40px]">
                 <h2 className="text-2xl mb-2">{card.title}</h2>
                 <p className="text-lg leading-relaxed">{card.desc}</p>
               </div>
@@ -170,6 +170,31 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
         }
         .animate-blob { animation: blob 2s ease-in-out infinite; }
         .animation-delay-1000 { animation-delay: -1s; }
+
+        /* Auto-activate centre card on mobile/touch devices */
+        .mobile-active .mobile-panel {
+          transform: skewX(0deg);
+          left: 20px;
+          width: calc(100% - 90px);
+        }
+        .mobile-active .mobile-blob-top {
+          top: -50px;
+          left: 50px;
+          width: 100px;
+          height: 100px;
+          opacity: 1;
+        }
+        .mobile-active .mobile-blob-bottom {
+          bottom: -50px;
+          right: 50px;
+          width: 100px;
+          height: 100px;
+          opacity: 1;
+        }
+        .mobile-active .mobile-content {
+          left: -25px;
+          padding: 100px 40px;
+        }
       `}</style>
     </>
   );
