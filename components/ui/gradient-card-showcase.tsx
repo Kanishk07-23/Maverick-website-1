@@ -119,12 +119,12 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
 
               {/* Skewed gradient panel */}
               <span
-                className="absolute top-[15%] left-[50px] w-1/2 h-[70%] rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
+                className="absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
                 style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
               />
               {/* Blurred glow */}
               <span
-                className="absolute top-[15%] left-[50px] w-1/2 h-[70%] rounded-lg transform skew-x-[15deg] blur-[30px] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
+                className="absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] blur-[30px] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
                 style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
               />
 
