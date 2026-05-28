@@ -135,7 +135,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
               </span>
 
               {/* Content — button removed, min-h keeps same card size as original */}
-              <div className="relative z-20 left-0 min-h-[250px] p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[60px_40px]">
+              <div className="relative z-20 left-0 min-h-[250px] p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[30px_40px]">
                 <h2 className="text-2xl mb-2">{card.title}</h2>
                 <p className="text-lg leading-relaxed">{card.desc}</p>
               </div>
