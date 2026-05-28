@@ -74,10 +74,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
   // ────────────────────────────────────────────────────────────────────────
 
   // Container height: leave 80px below card bottom for nav buttons
-  // On mobile: extra height needed because the activated card expands its content
-  const containerH = isMobile ? 620 : 600;
-  const cardWidth  = isMobile ? 270  : 320;
-  const cardHeight = isMobile ? 340  : 400;
+  const containerH = isMobile ? 520 : 600;
 
   return (
     <>
@@ -100,15 +97,15 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
               onClick={() => !isMobile && handleMove(position)}
               className={`absolute left-1/2 top-1/2 cursor-pointer group transition-all duration-500 ease-in-out${isMobile && isCenter ? ' mobile-active' : ''}`}
               style={{
-                width: cardWidth,
-                height: cardHeight,
+                width: 320,
+                height: 400,
                 opacity: isVisible ? 1 : 0,
                 pointerEvents: isVisible ? 'auto' : 'none',
                 zIndex: isCenter ? 10 : Math.max(0, 5 - Math.abs(position)),
                 // Mobile: center the card, push up 40px so nav buttons don't overlap
                 // Desktop: stagger layout with spacing, rotation, scale
                 transform: isMobile
-                  ? 'translate(-50%, -50%) translateY(-40px)'
+                  ? 'translate(-50%, -50%) translateY(-40px) scale(0.78)'
                   : `
                       translate(-50%, -50%)
                       translateX(${spacing * position}px)
