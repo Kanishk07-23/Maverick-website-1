@@ -73,7 +73,6 @@ export default function ContactPage() {
 
           <h1
             className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[1.05] mb-5"
-            style={{ fontFamily: "Poppins, sans-serif" }}
           >
             Let's build something<br />
             <span className="brand-gradient-text">remarkable.</span>

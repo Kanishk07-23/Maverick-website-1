@@ -72,34 +72,38 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  // ── Horizontal wheel scroll ────────────────────────────────────────────
+  // ── Horizontal wheel scroll — one card per gesture, with weight ───────
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    let accumulated = 0;
-    const THRESHOLD = 60;
+    // Cooldown: ignore subsequent wheel events for 650ms after a card moves
+    const COOLDOWN_MS = 650;
+    let cooling = false;
+    let coolTimer: ReturnType<typeof setTimeout> | null = null;
 
     const onWheel = (e: WheelEvent) => {
-      // Only intercept when there's meaningful horizontal OR vertical delta
-      // (trackpad horizontal swipe gives deltaX, mouse wheel gives deltaY)
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) < 1) return;
-
       e.preventDefault();
-      accumulated += delta;
 
-      if (accumulated > THRESHOLD) {
-        handleMove(1);
-        accumulated = 0;
-      } else if (accumulated < -THRESHOLD) {
-        handleMove(-1);
-        accumulated = 0;
-      }
+      if (cooling) return;
+
+      // Prefer horizontal delta (trackpad swipe), fall back to vertical
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (Math.abs(delta) < 5) return; // ignore micro-jitter
+
+      cooling = true;
+      handleMove(delta > 0 ? 1 : -1);
+
+      coolTimer = setTimeout(() => {
+        cooling = false;
+      }, COOLDOWN_MS);
     };
 
     el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
+    return () => {
+      el.removeEventListener('wheel', onWheel);
+      if (coolTimer) clearTimeout(coolTimer);
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardsList]);
   // ────────────────────────────────────────────────────────────────────────

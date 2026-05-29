@@ -102,7 +102,6 @@ export default function AboutPage() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.9] mb-6"
-              style={{ fontFamily: "Poppins, sans-serif" }}
             >
               We Are
               <br />
