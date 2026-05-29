@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 interface CardItem {
   tempId: number | string;
@@ -42,24 +42,35 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
   const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // ── Scrolling mechanism ────────────────────────────────────────────────
-  const handleMove = (steps: number) => {
-    const newList = [...cardsList];
-    if (steps > 0) {
-      for (let i = steps; i > 0; i--) {
-        const item = newList.shift();
-        if (!item) return;
-        newList.push({ ...item, tempId: Math.random() });
+  // Keep a stable ref to the latest cardsList so the wheel handler can read
+  // the current list without being a dependency itself.
+  const cardsRef = useRef(cardsList);
+  cardsRef.current = cardsList;
+
+  // Cooldown refs — survive re-renders without triggering effects
+  const coolingRef = useRef(false);
+  const coolTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // ── Stable move function ──────────────────────────────────────────────
+  const handleMove = useCallback((steps: number) => {
+    setCardsList((prev) => {
+      const newList = [...prev];
+      if (steps > 0) {
+        for (let i = steps; i > 0; i--) {
+          const item = newList.shift();
+          if (!item) return prev;
+          newList.push({ ...item, tempId: Math.random() });
+        }
+      } else {
+        for (let i = steps; i < 0; i++) {
+          const item = newList.pop();
+          if (!item) return prev;
+          newList.unshift({ ...item, tempId: Math.random() });
+        }
       }
-    } else {
-      for (let i = steps; i < 0; i++) {
-        const item = newList.pop();
-        if (!item) return;
-        newList.unshift({ ...item, tempId: Math.random() });
-      }
-    }
-    setCardsList(newList);
-  };
+      return newList;
+    });
+  }, []);
 
   useEffect(() => {
     const update = () => {
@@ -72,40 +83,42 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  // ── Horizontal wheel scroll — one card per gesture, with weight ───────
+  // ── Wheel scroll: one card per gesture, 700ms cooldown ───────────────
+  // Uses refs so the cooldown survives state updates and effect re-runs.
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    // Cooldown: ignore subsequent wheel events for 650ms after a card moves
-    const COOLDOWN_MS = 650;
-    let cooling = false;
-    let coolTimer: ReturnType<typeof setTimeout> | null = null;
+    const COOLDOWN_MS = 700;
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
 
-      if (cooling) return;
+      // Still cooling down from the last card move — ignore
+      if (coolingRef.current) return;
 
-      // Prefer horizontal delta (trackpad swipe), fall back to vertical
+      // Prefer horizontal trackpad delta, fall back to vertical wheel
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) < 5) return; // ignore micro-jitter
+      if (Math.abs(delta) < 4) return; // ignore micro-jitter
 
-      cooling = true;
+      // Lock immediately before doing anything else
+      coolingRef.current = true;
+
       handleMove(delta > 0 ? 1 : -1);
 
-      coolTimer = setTimeout(() => {
-        cooling = false;
+      // Clear any stale timer and start a fresh cooldown
+      if (coolTimerRef.current) clearTimeout(coolTimerRef.current);
+      coolTimerRef.current = setTimeout(() => {
+        coolingRef.current = false;
       }, COOLDOWN_MS);
     };
 
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => {
       el.removeEventListener('wheel', onWheel);
-      if (coolTimer) clearTimeout(coolTimer);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardsList]);
+    // Only run once on mount — handleMove is stable (useCallback with no deps)
+  }, [handleMove]);
   // ────────────────────────────────────────────────────────────────────────
 
   // Container height
@@ -125,14 +138,11 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
               : index - cardsList.length / 2;
           const isCenter = position === 0;
 
-          // Mobile: only show center card (smooth crossfade via opacity transition)
-          // Desktop: show ±2 cards around center
           const isVisible = isMobile ? isCenter : Math.abs(position) <= 2;
 
           return (
             <div
               key={card.tempId}
-              // On desktop: clicking a side card jumps to it. Mobile: wheel/touch only.
               onClick={() => !isMobile && handleMove(position)}
               className={`absolute left-1/2 top-1/2 cursor-pointer group transition-all duration-500 ease-in-out${isMobile && isCenter ? ' mobile-active' : ''}`}
               style={{
@@ -141,8 +151,6 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
                 opacity: isVisible ? 1 : 0,
                 pointerEvents: isVisible ? 'auto' : 'none',
                 zIndex: isCenter ? 10 : Math.max(0, 5 - Math.abs(position)),
-                // Mobile: center the card
-                // Desktop: stagger layout with spacing — NO rotation on any card
                 transform: isMobile
                   ? 'translate(-50%, -50%) translateY(-20px) scale(0.78)'
                   : `
@@ -153,8 +161,6 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
                     `,
               }}
             >
-              {/* ── Card visuals ── */}
-
               {/* Skewed gradient panel */}
               <span
                 className="mobile-panel absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
@@ -177,12 +183,11 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
                 <h2 className="text-2xl mb-2">{card.title}</h2>
                 <p className="text-lg leading-relaxed">{card.desc}</p>
               </div>
-              {/* ─────────────────────────────────────────────────────── */}
             </div>
           );
         })}
 
-        {/* Scroll hint — replaces nav buttons */}
+        {/* Scroll hint */}
         <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-gray-400 select-none pointer-events-none z-20 flex items-center gap-2">
           <span className="text-base">⟵</span> scroll to explore <span className="text-base">⟶</span>
         </p>
@@ -196,7 +201,6 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
         .animate-blob { animation: blob 2s ease-in-out infinite; }
         .animation-delay-1000 { animation-delay: -1s; }
 
-        /* Auto-activate centre card on mobile/touch devices */
         .mobile-active .mobile-panel {
           transform: skewX(0deg);
           left: 20px;
@@ -221,7 +225,6 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
           padding: 100px 40px;
         }
 
-        /* On small screens: tighten offsets so nothing gets clipped */
         @media (max-width: 639px) {
           .mobile-active .mobile-panel {
             left: 15px;

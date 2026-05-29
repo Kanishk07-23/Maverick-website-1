@@ -19,7 +19,7 @@ export function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 32);
+    const handleScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -28,123 +28,122 @@ export function Navigation() {
 
   return (
     <>
-      {/* ── Desktop / top-bar nav ── */}
+      {/* ── Main navbar ── */}
       <motion.header
-        initial={{ y: -72, opacity: 0 }}
+        initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 h-[68px]"
+        transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 right-0 z-50"
         style={{
           background: scrolled
-            ? "rgba(255,255,255,0.82)"
-            : "rgba(255,255,255,0.0)",
-          backdropFilter: scrolled ? "blur(18px)" : "blur(0px)",
-          WebkitBackdropFilter: scrolled ? "blur(18px)" : "blur(0px)",
-          borderBottom: scrolled ? "1px solid rgba(0,0,0,0.06)" : "1px solid transparent",
-          transition: "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
+            ? "rgba(10, 10, 14, 0.88)"
+            : "rgba(10, 10, 14, 0.72)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom: "1px solid rgba(255,255,255,0.07)",
+          transition: "background 0.35s ease",
         }}
       >
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group z-10">
-          <motion.img
-            src="/logo.png"
-            alt="Maverick Digitals"
-            className="h-9 w-9 object-contain"
-            whileHover={{ rotate: -8, scale: 1.08 }}
-            transition={{ type: "spring", stiffness: 300, damping: 16 }}
-          />
-          <span className="hidden sm:block text-sm font-bold text-gray-800 tracking-tight group-hover:text-purple-700 transition-colors duration-200">
-            Maverick Digitals
-          </span>
-        </Link>
+        <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between h-[64px]">
 
-        {/* Desktop nav pill */}
-        <nav className="hidden md:flex items-center">
-          <div
-            className="flex items-center gap-1 rounded-2xl px-2 py-1.5"
-            style={{
-              background: "rgba(255,255,255,0.70)",
-              border: "1px solid rgba(0,0,0,0.08)",
-              boxShadow: "0 2px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9)",
-              backdropFilter: "blur(12px)",
-            }}
-          >
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group z-10 cursor-pointer">
+            <motion.img
+              src="/logo.png"
+              alt="Maverick Digitals"
+              className="h-8 w-8 object-contain"
+              whileHover={{ rotate: -10, scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 340, damping: 18 }}
+            />
+            <span className="text-sm font-bold tracking-tight text-white/80 group-hover:text-white transition-colors duration-200 hidden sm:block">
+              Maverick Digitals
+            </span>
+          </Link>
+
+          {/* Desktop nav links */}
+          <nav className="hidden md:flex items-center gap-1">
             {links.map((link) => {
               const isActive = pathname === link.path;
               return (
                 <Link
                   key={link.path}
                   href={link.path}
-                  className="relative px-5 py-2 text-sm font-semibold rounded-xl transition-colors duration-200 cursor-pointer select-none"
-                  style={{ color: isActive ? "#111827" : "#6B7280" }}
+                  className="relative px-4 py-2 text-sm font-medium rounded-lg cursor-pointer select-none transition-colors duration-200"
+                  style={{ color: isActive ? "#ffffff" : "rgba(255,255,255,0.50)" }}
                 >
+                  {/* Hover glow background */}
+                  <span
+                    className="absolute inset-0 rounded-lg transition-opacity duration-200 opacity-0 hover:opacity-100"
+                    style={{ background: "rgba(255,255,255,0.06)" }}
+                  />
+
+                  {/* Active indicator — sliding underline bar */}
                   {isActive && (
                     <motion.span
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-xl"
+                      layoutId="nav-underline"
+                      className="absolute bottom-1 left-3 right-3 h-[2px] rounded-full"
                       style={{
-                        background: "linear-gradient(135deg, rgba(147,51,234,0.10), rgba(37,99,235,0.10))",
-                        border: "1px solid rgba(147,51,234,0.18)",
-                        boxShadow: "0 1px 8px rgba(147,51,234,0.12)",
+                        background: "linear-gradient(90deg, #9333ea, #2563eb)",
                       }}
-                      transition={{ type: "spring", bounce: 0.18, duration: 0.5 }}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.45 }}
                     />
                   )}
-                  <span className="relative z-10 hover:text-gray-900 transition-colors duration-150">
-                    {link.name}
-                  </span>
+
+                  <span className="relative z-10">{link.name}</span>
                 </Link>
               );
             })}
+          </nav>
+
+          {/* Right side */}
+          <div className="flex items-center gap-3">
+            {/* Desktop CTA */}
+            <Link
+              href="/contact"
+              className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-bold text-white cursor-pointer transition-all duration-250 hover:opacity-85"
+              style={{
+                background: "linear-gradient(135deg, #9333ea, #2563eb)",
+                boxShadow: "0 0 16px rgba(147,51,234,0.35)",
+              }}
+            >
+              Get a Quote
+            </Link>
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label="Toggle menu"
+              className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg cursor-pointer transition-colors duration-200"
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.10)",
+              }}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {mobileOpen ? (
+                  <motion.span
+                    key="x"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.16 }}
+                  >
+                    <X className="w-4.5 h-4.5 text-white" />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.16 }}
+                  >
+                    <Menu className="w-4.5 h-4.5 text-white" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
           </div>
-        </nav>
-
-        {/* CTA + mobile toggle */}
-        <div className="flex items-center gap-3 z-10">
-          {/* Desktop CTA */}
-          <Link
-            href="/contact"
-            className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white cursor-pointer transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-purple-500/20"
-            style={{ background: "linear-gradient(135deg, #9333ea, #2563eb)" }}
-          >
-            Get a Quote
-          </Link>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-label="Toggle menu"
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl text-gray-700 cursor-pointer transition-colors duration-200"
-            style={{
-              background: "rgba(255,255,255,0.80)",
-              border: "1px solid rgba(0,0,0,0.08)",
-              backdropFilter: "blur(10px)",
-            }}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {mobileOpen ? (
-                <motion.span
-                  key="x"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.18 }}
-                >
-                  <X className="w-5 h-5" />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.18 }}
-                >
-                  <Menu className="w-5 h-5" />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </button>
         </div>
       </motion.header>
 
@@ -152,30 +151,31 @@ export function Navigation() {
       <AnimatePresence>
         {mobileOpen && (
           <>
-            {/* Backdrop */}
+            {/* Dim backdrop */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+              className="fixed inset-0 z-40"
+              style={{ background: "rgba(0,0,0,0.55)" }}
               onClick={() => setMobileOpen(false)}
             />
 
-            {/* Drawer panel */}
+            {/* Drawer */}
             <motion.div
               key="drawer"
-              initial={{ opacity: 0, y: -12, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -12, scale: 0.97 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed top-[78px] left-4 right-4 z-50 rounded-2xl overflow-hidden"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed top-[72px] left-4 right-4 z-50 rounded-2xl overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.95)",
-                border: "1px solid rgba(0,0,0,0.07)",
-                boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)",
-                backdropFilter: "blur(20px)",
+                background: "rgba(12, 12, 18, 0.96)",
+                border: "1px solid rgba(255,255,255,0.09)",
+                boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
+                backdropFilter: "blur(24px)",
               }}
             >
               <div className="p-3 flex flex-col gap-1">
@@ -184,19 +184,21 @@ export function Navigation() {
                   return (
                     <motion.div
                       key={link.path}
-                      initial={{ opacity: 0, x: -12 }}
+                      initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.06, duration: 0.25 }}
+                      transition={{ delay: i * 0.055, duration: 0.22 }}
                     >
                       <Link
                         href={link.path}
                         className="flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-semibold cursor-pointer transition-all duration-200"
                         style={{
+                          color: isActive ? "#ffffff" : "rgba(255,255,255,0.45)",
                           background: isActive
-                            ? "linear-gradient(135deg, rgba(147,51,234,0.08), rgba(37,99,235,0.08))"
+                            ? "rgba(255,255,255,0.07)"
                             : "transparent",
-                          color: isActive ? "#7e22ce" : "#374151",
-                          border: isActive ? "1px solid rgba(147,51,234,0.15)" : "1px solid transparent",
+                          border: isActive
+                            ? "1px solid rgba(255,255,255,0.10)"
+                            : "1px solid transparent",
                         }}
                       >
                         <span>{link.name}</span>
@@ -211,17 +213,23 @@ export function Navigation() {
                   );
                 })}
 
-                <div className="h-px bg-gray-100 mx-1 my-1" />
+                <div
+                  className="my-1 mx-1 h-px"
+                  style={{ background: "rgba(255,255,255,0.07)" }}
+                />
 
                 <motion.div
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: links.length * 0.06 + 0.05 }}
+                  transition={{ delay: links.length * 0.055 + 0.04 }}
                 >
                   <Link
                     href="/contact"
-                    className="flex items-center justify-center py-3.5 rounded-xl text-sm font-bold text-white cursor-pointer transition-opacity duration-200 hover:opacity-90"
-                    style={{ background: "linear-gradient(135deg, #9333ea, #2563eb)" }}
+                    className="flex items-center justify-center py-3.5 rounded-xl text-sm font-bold text-white cursor-pointer transition-opacity duration-200 hover:opacity-85"
+                    style={{
+                      background: "linear-gradient(135deg, #9333ea, #2563eb)",
+                      boxShadow: "0 0 20px rgba(147,51,234,0.30)",
+                    }}
                   >
                     Get a Quote →
                   </Link>
