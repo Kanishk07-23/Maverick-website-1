@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface CardItem {
   tempId: number | string;
@@ -41,6 +40,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
   );
   const [spacing, setSpacing] = useState(390);
   const [isMobile, setIsMobile] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // ── Scrolling mechanism ────────────────────────────────────────────────
   const handleMove = (steps: number) => {
@@ -71,14 +71,49 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
   }, []);
+
+  // ── Horizontal wheel scroll ────────────────────────────────────────────
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    let accumulated = 0;
+    const THRESHOLD = 60;
+
+    const onWheel = (e: WheelEvent) => {
+      // Only intercept when there's meaningful horizontal OR vertical delta
+      // (trackpad horizontal swipe gives deltaX, mouse wheel gives deltaY)
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (Math.abs(delta) < 1) return;
+
+      e.preventDefault();
+      accumulated += delta;
+
+      if (accumulated > THRESHOLD) {
+        handleMove(1);
+        accumulated = 0;
+      } else if (accumulated < -THRESHOLD) {
+        handleMove(-1);
+        accumulated = 0;
+      }
+    };
+
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardsList]);
   // ────────────────────────────────────────────────────────────────────────
 
-  // Container height: leave 80px below card bottom for nav buttons
-  const containerH = isMobile ? 520 : 600;
+  // Container height
+  const containerH = isMobile ? 480 : 560;
 
   return (
     <>
-      <div className="relative w-full overflow-hidden" style={{ height: containerH }}>
+      <div
+        ref={containerRef}
+        className="relative w-full overflow-hidden"
+        style={{ height: containerH }}
+      >
         {cardsList.map((card, index) => {
           const position =
             cardsList.length % 2
@@ -93,7 +128,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
           return (
             <div
               key={card.tempId}
-              // On desktop: clicking a side card jumps to it. Mobile: buttons only.
+              // On desktop: clicking a side card jumps to it. Mobile: wheel/touch only.
               onClick={() => !isMobile && handleMove(position)}
               className={`absolute left-1/2 top-1/2 cursor-pointer group transition-all duration-500 ease-in-out${isMobile && isCenter ? ' mobile-active' : ''}`}
               style={{
@@ -102,20 +137,19 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
                 opacity: isVisible ? 1 : 0,
                 pointerEvents: isVisible ? 'auto' : 'none',
                 zIndex: isCenter ? 10 : Math.max(0, 5 - Math.abs(position)),
-                // Mobile: center the card, push up 40px so nav buttons don't overlap
-                // Desktop: stagger layout with spacing, rotation, scale
+                // Mobile: center the card
+                // Desktop: stagger layout with spacing — NO rotation on any card
                 transform: isMobile
-                  ? 'translate(-50%, -50%) translateY(-40px) scale(0.78)'
+                  ? 'translate(-50%, -50%) translateY(-20px) scale(0.78)'
                   : `
                       translate(-50%, -50%)
                       translateX(${spacing * position}px)
                       translateY(${isCenter ? -20 : position % 2 ? 15 : -15}px)
-                      rotate(${isCenter ? 0 : position % 2 ? 2.5 : -2.5}deg)
                       scale(${isCenter ? 1 : 0.88})
                     `,
               }}
             >
-              {/* ── Card visuals (untouched from original reference) ── */}
+              {/* ── Card visuals ── */}
 
               {/* Skewed gradient panel */}
               <span
@@ -134,7 +168,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
                 <span className="mobile-blob-bottom absolute bottom-0 right-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-500 animate-blob animation-delay-1000 group-hover:bottom-[-50px] group-hover:right-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
               </span>
 
-              {/* Content — button removed, min-h keeps same card size as original */}
+              {/* Content */}
               <div className="mobile-content relative z-20 left-0 min-h-[250px] p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[100px_40px]">
                 <h2 className="text-2xl mb-2">{card.title}</h2>
                 <p className="text-lg leading-relaxed">{card.desc}</p>
@@ -144,23 +178,10 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
           );
         })}
 
-        {/* Navigation buttons */}
-        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-3 z-20">
-          <button
-            onClick={() => handleMove(-1)}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-colors"
-            aria-label="Previous"
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-700" />
-          </button>
-          <button
-            onClick={() => handleMove(1)}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-colors"
-            aria-label="Next"
-          >
-            <ChevronRight className="w-5 h-5 text-gray-700" />
-          </button>
-        </div>
+        {/* Scroll hint — replaces nav buttons */}
+        <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-gray-400 select-none pointer-events-none z-20 flex items-center gap-2">
+          <span className="text-base">⟵</span> scroll to explore <span className="text-base">⟶</span>
+        </p>
       </div>
 
       <style>{`

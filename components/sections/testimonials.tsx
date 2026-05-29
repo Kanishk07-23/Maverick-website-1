@@ -67,7 +67,7 @@ const thirdColumn = testimonials.slice(6, 9);
 
 export function TestimonialsSection() {
   return (
-    <section className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #f0f4ff 0%, #faf8ff 50%, #f5f0ff 100%)" }}>
+    <section className="py-24 relative overflow-hidden">
       <div className="container z-10 mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
