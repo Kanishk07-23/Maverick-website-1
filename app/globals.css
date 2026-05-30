@@ -154,7 +154,7 @@
 /* Card variant — rotating metallic border, fully opaque interior (no bleed-through gleam) */
 .liquid-metal-card {
   background:
-    #ffffff padding-box,
+    linear-gradient(#ffffff, #ffffff) padding-box,
     conic-gradient(
       from var(--lm-angle),
       #484848 0%,
@@ -189,7 +189,7 @@
 /* Dark variant — same metallic border, dark interior for dark-bg cards */
 .liquid-metal-card-dark {
   background:
-    rgba(15, 23, 42, 0.92) padding-box,
+    linear-gradient(rgba(15, 23, 42, 1), rgba(15, 23, 42, 1)) padding-box,
     conic-gradient(
       from var(--lm-angle),
       #484848 0%,
