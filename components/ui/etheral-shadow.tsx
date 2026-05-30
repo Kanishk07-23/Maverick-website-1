@@ -54,7 +54,7 @@ const useInstanceId = (): string => {
     return instanceId;
 };
 
-export function EtheralShadow({
+export function Component({
     sizing = 'fill',
     color = 'rgba(128, 128, 128, 1)',
     animation,
@@ -104,12 +104,9 @@ export function EtheralShadow({
             className={className}
             style={{
                 overflow: "hidden",
-                inset: 0,
+                position: "relative",
                 width: "100%",
                 height: "100%",
-                zIndex: -1,
-                pointerEvents: "none",
-                position: "fixed",
                 ...style
             }}
         >
@@ -170,6 +167,21 @@ export function EtheralShadow({
                         height: "100%"
                     }}
                 />
+            </div>
+
+            <div
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    textAlign: "center",
+                    zIndex: 10
+                }}
+            >
+                <h1 className="md:text-7xl text-6xl lg:text-8xl font-bold text-center text-foreground relative z-20">
+                    Etheral Shadows
+                </h1>
             </div>
 
             {noise && noise.opacity > 0 && (
