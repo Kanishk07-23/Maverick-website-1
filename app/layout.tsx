@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { GlassFilter } from "@/components/ui/liquid-glass";
-import { MeshGradientBackground } from "@/components/ui/mesh-gradient-background";
+import { Component as EtheralShadow } from "@/components/ui/etheral-shadow";
 
 export const metadata: Metadata = {
   title: "Maverick Digitals | Full-Stack Digital Marketing Agency",
@@ -24,7 +24,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             zIndex: 0,
           }}
         >
-          <MeshGradientBackground />
+          <EtheralShadow
+            color="rgba(0, 0, 0, 1)"
+            animation={{ scale: 100, speed: 90 }}
+            noise={{ opacity: 1, scale: 1.2 }}
+            sizing="fill"
+          />
         </div>
 
         {/* Page content above the background */}

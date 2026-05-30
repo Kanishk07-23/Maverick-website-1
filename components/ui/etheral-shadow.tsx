@@ -169,8 +169,6 @@ export function Component({
                 />
             </div>
 
-
-
             {noise && noise.opacity > 0 && (
                 <div
                     style={{
