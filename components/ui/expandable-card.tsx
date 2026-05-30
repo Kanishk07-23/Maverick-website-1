@@ -93,13 +93,13 @@ export function ExpandableCard({
                   <div>
                     <motion.p
                       layoutId={`description-${description}-${id}`}
-                      className="text-gray-500 text-lg font-medium"
+                      className="text-gray-400 text-lg font-medium"
                     >
                       {description}
                     </motion.p>
                     <motion.h3
                       layoutId={`title-${title}-${id}`}
-                      className="font-black text-gray-900 text-4xl sm:text-5xl mt-1 tracking-tight"
+                      className="font-black text-gray-50 text-4xl sm:text-5xl mt-1 tracking-tight"
                     >
                       {title}
                     </motion.h3>
@@ -107,7 +107,7 @@ export function ExpandableCard({
                   <motion.button
                     aria-label="Close card"
                     layoutId={`button-${title}-${id}`}
-                    className="h-10 w-10 shrink-0 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-gray-200 hover:border-gray-300 transition-colors duration-300 focus:outline-none shadow-sm"
+                    className="h-10 w-10 shrink-0 flex items-center justify-center rounded-full bg-gray-50 text-gray-300 hover:bg-gray-100 hover:text-gray-50 border border-gray-200 hover:border-gray-300 transition-colors duration-300 focus:outline-none shadow-sm"
                     onClick={() => setActive(false)}
                   >
                     <motion.div
@@ -137,7 +137,7 @@ export function ExpandableCard({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-gray-600 text-base pb-10 flex flex-col items-start gap-4 overflow-auto font-sans"
+                    className="text-gray-300 text-base pb-10 flex flex-col items-start gap-4 overflow-auto font-sans"
                   >
                     {children}
                   </motion.div>
@@ -171,13 +171,13 @@ export function ExpandableCard({
             <div className="flex flex-col">
               <motion.p
                 layoutId={`description-${description}-${id}`}
-                className="text-gray-500 md:text-left text-sm font-semibold"
+                className="text-gray-400 md:text-left text-sm font-semibold"
               >
                 {description}
               </motion.p>
               <motion.h3
                 layoutId={`title-${title}-${id}`}
-                className="text-gray-900 md:text-left font-black text-2xl tracking-tight"
+                className="text-gray-50 md:text-left font-black text-2xl tracking-tight"
               >
                 {title}
               </motion.h3>
@@ -186,7 +186,7 @@ export function ExpandableCard({
               aria-label="Open card"
               layoutId={`button-${title}-${id}`}
               className={cn(
-                "h-10 w-10 shrink-0 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900 border border-gray-200 hover:border-gray-300 transition-colors duration-300 focus:outline-none shadow-sm",
+                "h-10 w-10 shrink-0 flex items-center justify-center rounded-full bg-gray-50 text-gray-300 hover:bg-gray-100 hover:text-gray-50 border border-gray-200 hover:border-gray-300 transition-colors duration-300 focus:outline-none shadow-sm",
                 className,
               )}
             >

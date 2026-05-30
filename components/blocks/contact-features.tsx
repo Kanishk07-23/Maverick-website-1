@@ -44,7 +44,7 @@ export function ContactFeatures({ formComponent }: { formComponent: ReactNode })
                     </FeatureCard>
 
                     <FeatureCard className="p-6 lg:col-span-2">
-                        <p className="mx-auto my-6 max-w-md text-balance text-center text-2xl font-semibold text-gray-900">
+                        <p className="mx-auto my-6 max-w-md text-balance text-center text-2xl font-semibold text-gray-50">
                             Multiple ways to connect. Choose what works best for your team.
                         </p>
 
@@ -106,11 +106,11 @@ interface CardHeadingProps {
 
 const CardHeading = ({ icon: Icon, title, description }: CardHeadingProps) => (
     <div className="p-6">
-        <span className="text-gray-500 font-bold uppercase tracking-wider text-xs flex items-center gap-2">
+        <span className="text-gray-400 font-bold uppercase tracking-wider text-xs flex items-center gap-2">
             <Icon className="size-4 text-blue-600" />
             {title}
         </span>
-        <p className="mt-8 text-3xl font-semibold text-gray-900 leading-tight">{description}</p>
+        <p className="mt-8 text-3xl font-semibold text-gray-50 leading-tight">{description}</p>
     </div>
 )
 
@@ -140,6 +140,6 @@ const CircularUI = ({ label, circles, className }: CircularUIProps) => (
                 ))}
             </div>
         </div>
-        <span className="text-gray-500 font-medium mt-2 block text-center text-sm">{label}</span>
+        <span className="text-gray-400 font-medium mt-2 block text-center text-sm">{label}</span>
     </div>
 )

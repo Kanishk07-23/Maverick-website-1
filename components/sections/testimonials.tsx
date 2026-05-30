@@ -77,15 +77,15 @@ export function TestimonialsSection() {
           className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
         >
           <div className="flex justify-center">
-            <div className="border border-gray-200 bg-white py-1 px-4 rounded-lg text-sm font-medium text-gray-600 shadow-sm">
+            <div className="border border-gray-200 bg-white py-1 px-4 rounded-lg text-sm font-medium text-gray-300 shadow-sm">
               Social Proof
             </div>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 text-center mt-5">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-50 text-center mt-5">
             What Our Clients Say
           </h2>
-          <p className="text-center mt-5 text-gray-500 leading-relaxed">
+          <p className="text-center mt-5 text-gray-400 leading-relaxed">
             Trusted by ambitious brands. See why our clients keep coming back.
           </p>
         </motion.div>

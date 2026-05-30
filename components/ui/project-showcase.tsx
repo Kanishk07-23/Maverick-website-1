@@ -225,14 +225,14 @@ export function ProjectShowcase({ projects = defaultProjects }: { projects?: Pro
                 <div className="flex-1 min-w-0">
                   {/* Title with animated underline */}
                   <div className="inline-flex items-center gap-2">
-                    <h3 className="text-gray-900 font-bold text-2xl md:text-3xl tracking-tight">
+                    <h3 className="text-gray-50 font-bold text-2xl md:text-3xl tracking-tight">
                       {project.title}
                     </h3>
 
                     {/* Arrow that slides in */}
                     <ArrowUpRight
                       className={`
-                        w-6 h-6 text-gray-500
+                        w-6 h-6 text-gray-400
                         transition-all duration-300 ease-out
                         ${
                           hoveredIndex === index
@@ -246,9 +246,9 @@ export function ProjectShowcase({ projects = defaultProjects }: { projects?: Pro
                   {/* Description with fade effect */}
                   <p
                     className={`
-                      text-gray-500 text-base md:text-lg mt-2 leading-relaxed max-w-2xl
+                      text-gray-400 text-base md:text-lg mt-2 leading-relaxed max-w-2xl
                       transition-all duration-300 ease-out
-                      ${hoveredIndex === index ? "text-gray-700" : "text-gray-500"}
+                      ${hoveredIndex === index ? "text-gray-200" : "text-gray-400"}
                     `}
                   >
                     {project.description}

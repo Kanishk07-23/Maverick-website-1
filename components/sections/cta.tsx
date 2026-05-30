@@ -38,12 +38,12 @@ export function CtaSection() {
             >
               <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">Ready to grow?</p>
 
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-5 font-['Poppins'] text-gray-900">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-5 font-['Poppins'] text-gray-50">
                 Let&apos;s Build Something{" "}
                 <span className="brand-gradient-text">Extraordinary.</span>
               </h2>
 
-              <p className="text-gray-600 text-lg leading-relaxed max-w-lg mb-8">
+              <p className="text-gray-300 text-lg leading-relaxed max-w-lg mb-8">
                 Book a free 30-minute strategy call. No fluff, no sales pitch —
                 just an honest conversation about how we can help you grow.
               </p>
@@ -53,7 +53,7 @@ export function CtaSection() {
                 {TRUST_BADGES.map((badge) => (
                   <span
                     key={badge}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-gray-700 px-4 py-2 rounded-full"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-gray-200 px-4 py-2 rounded-full"
                     style={{
                       backdropFilter: "blur(10px)",
                       WebkitBackdropFilter: "blur(10px)",
