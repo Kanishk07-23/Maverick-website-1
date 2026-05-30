@@ -98,6 +98,10 @@
     font-weight: 400; /* Arapey only comes in 400 weight */
   }
 
+  /* Nuclear override to guarantee ALL text is exactly dark deep grey (#333333) as requested */
+  h1, h2, h3, h4, h5, h6, p, span, a, label, li, strong, b, em, i, td, th, div {
+    color: #333333 !important;
+  }
 
   * {
     @apply border-border outline-ring/50;
