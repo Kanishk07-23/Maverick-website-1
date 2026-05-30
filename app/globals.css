@@ -81,7 +81,7 @@
   body {
     font-family: 'Atteron', Georgia, Cambria, "Times New Roman", Times, serif;
     background-color: transparent;
-    background-image: url('/bg-liquid-metal.jpg');
+    background-image: url('/bg-wood.jpg');
     background-size: cover;
     background-position: center top;
     background-attachment: fixed;
@@ -408,7 +408,7 @@
 }
 /* --- GLOBAL BACKGROUND OVERRIDE --- */
 body {
-  background-image: url('/_.jpeg') !important;
+  background-image: url('/bg-wood.jpg') !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
