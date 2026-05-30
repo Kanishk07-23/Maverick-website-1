@@ -99,7 +99,7 @@
   }
 
   /* Nuclear override to guarantee ALL text is exactly dark deep grey (#333333) as requested */
-  h1, h2, h3, h4, h5, h6, p, span, a, label, li, strong, b, em, i, td, th, div {
+  h1, h2, h3, h4, h5, h6, p, span, a, label, li, strong, b, em, i, td, th, div, button, svg, path, article, section, nav, main, aside, header, footer {
     color: #333333 !important;
   }
 
