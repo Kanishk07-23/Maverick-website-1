@@ -141,63 +141,80 @@
 }
 
 /* ─── Liquid Metal Theme System ────────────────────────────── */
+@property --lm-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
 
-/* Card variant — heavy static chrome border, no animation */
+@keyframes lm-spin {
+  to { --lm-angle: 360deg; }
+}
+
+/* Card variant — rotating metallic border, fully opaque interior (no bleed-through gleam) */
 .liquid-metal-card {
   background:
-    linear-gradient(160deg, rgba(255,255,255,0.97) 0%, rgba(241,245,249,0.93) 100%) padding-box,
-    linear-gradient(
-      145deg,
-      #383838 0%,
-      #b8b8b8 10%,
-      #f0f0f0 18%,
-      #ffffff 24%,
-      #e0e0e0 30%,
-      #707070 38%,
-      #383838 45%,
-      #303030 50%,
-      #c0c0c0 58%,
-      #f8f8f8 65%,
-      #ffffff 70%,
-      #e4e4e4 76%,
-      #909090 84%,
-      #404040 90%,
-      #c8c8c8 96%,
-      #383838 100%
+    #ffffff padding-box,
+    conic-gradient(
+      from var(--lm-angle),
+      #484848 0%,
+      #c8c8c8 5%,
+      #ffffff 10%,
+      #f0f0f0 14%,
+      #909090 20%,
+      #484848 27%,
+      #383838 32%,
+      #b0b0b0 38%,
+      #f8f8f8 43%,
+      #ffffff 48%,
+      #e8e8e8 53%,
+      #707070 59%,
+      #404040 65%,
+      #c0c0c0 71%,
+      #ffffff 76%,
+      #e4e4e4 81%,
+      #909090 87%,
+      #484848 93%,
+      #c0c0c0 97%,
+      #484848 100%
     ) border-box;
-  border: 2.5px solid transparent;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid transparent;
+  animation: lm-spin 4s linear infinite;
   box-shadow:
     0 6px 32px rgba(0,0,0,0.10),
     0 2px 8px rgba(0,0,0,0.07),
-    inset 0 1.5px 0 rgba(255,255,255,0.98),
-    inset 0 -1px 0 rgba(0,0,0,0.06);
+    inset 0 1px 0 rgba(255,255,255,1);
 }
 
-/* Border-wrap variant — same heavy chrome, no animation, used for Navigation */
+/* Border-wrap variant — for Navigation; rotating metallic ring, no interior bleed */
 .liquid-metal-border-wrap {
-  background: linear-gradient(
-    145deg,
-    #383838 0%,
-    #b4b4b4 10%,
-    #eeeeee 18%,
-    #ffffff 24%,
-    #dcdcdc 30%,
-    #686868 38%,
-    #363636 45%,
-    #303030 50%,
-    #bcbcbc 58%,
-    #f6f6f6 65%,
-    #ffffff 70%,
-    #e0e0e0 76%,
-    #8c8c8c 84%,
-    #3c3c3c 90%,
-    #c4c4c4 96%,
-    #383838 100%
+  background: conic-gradient(
+    from var(--lm-angle),
+    #484848 0%,
+    #cccccc 5%,
+    #ffffff 10%,
+    #eeeeee 15%,
+    #888888 21%,
+    #484848 28%,
+    #383838 33%,
+    #b8b8b8 39%,
+    #f8f8f8 44%,
+    #ffffff 49%,
+    #e8e8e8 54%,
+    #686868 60%,
+    #404040 66%,
+    #c4c4c4 72%,
+    #ffffff 77%,
+    #e0e0e0 82%,
+    #888888 88%,
+    #484848 94%,
+    #c8c8c8 97%,
+    #484848 100%
   );
+  animation: lm-spin 8s linear infinite;
   padding: 1.5px;
 }
+
 
 
 
