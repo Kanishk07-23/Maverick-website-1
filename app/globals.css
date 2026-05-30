@@ -109,7 +109,8 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: transparent;
+    background: transparent !important;
+    background-color: transparent !important;
   }
 
   body {

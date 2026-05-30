@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="text-gray-900 antialiased" style={{ background: 'transparent' }}>
         <div style={{ minHeight: '100vh', background: 'transparent' }}>
-          <div className="fixed inset-0 z-[-1] pointer-events-none">
+          <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", zIndex: -1, pointerEvents: "none" }}>
             <EtheralShadow 
               color="rgba(128, 128, 128, 1)"
               animation={{ scale: 100, speed: 90 }}
