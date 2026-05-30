@@ -2,11 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { GlassFilter } from "@/components/ui/liquid-glass";
-import { Component } from "@/components/ui/etheral-shadow";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+import { MeshGradientBackground } from "@/components/ui/mesh-gradient-background";
 
 export const metadata: Metadata = {
   title: "Maverick Digitals | Full-Stack Digital Marketing Agency",
@@ -15,10 +11,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en">
       <body className="antialiased">
-
-        {/* Background layer — fixed, covers full viewport */}
+        {/* Fixed background — stays behind all content */}
         <div
           style={{
             position: "fixed",
@@ -29,21 +24,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             zIndex: 0,
           }}
         >
-          <Component
-            color="rgba(0, 0, 0, 1)"
-            animation={{ scale: 100, speed: 90 }}
-            noise={{ opacity: 1, scale: 1.2 }}
-            sizing="fill"
-          />
+          <MeshGradientBackground />
         </div>
 
-        {/* Content layer — sits above the background */}
+        {/* Page content above the background */}
         <div style={{ position: "relative", zIndex: 1, minHeight: "100vh" }}>
           <GlassFilter />
           <Navigation />
           {children}
         </div>
-
       </body>
     </html>
   );
