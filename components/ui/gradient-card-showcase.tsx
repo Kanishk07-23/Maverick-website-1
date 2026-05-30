@@ -155,30 +155,31 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
                   ? 'translate(-50%, -50%) translateY(-20px) scale(0.78)'
                   : `
                       translate(-50%, -50%)
-                      translateX(${spacing * position}px)
-                      translateY(${isCenter ? -20 : position % 2 ? 15 : -15}px)
-                      scale(${isCenter ? 1 : 0.88})
+                      translateX(${Math.sin(position * 0.45) * 480}px)
+                      translateY(${(1 - Math.cos(position * 0.45)) * 250 - 20}px)
+                      scale(${Math.max(0.65, 1 - Math.abs(position) * 0.12)})
+                      rotate(${position * 8}deg)
                     `,
               }}
             >
               {/* Skewed gradient panel */}
               <span
-                className="liquid-metal-card mobile-panel absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
+                className="liquid-metal-card mobile-panel absolute top-0 left-[20px] w-[calc(100%-90px)] h-full rounded-lg transform skew-x-[0deg] transition-all duration-500"
               />
               {/* Blurred glow */}
               <span
-                className="mobile-panel absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] blur-[30px] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
+                className="mobile-panel absolute top-0 left-[20px] w-[calc(100%-90px)] h-full rounded-lg transform skew-x-[0deg] blur-[30px] transition-all duration-500"
                 style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
               />
 
               {/* Corner blobs */}
               <span className="pointer-events-none absolute inset-0 z-10">
-                <span className="mobile-blob-top absolute top-0 left-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-100 animate-blob group-hover:top-[-50px] group-hover:left-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
-                <span className="mobile-blob-bottom absolute bottom-0 right-0 w-0 h-0 rounded-lg opacity-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-500 animate-blob animation-delay-1000 group-hover:bottom-[-50px] group-hover:right-[50px] group-hover:w-[100px] group-hover:h-[100px] group-hover:opacity-100" />
+                <span className="mobile-blob-top absolute top-[-50px] left-[50px] w-[100px] h-[100px] rounded-lg opacity-100 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-100 animate-blob" />
+                <span className="mobile-blob-bottom absolute bottom-[-50px] right-[50px] w-[100px] h-[100px] rounded-lg opacity-100 bg-[rgba(255,255,255,0.1)] backdrop-blur-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.08)] transition-all duration-500 animate-blob animation-delay-1000" />
               </span>
 
               {/* Content */}
-              <div className="mobile-content relative z-20 left-0 min-h-[250px] p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[100px_40px]">
+              <div className="mobile-content relative z-20 left-[-25px] min-h-[250px] p-[100px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500">
                 <h2 className="text-2xl mb-2">{card.title}</h2>
                 <p className="text-lg leading-relaxed">{card.desc}</p>
               </div>
