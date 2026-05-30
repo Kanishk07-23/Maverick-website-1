@@ -74,7 +74,7 @@ export function ExpandableCard({
               layoutId={`card-${title}-${id}`}
               ref={cardRef}
               className={cn(
-                "w-full max-w-[850px] h-full flex flex-col overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] sm:rounded-t-[2.5rem] bg-white shadow-2xl relative border border-gray-100",
+                "liquid-metal-card w-full max-w-[850px] h-full flex flex-col overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] sm:rounded-t-[2.5rem] shadow-2xl relative",
                 classNameExpanded,
               )}
               {...props}
@@ -155,7 +155,7 @@ export function ExpandableCard({
         layoutId={`card-${title}-${id}`}
         onClick={() => setActive(true)}
         className={cn(
-          "p-4 flex flex-col justify-between items-center bg-white shadow-xl shadow-gray-200/50 rounded-3xl cursor-pointer border border-gray-100 hover:shadow-2xl hover:border-gray-200 transition-all duration-300",
+          "liquid-metal-card p-4 flex flex-col justify-between items-center rounded-3xl cursor-pointer transition-all duration-300",
           className,
         )}
       >

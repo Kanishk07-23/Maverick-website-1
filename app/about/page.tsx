@@ -146,7 +146,7 @@ export default function AboutPage() {
           <Reveal>
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-br from-purple-200/30 to-blue-200/20 rounded-[2.5rem] blur-xl" />
-              <div className="relative rounded-3xl overflow-hidden border border-gray-100 shadow-2xl shadow-gray-200/60">
+              <div className="liquid-metal-card relative rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=85&fit=crop"
                   alt="Maverick team collaborating"

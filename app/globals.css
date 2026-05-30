@@ -186,6 +186,41 @@
     inset 0 1px 0 rgba(255,255,255,1);
 }
 
+/* Dark variant — same metallic border, dark interior for dark-bg cards */
+.liquid-metal-card-dark {
+  background:
+    rgba(15, 23, 42, 0.92) padding-box,
+    conic-gradient(
+      from var(--lm-angle),
+      #484848 0%,
+      #c8c8c8 5%,
+      #ffffff 10%,
+      #f0f0f0 14%,
+      #909090 20%,
+      #484848 27%,
+      #383838 32%,
+      #b0b0b0 38%,
+      #f8f8f8 43%,
+      #ffffff 48%,
+      #e8e8e8 53%,
+      #707070 59%,
+      #404040 65%,
+      #c0c0c0 71%,
+      #ffffff 76%,
+      #e4e4e4 81%,
+      #909090 87%,
+      #484848 93%,
+      #c0c0c0 97%,
+      #484848 100%
+    ) border-box;
+  border: 2px solid transparent;
+  animation: lm-spin 4s linear infinite;
+  box-shadow:
+    0 6px 32px rgba(0,0,0,0.25),
+    0 2px 8px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
 /* Border-wrap variant — for Navigation; rotating metallic ring, no interior bleed */
 .liquid-metal-border-wrap {
   background: conic-gradient(

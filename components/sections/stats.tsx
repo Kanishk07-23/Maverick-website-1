@@ -98,8 +98,7 @@ export function StatsSection() {
           {/* ── Card 1 — Hero wide (spans 2 cols) ─────────────────── */}
           <motion.div
             variants={itemVariants}
-            className="lg:col-span-2 relative rounded-3xl p-10 overflow-hidden group cursor-default"
-            style={GLASS_DARK}
+            className="liquid-metal-card-dark lg:col-span-2 relative rounded-3xl p-10 overflow-hidden group cursor-default"
           >
             {/* Gradient orb inside */}
             <div className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(147,51,234,0.35) 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
@@ -128,8 +127,7 @@ export function StatsSection() {
           {/* ── Card 2 — Clients Served ────────────────────────────── */}
           <motion.div
             variants={itemVariants}
-            className="relative rounded-3xl p-8 overflow-hidden group cursor-default"
-            style={GLASS_BASE}
+            className="liquid-metal-card relative rounded-3xl p-8 overflow-hidden group cursor-default"
           >
             <div className="absolute top-0 right-0 w-40 h-40 pointer-events-none" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)", transform: "translate(20%, -20%)" }} />
 
@@ -152,8 +150,7 @@ export function StatsSection() {
           {/* ── Card 3 — Retention ────────────────────────────────── */}
           <motion.div
             variants={itemVariants}
-            className="relative rounded-3xl p-8 overflow-hidden group cursor-default"
-            style={GLASS_BASE}
+            className="liquid-metal-card relative rounded-3xl p-8 overflow-hidden group cursor-default"
           >
             <div className="absolute -bottom-8 -right-8 w-40 h-40 pointer-events-none" style={{ background: "radial-gradient(circle, rgba(147,51,234,0.10) 0%, transparent 70%)" }} />
 
@@ -176,8 +173,7 @@ export function StatsSection() {
           {/* ── Card 4 — Turnaround wide ──────────────────────────── */}
           <motion.div
             variants={itemVariants}
-            className="lg:col-span-2 relative rounded-3xl p-8 overflow-hidden group cursor-default"
-            style={GLASS_BASE}
+            className="liquid-metal-card lg:col-span-2 relative rounded-3xl p-8 overflow-hidden group cursor-default"
           >
             <div className="absolute inset-0 pointer-events-none rounded-3xl" style={{ background: "linear-gradient(135deg, rgba(147,51,234,0.04) 0%, rgba(37,99,235,0.06) 100%)" }} />
 

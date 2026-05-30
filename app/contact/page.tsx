@@ -100,7 +100,7 @@ export default function ContactPage() {
             {INFO.map(({ icon: Icon, text }) => (
               <div
                 key={text}
-                className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-100 bg-white text-sm text-gray-600 font-medium shadow-sm"
+                className="liquid-metal-card flex items-center gap-2 px-4 py-2 rounded-full text-sm text-gray-600 font-medium"
               >
                 <Icon className="w-3.5 h-3.5 text-purple-600 flex-shrink-0" />
                 {text}
@@ -122,7 +122,7 @@ export default function ContactPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="flex flex-col items-center text-center py-20 gap-6 rounded-3xl border border-gray-100 bg-white shadow-sm"
+                className="liquid-metal-card flex flex-col items-center text-center py-20 gap-6 rounded-3xl"
               >
                 <motion.div
                   initial={{ scale: 0, rotate: -90 }}
@@ -149,7 +149,7 @@ export default function ContactPage() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onSubmit={handleFormSubmit}
-                className="rounded-3xl border border-gray-100 bg-white shadow-sm p-8 md:p-10 space-y-6"
+                className="liquid-metal-card rounded-3xl p-8 md:p-10 space-y-6"
               >
                 {/* Name + Email */}
                 <div className="grid sm:grid-cols-2 gap-5">
