@@ -406,3 +406,16 @@
 .text-white\/80 {
   color: rgba(255, 255, 255, 0.8);
 }
+/* --- GLOBAL BACKGROUND OVERRIDE --- */
+body {
+  background-image: url('/_.jpeg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  background-color: transparent !important;
+}
+
+html, main, #__next {
+  background-color: transparent !important;
+}
