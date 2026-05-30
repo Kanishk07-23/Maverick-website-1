@@ -163,8 +163,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
             >
               {/* Skewed gradient panel */}
               <span
-                className="mobile-panel absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
-                style={{ background: `linear-gradient(315deg, ${card.gradientFrom}, ${card.gradientTo})` }}
+                className="liquid-metal-card mobile-panel absolute top-0 left-[50px] w-1/2 h-full rounded-lg transform skew-x-[15deg] transition-all duration-500 group-hover:skew-x-0 group-hover:left-[20px] group-hover:w-[calc(100%-90px)]"
               />
               {/* Blurred glow */}
               <span
@@ -179,7 +178,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
               </span>
 
               {/* Content */}
-              <div className="mobile-content liquid-metal-card-glass relative z-20 left-0 min-h-[250px] p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[100px_40px]">
+              <div className="mobile-content relative z-20 left-0 min-h-[250px] p-[20px_40px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] shadow-lg rounded-lg text-white transition-all duration-500 group-hover:left-[-25px] group-hover:p-[100px_40px]">
                 <h2 className="text-2xl mb-2">{card.title}</h2>
                 <p className="text-lg leading-relaxed">{card.desc}</p>
               </div>
