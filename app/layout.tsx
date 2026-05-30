@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         >
           <EtheralShadow
-            color="rgba(0, 0, 0, 1)"
+            color="rgba(250, 250, 250, 1)"
             animation={{ scale: 100, speed: 90 }}
             noise={{ opacity: 1, scale: 1.2 }}
             sizing="fill"

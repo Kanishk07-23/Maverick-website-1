@@ -66,7 +66,7 @@ export function Navigation() {
               whileHover={{ rotate: -12, scale: 1.1 }}
               transition={{ type: "spring", stiffness: 380, damping: 18 }}
             />
-            <span className="hidden sm:block text-sm font-bold tracking-widest uppercase text-gray-100" style={{ letterSpacing: '0.15em' }}>Maverick</span>
+            <span className="hidden sm:block text-sm font-bold tracking-widest uppercase text-gray-800" style={{ letterSpacing: '0.15em' }}>Maverick</span>
           </Link>
 
           {/* Desktop nav links — centered */}
@@ -118,11 +118,11 @@ export function Navigation() {
               <AnimatePresence mode="wait" initial={false}>
                 {mobileOpen ? (
                   <motion.span key="x" initial={{ rotate: -90, opacity: 0, scale: 0.7 }} animate={{ rotate: 0, opacity: 1, scale: 1 }} exit={{ rotate: 90, opacity: 0, scale: 0.7 }} transition={{ duration: 0.15 }}>
-                    <X className="w-5 h-5 text-gray-200" />
+                    <X className="w-5 h-5 text-gray-700" />
                   </motion.span>
                 ) : (
                   <motion.span key="menu" initial={{ rotate: 90, opacity: 0, scale: 0.7 }} animate={{ rotate: 0, opacity: 1, scale: 1 }} exit={{ rotate: -90, opacity: 0, scale: 0.7 }} transition={{ duration: 0.15 }}>
-                    <Menu className="w-5 h-5 text-gray-200" />
+                    <Menu className="w-5 h-5 text-gray-700" />
                   </motion.span>
                 )}
               </AnimatePresence>

@@ -60,11 +60,11 @@ export default function ServicesPage() {
             <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-5">
               What We Do
             </p>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-gray-50 leading-[1.05] mb-6">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-gray-900 leading-[1.05] mb-6">
               Services Built{" "}
               <span className="brand-gradient-text">for Growth</span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto font-medium">
+            <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto font-medium">
               Every service we offer is engineered to drive measurable results — from first impression to lasting revenue.
             </p>
           </div>
@@ -78,10 +78,10 @@ export default function ServicesPage() {
         {/* CTA Strip */}
         <section className="relative py-24 text-center border-t border-gray-200/60 overflow-hidden">
           <div className="relative z-10 max-w-2xl mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-50 mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
               Ready to scale your brand?
             </h2>
-            <p className="text-gray-400 mb-8 text-lg">
+            <p className="text-gray-500 mb-8 text-lg">
               Book a free 30-minute strategy call and let&apos;s map out your growth roadmap.
             </p>
             <div className="flex justify-center">

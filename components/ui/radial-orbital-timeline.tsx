@@ -206,7 +206,7 @@ export default function RadialOrbitalTimeline({
       {isMobileCard && (
         <button 
           onClick={(e) => { e.stopPropagation(); closeAll(); }}
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-300 bg-gray-100 rounded-full p-1 z-10"
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 bg-gray-100 rounded-full p-1 z-10"
         >
           <X size={14} />
         </button>
@@ -225,24 +225,24 @@ export default function RadialOrbitalTimeline({
               ? "GROWING"
               : "ONGOING"}
           </Badge>
-          <span className="text-[10px] md:text-xs font-mono text-gray-400">
+          <span className="text-[10px] md:text-xs font-mono text-gray-500">
             {item.date}
           </span>
         </div>
-        <CardTitle className="text-sm md:text-base mt-2 text-gray-50 pr-4">
+        <CardTitle className="text-sm md:text-base mt-2 text-gray-900 pr-4">
           {item.title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="text-xs md:text-sm text-gray-300">
+      <CardContent className="text-xs md:text-sm text-gray-600">
         <p>{item.content}</p>
 
         <div className="mt-4 pt-3 border-t border-gray-100">
           <div className="flex justify-between items-center text-xs mb-1">
-            <span className="flex items-center text-gray-200">
+            <span className="flex items-center text-gray-700">
               <Zap size={10} className="mr-1" />
               Impact Score
             </span>
-            <span className="font-mono text-gray-100">{item.energy}%</span>
+            <span className="font-mono text-gray-800">{item.energy}%</span>
           </div>
           <div className="w-full h-1.5 md:h-1 bg-gray-200 rounded-full overflow-hidden">
             <div
@@ -255,8 +255,8 @@ export default function RadialOrbitalTimeline({
         {item.relatedIds.length > 0 && (
           <div className="mt-4 pt-3 border-t border-gray-100">
             <div className="flex items-center mb-2">
-              <Link size={10} className="text-gray-400 mr-1" />
-              <h4 className="text-[10px] md:text-xs uppercase tracking-wider font-medium text-gray-400">
+              <Link size={10} className="text-gray-500 mr-1" />
+              <h4 className="text-[10px] md:text-xs uppercase tracking-wider font-medium text-gray-500">
                 Connected Services
               </h4>
             </div>
@@ -270,7 +270,7 @@ export default function RadialOrbitalTimeline({
                     key={relatedId}
                     variant="outline"
                     size="sm"
-                    className="flex items-center h-7 md:h-6 px-2 py-0 text-[10px] md:text-xs rounded-md md:rounded-none border-gray-200 bg-gray-50 md:bg-transparent hover:bg-gray-100 text-gray-300 hover:text-gray-50 transition-all"
+                    className="flex items-center h-7 md:h-6 px-2 py-0 text-[10px] md:text-xs rounded-md md:rounded-none border-gray-200 bg-gray-50 md:bg-transparent hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-all"
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleItem(relatedId);
@@ -392,10 +392,10 @@ export default function RadialOrbitalTimeline({
                   className={cn(
                     "liquid-metal-card w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center transition-all duration-300 transform",
                     isExpanded
-                      ? "text-gray-50 shadow-lg shadow-purple-500/20"
+                      ? "text-gray-900 shadow-lg shadow-purple-500/20"
                       : isRelated
-                      ? "text-gray-100"
-                      : "text-gray-400",
+                      ? "text-gray-800"
+                      : "text-gray-500",
                     isExpanded ? (isMobile ? "scale-125" : "scale-150") : "",
                     isRelated && !isExpanded ? "animate-pulse" : "",
                   )}
@@ -409,7 +409,7 @@ export default function RadialOrbitalTimeline({
                   absolute top-12 md:top-14 lg:top-16 whitespace-nowrap
                   text-xs lg:text-sm font-semibold tracking-wider
                   transition-all duration-300 left-1/2 -translate-x-1/2 pointer-events-none
-                  ${isExpanded ? "opacity-0" : "text-gray-300 opacity-100"}
+                  ${isExpanded ? "opacity-0" : "text-gray-600 opacity-100"}
                 `}
                 >
                   {item.title}

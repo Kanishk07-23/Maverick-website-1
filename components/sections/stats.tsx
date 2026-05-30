@@ -82,7 +82,7 @@ export function StatsSection() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
           <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">By The Numbers</p>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-50">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
             Results That{" "}
             <span className="brand-gradient-text">Speak For Themselves</span>
           </h2>
@@ -139,10 +139,10 @@ export function StatsSection() {
                 <span className="text-xs font-bold uppercase tracking-widest text-blue-500 bg-blue-50 border border-blue-100 px-3 py-1 rounded-full">Clients</span>
               </div>
               <div>
-                <div className="text-5xl sm:text-6xl font-black tracking-tight text-gray-50 font-['Poppins'] brand-gradient-text mb-2">
+                <div className="text-5xl sm:text-6xl font-black tracking-tight text-gray-900 font-['Poppins'] brand-gradient-text mb-2">
                   <Counter value={200} suffix="+" inView={inView} />
                 </div>
-                <p className="text-gray-400 text-sm">Across 12+ industries worldwide</p>
+                <p className="text-gray-500 text-sm">Across 12+ industries worldwide</p>
               </div>
             </div>
           </motion.div>
@@ -162,10 +162,10 @@ export function StatsSection() {
                 <span className="text-xs font-bold uppercase tracking-widest text-purple-500 bg-purple-50 border border-purple-100 px-3 py-1 rounded-full">Retention</span>
               </div>
               <div>
-                <div className="text-5xl sm:text-6xl font-black tracking-tight text-gray-50 font-['Poppins'] brand-gradient-text mb-2">
+                <div className="text-5xl sm:text-6xl font-black tracking-tight text-gray-900 font-['Poppins'] brand-gradient-text mb-2">
                   <Counter value={98} suffix="%" inView={inView} />
                 </div>
-                <p className="text-gray-400 text-sm">Long-term partnerships that last</p>
+                <p className="text-gray-500 text-sm">Long-term partnerships that last</p>
               </div>
             </div>
           </motion.div>
@@ -184,12 +184,12 @@ export function StatsSection() {
                 </div>
                 <div>
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Average Turnaround</p>
-                  <div className="text-4xl sm:text-5xl font-black tracking-tight text-gray-50 font-['Poppins'] brand-gradient-text">
+                  <div className="text-4xl sm:text-5xl font-black tracking-tight text-gray-900 font-['Poppins'] brand-gradient-text">
                     <Counter value={48} suffix="h" inView={inView} />
                   </div>
                 </div>
               </div>
-              <p className="text-gray-400 text-base leading-relaxed max-w-xs">From brief submission to your first deliverable in your inbox — no waiting weeks.</p>
+              <p className="text-gray-500 text-base leading-relaxed max-w-xs">From brief submission to your first deliverable in your inbox — no waiting weeks.</p>
             </div>
           </motion.div>
         </motion.div>

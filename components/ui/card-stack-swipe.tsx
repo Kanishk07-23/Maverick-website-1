@@ -47,7 +47,7 @@ export function CardStackSwipe({ cards: initialCards, className }: CardStackSwip
         })}
       </AnimatePresence>
       {cards.length === 0 && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
           <p>No more services to show.</p>
           <button 
             onClick={() => setCards(initialCards)} 
@@ -134,7 +134,7 @@ function SwipeableCard({ card, index, isTop, onSwipe }: SwipeableCardProps) {
 
       {/* Swipe Indicator (only visible on top card) */}
       {isTop && (
-        <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-gray-400 mt-6 font-medium">
+        <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-gray-500 mt-6 font-medium">
           <span className="flex items-center gap-1">
             <span className="text-lg">←</span> Swipe
           </span>

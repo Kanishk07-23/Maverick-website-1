@@ -43,7 +43,7 @@ function Field({
 }
 
 const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-50 text-sm font-medium placeholder-gray-300 outline-none transition-all duration-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/10 appearance-none";
+  "w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 text-sm font-medium placeholder-gray-300 outline-none transition-all duration-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/10 appearance-none";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -85,7 +85,7 @@ export default function ContactPage() {
             <span className="brand-gradient-text">remarkable.</span>
           </h1>
 
-          <p className="text-gray-400 text-lg leading-relaxed max-w-md mx-auto">
+          <p className="text-gray-500 text-lg leading-relaxed max-w-md mx-auto">
             Tell us about your project. We'll get back within 24 hours with a tailored strategy.
           </p>
 
@@ -94,7 +94,7 @@ export default function ContactPage() {
             {INFO.map(({ icon: Icon, text }) => (
               <div
                 key={text}
-                className="liquid-metal-card flex items-center gap-2 px-4 py-2 rounded-full text-sm text-gray-300 font-medium"
+                className="liquid-metal-card flex items-center gap-2 px-4 py-2 rounded-full text-sm text-gray-600 font-medium"
               >
                 <Icon className="w-3.5 h-3.5 text-purple-600 flex-shrink-0" />
                 {text}
@@ -128,8 +128,8 @@ export default function ContactPage() {
                   <CheckCircle2 className="w-8 h-8 text-purple-600" />
                 </motion.div>
                 <div>
-                  <h2 className="text-2xl font-black text-gray-50 tracking-tight mb-2">Message Sent!</h2>
-                  <p className="text-gray-400 max-w-xs leading-relaxed text-sm">
+                  <h2 className="text-2xl font-black text-gray-900 tracking-tight mb-2">Message Sent!</h2>
+                  <p className="text-gray-500 max-w-xs leading-relaxed text-sm">
                     We've received your message and will get back to you within 24 business hours.
                   </p>
                 </div>

@@ -186,7 +186,7 @@ function DefaultFanCard({ item, active }: { item: CardStackItem; active: boolean
     <div className="relative h-full w-full overflow-hidden flex flex-col justify-end" style={{ backdropFilter: "blur(20px)", background: "rgba(255, 255, 255, 0.6)" }}>
       <div className="relative z-10 p-8">
         <h3 className="text-3xl font-black">{item.title}</h3>
-        {item.description && <p className="text-sm text-gray-400">{item.description}</p>}
+        {item.description && <p className="text-sm text-gray-500">{item.description}</p>}
       </div>
     </div>
   );

@@ -87,7 +87,7 @@
   body {
     font-family: 'Arapey', serif;
     background-color: transparent;
-    color: #f3f4f6; /* Elegant off-white for dark background */
+    color: #333333; /* Dark deep grey for light mode */
     line-height: 1.6;
     @apply bg-background text-foreground;
   }

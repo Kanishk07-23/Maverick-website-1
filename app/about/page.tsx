@@ -123,7 +123,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-gray-300 text-lg leading-relaxed max-w-2xl mt-6"
+            className="text-gray-600 text-lg leading-relaxed max-w-2xl mt-6"
           >
             A Mumbai-based full-stack digital agency helping ambitious brands scale through high-conversion strategy, storytelling, and execution.
           </motion.p>
@@ -166,20 +166,20 @@ export default function AboutPage() {
                 <span className="h-px w-8 bg-gradient-to-r from-purple-500 to-blue-600" />
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Our Foundation</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-50 tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 tracking-tight leading-tight">
                 Built by builders,<br />
                 <span className="brand-gradient-text">for builders.</span>
               </h2>
             </Reveal>
 
             <Reveal delay={0.1}>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Maverick Digitals was co-founded by <strong className="text-gray-50">Muskan Rathod</strong> and <strong className="text-gray-50">Dhaval Shah</strong>, bringing together brand strategy and technical innovation. We're not just another agency — we're a growth partner.
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Maverick Digitals was co-founded by <strong className="text-gray-900">Muskan Rathod</strong> and <strong className="text-gray-900">Dhaval Shah</strong>, bringing together brand strategy and technical innovation. We're not just another agency — we're a growth partner.
               </p>
             </Reveal>
 
             <Reveal delay={0.2}>
-              <p className="text-gray-300 text-lg leading-relaxed">
+              <p className="text-gray-600 text-lg leading-relaxed">
                 Known for blending creativity, psychology, and data, we deliver measurable business outcomes. Whether you need a complete digital transformation or want to optimize your existing marketing, we're ready to deliver results that matter.
               </p>
             </Reveal>
@@ -191,7 +191,7 @@ export default function AboutPage() {
                   {INDUSTRIES.map((ind) => (
                     <span
                       key={ind}
-                      className="px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-300 hover:border-purple-300 hover:text-purple-700 hover:bg-purple-50 transition-all duration-300 cursor-default"
+                      className="px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-purple-300 hover:text-purple-700 hover:bg-purple-50 transition-all duration-300 cursor-default"
                     >
                       {ind}
                     </span>
@@ -212,10 +212,10 @@ export default function AboutPage() {
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">The People</span>
               <span className="h-px w-8 bg-gradient-to-l from-purple-500 to-blue-600" />
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-50 tracking-tighter leading-tight">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 tracking-tighter leading-tight">
               Meet the <span className="brand-gradient-text">minds</span><br />behind Maverick.
             </h2>
-            <p className="text-gray-400 text-lg mt-4 max-w-xl mx-auto leading-relaxed">
+            <p className="text-gray-500 text-lg mt-4 max-w-xl mx-auto leading-relaxed">
               Two founders. One mission. Building the digital future for ambitious brands.
             </p>
           </Reveal>
@@ -223,10 +223,10 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-0 max-w-5xl mx-auto">
             {TEAM.map((member) => (
               <CardContainer key={member.name} containerClassName="py-6" className="inter-var">
-                <CardBody className="liquid-metal-card-dark relative group/card w-auto sm:w-[26rem] h-auto rounded-3xl p-7">
+                <CardBody className="liquid-metal-card relative group/card w-auto sm:w-[26rem] h-auto rounded-3xl p-7">
                   <CardItem
                     translateZ="50"
-                    className="text-2xl font-black text-gray-50"
+                    className="text-2xl font-black text-gray-900"
                   >
                     {member.name}
                   </CardItem>
@@ -249,7 +249,7 @@ export default function AboutPage() {
                   <CardItem
                     as="p"
                     translateZ="40"
-                    className="text-gray-200 text-sm mt-6 leading-relaxed"
+                    className="text-gray-700 text-sm mt-6 leading-relaxed"
                   >
                     {member.bio}
                   </CardItem>
@@ -259,7 +259,7 @@ export default function AboutPage() {
                       {member.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="px-2 py-1 rounded-md text-[10px] font-bold bg-black/5 text-gray-200 border border-black/10"
+                          className="px-2 py-1 rounded-md text-[10px] font-bold bg-black/5 text-gray-700 border border-black/10"
                         >
                           {skill}
                         </span>
@@ -273,7 +273,7 @@ export default function AboutPage() {
                       as="a"
                       href={member.linkedin}
                       target="_blank"
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-gray-50 hover:text-blue-600 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-gray-900 hover:text-blue-600 transition-colors"
                     >
                       <LinkedinIcon /> LinkedIn
                     </CardItem>
@@ -281,7 +281,7 @@ export default function AboutPage() {
                       translateZ={20}
                       as="a"
                       href={`mailto:${member.email}`}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl brand-gradient text-black text-xs font-bold hover:opacity-90 transition-all shadow-lg shadow-blue-500/20"
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black text-white text-xs font-bold hover:bg-gray-800 transition-all"
                     >
                       <Mail className="w-4 h-4" /> Email
                     </CardItem>

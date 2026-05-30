@@ -48,7 +48,7 @@ const Slogan = () => {
       initial="hidden"
       animate="show"
       style={{ fontFamily: "'Arapey', serif" }}
-      className="flex flex-wrap justify-center text-center text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-gray-50 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
+      className="flex flex-wrap justify-center text-center text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
     >
       {words.map((word, index) => (
         <motion.span variants={child} className="mr-[0.25em] pb-2" key={index}>
@@ -159,11 +159,11 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6">
             <div>
               <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">What We Do</p>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-50">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
                 Services Built<br />for Growth
               </h2>
             </div>
-            <Link href="/services" className="inline-flex items-center gap-2 text-gray-50 font-bold text-lg hover:text-blue-600 transition-colors cursor-pointer group">
+            <Link href="/services" className="inline-flex items-center gap-2 text-gray-900 font-bold text-lg hover:text-blue-600 transition-colors cursor-pointer group">
               View all services <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -196,9 +196,9 @@ export default function HomePage() {
               className="h-12 w-12 object-contain"
             />
           </div>
-          <nav className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm font-semibold text-gray-400">
+          <nav className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm font-semibold text-gray-500">
             {links.map((l) => (
-              <Link key={l.path} href={l.path} className="hover:text-gray-50 transition-colors cursor-pointer">{l.name}</Link>
+              <Link key={l.path} href={l.path} className="hover:text-gray-900 transition-colors cursor-pointer">{l.name}</Link>
             ))}
           </nav>
           <p className="text-sm font-medium text-gray-400">© 2026 Maverick Digitals. All rights reserved.</p>
