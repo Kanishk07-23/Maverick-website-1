@@ -89,7 +89,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
     const el = containerRef.current;
     if (!el) return;
 
-    const COOLDOWN_MS = 700;
+    const COOLDOWN_MS = 1200;
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
@@ -99,7 +99,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
 
       // Prefer horizontal trackpad delta, fall back to vertical wheel
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) < 4) return; // ignore micro-jitter
+      if (Math.abs(delta) < 20) return; // ignore micro-jitter and require heavier scroll
 
       // Lock immediately before doing anything else
       coolingRef.current = true;
@@ -122,7 +122,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
   // ────────────────────────────────────────────────────────────────────────
 
   // Container height
-  const containerH = isMobile ? 480 : 800;
+  const containerH = isMobile ? 480 : 560;
 
   return (
     <>
@@ -155,7 +155,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
                   ? 'translate(-50%, -50%) translateY(-20px) scale(0.78)'
                   : `
                       translate(-50%, -50%)
-                      translateY(${position * 280}px)
+                      translateX(${position * 380}px)
                       scale(${isCenter ? 1 : 0.85})
                     `,
               }}
