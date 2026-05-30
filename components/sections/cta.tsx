@@ -24,15 +24,7 @@ export function CtaSection() {
       >
         {/* ── Glassmorphism panel ─────────────────────────────────── */}
         <div
-          className="relative rounded-[2rem] p-12 md:p-16 overflow-hidden"
-          style={{
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            boxShadow:
-              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-          }}
+          className="liquid-metal-card relative rounded-[2rem] p-12 md:p-16 overflow-hidden"
         >
 
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12">

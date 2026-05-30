@@ -42,10 +42,10 @@ export function ProcessSection() {
 
 				<AnimatedContainer
 					delay={0.4}
-					className="grid grid-cols-1 divide-y divide-dashed border border-dashed border-gray-200 sm:grid-cols-2 md:grid-cols-2 sm:divide-x"
+					className="grid grid-cols-1 gap-4 sm:grid-cols-2"
 				>
 					{features.map((feature, i) => (
-						<FeatureCard key={i} cardIndex={i} feature={feature} />
+						<FeatureCard key={i} cardIndex={i} feature={feature} className="liquid-metal-card rounded-2xl" />
 					))}
 				</AnimatedContainer>
 			</div>

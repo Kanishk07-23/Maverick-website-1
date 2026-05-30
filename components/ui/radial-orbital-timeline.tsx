@@ -312,7 +312,7 @@ export default function RadialOrbitalTimeline({
         return (
           <div className="fixed inset-0 flex items-center justify-center z-[300] pointer-events-none">
             <Card 
-              className="bg-white/50 backdrop-blur-xl border border-white/60 shadow-2xl shadow-purple-500/10 overflow-visible w-[90vw] max-w-sm pointer-events-auto"
+              className="liquid-metal-card bg-transparent overflow-visible w-[90vw] max-w-sm pointer-events-auto"
               onClick={(e) => e.stopPropagation()} 
             >
               {renderCardContent(item, true)}
@@ -428,8 +428,8 @@ export default function RadialOrbitalTimeline({
                 {/* Desktop Expanded Card - Rendered inside the orbit loop */}
                 {!isMobile && isExpanded && (
                   <Card 
-                    className="absolute top-20 left-1/2 -translate-x-1/2 w-64 z-[250] bg-white/50 backdrop-blur-xl border border-white/60 shadow-2xl shadow-purple-500/10 overflow-visible"
-                    onClick={(e) => e.stopPropagation()} // Prevent clicking card from closing it
+                    className="liquid-metal-card absolute top-20 left-1/2 -translate-x-1/2 w-64 z-[250] bg-transparent overflow-visible"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     {renderCardContent(item, false)}
                   </Card>

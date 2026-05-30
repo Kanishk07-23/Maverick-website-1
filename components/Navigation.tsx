@@ -37,15 +37,15 @@ export function Navigation() {
         className="fixed top-5 left-1/2 z-50 -translate-x-1/2"
         style={{ willChange: "transform" }}
       >
+        <div className="liquid-metal-border-wrap" style={{ borderRadius: '18px' }}>
         <div
           className="flex items-center gap-2 rounded-2xl px-3 py-2"
           style={{
             background: scrolled
-              ? "rgba(255,255,255,0.75)"
-              : "rgba(255,255,255,0.60)",
+              ? "rgba(255,255,255,0.82)"
+              : "rgba(255,255,255,0.72)",
             backdropFilter: "blur(28px) saturate(160%)",
             WebkitBackdropFilter: "blur(28px) saturate(160%)",
-            border: "1px solid rgba(255,255,255,0.55)",
             boxShadow: scrolled
               ? "0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.85)"
               : "0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.80)",
@@ -161,6 +161,7 @@ export function Navigation() {
             </AnimatePresence>
           </button>
         </div>
+        </div>
       </motion.div>
 
       {/* ── Mobile dropdown (tethered below the pill) ── */}
@@ -185,12 +186,10 @@ export function Navigation() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.97 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed top-[82px] left-1/2 z-50 w-[calc(100vw-32px)] max-w-sm -translate-x-1/2 rounded-2xl overflow-hidden"
+              className="liquid-metal-card fixed top-[82px] left-1/2 z-50 w-[calc(100vw-32px)] max-w-sm -translate-x-1/2 rounded-2xl overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.82)",
                 backdropFilter: "blur(32px) saturate(180%)",
                 WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                border: "1px solid rgba(255,255,255,0.60)",
                 boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.07)",
               }}
             >
