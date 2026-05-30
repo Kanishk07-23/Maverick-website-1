@@ -255,9 +255,26 @@
   padding: 1.5px;
 }
 
-
-
-
+/* Hollow ring variant — fully transparent interior using masks */
+.liquid-metal-ring {
+  background: conic-gradient(
+    from var(--lm-angle),
+    #484848 0%, #cccccc 5%, #ffffff 10%, #eeeeee 15%, #888888 21%, #484848 28%,
+    #383838 33%, #b8b8b8 39%, #f8f8f8 44%, #ffffff 49%, #e8e8e8 54%, #686868 60%,
+    #404040 66%, #c4c4c4 72%, #ffffff 77%, #e0e0e0 82%, #888888 88%, #484848 94%,
+    #c8c8c8 97%, #484848 100%
+  ) border-box;
+  border: 1.5px solid transparent;
+  animation: lm-spin 8s linear infinite;
+  border-radius: inherit;
+  
+  /* Punch a hole in the interior */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
 /* Force override for custom Poppins tailwind utilities to use Atteron */
 .font-\[\'Poppins\'\] {
   font-family: 'Atteron', Georgia, Cambria, "Times New Roman", Times, serif !important;

@@ -341,9 +341,7 @@ export default function RadialOrbitalTimeline({
           </div>
 
           {/* Outer Orbit Ring */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[440px] md:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full liquid-metal-border-wrap z-0">
-            <div className="w-full h-full rounded-full" style={{ background: 'transparent' }}></div>
-          </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[440px] md:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full liquid-metal-ring z-0"></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);

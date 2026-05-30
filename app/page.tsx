@@ -8,7 +8,7 @@ import { TestimonialsSection } from "@/components/sections/testimonials";
 import { ProcessSection } from "@/components/sections/process";
 import { CtaSection } from "@/components/sections/cta";
 import Link from "next/link";
-import { Component as InfiniteGrid } from "@/components/ui/the-infinite-grid";
+
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
@@ -128,7 +128,7 @@ const timelineData = [
 
 export default function HomePage() {
   return (
-    <InfiniteGrid>
+    <div className="flex-1 w-full flex flex-col">
       <main className="overflow-x-hidden">
         {/* ─── HERO ──────────────────────────────────────── */}
       <section className="relative min-h-screen flex flex-col justify-end pt-20 pb-16">
@@ -205,6 +205,6 @@ export default function HomePage() {
         </div>
       </footer>
       </main>
-    </InfiniteGrid>
+    </div>
   );
 }

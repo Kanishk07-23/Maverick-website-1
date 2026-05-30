@@ -1,7 +1,7 @@
 "use client";
 
 import SkewCards from "@/components/ui/gradient-card-showcase";
-import { Component as InfiniteGrid } from "@/components/ui/the-infinite-grid";
+
 import { LiquidMetalLinkButton } from "@/components/ui/liquid-metal-link-button";
 
 
@@ -52,7 +52,7 @@ const serviceCards = [
 
 export default function ServicesPage() {
   return (
-    <InfiniteGrid>
+    <div className="flex-1 w-full flex flex-col">
       <main className="min-h-screen">
         {/* Hero Header */}
         <section className="relative pt-24 pb-8 text-center overflow-hidden">
@@ -90,6 +90,6 @@ export default function ServicesPage() {
           </div>
         </section>
       </main>
-    </InfiniteGrid>
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
-import { Component as InfiniteGridBackground } from "@/components/ui/the-infinite-grid";
+
 import { GlassFilter } from "@/components/ui/liquid-glass";
 export const metadata: Metadata = {
   title: "Maverick Digitals | Full-Stack Digital Marketing Agency",
@@ -12,11 +12,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="text-gray-900 antialiased bg-transparent">
-        <InfiniteGridBackground>
+        <div className="flex-1 w-full flex flex-col">
           <GlassFilter />
           <Navigation />
           {children}
-        </InfiniteGridBackground>
+        </div>
       </body>
     </html>
   );
