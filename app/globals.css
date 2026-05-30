@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arapey:ital,wght@0,400;1,400&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -22,18 +22,40 @@
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
   
-  /* Luxurious Midnight Navy palette to override standard grays site-wide */
-  --color-gray-50: #f4f6f9;
-  --color-gray-100: #e2e7f0;
-  --color-gray-200: #cbd5e1;
-  --color-gray-300: #94a3b8;
-  --color-gray-400: #64748b;
-  --color-gray-500: #475569;
-  --color-gray-600: #334155;
-  --color-gray-700: #1e293b;
-  --color-gray-800: #141f36;
-  --color-gray-900: #0a1128;
-  --color-gray-950: #050914;
+  /* Luxurious Deep Obsidian to forcefully override ALL neutral colors site-wide for maximum legibility */
+  --color-gray-50: #111111;
+  --color-gray-100: #111111;
+  --color-gray-200: #111111;
+  --color-gray-300: #111111;
+  --color-gray-400: #111111;
+  --color-gray-500: #111111;
+  --color-gray-600: #111111;
+  --color-gray-700: #111111;
+  --color-gray-800: #111111;
+  --color-gray-900: #111111;
+  --color-gray-950: #111111;
+  
+  --color-slate-50: #111111;
+  --color-slate-100: #111111;
+  --color-slate-200: #111111;
+  --color-slate-300: #111111;
+  --color-slate-400: #111111;
+  --color-slate-500: #111111;
+  --color-slate-600: #111111;
+  --color-slate-700: #111111;
+  --color-slate-800: #111111;
+  --color-slate-900: #111111;
+  
+  --color-zinc-50: #111111;
+  --color-zinc-100: #111111;
+  --color-zinc-200: #111111;
+  --color-zinc-300: #111111;
+  --color-zinc-400: #111111;
+  --color-zinc-500: #111111;
+  --color-zinc-600: #111111;
+  --color-zinc-700: #111111;
+  --color-zinc-800: #111111;
+  --color-zinc-900: #111111;
 }
 
 @layer base {
@@ -91,21 +113,21 @@
   }
 
   body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Arapey', serif;
     background-color: transparent;
     background-image: url('/bg-liquid-metal.jpg');
     background-size: cover;
     background-position: center top;
     background-attachment: fixed;
     background-repeat: no-repeat;
-    color: #0A1128; /* Deep Midnight Navy for high contrast & luxury */
+    color: #111111; /* Deep Obsidian */
     line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Arapey', serif;
     line-height: 1.2;
-    font-weight: 700;
+    font-weight: 400; /* Arapey only comes in 400 weight */
   }
 }
 
