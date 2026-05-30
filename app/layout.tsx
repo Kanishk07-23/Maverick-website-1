@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="text-gray-900 antialiased bg-transparent">
-        <div className="flex-1 w-full flex flex-col">
+      <body className="text-gray-900 antialiased" style={{ background: 'transparent' }}>
+        <div style={{ minHeight: '100vh', background: 'transparent' }}>
           <GlassFilter />
           <Navigation />
           {children}
