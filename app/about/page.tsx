@@ -223,7 +223,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-0 max-w-5xl mx-auto">
             {TEAM.map((member) => (
               <CardContainer key={member.name} containerClassName="py-6" className="inter-var">
-                <CardBody className="bg-white/70 backdrop-blur-xl relative group/card hover:shadow-2xl hover:shadow-black/20 w-auto sm:w-[26rem] h-auto rounded-2xl p-7 border border-white/60 shadow-xl">
+                <CardBody className="liquid-metal-card relative group/card w-auto sm:w-[26rem] h-auto rounded-3xl p-7">
                   <CardItem
                     translateZ="50"
                     className="text-2xl font-black text-gray-900"
