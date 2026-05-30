@@ -29,31 +29,36 @@ export function Navigation() {
 
   return (
     <>
-      {/* ── Floating island nav ── */}
-      <motion.div
-        initial={{ y: -100, opacity: 0 }}
+      {/* ── Full-width top nav bar ── */}
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-5 left-1/2 z-50 -translate-x-1/2"
+        className="fixed top-0 left-0 right-0 z-50"
         style={{ willChange: "transform" }}
       >
-        <div className="liquid-metal-border-wrap" style={{ borderRadius: '18px' }}>
+        {/* Metallic bottom border line */}
         <div
-          className="flex items-center gap-2 rounded-2xl px-3 py-2"
+          className="absolute bottom-0 left-0 right-0 h-[1.5px]"
+          style={{
+            background: `conic-gradient(from var(--lm-angle, 0deg), #484848, #c8c8c8, #ffffff, #909090, #383838, #c0c0c0, #ffffff, #909090, #484848)`,
+            animation: "lm-spin 8s linear infinite",
+          }}
+        />
+
+        <div
+          className="flex items-center justify-between px-6 md:px-10 lg:px-16 h-16"
           style={{
             background: scrolled
-              ? "rgba(255,255,255,0.82)"
-              : "rgba(255,255,255,0.72)",
-            backdropFilter: "blur(28px) saturate(160%)",
-            WebkitBackdropFilter: "blur(28px) saturate(160%)",
-            boxShadow: scrolled
-              ? "0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.85)"
-              : "0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.80)",
-            transition: "background 0.3s ease, box-shadow 0.3s ease",
+              ? "rgba(240,240,240,0.88)"
+              : "rgba(235,235,235,0.75)",
+            backdropFilter: "blur(32px) saturate(180%)",
+            WebkitBackdropFilter: "blur(32px) saturate(180%)",
+            transition: "background 0.3s ease",
           }}
         >
-          {/* Logo mark */}
-          <Link href="/" className="flex items-center cursor-pointer mr-1">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2.5 cursor-pointer flex-shrink-0">
             <motion.img
               src="/logo.png"
               alt="Maverick Digitals"
@@ -61,108 +66,70 @@ export function Navigation() {
               whileHover={{ rotate: -12, scale: 1.1 }}
               transition={{ type: "spring", stiffness: 380, damping: 18 }}
             />
+            <span className="hidden sm:block text-sm font-bold tracking-widest uppercase text-gray-800" style={{ letterSpacing: '0.15em' }}>Maverick</span>
           </Link>
 
-          {/* Divider */}
-          <div
-            className="hidden md:block h-5 w-px mx-1"
-            style={{ background: "rgba(0,0,0,0.12)" }}
-          />
-
-          {/* Desktop nav links */}
-          <nav className="hidden md:flex items-center gap-0.5">
+          {/* Desktop nav links — centered */}
+          <nav className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
             {links.map((link) => {
               const isActive = pathname === link.path;
               return (
                 <Link
                   key={link.path}
                   href={link.path}
-                  className="relative flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-xl cursor-pointer select-none transition-colors duration-200"
-                  style={{
-                    color: isActive ? "#0f0f11" : "#6b7280",
-                  }}
+                  className="relative flex items-center justify-center px-5 py-2 text-sm font-semibold rounded-xl cursor-pointer select-none transition-colors duration-200"
+                  style={{ color: isActive ? "#0f0f11" : "#6b7280" }}
                 >
-                  {/* Active pill */}
                   {isActive && (
                     <motion.span
                       layoutId="nav-active-pill"
                       className="absolute inset-0 rounded-xl"
                       style={{
-                        background: "rgba(255,255,255,0.95)",
+                        background: "rgba(255,255,255,0.90)",
                         border: "1px solid rgba(0,0,0,0.07)",
-                        boxShadow:
-                          "0 1px 6px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.6) inset",
+                        boxShadow: "0 1px 6px rgba(0,0,0,0.08)",
                       }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
-                      }}
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
-
-                  {/* Hover state */}
                   {!isActive && (
-                    <span
-                      className="absolute inset-0 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-150"
-                      style={{ background: "rgba(0,0,0,0.04)" }}
-                    />
+                    <span className="absolute inset-0 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-150" style={{ background: "rgba(0,0,0,0.04)" }} />
                   )}
-
-                  <span
-                    className="relative z-10 transition-colors duration-200"
-                    style={{ color: isActive ? "#111827" : undefined }}
-                  >
-                    {link.name}
-                  </span>
+                  <span className="relative z-10">{link.name}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Divider */}
-          <div
-            className="hidden md:block h-5 w-px mx-1"
-            style={{ background: "rgba(0,0,0,0.12)" }}
-          />
+          {/* Right side */}
+          <div className="flex items-center gap-3">
+            {/* CTA — desktop */}
+            <div className="hidden md:block">
+              <LiquidMetalLinkButton label="Get a Quote" href="/contact" />
+            </div>
 
-          {/* CTA — desktop */}
-          <LiquidMetalLinkButton label="Get a Quote" href="/contact" />
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-label="Toggle menu"
-            className="md:hidden flex items-center justify-center w-9 h-9 rounded-xl cursor-pointer transition-colors duration-150"
-            style={{ background: "rgba(0,0,0,0.05)" }}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {mobileOpen ? (
-                <motion.span
-                  key="x"
-                  initial={{ rotate: -90, opacity: 0, scale: 0.7 }}
-                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                  exit={{ rotate: 90, opacity: 0, scale: 0.7 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <X className="w-5 h-5 text-gray-700" />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0, scale: 0.7 }}
-                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                  exit={{ rotate: -90, opacity: 0, scale: 0.7 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <Menu className="w-5 h-5 text-gray-700" />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </button>
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label="Toggle menu"
+              className="md:hidden flex items-center justify-center w-9 h-9 rounded-xl cursor-pointer transition-colors duration-150"
+              style={{ background: "rgba(0,0,0,0.06)" }}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {mobileOpen ? (
+                  <motion.span key="x" initial={{ rotate: -90, opacity: 0, scale: 0.7 }} animate={{ rotate: 0, opacity: 1, scale: 1 }} exit={{ rotate: 90, opacity: 0, scale: 0.7 }} transition={{ duration: 0.15 }}>
+                    <X className="w-5 h-5 text-gray-700" />
+                  </motion.span>
+                ) : (
+                  <motion.span key="menu" initial={{ rotate: 90, opacity: 0, scale: 0.7 }} animate={{ rotate: 0, opacity: 1, scale: 1 }} exit={{ rotate: -90, opacity: 0, scale: 0.7 }} transition={{ duration: 0.15 }}>
+                    <Menu className="w-5 h-5 text-gray-700" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
+          </div>
         </div>
-        </div>
-      </motion.div>
+      </motion.header>
 
       {/* ── Mobile dropdown (tethered below the pill) ── */}
       <AnimatePresence>
@@ -186,7 +153,7 @@ export function Navigation() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.97 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="liquid-metal-card fixed top-[82px] left-1/2 z-50 w-[calc(100vw-32px)] max-w-sm -translate-x-1/2 rounded-2xl overflow-hidden"
+              className="liquid-metal-card fixed top-[64px] left-0 right-0 z-50 overflow-hidden"
               style={{
                 backdropFilter: "blur(32px) saturate(180%)",
                 WebkitBackdropFilter: "blur(32px) saturate(180%)",

@@ -330,19 +330,19 @@ export default function RadialOrbitalTimeline({
             transform: `translate(${centerOffset.x}px, ${centerOffset.y}px)`,
           }}
         >
-          {/* Central Energy Core */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-purple-500 via-blue-500 to-teal-500 animate-pulse flex items-center justify-center z-10">
-            <div className="absolute w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full border border-[#9333ea]/20 animate-ping opacity-70"></div>
+          {/* Central Energy Core — metallic chrome pivot */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full liquid-metal-card flex items-center justify-center z-10">
+            <div className="absolute w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full border border-gray-300/30 animate-ping opacity-40"></div>
             <div
-              className="absolute w-20 h-20 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full border border-[#9333ea]/10 animate-ping opacity-50"
+              className="absolute w-20 h-20 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full border border-gray-200/20 animate-ping opacity-25"
               style={{ animationDelay: "0.5s" }}
             ></div>
-            <div className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-full bg-white/80 backdrop-blur-md"></div>
+            <div className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-full" style={{ background: 'linear-gradient(135deg, #d0d0d0 0%, #f8f8f8 40%, #a0a0a0 70%, #e0e0e0 100%)', boxShadow: '0 2px 8px rgba(0,0,0,0.15), inset 0 1px 2px rgba(255,255,255,0.8)' }}></div>
           </div>
 
           {/* Outer Orbit Ring */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[440px] md:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full liquid-metal-border-wrap z-0">
-            <div className="w-full h-full rounded-full" style={{ background: '#ffffff' }}></div>
+            <div className="w-full h-full rounded-full" style={{ background: 'transparent' }}></div>
           </div>
 
           {timelineData.map((item, index) => {

@@ -85,7 +85,7 @@ export default function AboutPage() {
       </div>
 
       {/* HERO */}
-      <section className="relative z-10 min-h-[90vh] flex flex-col justify-center max-w-7xl mx-auto px-6 pt-32 pb-20">
+      <section className="relative z-10 min-h-[90vh] flex flex-col justify-center max-w-7xl mx-auto px-6 pt-24 pb-20">
         <motion.div style={{ y: heroY, opacity: heroOpacity }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

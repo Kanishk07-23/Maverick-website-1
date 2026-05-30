@@ -79,7 +79,12 @@
 
   body {
     font-family: 'Atteron', Georgia, Cambria, "Times New Roman", Times, serif;
-    background-color: #ffffff;
+    background-color: #e8e8e8;
+    background-image: url('/bg-liquid-metal.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     color: #111827;
     line-height: 1.6;
   }
@@ -154,7 +159,7 @@
 /* Card variant — rotating metallic border, fully opaque interior (no bleed-through gleam) */
 .liquid-metal-card {
   background:
-    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)) padding-box,
     conic-gradient(
       from var(--lm-angle),
       #484848 0%,

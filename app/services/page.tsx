@@ -55,7 +55,7 @@ export default function ServicesPage() {
     <InfiniteGrid>
       <main className="min-h-screen">
         {/* Hero Header */}
-        <section className="relative pt-32 pb-8 text-center overflow-hidden">
+        <section className="relative pt-24 pb-8 text-center overflow-hidden">
           <div className="relative z-10 max-w-4xl mx-auto px-6">
             <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-5">
               What We Do
