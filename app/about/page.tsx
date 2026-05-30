@@ -220,10 +220,10 @@ export default function AboutPage() {
             </p>
           </Reveal>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-0 max-w-5xl mx-auto">
             {TEAM.map((member) => (
-              <CardContainer key={member.name} className="inter-var">
-                <CardBody className="bg-white/80 backdrop-blur-lg relative group/card dark:hover:shadow-2xl dark:hover:shadow-purple-500/[0.1] w-auto sm:w-[26rem] h-auto rounded-xl p-6 border shadow-lg">
+              <CardContainer key={member.name} containerClassName="py-6" className="inter-var">
+                <CardBody className="bg-white/70 backdrop-blur-xl relative group/card hover:shadow-2xl hover:shadow-black/20 w-auto sm:w-[26rem] h-auto rounded-2xl p-7 border border-white/60 shadow-xl">
                   <CardItem
                     translateZ="50"
                     className="text-2xl font-black text-gray-900"
@@ -259,7 +259,7 @@ export default function AboutPage() {
                       {member.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="px-2 py-1 rounded-md text-[10px] font-bold bg-gray-100 text-gray-600 border border-gray-200"
+                          className="px-2 py-1 rounded-md text-[10px] font-bold bg-black/5 text-gray-700 border border-black/10"
                         >
                           {skill}
                         </span>
@@ -281,7 +281,7 @@ export default function AboutPage() {
                       translateZ={20}
                       as="a"
                       href={`mailto:${member.email}`}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-gray-900 text-gray-900 hover:bg-gray-100 text-xs font-bold transition-all"
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black text-white text-xs font-bold hover:bg-gray-800 transition-all"
                     >
                       <Mail className="w-4 h-4" /> Email
                     </CardItem>

@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+
 import React, {
   createContext,
   useState,
@@ -48,7 +49,7 @@ export const CardContainer = ({
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
         className={cn(
-          "py-10 flex items-center justify-center",
+          "py-20 flex items-center justify-center",
           containerClassName
         )}
         style={{
@@ -133,16 +134,17 @@ export const CardItem = ({
     }
   };
 
-  const Component = Tag as any;
+  // Cast to any to satisfy TypeScript with the polymorphic ref pattern
+  const AnyTag = Tag as any;
 
   return (
-    <Component
+    <AnyTag
       ref={ref}
       className={cn("w-fit transition duration-200 ease-linear", className)}
       {...rest}
     >
       {children}
-    </Component>
+    </AnyTag>
   );
 };
 
