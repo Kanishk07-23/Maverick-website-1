@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Mail } from "lucide-react";
+import { useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { Mail } from "lucide-react";
 import Link from "next/link";
 import { ExpandableCard } from "@/components/ui/expandable-card";
+import { LiquidMetalLinkButton } from "@/components/ui/liquid-metal-link-button";
 
 const LinkedinIcon = () => (
   <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -133,19 +134,8 @@ export default function AboutPage() {
             transition={{ duration: 0.6, delay: 0.65 }}
             className="flex flex-wrap items-center gap-4 mt-10"
           >
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-2 px-8 py-4 rounded-2xl brand-gradient text-white font-bold hover:opacity-90 transition-all duration-300 shadow-lg shadow-purple-500/20 cursor-pointer"
-            >
-              Work With Us
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl border border-gray-200 text-gray-700 font-semibold hover:border-purple-300 hover:text-purple-700 transition-all duration-300 cursor-pointer"
-            >
-              Our Services
-            </Link>
+            <LiquidMetalLinkButton label="Work With Us" href="/contact" />
+            <LiquidMetalLinkButton label="Our Services" href="/services" />
           </motion.div>
         </motion.div>
       </section>

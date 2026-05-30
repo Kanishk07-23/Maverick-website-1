@@ -2,8 +2,8 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, CalendarDays, CheckCircle2 } from "lucide-react";
-import Link from "next/link";
+import { CheckCircle2 } from "lucide-react";
+import { LiquidMetalLinkButton } from "@/components/ui/liquid-metal-link-button";
 
 const TRUST_BADGES = ["No commitment", "Free strategy session", "Reply within 24 h"];
 
@@ -84,36 +84,8 @@ export function CtaSection() {
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Primary CTA — solid gradient button */}
-              <Link
-                href="/contact"
-                className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg cursor-pointer transition-all duration-300 hover:-translate-y-0.5"
-                style={{
-                  background: "linear-gradient(135deg, #9333ea, #2563eb)",
-                  boxShadow: "0 8px 24px rgba(147,51,234,0.30), inset 1px 1px 0 rgba(255,255,255,0.15)",
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 32px rgba(147,51,234,0.42), inset 1px 1px 0 rgba(255,255,255,0.15)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 24px rgba(147,51,234,0.30), inset 1px 1px 0 rgba(255,255,255,0.15)"; }}
-              >
-                <CalendarDays className="w-5 h-5" />
-                Book a Free Call
-              </Link>
-
-              {/* Ghost glass secondary CTA */}
-              <Link
-                href="/services"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-semibold text-gray-700 text-base cursor-pointer transition-all duration-300 hover:text-gray-900"
-                style={{
-                  backdropFilter: "blur(10px)",
-                  WebkitBackdropFilter: "blur(10px)",
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                }}
-              >
-                Explore our services
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <LiquidMetalLinkButton label="Book a Free Call" href="/contact" />
+              <LiquidMetalLinkButton label="Our Services" href="/services" />
             </motion.div>
 
           </div>
@@ -122,3 +94,4 @@ export function CtaSection() {
     </section>
   );
 }
+

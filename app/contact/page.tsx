@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, CheckCircle2, Mail, MapPin, Clock } from "lucide-react";
+import { CheckCircle2, Mail, MapPin, Clock } from "lucide-react";
+import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
 
 const SERVICES = [
   "Website & App Development",
@@ -46,6 +47,18 @@ const inputCls =
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  const handleSubmitClick = () => {
+    if (formRef.current) {
+      formRef.current.requestSubmit();
+    }
+  };
 
   return (
     <main className="min-h-screen overflow-x-hidden">
@@ -126,21 +139,16 @@ export default function ContactPage() {
                     We've received your message and will get back to you within 24 business hours.
                   </p>
                 </div>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="px-6 py-2.5 rounded-xl text-sm font-bold text-white cursor-pointer transition-all duration-300"
-                  style={{ background: "linear-gradient(135deg, #9333ea, #2563eb)" }}
-                >
-                  Send another message
-                </button>
+                <LiquidMetalButton label="Send another message" onClick={() => setSubmitted(false)} />
               </motion.div>
             ) : (
               <motion.form
                 key="form"
+                ref={formRef}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
+                onSubmit={handleFormSubmit}
                 className="rounded-3xl border border-gray-100 bg-white shadow-sm p-8 md:p-10 space-y-6"
               >
                 {/* Name + Email */}
@@ -186,16 +194,9 @@ export default function ContactPage() {
                 </Field>
 
                 {/* Submit */}
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.01, boxShadow: "0 8px 30px rgba(147,51,234,0.25)" }}
-                  whileTap={{ scale: 0.99 }}
-                  className="w-full flex items-center justify-center gap-2.5 py-4 rounded-2xl text-white font-bold text-base cursor-pointer transition-shadow duration-300"
-                  style={{ background: "linear-gradient(135deg, #9333ea, #2563eb)" }}
-                >
-                  Send Message
-                  <Send className="w-4 h-4" />
-                </motion.button>
+                <div className="flex justify-center">
+                  <LiquidMetalButton label="Send Message" onClick={handleSubmitClick} />
+                </div>
 
                 <p className="text-center text-gray-400 text-xs">
                   We typically respond within 24 business hours.

@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, Calendar, Code, FileText, User, Clock } from "lucide-react";
+import { ChevronRight, Calendar, Code, FileText, User, Clock } from "lucide-react";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
-import { GlassButton } from "@/components/ui/liquid-glass";
+import { LiquidMetalLinkButton } from "@/components/ui/liquid-metal-link-button";
 import { TestimonialsSection } from "@/components/sections/testimonials";
 import { ProcessSection } from "@/components/sections/process";
 import { CtaSection } from "@/components/sections/cta";
@@ -47,7 +47,8 @@ const Slogan = () => {
       variants={container}
       initial="hidden"
       animate="show"
-      className="flex flex-wrap justify-center text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
+      style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}
+      className="flex flex-wrap text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
     >
       {words.map((word, index) => (
         <motion.span variants={child} className="mr-[0.25em] pb-2" key={index}>
@@ -130,42 +131,24 @@ export default function HomePage() {
     <InfiniteGrid>
       <main className="overflow-x-hidden">
         {/* ─── HERO ──────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-16 text-center">
+      <section className="relative min-h-screen flex flex-col justify-end pt-20 pb-16">
         {/* Ambient Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] max-w-[800px] max-h-[800px] rounded-full bg-blue-400/10 blur-[120px] pointer-events-none" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 w-full flex flex-col items-center">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 w-full flex flex-col items-start">
 
 
           <Slogan />
-
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={3}
-            className="text-lg sm:text-xl md:text-2xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-10 md:mb-14 font-medium tracking-tight px-4"
-          >
-            A full-stack digital marketing agency helping ambitious brands scale through high-conversion strategy, immersive storytelling, and flawless execution.
-          </motion.p>
 
           <motion.div
             variants={fadeUp}
             initial="hidden"
             animate="show"
             custom={4}
-            className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto"
+            className="flex flex-col sm:flex-row items-start gap-5 w-full sm:w-auto"
           >
-            <GlassButton href="/services" className="w-full sm:w-auto">
-              <span className="flex items-center gap-2 text-lg text-gray-900 group-hover:translate-x-1 transition-transform">
-                See Our Work <ArrowRight className="w-5 h-5" />
-              </span>
-            </GlassButton>
-            <GlassButton href="/contact" className="w-full sm:w-auto">
-              <span className="text-lg">
-                Book a Call
-              </span>
-            </GlassButton>
+            <LiquidMetalLinkButton label="See Our Work" href="/services" />
+            <LiquidMetalLinkButton label="Book a Call" href="/contact" />
           </motion.div>
         </div>
       </section>

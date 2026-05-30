@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { X, Menu } from "lucide-react";
+import { LiquidMetalLinkButton } from "@/components/ui/liquid-metal-link-button";
 
 const links = [
   { name: "Home", path: "/" },
@@ -126,16 +127,7 @@ export function Navigation() {
           />
 
           {/* CTA — desktop */}
-          <Link
-            href="/contact"
-            className="hidden md:inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold text-white cursor-pointer transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
-            style={{
-              background: "linear-gradient(135deg, #9333ea 0%, #2563eb 100%)",
-              boxShadow: "0 2px 10px rgba(147,51,234,0.30), inset 0 1px 0 rgba(255,255,255,0.15)",
-            }}
-          >
-            Get a Quote
-          </Link>
+          <LiquidMetalLinkButton label="Get a Quote" href="/contact" />
 
           {/* Mobile hamburger */}
           <button
@@ -250,16 +242,9 @@ export function Navigation() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: links.length * 0.05 + 0.04 }}
                 >
-                  <Link
-                    href="/contact"
-                    className="flex items-center justify-center py-3 rounded-xl text-sm font-bold text-white cursor-pointer transition-opacity duration-150 hover:opacity-90"
-                    style={{
-                      background: "linear-gradient(135deg, #9333ea 0%, #2563eb 100%)",
-                      boxShadow: "0 2px 12px rgba(147,51,234,0.30)",
-                    }}
-                  >
-                    Get a Quote →
-                  </Link>
+                  <div className="flex justify-center">
+                    <LiquidMetalLinkButton label="Get a Quote" href="/contact" />
+                  </div>
                 </motion.div>
               </div>
             </motion.div>

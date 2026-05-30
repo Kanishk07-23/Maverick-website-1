@@ -2,6 +2,8 @@
 
 import SkewCards from "@/components/ui/gradient-card-showcase";
 import { Component as InfiniteGrid } from "@/components/ui/the-infinite-grid";
+import { LiquidMetalLinkButton } from "@/components/ui/liquid-metal-link-button";
+
 
 const serviceCards = [
   {
@@ -82,12 +84,9 @@ export default function ServicesPage() {
             <p className="text-gray-500 mb-8 text-lg">
               Book a free 30-minute strategy call and let&apos;s map out your growth roadmap.
             </p>
-            <a
-              href="/contact"
-              className="inline-block px-8 py-4 rounded-xl font-bold text-white text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl brand-gradient"
-            >
-              Book a Free Call →
-            </a>
+            <div className="flex justify-center">
+              <LiquidMetalLinkButton label="Book a Free Call" href="/contact" />
+            </div>
           </div>
         </section>
       </main>
