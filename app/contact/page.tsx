@@ -78,12 +78,6 @@ export default function ContactPage() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-14"
         >
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <span className="h-px w-10 bg-gradient-to-r from-purple-500 to-blue-600" />
-            <span className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">Get in Touch</span>
-            <span className="h-px w-10 bg-gradient-to-l from-purple-500 to-blue-600" />
-          </div>
-
           <h1
             className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[1.05] mb-5"
           >
