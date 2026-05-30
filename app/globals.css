@@ -129,6 +129,11 @@
     line-height: 1.2;
     font-weight: 400; /* Arapey only comes in 400 weight */
   }
+
+  /* Nuclear override to guarantee ALL text is absolutely black as requested */
+  h1, h2, h3, h4, h5, h6, p, span, a, label, li, strong, b, em, i, td, th, div {
+    color: #000000 !important;
+  }
 }
 
 /* Marquee animation (used by PortfolioGallery mobile view) */
@@ -164,19 +169,8 @@
   background: linear-gradient(135deg, #9333ea, #2563eb);
 }
 .brand-gradient-text {
-  background: linear-gradient(
-    125deg,
-    #787878 0%,
-    #c0c0c0 20%,
-    #efefef 35%,
-    #ffffff 50%,
-    #d4d4d4 65%,
-    #a8a8a8 80%,
-    #787878 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
   filter: drop-shadow(0 0 10px rgba(200,200,200,0.75)) drop-shadow(0 0 3px rgba(255,255,255,0.5));
 }
 
@@ -361,6 +355,11 @@
 }
 
 /* Animation for the ping effect */
+/* Force text-white to be black per user request */
+.text-white {
+  color: #000000 !important;
+}
+
 @keyframes ping {
   75%, 100% {
     transform: scale(2);
