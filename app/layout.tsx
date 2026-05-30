@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="antialiased">
-        {/* Background — fixed, fills full viewport, sits behind everything */}
+        {/* Etheral Shadow background — fixed, fills full viewport */}
         <div
           style={{
             position: "fixed",
@@ -25,14 +25,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         >
           <Component
-            color="rgba(220, 220, 225, 1)"
+            color="rgba(128, 128, 128, 1)"
             animation={{ scale: 100, speed: 90 }}
             noise={{ opacity: 1, scale: 1.2 }}
             sizing="fill"
           />
         </div>
 
-        {/* Page content — sits above the background */}
+        {/* Page content sits above the background */}
         <div style={{ position: "relative", zIndex: 1, minHeight: "100vh" }}>
           <GlassFilter />
           <Navigation />
