@@ -141,47 +141,69 @@
   to { --lm-angle: 360deg; }
 }
 
-/* Card variant — frosted glass interior + rotating metallic border */
+/* Card variant — frosted glass interior + vivid rotating metallic border */
 .liquid-metal-card {
   background:
     linear-gradient(160deg, rgba(255,255,255,0.97) 0%, rgba(241,245,249,0.93) 100%) padding-box,
     conic-gradient(
       from var(--lm-angle),
-      #a0a0a0 0%,
-      #e8e8e8 12%,
-      #f8f8f8 22%,
-      #c8c8c8 35%,
-      #909090 48%,
-      #e0e0e0 60%,
-      #f5f5f5 70%,
-      #bfbfbf 82%,
-      #a0a0a0 100%
+      #484848 0%,
+      #c8c8c8 5%,
+      #ffffff 10%,
+      #f0f0f0 14%,
+      #909090 20%,
+      #484848 27%,
+      #383838 32%,
+      #b0b0b0 38%,
+      #f8f8f8 43%,
+      #ffffff 48%,
+      #e8e8e8 53%,
+      #707070 59%,
+      #404040 65%,
+      #c0c0c0 71%,
+      #ffffff 76%,
+      #e4e4e4 81%,
+      #909090 87%,
+      #484848 93%,
+      #c0c0c0 97%,
+      #484848 100%
     ) border-box;
-  border: 1.5px solid transparent;
-  animation: lm-spin 8s linear infinite;
+  border: 2px solid transparent;
+  animation: lm-spin 4s linear infinite;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95);
 }
 
-/* Border-wrap variant — use as a wrapper div to add metallic border without
-   affecting the child's inline background styles (used for Navigation) */
+/* Border-wrap variant — wrapper div adds metallic border without touching child's inline styles */
 .liquid-metal-border-wrap {
   background: conic-gradient(
     from var(--lm-angle),
-    #a8a8a8 0%,
-    #efefef 14%,
-    #f9f9f9 24%,
-    #d0d0d0 38%,
-    #989898 50%,
-    #e8e8e8 63%,
-    #f7f7f7 73%,
-    #c4c4c4 87%,
-    #a8a8a8 100%
+    #484848 0%,
+    #cccccc 5%,
+    #ffffff 10%,
+    #eeeeee 15%,
+    #888888 21%,
+    #484848 28%,
+    #383838 33%,
+    #b8b8b8 39%,
+    #f8f8f8 44%,
+    #ffffff 49%,
+    #e8e8e8 54%,
+    #686868 60%,
+    #404040 66%,
+    #c4c4c4 72%,
+    #ffffff 77%,
+    #e0e0e0 82%,
+    #888888 88%,
+    #484848 94%,
+    #c8c8c8 97%,
+    #484848 100%
   );
-  animation: lm-spin 14s linear infinite;
-  padding: 1.5px;
+  animation: lm-spin 8s linear infinite;
+  padding: 2px;
 }
+
 
 /* Force override for custom Poppins tailwind utilities to use Atteron */
 .font-\[\'Poppins\'\] {

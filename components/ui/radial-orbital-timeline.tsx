@@ -341,7 +341,7 @@ export default function RadialOrbitalTimeline({
           </div>
 
           {/* Outer Orbit Ring */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[440px] md:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full border border-gray-200"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[440px] md:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full" style={{ border: '1px solid rgba(120,120,120,0.25)', boxShadow: '0 0 0 0.5px rgba(180,180,180,0.15) inset' }}></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
@@ -389,26 +389,16 @@ export default function RadialOrbitalTimeline({
 
                 {/* The Node Itself */}
                 <div
-                  className={`
-                  w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center
-                  ${
+                  className={cn(
+                    "liquid-metal-card w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center transition-all duration-300 transform",
                     isExpanded
-                      ? "bg-white text-gray-900"
+                      ? "text-gray-900 shadow-lg shadow-purple-500/20"
                       : isRelated
-                      ? "bg-white/90 text-gray-900"
-                      : "bg-gray-100 text-gray-600"
-                  }
-                  border-2 
-                  ${
-                    isExpanded
-                      ? "border-[#9333ea] shadow-lg shadow-purple-500/30"
-                      : isRelated
-                      ? "border-[#2563eb] animate-pulse"
-                      : "border-gray-300"
-                  }
-                  transition-all duration-300 transform
-                  ${isExpanded ? (isMobile ? "scale-125" : "scale-150") : ""}
-                `}
+                      ? "text-gray-800"
+                      : "text-gray-500",
+                    isExpanded ? (isMobile ? "scale-125" : "scale-150") : "",
+                    isRelated && !isExpanded ? "animate-pulse" : "",
+                  )}
                 >
                   <Icon size={isMobile ? 16 : isTablet ? 18 : 20} />
                 </div>
