@@ -109,14 +109,13 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: transparent !important;
-    background-color: transparent !important;
+    background: none;
   }
 
   body {
     font-family: 'Arapey', serif;
-    background-color: transparent;
-    color: #111111; /* Deep Obsidian */
+    background: none;
+    color: #111111;
     line-height: 1.6;
   }
 
