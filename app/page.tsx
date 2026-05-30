@@ -47,8 +47,8 @@ const Slogan = () => {
       variants={container}
       initial="hidden"
       animate="show"
-      style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}
-      className="flex flex-wrap text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
+      style={{ fontFamily: "'Arapey', serif" }}
+      className="flex flex-wrap justify-center text-center text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
     >
       {words.map((word, index) => (
         <motion.span variants={child} className="mr-[0.25em] pb-2" key={index}>
@@ -135,7 +135,7 @@ export default function HomePage() {
         {/* Ambient Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] max-w-[800px] max-h-[800px] rounded-full bg-blue-400/10 blur-[120px] pointer-events-none" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 w-full flex flex-col items-start">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 w-full flex flex-col items-center text-center">
 
 
           <Slogan />

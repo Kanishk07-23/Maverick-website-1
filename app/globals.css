@@ -23,39 +23,39 @@
   --color-ring: hsl(var(--ring));
   
   /* Luxurious Deep Obsidian to forcefully override ALL neutral colors site-wide for maximum legibility */
-  --color-gray-50: #111111;
-  --color-gray-100: #111111;
-  --color-gray-200: #111111;
-  --color-gray-300: #111111;
-  --color-gray-400: #111111;
-  --color-gray-500: #111111;
-  --color-gray-600: #111111;
-  --color-gray-700: #111111;
-  --color-gray-800: #111111;
-  --color-gray-900: #111111;
-  --color-gray-950: #111111;
+  --color-gray-50: #000000;
+  --color-gray-100: #000000;
+  --color-gray-200: #000000;
+  --color-gray-300: #000000;
+  --color-gray-400: #000000;
+  --color-gray-500: #000000;
+  --color-gray-600: #000000;
+  --color-gray-700: #000000;
+  --color-gray-800: #000000;
+  --color-gray-900: #000000;
+  --color-gray-950: #000000;
   
-  --color-slate-50: #111111;
-  --color-slate-100: #111111;
-  --color-slate-200: #111111;
-  --color-slate-300: #111111;
-  --color-slate-400: #111111;
-  --color-slate-500: #111111;
-  --color-slate-600: #111111;
-  --color-slate-700: #111111;
-  --color-slate-800: #111111;
-  --color-slate-900: #111111;
+  --color-slate-50: #000000;
+  --color-slate-100: #000000;
+  --color-slate-200: #000000;
+  --color-slate-300: #000000;
+  --color-slate-400: #000000;
+  --color-slate-500: #000000;
+  --color-slate-600: #000000;
+  --color-slate-700: #000000;
+  --color-slate-800: #000000;
+  --color-slate-900: #000000;
   
-  --color-zinc-50: #111111;
-  --color-zinc-100: #111111;
-  --color-zinc-200: #111111;
-  --color-zinc-300: #111111;
-  --color-zinc-400: #111111;
-  --color-zinc-500: #111111;
-  --color-zinc-600: #111111;
-  --color-zinc-700: #111111;
-  --color-zinc-800: #111111;
-  --color-zinc-900: #111111;
+  --color-zinc-50: #000000;
+  --color-zinc-100: #000000;
+  --color-zinc-200: #000000;
+  --color-zinc-300: #000000;
+  --color-zinc-400: #000000;
+  --color-zinc-500: #000000;
+  --color-zinc-600: #000000;
+  --color-zinc-700: #000000;
+  --color-zinc-800: #000000;
+  --color-zinc-900: #000000;
 }
 
 @layer base {
@@ -120,7 +120,7 @@
     background-position: center top;
     background-attachment: fixed;
     background-repeat: no-repeat;
-    color: #111111; /* Deep Obsidian */
+    color: #000000; /* Deep Obsidian */
     line-height: 1.6;
   }
 
