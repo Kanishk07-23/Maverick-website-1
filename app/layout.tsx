@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         >
           <Component
-            color="rgba(128, 128, 128, 1)"
+            color="rgba(0, 0, 0, 1)"
             animation={{ scale: 100, speed: 90 }}
             noise={{ opacity: 1, scale: 1.2 }}
             sizing="fill"

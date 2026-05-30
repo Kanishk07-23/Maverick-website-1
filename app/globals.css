@@ -113,13 +113,13 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: transparent;
+    background-color: #0a0a0a;
     @apply font-sans;
   }
 
   body {
     font-family: 'Arapey', serif;
-    background-color: transparent;
+    background-color: #0a0a0a;
     color: #111111;
     line-height: 1.6;
     @apply bg-background text-foreground;
