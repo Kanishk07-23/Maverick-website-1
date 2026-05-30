@@ -124,84 +124,60 @@
   background: linear-gradient(135deg, #9333ea, #2563eb);
 }
 .brand-gradient-text {
-  background: linear-gradient(135deg, #9333ea, #2563eb);
+  background: linear-gradient(
+    125deg,
+    #787878 0%,
+    #c0c0c0 20%,
+    #efefef 35%,
+    #ffffff 50%,
+    #d4d4d4 65%,
+    #a8a8a8 80%,
+    #787878 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(200,200,200,0.75)) drop-shadow(0 0 3px rgba(255,255,255,0.5));
 }
 
 /* ─── Liquid Metal Theme System ────────────────────────────── */
-@property --lm-angle {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
 
-@keyframes lm-spin {
-  to { --lm-angle: 360deg; }
-}
-
-/* Card variant — frosted glass interior + vivid rotating metallic border */
+/* Card variant — frosted glass with a static silver gradient border (no animation) */
 .liquid-metal-card {
   background:
     linear-gradient(160deg, rgba(255,255,255,0.97) 0%, rgba(241,245,249,0.93) 100%) padding-box,
-    conic-gradient(
-      from var(--lm-angle),
-      #484848 0%,
-      #c8c8c8 5%,
-      #ffffff 10%,
-      #f0f0f0 14%,
-      #909090 20%,
-      #484848 27%,
-      #383838 32%,
-      #b0b0b0 38%,
-      #f8f8f8 43%,
-      #ffffff 48%,
-      #e8e8e8 53%,
-      #707070 59%,
-      #404040 65%,
-      #c0c0c0 71%,
-      #ffffff 76%,
-      #e4e4e4 81%,
-      #909090 87%,
-      #484848 93%,
-      #c0c0c0 97%,
-      #484848 100%
+    linear-gradient(
+      145deg,
+      #b0b0b0 0%,
+      #e8e8e8 25%,
+      #f8f8f8 40%,
+      #d0d0d0 55%,
+      #a0a0a0 70%,
+      #e0e0e0 85%,
+      #b8b8b8 100%
     ) border-box;
-  border: 2px solid transparent;
-  animation: lm-spin 4s linear infinite;
+  border: 1.5px solid transparent;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95);
+  box-shadow:
+    0 4px 24px rgba(0,0,0,0.07),
+    0 1px 4px rgba(0,0,0,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.95);
 }
 
-/* Border-wrap variant — wrapper div adds metallic border without touching child's inline styles */
+/* Border-wrap variant — wrapper div for nav; static metallic sheen, no rotation */
 .liquid-metal-border-wrap {
-  background: conic-gradient(
-    from var(--lm-angle),
-    #484848 0%,
-    #cccccc 5%,
-    #ffffff 10%,
-    #eeeeee 15%,
-    #888888 21%,
-    #484848 28%,
-    #383838 33%,
-    #b8b8b8 39%,
-    #f8f8f8 44%,
-    #ffffff 49%,
-    #e8e8e8 54%,
-    #686868 60%,
-    #404040 66%,
-    #c4c4c4 72%,
-    #ffffff 77%,
-    #e0e0e0 82%,
-    #888888 88%,
-    #484848 94%,
-    #c8c8c8 97%,
-    #484848 100%
+  background: linear-gradient(
+    145deg,
+    #a8a8a8 0%,
+    #e8e8e8 22%,
+    #f8f8f8 38%,
+    #cccccc 52%,
+    #989898 65%,
+    #e4e4e4 82%,
+    #b4b4b4 100%
   );
-  animation: lm-spin 8s linear infinite;
-  padding: 2px;
+  padding: 1.5px;
 }
 
 
