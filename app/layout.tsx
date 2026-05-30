@@ -3,7 +3,7 @@ import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 
 import { GlassFilter } from "@/components/ui/liquid-glass";
-import { ShadowOverlay } from "@/components/ui/shadow-overlay";
+import { EtheralShadow } from "@/components/ui/etheral-shadow";
 
 export const metadata: Metadata = {
   title: "Maverick Digitals | Full-Stack Digital Marketing Agency",
@@ -15,7 +15,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="text-gray-900 antialiased" style={{ background: 'transparent' }}>
         <div style={{ minHeight: '100vh', background: 'transparent' }}>
-          <ShadowOverlay color="#f1f5f9" />
+          <EtheralShadow 
+            color="rgba(128, 128, 128, 1)"
+            animation={{ scale: 100, speed: 90 }}
+            noise={{ opacity: 1, scale: 1.2 }}
+            sizing="fill"
+          />
           <GlassFilter />
           <Navigation />
           {children}
