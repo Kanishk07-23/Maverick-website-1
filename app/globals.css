@@ -160,7 +160,7 @@
 /* Card variant — rotating metallic border, fully opaque interior (no bleed-through gleam) */
 .liquid-metal-card {
   background:
-    linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)) padding-box,
+    linear-gradient(rgb(255,255,255), rgb(255,255,255)) padding-box,
     conic-gradient(
       from var(--lm-angle),
       #484848 0%,
@@ -186,6 +186,7 @@
     ) border-box;
   border: 2px solid transparent;
   animation: lm-spin 8s linear infinite;
+  border-radius: inherit;
   box-shadow:
     0 6px 32px rgba(0,0,0,0.10),
     0 2px 8px rgba(0,0,0,0.07),
@@ -221,6 +222,7 @@
     ) border-box;
   border: 2px solid transparent;
   animation: lm-spin 8s linear infinite;
+  border-radius: inherit;
   box-shadow:
     0 6px 32px rgba(0,0,0,0.25),
     0 2px 8px rgba(0,0,0,0.15),
@@ -269,10 +271,10 @@
   animation: lm-spin 8s linear infinite;
   border-radius: inherit;
   
-  /* Punch a hole in the interior */
+  /* Punch a hole in the interior and ensure corners are clipped */
   -webkit-mask:
     linear-gradient(#fff 0 0) padding-box, 
-    linear-gradient(#fff 0 0);
+    linear-gradient(#fff 0 0) border-box;
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
 }
