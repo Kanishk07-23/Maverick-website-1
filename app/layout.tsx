@@ -3,6 +3,10 @@ import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { GlassFilter } from "@/components/ui/liquid-glass";
 import { Component } from "@/components/ui/etheral-shadow";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Maverick Digitals | Full-Stack Digital Marketing Agency",
@@ -11,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="antialiased">
 
         {/* Background layer — fixed, covers full viewport */}
