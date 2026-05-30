@@ -122,7 +122,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
   // ────────────────────────────────────────────────────────────────────────
 
   // Container height
-  const containerH = isMobile ? 480 : 560;
+  const containerH = isMobile ? 480 : 800;
 
   return (
     <>
@@ -138,7 +138,7 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
               : index - cardsList.length / 2;
           const isCenter = position === 0;
 
-          const isVisible = isMobile ? isCenter : Math.abs(position) <= 2;
+          const isVisible = isMobile ? isCenter : Math.abs(position) <= 1;
 
           return (
             <div
@@ -148,17 +148,15 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
               style={{
                 width: 320,
                 height: 400,
-                opacity: isVisible ? 1 : 0,
-                pointerEvents: isVisible ? 'auto' : 'none',
+                opacity: isCenter ? 1 : Math.abs(position) === 1 ? 0.6 : 0,
+                pointerEvents: isCenter ? 'auto' : 'none',
                 zIndex: isCenter ? 10 : Math.max(0, 5 - Math.abs(position)),
                 transform: isMobile
                   ? 'translate(-50%, -50%) translateY(-20px) scale(0.78)'
                   : `
                       translate(-50%, -50%)
-                      translateX(${Math.sin(position * 0.45) * 480}px)
-                      translateY(${(1 - Math.cos(position * 0.45)) * 250 - 20}px)
-                      scale(${Math.max(0.65, 1 - Math.abs(position) * 0.12)})
-                      rotate(${position * 8}deg)
+                      translateY(${position * 280}px)
+                      scale(${isCenter ? 1 : 0.85})
                     `,
               }}
             >
