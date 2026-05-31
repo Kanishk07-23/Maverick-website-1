@@ -92,21 +92,22 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
     const COOLDOWN_MS = 1200;
 
     const onWheel = (e: WheelEvent) => {
+      // If primarily vertical scroll, do not intercept, allow page to scroll
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        return;
+      }
+
+      // It's a horizontal swipe, prevent default so it doesn't swipe the page back/forward
       e.preventDefault();
 
-      // Still cooling down from the last card move — ignore
       if (coolingRef.current) return;
 
-      // Prefer horizontal trackpad delta, fall back to vertical wheel
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) < 20) return; // ignore micro-jitter and require heavier scroll
+      const delta = e.deltaX;
+      if (Math.abs(delta) < 20) return;
 
-      // Lock immediately before doing anything else
       coolingRef.current = true;
-
       handleMove(delta > 0 ? 1 : -1);
 
-      // Clear any stale timer and start a fresh cooldown
       if (coolTimerRef.current) clearTimeout(coolTimerRef.current);
       coolTimerRef.current = setTimeout(() => {
         coolingRef.current = false;
@@ -124,12 +125,42 @@ export default function SkewCards({ cards: customCards }: { cards?: CardInput[] 
   // Container height
   const containerH = isMobile ? 480 : 560;
 
+  // Touch State
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
+
+    const deltaX = endX - touchStartRef.current.x;
+    const deltaY = endY - touchStartRef.current.y;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 40) {
+      if (coolingRef.current) return;
+      coolingRef.current = true;
+      handleMove(deltaX < 0 ? 1 : -1);
+
+      if (coolTimerRef.current) clearTimeout(coolTimerRef.current);
+      coolTimerRef.current = setTimeout(() => {
+        coolingRef.current = false;
+      }, 500); // Shorter cooldown for touch swipes
+    }
+    touchStartRef.current = null;
+  };
+
   return (
     <>
       <div
         ref={containerRef}
-        className="relative w-full overflow-hidden"
+        className="relative w-full overflow-hidden touch-pan-y"
         style={{ height: containerH }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {cardsList.map((card, index) => {
           const position =

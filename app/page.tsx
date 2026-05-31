@@ -157,14 +157,14 @@ export default function HomePage() {
       {/* ─── SERVICES STRIP ────────────────────────────── */}
       <section className="py-16 md:py-28 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 md:mb-16 gap-4 md:gap-6">
+          <div className="flex flex-col items-center text-center mb-10 md:mb-16 gap-4 md:gap-6">
             <div>
               <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">What We Do</p>
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
                 Services Built<br />for Growth
               </h2>
             </div>
-            <Link href="/services" className="inline-flex items-center gap-2 text-gray-900 font-bold text-lg hover:text-blue-600 transition-colors cursor-pointer group">
+            <Link href="/services" className="inline-flex items-center justify-center gap-2 text-gray-900 font-bold text-lg hover:text-blue-600 transition-colors cursor-pointer group mt-2">
               View all services <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
