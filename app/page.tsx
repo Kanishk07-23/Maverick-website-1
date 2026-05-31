@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
 import { ChevronRight, Calendar, Code, FileText, User, Clock } from "lucide-react";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
@@ -52,9 +53,12 @@ const Slogan = () => {
       className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
     >
       {words.map((word, index) => (
-        <motion.span variants={child} className="inline-block mr-[0.25em] pb-2" key={index}>
-          {word === "Convert." ? <span className="brand-gradient-text">{word}</span> : word}
-        </motion.span>
+        <React.Fragment key={index}>
+          <motion.span variants={child} className="inline-block pb-2">
+            {word === "Convert." ? <span className="brand-gradient-text">{word}</span> : word}
+          </motion.span>
+          {index < words.length - 1 && " "}
+        </React.Fragment>
       ))}
     </motion.h1>
   );
@@ -132,7 +136,7 @@ export default function HomePage() {
     <div className="flex-1 w-full flex flex-col">
       <main className="overflow-x-hidden">
         {/* ─── HERO ──────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-end pt-20 pb-16">
+      <section className="relative min-h-screen flex flex-col justify-center pt-20 pb-32 md:pb-48">
         {/* Ambient Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] max-w-[800px] max-h-[800px] rounded-full bg-blue-400/10 blur-[120px] pointer-events-none" />
 
