@@ -149,7 +149,7 @@ export default function RadialOrbitalTimeline({
   };
 
   const getRadius = () => {
-    if (isMobile) return 140;
+    if (isMobile) return 110;
     if (isTablet) return 220;
     return 320; // Desktop
   };
@@ -341,7 +341,7 @@ export default function RadialOrbitalTimeline({
           </div>
 
           {/* Outer Orbit Ring */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[440px] md:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full liquid-metal-ring z-0"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] md:w-[440px] md:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full liquid-metal-ring z-0"></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);

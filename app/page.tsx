@@ -8,6 +8,7 @@ import { TestimonialsSection } from "@/components/sections/testimonials";
 import { ProcessSection } from "@/components/sections/process";
 import { CtaSection } from "@/components/sections/cta";
 import Link from "next/link";
+import Image from "next/image";
 
 
 const fadeUp = {
@@ -48,7 +49,7 @@ const Slogan = () => {
       initial="hidden"
       animate="show"
       style={{ fontFamily: "'Arapey', serif" }}
-      className="flex flex-wrap justify-center text-center text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
+      className="flex flex-wrap justify-center text-center text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
     >
       {words.map((word, index) => (
         <motion.span variants={child} className="mr-[0.25em] pb-2" key={index}>
@@ -154,9 +155,9 @@ export default function HomePage() {
       </section>
 
       {/* ─── SERVICES STRIP ────────────────────────────── */}
-      <section className="py-28 relative">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6">
+      <section className="py-16 md:py-28 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 md:mb-16 gap-4 md:gap-6">
             <div>
               <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mb-4">What We Do</p>
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
@@ -190,9 +191,11 @@ export default function HomePage() {
       <footer className="border-t border-gray-200/60 py-16 relative z-10 bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px]">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-3">
-            <img
+            <Image
               src="/logo.png"
               alt="Maverick Digitals Logo"
+              width={48}
+              height={48}
               className="h-12 w-12 object-contain"
             />
           </div>

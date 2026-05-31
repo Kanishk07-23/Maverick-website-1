@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { Mail } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card-effect";
 import { LiquidMetalLinkButton } from "@/components/ui/liquid-metal-link-button";
 
@@ -146,11 +147,12 @@ export default function AboutPage() {
           <Reveal>
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-br from-purple-200/30 to-blue-200/20 rounded-[2.5rem] blur-xl" />
-              <div className="liquid-metal-card relative rounded-3xl overflow-hidden shadow-2xl">
-                <img
+              <div className="liquid-metal-card relative rounded-3xl overflow-hidden shadow-2xl h-64 sm:h-[520px]">
+                <Image
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=85&fit=crop"
                   alt="Maverick team collaborating"
-                  className="w-full h-64 sm:h-[520px] object-cover"
+                  fill
+                  className="object-cover"
                 />
                 <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
@@ -238,11 +240,12 @@ export default function AboutPage() {
                     {member.role}
                   </CardItem>
                   
-                  <CardItem translateZ="100" className="w-full mt-6">
-                    <img
+                  <CardItem translateZ="100" className="w-full mt-6 h-60 relative">
+                    <Image
                       src={member.image}
                       alt={member.name}
-                      className="h-60 w-full object-cover rounded-xl shadow-md group-hover/card:shadow-xl transition-shadow"
+                      fill
+                      className="object-cover rounded-xl shadow-md group-hover/card:shadow-xl transition-shadow"
                     />
                   </CardItem>
                   
