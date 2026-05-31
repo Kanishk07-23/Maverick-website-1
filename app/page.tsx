@@ -49,10 +49,10 @@ const Slogan = () => {
       initial="hidden"
       animate="show"
       style={{ fontFamily: "'Arapey', serif" }}
-      className="flex flex-wrap justify-center text-center text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
+      className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] font-extrabold tracking-tighter text-gray-900 leading-[1.05] mb-6 md:mb-8 max-w-5xl px-4"
     >
       {words.map((word, index) => (
-        <motion.span variants={child} className="mr-[0.25em] pb-2" key={index}>
+        <motion.span variants={child} className="inline-block mr-[0.25em] pb-2" key={index}>
           {word === "Convert." ? <span className="brand-gradient-text">{word}</span> : word}
         </motion.span>
       ))}
@@ -146,7 +146,7 @@ export default function HomePage() {
             initial="hidden"
             animate="show"
             custom={4}
-            className="flex flex-col sm:flex-row items-start gap-5 w-full sm:w-auto"
+            className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full sm:w-auto"
           >
             <LiquidMetalLinkButton label="See Our Work" href="/services" />
             <LiquidMetalLinkButton label="Book a Call" href="/contact" />
