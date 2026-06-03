@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
-import { Component as EtheralShadow } from "@/components/ui/etheral-shadow";
 import { GlassFilter } from "@/components/ui/liquid-glass";
+import Image from "next/image";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -91,11 +91,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             zIndex: 0,
           }}
         >
-          <EtheralShadow
-            color="rgba(250, 250, 250, 1)"
-            animation={{ scale: 100, speed: 90 }}
-            noise={{ opacity: 1, scale: 1.2 }}
-            sizing="fill"
+          <Image
+            src="/bg-liquid-metal.jpg"
+            alt="Liquid metal background"
+            fill
+            priority
+            quality={90}
+            style={{ objectFit: "cover", objectPosition: "center" }}
           />
         </div>
 
